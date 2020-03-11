@@ -21,5 +21,6 @@ dependencies:
   - path
   - text
   - user
+  - webpack_react
 package: anu_lms
 core_incompatible: false
