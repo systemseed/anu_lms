@@ -1,0 +1,4 @@
+application:
+  webpack: true
+  js:
+    js/src/index.js: {}

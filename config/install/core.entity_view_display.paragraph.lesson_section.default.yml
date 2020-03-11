@@ -1,0 +1,23 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.lesson_section.field_lesson_section_content
+    - paragraphs.paragraphs_type.lesson_section
+  module:
+    - entity_reference_revisions
+id: paragraph.lesson_section.default
+targetEntityType: paragraph
+bundle: lesson_section
+mode: default
+content:
+  field_lesson_section_content:
+    type: entity_reference_revisions_entity_view
+    weight: 0
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+hidden: {  }

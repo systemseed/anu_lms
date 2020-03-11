@@ -1,0 +1,8 @@
+langcode: en-gb
+status: true
+dependencies: {  }
+id: lesson_text
+label: 'Lesson: Text'
+icon_uuid: null
+description: ''
+behavior_plugins: {  }

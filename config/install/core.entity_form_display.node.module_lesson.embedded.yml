@@ -1,0 +1,51 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - core.entity_form_mode.node.embedded
+    - field.field.node.module_lesson.field_module_lesson_content
+    - field.field.node.module_lesson.field_module_lesson_module
+    - node.type.module_lesson
+  module:
+    - paragraphs
+id: node.module_lesson.embedded
+targetEntityType: node
+bundle: module_lesson
+mode: embedded
+content:
+  field_module_lesson_content:
+    type: paragraphs
+    weight: 1
+    region: content
+    settings:
+      title: section
+      title_plural: sections
+      edit_mode: closed
+      closed_mode: summary
+      autocollapse: all
+      closed_mode_threshold: 0
+      add_mode: button
+      form_display_mode: default
+      default_paragraph_type: lesson_section
+      features:
+        collapse_edit_all: collapse_edit_all
+        duplicate: '0'
+        add_above: '0'
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  field_module_lesson_module: true
+  langcode: true
+  path: true
+  promote: true
+  status: true
+  sticky: true
+  uid: true

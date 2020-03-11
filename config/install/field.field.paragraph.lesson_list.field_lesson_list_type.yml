@@ -1,0 +1,22 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_lesson_list_type
+    - paragraphs.paragraphs_type.lesson_list
+  module:
+    - options
+id: paragraph.lesson_list.field_lesson_list_type
+field_name: field_lesson_list_type
+entity_type: paragraph
+bundle: lesson_list
+label: Type
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: ul
+default_value_callback: ''
+settings: {  }
+field_type: list_string

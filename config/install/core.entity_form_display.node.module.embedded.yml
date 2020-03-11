@@ -1,0 +1,147 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - core.entity_form_mode.node.embedded
+    - entity_browser.browser.module_lessons
+    - field.field.node.module.field_module_assessment
+    - field.field.node.module.field_module_course
+    - field.field.node.module.field_module_description
+    - field.field.node.module.field_module_image
+    - field.field.node.module.field_module_lessons
+    - image.style.thumbnail
+    - node.type.module
+  module:
+    - entity_browser
+    - field_group
+    - image
+    - text
+third_party_settings:
+  field_group:
+    group_module:
+      children:
+        - group_module_info
+        - group_module_lessons
+        - group_module_assessment
+      parent_name: ''
+      weight: 0
+      format_type: tabs
+      region: content
+      format_settings:
+        direction: horizontal
+        id: ''
+        classes: ''
+      label: Module
+    group_module_info:
+      children:
+        - title
+        - field_module_image
+        - field_module_description
+      parent_name: group_module
+      weight: 1
+      format_type: tab
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        formatter: closed
+        required_fields: true
+      label: Info
+    group_module_lessons:
+      children:
+        - field_module_lessons
+      parent_name: group_module
+      weight: 2
+      format_type: tab
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        formatter: closed
+        required_fields: true
+      label: Lessons
+    group_module_assessment:
+      children:
+        - field_module_assessment
+      parent_name: group_module
+      weight: 3
+      format_type: tab
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        formatter: closed
+        required_fields: true
+      label: 'Final assessment'
+id: node.module.embedded
+targetEntityType: node
+bundle: module
+mode: embedded
+content:
+  field_module_assessment:
+    type: entity_browser_entity_reference
+    weight: 6
+    region: content
+    settings:
+      entity_browser: module_assessments
+      field_widget_display: label
+      field_widget_edit: true
+      field_widget_edit_form_mode: embedded
+      field_widget_remove: true
+      open: true
+      selection_mode: selection_append
+      field_widget_replace: false
+      field_widget_display_settings: {  }
+    third_party_settings: {  }
+  field_module_description:
+    weight: 4
+    settings:
+      rows: 3
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: content
+  field_module_image:
+    weight: 3
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+    type: image_image
+    region: content
+  field_module_lessons:
+    type: entity_browser_entity_reference
+    weight: 5
+    region: content
+    settings:
+      entity_browser: module_lessons
+      field_widget_display: label
+      field_widget_edit: true
+      field_widget_edit_form_mode: embedded
+      field_widget_remove: true
+      open: true
+      selection_mode: selection_append
+      field_widget_replace: false
+      field_widget_display_settings: {  }
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  field_module_course: true
+  langcode: true
+  path: true
+  promote: true
+  status: true
+  sticky: true
+  translation: true
+  uid: true

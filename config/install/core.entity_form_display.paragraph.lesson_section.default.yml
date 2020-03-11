@@ -1,0 +1,35 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.lesson_section.field_lesson_section_content
+    - paragraphs.paragraphs_type.lesson_section
+  module:
+    - paragraphs
+id: paragraph.lesson_section.default
+targetEntityType: paragraph
+bundle: lesson_section
+mode: default
+content:
+  field_lesson_section_content:
+    type: paragraphs
+    weight: 0
+    settings:
+      title: item
+      title_plural: items
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: modal
+      form_display_mode: default
+      default_paragraph_type: _none
+      features:
+        duplicate: duplicate
+        collapse_edit_all: '0'
+        add_above: '0'
+    third_party_settings: {  }
+    region: content
+hidden:
+  created: true
+  status: true

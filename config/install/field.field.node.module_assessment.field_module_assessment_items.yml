@@ -1,0 +1,91 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_module_assessment_items
+    - node.type.module_assessment
+    - paragraphs.paragraphs_type.lesson_divider
+    - paragraphs.paragraphs_type.lesson_heading
+    - paragraphs.paragraphs_type.lesson_image
+    - paragraphs.paragraphs_type.lesson_text
+    - paragraphs.paragraphs_type.question_long_answer
+    - paragraphs.paragraphs_type.question_multi_choice
+    - paragraphs.paragraphs_type.question_scale
+    - paragraphs.paragraphs_type.question_short_answer
+    - paragraphs.paragraphs_type.question_single_choice
+  module:
+    - entity_reference_revisions
+id: node.module_assessment.field_module_assessment_items
+field_name: field_module_assessment_items
+entity_type: node
+bundle: module_assessment
+label: Questions
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      lesson_divider: lesson_divider
+      lesson_heading: lesson_heading
+      lesson_image: lesson_image
+      lesson_text: lesson_text
+      question_long_answer: question_long_answer
+      question_multi_choice: question_multi_choice
+      question_scale: question_scale
+      question_short_answer: question_short_answer
+      question_single_choice: question_single_choice
+    target_bundles_drag_drop:
+      competency_attributes:
+        weight: 17
+        enabled: false
+      competency_results:
+        weight: 18
+        enabled: false
+      lesson_divider:
+        enabled: true
+        weight: 19
+      lesson_heading:
+        enabled: true
+        weight: 20
+      lesson_highlight:
+        weight: 21
+        enabled: false
+      lesson_image:
+        enabled: true
+        weight: 22
+      lesson_image_wide:
+        weight: 23
+        enabled: false
+      lesson_list:
+        weight: 24
+        enabled: false
+      lesson_section:
+        weight: 25
+        enabled: false
+      lesson_text:
+        enabled: true
+        weight: 26
+      question_long_answer:
+        enabled: true
+        weight: 27
+      question_multi_choice:
+        enabled: true
+        weight: 28
+      question_scale:
+        enabled: true
+        weight: 29
+      question_short_answer:
+        enabled: true
+        weight: 30
+      question_single_choice:
+        enabled: true
+        weight: 31
+      single_multi_choice_item:
+        weight: 32
+        enabled: false
+field_type: entity_reference_revisions

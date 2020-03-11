@@ -1,0 +1,33 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.lesson_highlight.field_lesson_highlight_heading
+    - field.field.paragraph.lesson_highlight.field_lesson_highlight_text
+    - paragraphs.paragraphs_type.lesson_highlight
+  module:
+    - text
+id: paragraph.lesson_highlight.default
+targetEntityType: paragraph
+bundle: lesson_highlight
+mode: default
+content:
+  field_lesson_highlight_heading:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_lesson_highlight_text:
+    weight: 1
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: content
+hidden:
+  created: true
+  status: true

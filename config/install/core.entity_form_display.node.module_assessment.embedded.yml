@@ -1,0 +1,51 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - core.entity_form_mode.node.embedded
+    - field.field.node.module_assessment.field_module_assessment_items
+    - field.field.node.module_assessment.field_module_assessment_module
+    - node.type.module_assessment
+  module:
+    - paragraphs
+id: node.module_assessment.embedded
+targetEntityType: node
+bundle: module_assessment
+mode: embedded
+content:
+  field_module_assessment_items:
+    type: paragraphs
+    weight: 1
+    region: content
+    settings:
+      title: Item
+      title_plural: Items
+      edit_mode: closed
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: modal
+      form_display_mode: default
+      default_paragraph_type: _none
+      features:
+        duplicate: '0'
+        collapse_edit_all: '0'
+        add_above: '0'
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  field_module_assessment_module: true
+  langcode: true
+  path: true
+  promote: true
+  status: true
+  sticky: true
+  uid: true

@@ -1,0 +1,22 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_lesson_heading_size
+    - paragraphs.paragraphs_type.lesson_heading
+  module:
+    - options
+id: paragraph.lesson_heading.field_lesson_heading_size
+field_name: field_lesson_heading_size
+entity_type: paragraph
+bundle: lesson_heading
+label: Size
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: h2
+default_value_callback: ''
+settings: {  }
+field_type: list_string

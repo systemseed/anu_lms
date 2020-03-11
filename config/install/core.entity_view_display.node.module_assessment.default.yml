@@ -1,0 +1,39 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - field.field.node.module_assessment.field_module_assessment_items
+    - field.field.node.module_assessment.field_module_assessment_module
+    - node.type.module_assessment
+  module:
+    - entity_reference_revisions
+    - user
+id: node.module_assessment.default
+targetEntityType: node
+bundle: module_assessment
+mode: default
+content:
+  field_module_assessment_items:
+    type: entity_reference_revisions_entity_view
+    weight: 103
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_module_assessment_module:
+    weight: 101
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  links:
+    weight: 100
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  langcode: true

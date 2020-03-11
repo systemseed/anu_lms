@@ -1,0 +1,18 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_lesson_highlight_heading
+    - paragraphs.paragraphs_type.lesson_highlight
+id: paragraph.lesson_highlight.field_lesson_highlight_heading
+field_name: field_lesson_highlight_heading
+entity_type: paragraph
+bundle: lesson_highlight
+label: Heading
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

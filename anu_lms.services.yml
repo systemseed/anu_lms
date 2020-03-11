@@ -1,0 +1,5 @@
+services:
+  anu_lms.route_subscriber:
+    class: Drupal\anu_lms\Routing\RouteSubscriber
+    tags:
+      - { name: event_subscriber }

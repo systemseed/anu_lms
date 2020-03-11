@@ -1,0 +1,16 @@
+langcode: en-gb
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: 'Module''s assessment'
+type: module_assessment
+description: 'A final assessment at the end of the module.'
+help: ''
+new_revision: true
+preview_mode: 0
+display_submitted: false

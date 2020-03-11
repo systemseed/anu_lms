@@ -1,0 +1,8 @@
+langcode: en-gb
+status: true
+dependencies: {  }
+id: lesson_highlight
+label: 'Lesson: Highlight (heading + text)'
+icon_uuid: null
+description: ''
+behavior_plugins: {  }

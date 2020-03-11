@@ -1,0 +1,18 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_lesson_image_caption
+    - paragraphs.paragraphs_type.lesson_image_wide
+id: paragraph.lesson_image_wide.field_lesson_image_caption
+field_name: field_lesson_image_caption
+entity_type: paragraph
+bundle: lesson_image_wide
+label: Caption
+description: 'A text to display at the bottom of the image (as an overlay).'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

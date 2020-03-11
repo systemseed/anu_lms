@@ -1,0 +1,21 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.lesson_divider.field_lesson_divider_type
+    - paragraphs.paragraphs_type.lesson_divider
+  module:
+    - options
+id: paragraph.lesson_divider.default
+targetEntityType: paragraph
+bundle: lesson_divider
+mode: default
+content:
+  field_lesson_divider_type:
+    weight: 0
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: list_default
+    region: content
+hidden: {  }
