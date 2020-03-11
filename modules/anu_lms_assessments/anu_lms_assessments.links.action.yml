@@ -1,0 +1,25 @@
+entity.assessment_question.add_form:
+  route_name: entity.assessment_question.add_page
+  title: 'Add Question'
+  appears_on:
+    - entity.assessment_question.collection
+entity.assessment_question_type.add_form:
+  route_name: entity.assessment_question_type.add_form
+  title: 'Add Question type'
+  appears_on:
+    - entity.assessment_question_type.collection
+entity.assessment_question_result.add_form:
+  route_name: entity.assessment_question_result.add_page
+  title: 'Add Question result'
+  appears_on:
+    - entity.assessment_question_result.collection
+entity.assessment_question_result_type.add_form:
+  route_name: entity.assessment_question_result_type.add_form
+  title: 'Add Question result type'
+  appears_on:
+    - entity.assessment_question_result_type.collection
+entity.assessment_result.add_form:
+  route_name: entity.assessment_result.add_form
+  title: 'Add Assessment result'
+  appears_on:
+    - entity.assessment_result.collection

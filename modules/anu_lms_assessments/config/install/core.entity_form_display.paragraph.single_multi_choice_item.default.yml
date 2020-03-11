@@ -1,0 +1,30 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.single_multi_choice_item.field_single_multi_choice_right
+    - field.field.paragraph.single_multi_choice_item.field_single_multi_choice_value
+    - paragraphs.paragraphs_type.single_multi_choice_item
+id: paragraph.single_multi_choice_item.default
+targetEntityType: paragraph
+bundle: single_multi_choice_item
+mode: default
+content:
+  field_single_multi_choice_right:
+    weight: 1
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
+    region: content
+  field_single_multi_choice_value:
+    weight: 0
+    settings:
+      rows: 2
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textarea
+    region: content
+hidden:
+  created: true
+  status: true

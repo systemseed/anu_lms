@@ -1,0 +1,31 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - assessments.assessment_question_type.scale
+    - field.storage.assessment_question.field_scale
+  module:
+    - range
+id: assessment_question.scale.field_scale
+field_name: field_scale
+entity_type: assessment_question
+bundle: scale
+label: Scale
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    from: 0
+    to: 10
+default_value_callback: ''
+settings:
+  min: 0
+  max: null
+  from:
+    prefix: ''
+    suffix: ''
+  to:
+    prefix: ''
+    suffix: ''
+field_type: range_integer

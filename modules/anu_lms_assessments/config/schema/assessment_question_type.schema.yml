@@ -1,0 +1,12 @@
+assessments.assessment_question_type.*:
+  type: config_entity
+  label: 'Question type config'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    label:
+      type: label
+      label: 'Label'
+    uuid:
+      type: string

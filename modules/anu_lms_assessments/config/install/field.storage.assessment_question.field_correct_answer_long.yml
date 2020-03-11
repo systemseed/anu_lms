@@ -1,0 +1,18 @@
+langcode: en-gb
+status: true
+dependencies:
+  module:
+    - assessments
+id: assessment_question.field_correct_answer_long
+field_name: field_correct_answer_long
+entity_type: assessment_question
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

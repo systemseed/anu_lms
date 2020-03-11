@@ -1,0 +1,30 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - assessments.assessment_question_result_type.single_choice
+    - core.entity_view_mode.assessment_question_result.embedded
+    - field.field.assessment_question_result.single_choice.field_single_multi_choice
+  module:
+    - entity_reference_revisions
+id: assessment_question_result.single_choice.embedded
+targetEntityType: assessment_question_result
+bundle: single_choice
+mode: embedded
+content:
+  field_single_multi_choice:
+    weight: 0
+    label: hidden
+    settings:
+      view_mode: preview
+      link: ''
+    third_party_settings: {  }
+    type: entity_reference_revisions_entity_view
+    region: content
+hidden:
+  aqid: true
+  arid: true
+  is_correct: true
+  langcode: true
+  name: true
+  user_id: true

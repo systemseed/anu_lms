@@ -1,0 +1,32 @@
+anu_lms_assessments.assessment_question.responses:
+  path: '/admin/structure/assessment_question/{assessment_question}/responses'
+  defaults:
+    _controller: '\Drupal\assessments\Controller\AssessmentQuestionResponsesController::page'
+    _title_callback: '\Drupal\assessments\Controller\AssessmentQuestionResponsesController::title'
+  requirements:
+    _custom_access: '\Drupal\assessments\Controller\AssessmentQuestionResponsesController::checkAccess'
+
+anu_lms_assessments.assessment.results:
+  path: '/node/{node}/assessment_results'
+  defaults:
+    _controller: '\Drupal\assessments\Controller\AssessmentResultsController::resultsPage'
+    _title_callback: '\Drupal\assessments\Controller\AssessmentResultsController::resultsPageTitle'
+  requirements:
+    _custom_access: '\Drupal\assessments\Controller\AssessmentResultsController::checkAccess'
+  options:
+    _admin_route: TRUE
+
+anu_lms_assessments.assessment.result:
+  path: '/node/{node}/assessment_results/{assessment_result}'
+  defaults:
+    _controller: '\Drupal\assessments\Controller\AssessmentResultsController::resultPage'
+    _title_callback: '\Drupal\assessments\Controller\AssessmentResultsController::resultPageTitle'
+  requirements:
+    _custom_access: '\Drupal\assessments\Controller\AssessmentResultsController::checkAccess'
+  options:
+    _admin_route: TRUE
+    parameters:
+      node:
+        type: entity:node
+      assessment_result:
+        type: entity:assessment_result

@@ -1,0 +1,22 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.preview
+    - field.field.paragraph.single_multi_choice_item.field_single_multi_choice_right
+    - field.field.paragraph.single_multi_choice_item.field_single_multi_choice_value
+    - paragraphs.paragraphs_type.single_multi_choice_item
+id: paragraph.single_multi_choice_item.preview
+targetEntityType: paragraph
+bundle: single_multi_choice_item
+mode: preview
+content:
+  field_single_multi_choice_value:
+    weight: 0
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+hidden:
+  field_single_multi_choice_right: true

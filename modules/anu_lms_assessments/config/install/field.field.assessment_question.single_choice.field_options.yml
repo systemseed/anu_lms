@@ -1,0 +1,72 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - assessments.assessment_question_type.single_choice
+    - field.storage.assessment_question.field_options
+    - paragraphs.paragraphs_type.single_multi_choice_item
+  module:
+    - entity_reference_revisions
+id: assessment_question.single_choice.field_options
+field_name: field_options
+entity_type: assessment_question
+bundle: single_choice
+label: Options
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      single_multi_choice_item: single_multi_choice_item
+    target_bundles_drag_drop:
+      competency_attributes:
+        weight: 16
+        enabled: false
+      competency_results:
+        weight: 17
+        enabled: false
+      lesson_divider:
+        weight: 18
+        enabled: false
+      lesson_heading:
+        weight: 19
+        enabled: false
+      lesson_highlight:
+        weight: 20
+        enabled: false
+      lesson_image:
+        weight: 21
+        enabled: false
+      lesson_image_wide:
+        weight: 22
+        enabled: false
+      lesson_list:
+        weight: 23
+        enabled: false
+      lesson_section:
+        weight: 24
+        enabled: false
+      lesson_text:
+        weight: 25
+        enabled: false
+      question_long_answer:
+        weight: 26
+        enabled: false
+      question_multi_choice:
+        weight: 27
+        enabled: false
+      question_scale:
+        weight: 28
+        enabled: false
+      question_short_answer:
+        weight: 29
+        enabled: false
+      single_multi_choice_item:
+        enabled: true
+        weight: 30
+field_type: entity_reference_revisions

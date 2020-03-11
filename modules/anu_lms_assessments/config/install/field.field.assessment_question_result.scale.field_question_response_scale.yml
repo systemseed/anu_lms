@@ -1,0 +1,22 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - assessments.assessment_question_result_type.scale
+    - field.storage.assessment_question_result.field_question_response_scale
+id: assessment_question_result.scale.field_question_response_scale
+field_name: field_question_response_scale
+entity_type: assessment_question_result
+bundle: scale
+label: Response
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

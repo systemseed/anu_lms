@@ -1,0 +1,27 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - assessments.assessment_question_type.scale
+    - field.storage.paragraph.field_question
+    - paragraphs.paragraphs_type.question_scale
+id: paragraph.question_scale.field_question
+field_name: field_question
+entity_type: paragraph
+bundle: question_scale
+label: Question
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:assessment_question'
+  handler_settings:
+    target_bundles:
+      scale: scale
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

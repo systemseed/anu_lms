@@ -1,0 +1,23 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - assessments.assessment_question_type.multiple_choice
+    - core.entity_view_mode.assessment_question.embedded
+    - field.field.assessment_question.multiple_choice.field_options
+id: assessment_question.multiple_choice.embedded
+targetEntityType: assessment_question
+bundle: multiple_choice
+mode: embedded
+content:
+  name:
+    label: hidden
+    type: string
+    weight: 0
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+hidden:
+  field_options: true
+  langcode: true

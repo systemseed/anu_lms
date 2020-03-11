@@ -1,0 +1,28 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.question_single_choice.field_question
+    - paragraphs.paragraphs_type.question_single_choice
+  module:
+    - inline_entity_form
+id: paragraph.question_single_choice.default
+targetEntityType: paragraph
+bundle: question_single_choice
+mode: default
+content:
+  field_question:
+    weight: 0
+    settings:
+      form_mode: default
+      override_labels: false
+      label_singular: ''
+      label_plural: ''
+      collapsible: false
+      collapsed: false
+    third_party_settings: {  }
+    type: inline_entity_form_simple
+    region: content
+hidden:
+  created: true
+  status: true

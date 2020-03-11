@@ -1,0 +1,22 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_single_multi_choice_right
+    - paragraphs.paragraphs_type.single_multi_choice_item
+id: paragraph.single_multi_choice_item.field_single_multi_choice_right
+field_name: field_single_multi_choice_right
+entity_type: paragraph
+bundle: single_multi_choice_item
+label: 'Is correct'
+description: 'Whether the given option is a valid response.'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

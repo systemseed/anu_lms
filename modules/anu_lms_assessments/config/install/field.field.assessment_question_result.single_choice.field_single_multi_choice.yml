@@ -1,0 +1,75 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - assessments.assessment_question_result_type.single_choice
+    - field.storage.assessment_question_result.field_single_multi_choice
+    - paragraphs.paragraphs_type.single_multi_choice_item
+  module:
+    - entity_reference_revisions
+id: assessment_question_result.single_choice.field_single_multi_choice
+field_name: field_single_multi_choice
+entity_type: assessment_question_result
+bundle: single_choice
+label: Responses
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      single_multi_choice_item: single_multi_choice_item
+    target_bundles_drag_drop:
+      competency_attributes:
+        weight: 17
+        enabled: false
+      competency_results:
+        weight: 18
+        enabled: false
+      lesson_divider:
+        weight: 19
+        enabled: false
+      lesson_heading:
+        weight: 20
+        enabled: false
+      lesson_highlight:
+        weight: 21
+        enabled: false
+      lesson_image:
+        weight: 22
+        enabled: false
+      lesson_image_wide:
+        weight: 23
+        enabled: false
+      lesson_list:
+        weight: 24
+        enabled: false
+      lesson_section:
+        weight: 25
+        enabled: false
+      lesson_text:
+        weight: 26
+        enabled: false
+      question_long_answer:
+        weight: 27
+        enabled: false
+      question_multi_choice:
+        weight: 28
+        enabled: false
+      question_scale:
+        weight: 29
+        enabled: false
+      question_short_answer:
+        weight: 30
+        enabled: false
+      question_single_choice:
+        weight: 31
+        enabled: false
+      single_multi_choice_item:
+        enabled: true
+        weight: 32
+field_type: entity_reference_revisions

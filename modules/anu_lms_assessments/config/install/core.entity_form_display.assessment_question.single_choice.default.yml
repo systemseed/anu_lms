@@ -1,0 +1,41 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - assessments.assessment_question_type.single_choice
+    - field.field.assessment_question.single_choice.field_options
+  module:
+    - paragraphs
+id: assessment_question.single_choice.default
+targetEntityType: assessment_question
+bundle: single_choice
+mode: default
+content:
+  field_options:
+    weight: 3
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: single_multi_choice_item
+    third_party_settings: {  }
+    type: entity_reference_paragraphs
+    region: content
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: -4
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden: {  }

@@ -1,0 +1,18 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - assessments.assessment_question_result_type.long_answer
+    - field.storage.assessment_question_result.field_question_response_long
+id: assessment_question_result.long_answer.field_question_response_long
+field_name: field_question_response_long
+entity_type: assessment_question_result
+bundle: long_answer
+label: Response
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

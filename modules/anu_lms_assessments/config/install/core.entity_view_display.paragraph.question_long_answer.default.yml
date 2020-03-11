@@ -1,0 +1,20 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.question_long_answer.field_question
+    - paragraphs.paragraphs_type.question_long_answer
+id: paragraph.question_long_answer.default
+targetEntityType: paragraph
+bundle: question_long_answer
+mode: default
+content:
+  field_question:
+    weight: 0
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+hidden: {  }

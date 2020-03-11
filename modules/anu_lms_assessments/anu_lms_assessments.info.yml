@@ -1,0 +1,19 @@
+name: 'Anu LMS Assessments'
+type: module
+core: 8.x
+dependencies:
+  - assessments
+  - entity_reference_revisions
+  - features
+  - field
+  - inline_entity_form
+  - options
+  - paragraphs
+  - range
+  - rest
+  - serialization
+  - taxonomy
+  - user
+  - views
+package: anu_lms
+core_incompatible: false

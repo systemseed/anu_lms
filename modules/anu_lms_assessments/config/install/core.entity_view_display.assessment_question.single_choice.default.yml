@@ -1,0 +1,32 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - assessments.assessment_question_type.single_choice
+    - field.field.assessment_question.single_choice.field_options
+  module:
+    - entity_reference_revisions
+id: assessment_question.single_choice.default
+targetEntityType: assessment_question
+bundle: single_choice
+mode: default
+content:
+  field_options:
+    weight: -3
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    type: entity_reference_revisions_entity_view
+    region: content
+  name:
+    label: above
+    type: string
+    weight: -4
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+hidden:
+  langcode: true

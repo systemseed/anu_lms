@@ -1,0 +1,25 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - assessments.assessment_question_type.scale
+    - core.entity_view_mode.assessment_question.embedded
+    - field.field.assessment_question.scale.field_scale
+    - field.field.assessment_question.scale.field_scale_correct
+id: assessment_question.scale.embedded
+targetEntityType: assessment_question
+bundle: scale
+mode: embedded
+content:
+  name:
+    label: hidden
+    type: string
+    weight: 0
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+hidden:
+  field_scale: true
+  field_scale_correct: true
+  langcode: true

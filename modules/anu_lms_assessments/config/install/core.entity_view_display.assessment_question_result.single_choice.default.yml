@@ -1,0 +1,51 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - assessments.assessment_question_result_type.single_choice
+    - field.field.assessment_question_result.single_choice.field_single_multi_choice
+  module:
+    - entity_reference_revisions
+    - options
+id: assessment_question_result.single_choice.default
+targetEntityType: assessment_question_result
+bundle: single_choice
+mode: default
+content:
+  aqid:
+    type: entity_reference_revisions_entity_view
+    weight: 0
+    region: content
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+  arid:
+    type: entity_reference_label
+    weight: 1
+    region: content
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+  field_single_multi_choice:
+    weight: 3
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    type: entity_reference_revisions_entity_view
+    region: content
+  is_correct:
+    type: list_default
+    weight: 2
+    region: content
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  langcode: true
+  name: true
+  user_id: true

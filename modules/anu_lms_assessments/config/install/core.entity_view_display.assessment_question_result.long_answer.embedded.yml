@@ -1,0 +1,26 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - assessments.assessment_question_result_type.long_answer
+    - core.entity_view_mode.assessment_question_result.embedded
+    - field.field.assessment_question_result.long_answer.field_question_response_long
+id: assessment_question_result.long_answer.embedded
+targetEntityType: assessment_question_result
+bundle: long_answer
+mode: embedded
+content:
+  field_question_response_long:
+    weight: 0
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+hidden:
+  aqid: true
+  arid: true
+  is_correct: true
+  langcode: true
+  name: true
+  user_id: true

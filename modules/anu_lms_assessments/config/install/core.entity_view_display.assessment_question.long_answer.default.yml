@@ -1,0 +1,28 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - assessments.assessment_question_type.long_answer
+    - field.field.assessment_question.long_answer.field_correct_answer_long
+id: assessment_question.long_answer.default
+targetEntityType: assessment_question
+bundle: long_answer
+mode: default
+content:
+  field_correct_answer_long:
+    weight: -3
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  name:
+    label: above
+    type: string
+    weight: -4
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+hidden:
+  langcode: true

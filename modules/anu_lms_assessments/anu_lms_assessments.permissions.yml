@@ -1,0 +1,72 @@
+add question entities:
+  title: 'Create new Question entities'
+
+administer question entities:
+  title: 'Administer Question entities'
+  description: 'Allow to access the administration form to configure Question entities.'
+  restrict access: true
+
+delete question entities:
+  title: 'Delete Question entities'
+
+edit question entities:
+  title: 'Edit Question entities'
+
+view published question entities:
+  title: 'View published Question entities'
+
+view unpublished question entities:
+  title: 'View unpublished Question entities'
+
+view all question revisions:
+  title: 'View all Question revisions'
+
+revert all question revisions:
+  title: 'Revert all Question revisions'
+  description: 'Role requires permission <em>view Question revisions</em> and <em>edit rights</em> for question entities in question or <em>administer question entities</em>.'
+
+delete all question revisions:
+  title: 'Delete all revisions'
+  description: 'Role requires permission to <em>view Question revisions</em> and <em>delete rights</em> for question entities in question or <em>administer question entities</em>.'
+
+permission_callbacks:
+  - \Drupal\assessments\AssessmentQuestionPermissions::generatePermissions
+
+add assessment question result entities:
+  title: 'Create new Question result entities'
+
+administer assessment question result entities:
+  title: 'Administer Assessment question result entities'
+  description: 'Allow to access the administration form to configure Question result entities.'
+  restrict access: true
+
+delete assessment question result entities:
+  title: 'Delete Question result entities'
+
+edit assessment question result entities:
+  title: 'Edit Question result entities'
+
+view published assessment question result entities:
+  title: 'View published Question result entities'
+
+view unpublished assessment question result entities:
+  title: 'View unpublished Question result entities'
+add assessment result entities:
+  title: 'Create new Assessment result entities'
+
+administer assessment result entities:
+  title: 'Administer Assessment result entities'
+  description: 'Allow to access the administration form to configure Assessment result entities.'
+  restrict access: true
+
+delete assessment result entities:
+  title: 'Delete Assessment result entities'
+
+edit assessment result entities:
+  title: 'Edit Assessment result entities'
+
+view published assessment result entities:
+  title: 'View published Assessment result entities'
+
+view unpublished assessment result entities:
+  title: 'View unpublished Assessment result entities'

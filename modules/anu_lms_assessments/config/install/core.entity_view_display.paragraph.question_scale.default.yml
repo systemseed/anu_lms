@@ -1,0 +1,20 @@
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.question_scale.field_question
+    - paragraphs.paragraphs_type.question_scale
+id: paragraph.question_scale.default
+targetEntityType: paragraph
+bundle: question_scale
+mode: default
+content:
+  field_question:
+    weight: 0
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+hidden: {  }
