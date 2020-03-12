@@ -4,6 +4,7 @@
     "type": "drupal-module",
     "minimum-stability": "dev",
     "prefer-stable": true,
+    "license": "GPL-2.0",
     "repositories": {
         "drupal": {
             "type": "composer",
