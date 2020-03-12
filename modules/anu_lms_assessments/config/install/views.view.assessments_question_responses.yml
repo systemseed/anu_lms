@@ -4,7 +4,7 @@ dependencies:
   config:
     - core.entity_view_mode.assessment_question_result.embedded
   module:
-    - assessments
+    - anu_lms_assessments
     - entity_reference_revisions
     - options
 id: assessments_question_responses

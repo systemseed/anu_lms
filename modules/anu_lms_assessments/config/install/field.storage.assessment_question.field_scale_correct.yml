@@ -2,7 +2,7 @@ langcode: en-gb
 status: true
 dependencies:
   module:
-    - assessments
+    - anu_lms_assessments
 id: assessment_question.field_scale_correct
 field_name: field_scale_correct
 entity_type: assessment_question
