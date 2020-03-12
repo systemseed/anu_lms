@@ -72,8 +72,6 @@ required:
   - field.storage.assessment_question_result.field_question_response_scale
   - field.storage.assessment_question_result.field_single_multi_choice
   - field.storage.paragraph.field_question
-  - field.storage.paragraph.field_result_attributes
-  - field.storage.paragraph.field_result_level
   - field.storage.paragraph.field_single_multi_choice_right
   - field.storage.paragraph.field_single_multi_choice_value
   - paragraphs.paragraphs_type.question_long_answer
