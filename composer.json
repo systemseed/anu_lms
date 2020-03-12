@@ -1,5 +1,5 @@
 {
   "name": "systemseed/anu_lms",
-  "type": "drupal-module",
+  "description": "Provides E-Learning capabilities.",
+  "type": "drupal-module"
 }
-
