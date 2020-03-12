@@ -1,4 +1,4 @@
-assessments.assessment_question_result_type.*:
+anu_lms_assessments.assessment_question_result_type.*:
   type: config_entity
   label: 'Question result type config'
   mapping:

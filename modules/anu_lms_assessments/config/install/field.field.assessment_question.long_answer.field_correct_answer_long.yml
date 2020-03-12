@@ -2,7 +2,7 @@ langcode: en-gb
 status: true
 dependencies:
   config:
-    - assessments.assessment_question_type.long_answer
+    - anu_lms_assessments.assessment_question_type.long_answer
     - field.storage.assessment_question.field_correct_answer_long
 id: assessment_question.long_answer.field_correct_answer_long
 field_name: field_correct_answer_long

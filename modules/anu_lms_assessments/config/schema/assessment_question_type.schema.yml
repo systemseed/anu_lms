@@ -1,4 +1,4 @@
-assessments.assessment_question_type.*:
+anu_lms_assessments.assessment_question_type.*:
   type: config_entity
   label: 'Question type config'
   mapping:

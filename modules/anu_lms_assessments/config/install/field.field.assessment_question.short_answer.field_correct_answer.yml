@@ -2,7 +2,7 @@ langcode: en-gb
 status: true
 dependencies:
   config:
-    - assessments.assessment_question_type.short_answer
+    - anu_lms_assessments.assessment_question_type.short_answer
     - field.storage.assessment_question.field_correct_answer
 id: assessment_question.short_answer.field_correct_answer
 field_name: field_correct_answer

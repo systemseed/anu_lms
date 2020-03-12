@@ -2,7 +2,7 @@ langcode: en-gb
 status: true
 dependencies:
   config:
-    - assessments.assessment_question_type.multiple_choice
+    - anu_lms_assessments.assessment_question_type.multiple_choice
     - core.entity_view_mode.assessment_question.embedded
     - field.field.assessment_question.multiple_choice.field_options
 id: assessment_question.multiple_choice.embedded

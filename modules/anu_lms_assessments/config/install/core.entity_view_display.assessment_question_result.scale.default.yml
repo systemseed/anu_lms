@@ -2,7 +2,7 @@ langcode: en-gb
 status: true
 dependencies:
   config:
-    - assessments.assessment_question_result_type.scale
+    - anu_lms_assessments.assessment_question_result_type.scale
     - field.field.assessment_question_result.scale.field_question_response_scale
   module:
     - entity_reference_revisions

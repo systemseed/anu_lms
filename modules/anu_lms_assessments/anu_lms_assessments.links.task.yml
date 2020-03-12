@@ -16,7 +16,7 @@ entity.assessment_question.version_history:
   title: 'Revisions'
 
 entity.assessment_question.responses:
-  route_name: assessments.assessment_question.responses
+  route_name: anu_lms_assessments.assessment_question.responses
   base_route: entity.assessment_question.canonical
   title: 'Responses'
 
@@ -26,8 +26,8 @@ entity.assessment_question.delete_form:
   title: Delete
   weight: 10
 
-assessments.assessment.results:
-  route_name: assessments.assessment.results
+anu_lms_assessments.assessment.results:
+  route_name: anu_lms_assessments.assessment.results
   base_route: entity.node.canonical
   weight: 8
   title: 'Results'
