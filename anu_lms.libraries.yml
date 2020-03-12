@@ -2,3 +2,13 @@ application:
   webpack: true
   js:
     js/src/index.js: {}
+  css:
+    theme:
+      https://fonts.googleapis.com/css?family=Lato:400,700:
+        external: true
+        minified: true
+        preprocess: false
+      https://fonts.googleapis.com/icon?family=Material+Icons:
+        external: true
+        minified: true
+        preprocess: false
