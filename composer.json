@@ -1,5 +1,22 @@
 {
-  "name": "systemseed/anu_lms",
-  "description": "Provides E-Learning capabilities.",
-  "type": "drupal-module"
+    "name": "systemseed/anu_lms",
+    "description": "Provides E-Learning capabilities.",
+    "type": "drupal-module",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": {
+        "drupal": {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        }
+    },
+    "require": {
+        "drupal/cer": "^4.0@alpha",
+        "drupal/entity_browser": "^2.4",
+        "drupal/field_group": "^3.0",
+        "drupal/inline_entity_form": "^1.0@RC",
+        "drupal/paragraphs": "^1.11",
+        "drupal/webpack_react": "^1.0@alpha",
+        "drupal/range": "^1.1"
+    }
 }
