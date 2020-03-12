@@ -1,0 +1,28 @@
+langcode: en-gb
+status: true
+dependencies:
+  module:
+    - entity_browser_entity_form
+name: module_assessments
+label: 'Module assessments'
+display: modal
+display_configuration:
+  width: ''
+  height: ''
+  link_text: 'Add an assessment'
+  auto_open: false
+selection_display: no_display
+selection_display_configuration: {  }
+widget_selector: single
+widget_selector_configuration: {  }
+widgets:
+  3279f05f-4d82-451a-a642-ada48a6b3a4a:
+    settings:
+      entity_type: node
+      bundle: module_assessment
+      form_mode: embedded
+      submit_text: 'Save assessment'
+    uuid: 3279f05f-4d82-451a-a642-ada48a6b3a4a
+    weight: 1
+    label: entity_form
+    id: entity_form
