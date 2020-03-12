@@ -17,9 +17,11 @@
         "drupal/field_group": "^3.0",
         "drupal/inline_entity_form": "^1.0@RC",
         "drupal/paragraphs": "^1.11",
-        "drupal/webpack_react": "^1.0@alpha",
         "drupal/range": "^1.1",
         "cweagans/composer-patches": "^1.6"
+    },
+    "require-dev": {
+        "drupal/webpack_react": "^1.0@alpha"
     },
     "extra": {
         "enable-patching": true,
