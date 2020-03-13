@@ -66,10 +66,18 @@ class AnulmsNodeViewController extends NodeViewController {
       ];
     }
 
+    $build['#attached']['library'][] = 'anu_lms/fonts';
     $build['#attached']['library'][] = 'core/drupalSettings';
     $build['#attached']['drupalSettings']['node'] = $this->normalizeNode($node, $context);
 
-    $build['#attached']['library'][] = 'anu_lms/application';
+    // TODO: Use dependency injection.
+    $moduleHandler = \Drupal::service('module_handler');
+    if ($moduleHandler->moduleExists('webpack')){
+      $build['#attached']['library'][] = 'anu_lms/application.dev';
+    }
+    else {
+      $build['#attached']['library'][] = 'anu_lms/application.prod';
+    }
 
     $build['application'] = [
       '#type' => 'markup',

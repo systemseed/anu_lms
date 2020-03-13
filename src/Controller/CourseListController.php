@@ -54,8 +54,6 @@ class CourseListController extends ControllerBase {
   }
 
   public function build() {
-    $build['#attached']['library'][] = 'core/drupalSettings';
-
     $courses = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
       'type' => 'course',
       'status' => 1,
@@ -66,9 +64,19 @@ class CourseListController extends ControllerBase {
       $normalizedCourses[] = $this->normalizeNode($course);
     }
 
+    $build['#attached']['library'][] = 'core/drupalSettings';
     $build['#attached']['drupalSettings']['courses'] = $normalizedCourses;
 
-    $build['#attached']['library'][] = 'anu_lms/application';
+    $build['#attached']['library'][] = 'anu_lms/fonts';
+
+    // TODO: Use dependency injection.
+    $moduleHandler = \Drupal::service('module_handler');
+    if ($moduleHandler->moduleExists('webpack')){
+      $build['#attached']['library'][] = 'anu_lms/application.dev';
+    }
+    else {
+      $build['#attached']['library'][] = 'anu_lms/application.prod';
+    }
 
     $build['application'] = [
       '#type' => 'markup',

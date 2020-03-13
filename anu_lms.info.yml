@@ -20,6 +20,7 @@ dependencies:
   - options
   - paragraphs
   - path
+  - rest_paragraphs_recursive
   - text
   - user
 package: anu_lms

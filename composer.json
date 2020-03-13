@@ -12,13 +12,14 @@
         }
     },
     "require": {
+        "cweagans/composer-patches": "^1.6",
         "drupal/cer": "^4.0@alpha",
         "drupal/entity_browser": "^2.4",
         "drupal/field_group": "^3.0",
         "drupal/inline_entity_form": "^1.0@RC",
         "drupal/paragraphs": "^1.11",
         "drupal/range": "^1.1",
-        "cweagans/composer-patches": "^1.6"
+        "drupal/rest_entity_recursive": "^1.0@beta"
     },
     "require-dev": {
         "drupal/webpack_react": "^1.0@alpha"

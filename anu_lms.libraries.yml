@@ -1,7 +1,4 @@
-application:
-  webpack: true
-  js:
-    js/src/index.js: {}
+fonts:
   css:
     theme:
       https://fonts.googleapis.com/css?family=Lato:400,700:
@@ -12,3 +9,14 @@ application:
         external: true
         minified: true
         preprocess: false
+
+application.dev:
+  webpack: true
+  js:
+    js/src/index.js: {}
+
+application.prod:
+  js:
+    js/dist/index.js:
+      minified: true
+      preprocess: false
