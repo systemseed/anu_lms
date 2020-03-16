@@ -3,3 +3,7 @@ services:
     class: Drupal\anu_lms\Routing\RouteSubscriber
     tags:
       - { name: event_subscriber }
+  theme.negotiator.anu_lms_theme:
+    class: Drupal\anu_lms\Theme\PageThemeNegotiator
+    tags:
+      - { name: theme_negotiator, priority: 2 }
