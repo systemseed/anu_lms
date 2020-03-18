@@ -1,4 +1,5 @@
-fonts:
+application:
+  webpack: true
   css:
     theme:
       https://fonts.googleapis.com/css?family=Lato:400,700:
@@ -9,14 +10,7 @@ fonts:
         external: true
         minified: true
         preprocess: false
-
-application.dev:
-  webpack: true
   js:
-    js/src/index.js: {}
-
-application.prod:
-  js:
-    js/dist/index.js:
-      minified: true
+    js/dist/bundle.js:
       preprocess: false
+      source: 'js/src/index.js'

@@ -7,7 +7,7 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import { withStyles, styled } from '@material-ui/core/styles';
 import { Icon } from '@material-ui/core';
-import { getCurrentNode } from '../../../utils/node';
+import { getCurrentNode, isCourseListPage } from '../../../utils/node';
 import * as lessonActions from '../../../redux/actions/lesson';
 import { COURSE_LIST_PATH } from '../../../utils/constants'
 
@@ -89,13 +89,14 @@ const Header = ({ width, dispatch, isLessonSidebarVisibleOnDesktop, isLessonSide
           <StyledButton
             startIcon={<StyledIcon fontSize="large">home</StyledIcon>}
             href="/"
+            isActive={window.location.pathname === '/' && isCourseListPage()}
           >
             {isWidthUp('sm', width) && 'Home'}
           </StyledButton>
           <StyledButton
             startIcon={<StyledIcon fontSize="large">dashboard</StyledIcon>}
             href={COURSE_LIST_PATH}
-            isActive={window.location.pathname === COURSE_LIST_PATH}
+            isActive={window.location.pathname === COURSE_LIST_PATH && isCourseListPage()}
           >
             {isWidthUp('sm', width) && 'Courses'}
           </StyledButton>

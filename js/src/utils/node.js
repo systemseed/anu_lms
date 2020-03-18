@@ -33,7 +33,7 @@ export const getCurrentNode = () => {
 };
 
 export const isCourseListPage = () => (
-  window.location.pathname === COURSE_LIST_PATH
+  drupalSettings && typeof drupalSettings.courses !== 'undefined'
 );
 
 export const getCourseList = () => {
