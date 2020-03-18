@@ -100,7 +100,7 @@ const Header = ({ width, dispatch, isLessonSidebarVisibleOnDesktop, isLessonSide
           >
             {isWidthUp('sm', width) && 'Courses'}
           </StyledButton>
-          {node && node.type === 'module_lesson' &&
+          {node && (node.type === 'module_lesson' || node.type === 'module_assessment') &&
           <StyledButton
             startIcon={<StyledIcon fontSize="large">list</StyledIcon>}
             onClick={() => isWidthUp('sm', width) ? dispatch(lessonActions.toggleSidebarOnDesktop()) : dispatch(lessonActions.toggleSidebarOnMobile())}
