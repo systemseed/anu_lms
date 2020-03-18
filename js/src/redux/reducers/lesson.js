@@ -1,6 +1,6 @@
 const initialState = {
-  isSidebarVisibleOnDesktop: false,
-  isSidebarVisibleOnMobile: true,
+  isSidebarVisibleOnDesktop: true,
+  isSidebarVisibleOnMobile: false,
 };
 
 export default (state = initialState, action) => {

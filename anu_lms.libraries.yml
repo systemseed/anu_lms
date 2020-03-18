@@ -11,6 +11,6 @@ application:
         minified: true
         preprocess: false
   js:
-    js/dist/bundle.js:
+    js/dist/index.js:
       preprocess: false
       source: 'js/src/index.js'
