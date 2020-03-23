@@ -7,7 +7,6 @@ import {
   getObjectValue,
   getTextValue
 } from './transforms.field';
-import { COURSE_LIST_PATH } from './constants'
 
 export const getCurrentNode = () => {
   if (!(drupalSettings && drupalSettings.node)) {
@@ -33,16 +32,16 @@ export const getCurrentNode = () => {
 };
 
 export const isCourseListPage = () => (
-  drupalSettings && typeof drupalSettings.courses !== 'undefined'
+  drupalSettings && typeof drupalSettings.anu_courses !== 'undefined'
 );
 
 export const getCourseList = () => {
-  const { courses } = drupalSettings;
-  if (!courses || !Array.isArray(courses)) {
+  const { anu_courses } = drupalSettings;
+  if (!anu_courses || !Array.isArray(anu_courses)) {
     return [];
   }
 
-  return courses.map(course => getCourse(course));
+  return anu_courses.map(course => getCourse(course));
 };
 
 const getGeneralNodeFields = node => ({

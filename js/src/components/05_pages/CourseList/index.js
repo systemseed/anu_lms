@@ -10,8 +10,6 @@ import {
   withStyles,
   styled
 } from '@material-ui/core';
-import BackButton from '../../01_atoms/BackButton'
-import { COURSE_LIST_PATH } from '../../../utils/constants'
 
 const StyledGridContainer = withStyles(theme => ({
   root: {

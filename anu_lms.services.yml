@@ -1,4 +1,7 @@
 services:
+  anu_lms.menu_handler:
+    class: Drupal\anu_lms\AnulmsMenuHandler
+    arguments: ['@path.validator', '@current_user', '@current_route_match']
   anu_lms.route_subscriber:
     class: Drupal\anu_lms\Routing\RouteSubscriber
     tags:

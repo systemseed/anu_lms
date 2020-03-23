@@ -7,9 +7,9 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import { withStyles, styled } from '@material-ui/core/styles';
 import { Icon } from '@material-ui/core';
-import { getCurrentNode, isCourseListPage } from '../../../utils/node';
+import { getCurrentNode } from '../../../utils/node';
 import * as lessonActions from '../../../redux/actions/lesson';
-import { COURSE_LIST_PATH } from '../../../utils/constants'
+import { getMenu, getMenuIconByTitle } from '../../../utils/menu';
 
 const ButtonRaw = ({ isActive, ...props }) => (
   <Button {...props} />
@@ -81,25 +81,26 @@ const StyledDiv = styled('div')({
 
 const Header = ({ width, dispatch, isLessonSidebarVisibleOnDesktop, isLessonSidebarVisibleOnMobile }) => {
   const node = getCurrentNode();
+  const menu = getMenu();
   return (
     <StyledAppBar position="static">
       <StyledToolbar disableGutters>
 
         <StyledButtonGroup variant="text">
-          <StyledButton
-            startIcon={<StyledIcon fontSize="large">home</StyledIcon>}
-            href="/"
-            isActive={window.location.pathname === '/' && isCourseListPage()}
-          >
-            {isWidthUp('sm', width) && 'Home'}
-          </StyledButton>
-          <StyledButton
-            startIcon={<StyledIcon fontSize="large">dashboard</StyledIcon>}
-            href={COURSE_LIST_PATH}
-            isActive={window.location.pathname === COURSE_LIST_PATH && isCourseListPage()}
-          >
-            {isWidthUp('sm', width) && 'Courses'}
-          </StyledButton>
+
+          {/* Render primary menu of the site */}
+          {menu && menu.primary && menu.primary.map(menuItem => (
+            <StyledButton
+              startIcon={<StyledIcon fontSize="large">{getMenuIconByTitle(menuItem.title)}</StyledIcon>}
+              href={menuItem.url}
+              isActive={window.location.pathname === menuItem.url}
+              key={menuItem.url}
+            >
+              {isWidthUp('sm', width) && menuItem.title}
+            </StyledButton>
+          ))}
+
+          {/* Special menu item appearing only on the lesson or assessment page */}
           {node && (node.type === 'module_lesson' || node.type === 'module_assessment') &&
           <StyledButton
             startIcon={<StyledIcon fontSize="large">list</StyledIcon>}
@@ -109,11 +110,26 @@ const Header = ({ width, dispatch, isLessonSidebarVisibleOnDesktop, isLessonSide
             {isWidthUp('sm', width) && 'Contents'}
           </StyledButton>
           }
+
         </StyledButtonGroup>
 
         <StyledDiv/>
 
         <StyledButtonGroup variant="text">
+
+          {/* Render primary menu of the site */}
+          {menu && menu.secondary && menu.secondary.map(menuItem => (
+            <StyledButton
+              startIcon={<StyledIcon fontSize="large">{getMenuIconByTitle(menuItem.title)}</StyledIcon>}
+              href={menuItem.url}
+              isActive={window.location.pathname === menuItem.url}
+              key={menuItem.url}
+            >
+              {isWidthUp('sm', width) && menuItem.title}
+            </StyledButton>
+          ))}
+
+
           {node && node.type === 'module_assessment' &&
           <StyledButton
             startIcon={<StyledIcon fontSize="large">assignment</StyledIcon>}
@@ -123,22 +139,6 @@ const Header = ({ width, dispatch, isLessonSidebarVisibleOnDesktop, isLessonSide
             {isWidthUp('sm', width) && 'Results'}
           </StyledButton>
           }
-          {node &&
-          <StyledButton
-            startIcon={<StyledIcon fontSize="large">edit</StyledIcon>}
-            // TODO: Only if has access.
-            href={`/node/${node.id}/edit`}
-          >
-            {isWidthUp('sm', width) && 'Edit page'}
-          </StyledButton>
-          }
-          <StyledButton
-            startIcon={<StyledIcon fontSize="large">account_circle</StyledIcon>}
-            // TODO: Only for logged in.
-            href={`/user/${drupalSettings.user.uid}/edit`}
-          >
-            {isWidthUp('sm', width) && 'Profile'}
-          </StyledButton>
         </StyledButtonGroup>
 
       </StyledToolbar>

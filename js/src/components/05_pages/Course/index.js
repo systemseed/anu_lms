@@ -12,9 +12,9 @@ import { withWidth, isWidthUp } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import Hidden from '@material-ui/core/Hidden'
-import BackButton from '../../01_atoms/BackButton'
-import { COURSE_LIST_PATH } from '../../../utils/constants'
+import Hidden from '@material-ui/core/Hidden';
+import BackButton from '../../01_atoms/BackButton';
+import { getMenuPathByTitle } from '../../../utils/menu';
 
 const StyledGridContainer = withStyles(theme => ({
   root: {
@@ -83,7 +83,7 @@ const Course = ({ node, width }) => {
   return (
     <Container maxWidth="lg">
 
-      <BackButton title="Back to courses" href={COURSE_LIST_PATH}/>
+      <BackButton title="Back to courses" href={getMenuPathByTitle('Courses')}/>
 
       <StyledGridContainer container spacing={isWidthUp('sm', width) ? 2 : 0} alignItems="center">
         <Grid item md={5}>

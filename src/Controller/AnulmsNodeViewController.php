@@ -1,23 +1,25 @@
 <?php
 
 namespace Drupal\anu_lms\Controller;
+use Drupal\anu_lms\AnulmsMenuHandler;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\node\Controller\NodeViewController;
-use Drupal\node\NodeInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Serializer\Serializer;
 
 class AnulmsNodeViewController extends NodeViewController {
 
   protected $serializer;
+  protected $anulmsMenuHandler;
 
   /**
    * Creates an NodeViewController object.
    *
+   * @param \Drupal\anu_lms\AnulmsMenuHandler $anulmsMenuHandler
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
    * @param \Drupal\Core\Render\RendererInterface $renderer
@@ -30,8 +32,9 @@ class AnulmsNodeViewController extends NodeViewController {
    * @param \Symfony\Component\Serializer\Serializer $serializer
    *   The serializer.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, RendererInterface $renderer, AccountInterface $current_user = NULL, EntityRepositoryInterface $entity_repository = NULL, Serializer $serializer = NULL) {
+  public function __construct(AnulmsMenuHandler $anulmsMenuHandler, EntityTypeManagerInterface $entity_type_manager, RendererInterface $renderer, AccountInterface $current_user = NULL, EntityRepositoryInterface $entity_repository = NULL, Serializer $serializer = NULL) {
     parent::__construct($entity_type_manager, $renderer, $current_user, $entity_repository);
+    $this->anulmsMenuHandler = $anulmsMenuHandler;
     $this->serializer = $serializer;
   }
 
@@ -40,6 +43,7 @@ class AnulmsNodeViewController extends NodeViewController {
    */
   public static function create(ContainerInterface $container) {
     return new static(
+      $container->get('anu_lms.menu_handler'),
       $container->get('entity_type.manager'),
       $container->get('renderer'),
       $container->get('current_user'),
@@ -69,6 +73,7 @@ class AnulmsNodeViewController extends NodeViewController {
     $build['#attached']['library'][] = 'anu_lms/application';
     $build['#attached']['library'][] = 'core/drupalSettings';
     $build['#attached']['drupalSettings']['node'] = $this->normalizeNode($node, $context);
+    $build['#attached']['drupalSettings']['anu_menu'] = $this->anulmsMenuHandler->getMenu();
 
     $build['application'] = [
       '#type' => 'markup',
