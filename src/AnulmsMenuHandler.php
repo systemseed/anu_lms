@@ -2,23 +2,30 @@
 
 namespace Drupal\anu_lms;
 
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Path\PathValidatorInterface;
 use Drupal\Core\Routing\CurrentRouteMatch;
 use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
+use Drupal\group\Entity\Group;
 use Drupal\node\NodeInterface;
 use Drupal\user\Entity\User;
 
 class AnulmsMenuHandler {
 
+  use StringTranslationTrait;
+
   protected $pathValidator;
   protected $currentUser;
   protected $currentRouteMatch;
+  protected $moduleHandler;
 
-  public function __construct(PathValidatorInterface $pathValidator, AccountProxyInterface $currentUser, CurrentRouteMatch $currentRouteMatch) {
+  public function __construct(PathValidatorInterface $pathValidator, AccountProxyInterface $currentUser, CurrentRouteMatch $currentRouteMatch, ModuleHandlerInterface $moduleHandler) {
     $this->pathValidator = $pathValidator;
     $this->currentUser = $currentUser;
     $this->currentRouteMatch = $currentRouteMatch;
+    $this->moduleHandler = $moduleHandler;
   }
 
   public function getMenu() {
@@ -52,6 +59,20 @@ class AnulmsMenuHandler {
     $node = $this->currentRouteMatch->getParameter('node');
     if (!empty($node) && $node instanceof NodeInterface && $node->access('update')) {
       $this->addMenuItem($items, 'Edit page', $node->toUrl('edit-form')->toString());
+    }
+
+    // If permissions module is enabled, we add a new link to manage organizations.
+    if ($this->moduleHandler->moduleExists('anu_lms_permissions')) {
+
+      // Load groups user has access to (only admins or orgadmins).
+      $groups = \Drupal::entityQuery('group')
+        ->condition('type', 'anu_organization')
+        ->execute();
+
+      if (!empty($groups)) {
+        $label = $this->formatPlural(count($groups), 'Organization', 'Organizations');
+        $this->addMenuItem($items, $label, Url::fromRoute('anu_lms_permissions.organization_list')->toString());
+      }
     }
 
     // Menu for authenticated user.

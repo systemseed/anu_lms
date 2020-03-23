@@ -4,6 +4,7 @@ namespace Drupal\anu_lms\Theme;
 
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Theme\ThemeNegotiatorInterface;
+use Drupal\group\Entity\GroupInterface;
 use Drupal\node\NodeInterface;
 
 /**
@@ -32,13 +33,19 @@ class PageThemeNegotiator implements ThemeNegotiatorInterface {
       return TRUE;
     }
     elseif ($route_match->getRouteName() == 'entity.node.canonical') {
-      $params = $route_match->getParameters();
-      $node = $params->get('node');
+      $node = $route_match->getParameter('node');
       if ($node && $node instanceof NodeInterface && in_array($node->bundle(), $lms_node_types)) {
         $theme = $default_theme;
         return TRUE;
       }
     }
+/*    elseif ($route_match->getRouteName() == 'entity.group.canonical') {
+      $group = $route_match->getParameter('group');
+      if ($group && $group instanceof GroupInterface && $group->bundle() == 'anu_organization') {
+        $theme = 'stable';
+        return TRUE;
+      }
+    }*/
 
     return FALSE;
   }

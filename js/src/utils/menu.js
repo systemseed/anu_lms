@@ -9,6 +9,8 @@ export const getMenuIconByTitle = menuTitle => {
     'Edit page': 'edit',
     'Results': 'assignment',
     'Profile': 'account_circle',
+    'Organization': 'group',
+    'Organizations': 'group',
     'Login': 'exit_to_app',
     // Can't believe MUI does not have a proper logout icon...
     'Logout': 'exit_to_app',

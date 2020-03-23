@@ -4,5 +4,4 @@ anu_lms.course_list_controller:
     _controller: '\Drupal\anu_lms\Controller\CourseListController::build'
     _title: 'Courses'
   requirements:
-    # TODO.
-    _permission: 'access content'
+    _permission: 'access anu courses list'

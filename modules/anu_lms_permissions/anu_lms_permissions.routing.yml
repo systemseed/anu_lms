@@ -1,0 +1,7 @@
+anu_lms_permissions.organization_list:
+  path: '/organizations'
+  defaults:
+    _controller: '\Drupal\anu_lms_permissions\Controller\OrganizationListController::build'
+    _title: 'Organizations'
+  requirements:
+    _custom_access: '\Drupal\anu_lms_permissions\Controller\OrganizationListController::access'
