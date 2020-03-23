@@ -54,6 +54,7 @@ class CourseListController extends ControllerBase {
   }
 
   public function build() {
+    // @todo: include access check into the query.
     $courses = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
       'type' => 'course',
       'status' => 1,
