@@ -61,7 +61,10 @@ class CourseListController extends ControllerBase {
 
     $normalizedCourses = [];
     foreach ($courses as $course) {
-      $normalizedCourses[] = $this->normalizeNode($course);
+      $normalizedCourse = $this->normalizeNode($course);
+      if (!empty($normalizedCourse)) {
+        $normalizedCourses[] = $normalizedCourse;
+      }
     }
 
     $build['#attached']['library'][] = 'anu_lms/application';
