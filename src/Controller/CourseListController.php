@@ -77,6 +77,8 @@ class CourseListController extends ControllerBase {
       '#markup' => '<div id="anu-lms"></div>',
     ];
 
+    // Disable cache for this page. @todo can be improved using cache tags.
+    $build['#cache']['max-age'] = 0;
     return $build;
   }
 
