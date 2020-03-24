@@ -4,5 +4,6 @@ dependencies: {  }
 id: question_multi_choice
 label: 'Question: Multiple choice'
 icon_uuid: null
+icon_default: null
 description: ''
 behavior_plugins: {  }

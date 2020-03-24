@@ -4,5 +4,6 @@ dependencies: {  }
 id: question_short_answer
 label: 'Question: Short answer'
 icon_uuid: null
+icon_default: null
 description: ''
 behavior_plugins: {  }

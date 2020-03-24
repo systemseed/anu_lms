@@ -1,0 +1,17 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.anu_organization
+id: group.anu_organization.label
+field_name: label
+entity_type: group
+bundle: anu_organization
+label: Title
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

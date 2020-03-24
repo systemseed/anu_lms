@@ -4,5 +4,6 @@ dependencies: {  }
 id: lesson_image_wide
 label: 'Lesson: Image with caption (full width)'
 icon_uuid: null
+icon_default: null
 description: ''
 behavior_plugins: {  }

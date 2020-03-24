@@ -4,5 +4,6 @@ dependencies: {  }
 id: single_multi_choice_item
 label: 'Single/Multi-choice item'
 icon_uuid: null
+icon_default: null
 description: ''
 behavior_plugins: {  }

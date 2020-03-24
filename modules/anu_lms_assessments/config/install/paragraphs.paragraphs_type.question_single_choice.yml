@@ -4,5 +4,6 @@ dependencies: {  }
 id: question_single_choice
 label: 'Question: Single choice'
 icon_uuid: null
+icon_default: null
 description: ''
 behavior_plugins: {  }
