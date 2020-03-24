@@ -118,7 +118,7 @@ class ParagraphsWithAssessments extends React.Component {
             {isSubmitting &&
             <><CircularProgress color="inherit" size={24}/>&nbsp;&nbsp;&nbsp;&nbsp;</>
             }
-            Submit assessment
+            Submit quiz
           </LessonNavigationButton>
           }
           {node.module && node.module.course &&
