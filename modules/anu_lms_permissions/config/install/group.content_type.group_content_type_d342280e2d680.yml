@@ -8,8 +8,8 @@ dependencies:
     - gnode
     - node
 id: group_content_type_d342280e2d680
-label: 'Organization: Group node (Module&#039;s assessment)'
-description: 'Adds <em class="placeholder">Module&#039;s assessment</em> content to groups both publicly and privately.'
+label: 'Organization: Group node (Module&#039;s quiz)'
+description: 'Adds <em class="placeholder">Module&#039;s quiz</em> content to groups both publicly and privately.'
 group_type: anu_organization
 content_plugin: 'group_node:module_assessment'
 plugin_config:

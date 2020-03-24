@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  *
  * @RestResource(
  *   id = "assessment_rest_resource",
- *   label = @Translation("Assessment rest resource"),
+ *   label = @Translation("Quiz rest resource"),
  *   uri_paths = {
  *     "create" = "/assessments/assessment"
  *   }

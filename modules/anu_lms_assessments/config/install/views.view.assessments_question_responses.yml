@@ -8,7 +8,7 @@ dependencies:
     - entity_reference_revisions
     - options
 id: assessments_question_responses
-label: 'Assessments: Question responses'
+label: 'Quizzes: Question responses'
 module: views
 description: ''
 tag: ''
@@ -584,7 +584,7 @@ display:
   assessment_results_embed:
     display_plugin: embed
     id: assessment_results_embed
-    display_title: 'Assessment responses'
+    display_title: 'Quiz responses'
     position: 2
     display_options:
       display_extenders: {  }

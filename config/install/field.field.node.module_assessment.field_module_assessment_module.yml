@@ -10,7 +10,7 @@ field_name: field_module_assessment_module
 entity_type: node
 bundle: module_assessment
 label: Module
-description: 'Reference to the module this assessment belongs to.'
+description: 'Reference to the module this quiz belongs to.'
 required: false
 translatable: false
 default_value: {  }

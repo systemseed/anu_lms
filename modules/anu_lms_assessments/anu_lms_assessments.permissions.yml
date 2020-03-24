@@ -36,7 +36,7 @@ add assessment question result entities:
   title: 'Create new Question result entities'
 
 administer assessment question result entities:
-  title: 'Administer Assessment question result entities'
+  title: 'Administer Quiz question result entities'
   description: 'Allow to access the administration form to configure Question result entities.'
   restrict access: true
 
@@ -52,21 +52,21 @@ view published assessment question result entities:
 view unpublished assessment question result entities:
   title: 'View unpublished Question result entities'
 add assessment result entities:
-  title: 'Create new Assessment result entities'
+  title: 'Create new Quiz result entities'
 
 administer assessment result entities:
-  title: 'Administer Assessment result entities'
-  description: 'Allow to access the administration form to configure Assessment result entities.'
+  title: 'Administer Quiz result entities'
+  description: 'Allow to access the administration form to configure Quiz result entities.'
   restrict access: true
 
 delete assessment result entities:
-  title: 'Delete Assessment result entities'
+  title: 'Delete Quiz result entities'
 
 edit assessment result entities:
-  title: 'Edit Assessment result entities'
+  title: 'Edit Quiz result entities'
 
 view published assessment result entities:
-  title: 'View published Assessment result entities'
+  title: 'View published Quiz result entities'
 
 view unpublished assessment result entities:
-  title: 'View unpublished Assessment result entities'
+  title: 'View unpublished Quiz result entities'

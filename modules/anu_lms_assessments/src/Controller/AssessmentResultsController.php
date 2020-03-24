@@ -12,7 +12,7 @@ use Drupal\node\NodeInterface;
 class AssessmentResultsController extends ControllerBase {
 
   public function resultsPageTitle(NodeInterface $node) {
-    return t('Completed assessments for %assessment', ['%assessment' => $node->label() ]);
+    return t('Completed quizzes for %assessment', ['%assessment' => $node->label() ]);
   }
 
   public function resultsPage(NodeInterface $node) {

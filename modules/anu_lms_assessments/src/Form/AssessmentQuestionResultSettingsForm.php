@@ -46,7 +46,7 @@ class AssessmentQuestionResultSettingsForm extends FormBase {
    *   Form definition array.
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $form['assessmentquestionresult_settings']['#markup'] = 'Settings form for Assessment question result entities. Manage field settings here.';
+    $form['assessmentquestionresult_settings']['#markup'] = 'Settings form for Quiz question result entities. Manage field settings here.';
     return $form;
   }
 

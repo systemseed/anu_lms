@@ -76,7 +76,7 @@ third_party_settings:
         description: ''
         formatter: closed
         required_fields: true
-      label: 'Final assessment'
+      label: 'Final quiz'
 id: node.module.default
 targetEntityType: node
 bundle: module

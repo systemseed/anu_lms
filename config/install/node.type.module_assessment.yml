@@ -7,9 +7,9 @@ third_party_settings:
   menu_ui:
     available_menus: {  }
     parent: ''
-name: 'Module''s assessment'
+name: 'Module''s quiz'
 type: module_assessment
-description: 'A final assessment at the end of the module.'
+description: 'A final quiz at the end of the module.'
 help: ''
 new_revision: true
 preview_mode: 0
