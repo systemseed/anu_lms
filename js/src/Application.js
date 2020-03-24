@@ -4,7 +4,8 @@ import { PersistGate } from 'redux-persist/integration/react';
 import Header from './components/03_organisms/Header';
 import Lesson from './components/05_pages/Lesson';
 import Module from './components/05_pages/Module';
-import { getCourseList, getCurrentNode, isCourseListPage, getSettings } from './utils/node'
+import { getCourseList, getCurrentNode, isCourseListPage } from './utils/node'
+import { getSettings } from './utils/settings'
 import { persistor, store } from './redux/store';
 import Course from './components/05_pages/Course';
 import Assessment from './components/05_pages/Assessment';
@@ -24,7 +25,7 @@ class Application extends React.Component {
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <Header />
+          <Header settings={this.settings} />
           {/* TODO: Refactor */}
           {this.node &&
           <>
