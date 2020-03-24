@@ -17,7 +17,7 @@ class AssessmentResultListBuilder extends EntityListBuilder {
    * {@inheritdoc}
    */
   public function buildHeader() {
-    $header['id'] = $this->t('Assessment result ID');
+    $header['id'] = $this->t('Quiz result ID');
     $header['name'] = $this->t('Name');
     return $header + parent::buildHeader();
   }

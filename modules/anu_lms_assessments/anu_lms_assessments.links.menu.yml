@@ -33,14 +33,14 @@ entity.assessment_question_result_type.collection:
 
 # Assessment result menu items definition
 entity.assessment_result.collection:
-  title: 'Assessment result list'
+  title: 'Quiz result list'
   route_name: entity.assessment_result.collection
-  description: 'List Assessment result entities'
+  description: 'List Quiz result entities'
   parent: system.admin_structure
   weight: 100
 
 assessment_result.admin.structure.settings:
-  title: 'Assessment result settings'
-  description: 'Configure Assessment result entities'
+  title: 'Quiz result settings'
+  description: 'Configure Quiz result entities'
   route_name: assessment_result.settings
   parent: system.admin_structure

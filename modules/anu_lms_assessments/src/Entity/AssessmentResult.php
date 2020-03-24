@@ -17,7 +17,7 @@ use Drupal\user\UserInterface;
  *
  * @ContentEntityType(
  *   id = "assessment_result",
- *   label = @Translation("Assessment result"),
+ *   label = @Translation("Quiz result"),
  *   handlers = {
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
  *     "list_builder" = "Drupal\anu_lms_assessments\AssessmentResultListBuilder",
@@ -75,9 +75,9 @@ class AssessmentResult extends ContentEntityBase implements AssessmentResultInte
     try {
       /** @var \Drupal\node\NodeInterface $assessment */
       $assessment = $this->get('aid')->referencedEntities()[0];
-      $this->setName('Assessment result for: ' . $assessment->label());
+      $this->setName('Quiz result for: ' . $assessment->label());
     } catch (\Exception $exception) {
-      $this->setName('Assessment result for: (no assessment)');
+      $this->setName('Quiz result for: (no quiz)');
     }
 
     parent::preSave($storage);
@@ -154,7 +154,7 @@ class AssessmentResult extends ContentEntityBase implements AssessmentResultInte
 
     $fields['user_id'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Authored by'))
-      ->setDescription(t('The user ID of author of the Assessment result entity.'))
+      ->setDescription(t('The user ID of author of the Quiz result entity.'))
       ->setRevisionable(TRUE)
       ->setSetting('target_type', 'user')
       ->setSetting('handler', 'default')
@@ -178,7 +178,7 @@ class AssessmentResult extends ContentEntityBase implements AssessmentResultInte
 
     $fields['name'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Name'))
-      ->setDescription(t('The name of the Assessment result entity.'))
+      ->setDescription(t('The name of the Quiz result entity.'))
       ->setSettings([
         'max_length' => 50,
         'text_processing' => 0,
@@ -195,7 +195,7 @@ class AssessmentResult extends ContentEntityBase implements AssessmentResultInte
       ->setRequired(FALSE);
 
     $fields['status']
-      ->setDescription(t('A boolean indicating whether the Assessment result is published.'))
+      ->setDescription(t('A boolean indicating whether the Quiz result is published.'))
       ->setDisplayOptions('form', ['type' => 'hidden']);
 
     $fields['created'] = BaseFieldDefinition::create('created')
@@ -208,8 +208,8 @@ class AssessmentResult extends ContentEntityBase implements AssessmentResultInte
 
     // Module's Assessment reference.
     $fields['aid'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Assessment'))
-      ->setDescription(t('The referenced assessment.'))
+      ->setLabel(t('Quiz'))
+      ->setDescription(t('The referenced quiz.'))
       ->setRequired(TRUE)
       ->setSetting('target_type', 'node')
       ->setSetting('handler', 'default')

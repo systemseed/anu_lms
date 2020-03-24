@@ -9,7 +9,7 @@ id: node.module.field_module_assessment
 field_name: field_module_assessment
 entity_type: node
 bundle: module
-label: 'Final assessment'
+label: 'Final quiz'
 description: ''
 required: false
 translatable: false

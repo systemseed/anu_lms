@@ -4,12 +4,12 @@ dependencies:
   module:
     - entity_browser_entity_form
 name: module_assessments
-label: 'Module assessments'
+label: 'Module quizzes'
 display: modal
 display_configuration:
   width: ''
   height: ''
-  link_text: 'Add an assessment'
+  link_text: 'Add quiz'
   auto_open: false
 selection_display: no_display
 selection_display_configuration: {  }
@@ -21,7 +21,7 @@ widgets:
       entity_type: node
       bundle: module_assessment
       form_mode: embedded
-      submit_text: 'Save assessment'
+      submit_text: 'Save quiz'
     uuid: 3279f05f-4d82-451a-a642-ada48a6b3a4a
     weight: 1
     label: entity_form

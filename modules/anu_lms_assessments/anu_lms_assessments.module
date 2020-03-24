@@ -10,10 +10,10 @@
  */
 function anu_lms_assessments_views_data_alter(array &$data) {
   $data['assessment_question_result']['assessment_result']['relationship'] = [
-    'title' => t('Assessment result'),
-    'label' => t('Assessment result'),
+    'title' => t('Quiz result'),
+    'label' => t('Quiz result'),
     'group' => 'Question result',
-    'help' => t('Reference to the assessment result for question results'),
+    'help' => t('Reference to the quiz result for question results'),
     'id' => 'standard',
     'base' => 'assessment_result',
     'base field' => 'aqrid',

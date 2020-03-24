@@ -162,7 +162,7 @@ class AssessmentQuestionResult extends ContentEntityBase implements AssessmentQu
 
     $fields['user_id'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Authored by'))
-      ->setDescription(t('The user ID of author of the Assessment question result entity.'))
+      ->setDescription(t('The user ID of author of the Quiz question result entity.'))
       ->setRevisionable(TRUE)
       ->setSetting('target_type', 'user')
       ->setSetting('handler', 'default')
@@ -186,7 +186,7 @@ class AssessmentQuestionResult extends ContentEntityBase implements AssessmentQu
 
     $fields['name'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Name'))
-      ->setDescription(t('The name of the Assessment question result entity.'))
+      ->setDescription(t('The name of the Quiz question result entity.'))
       ->setSettings([
         'max_length' => 512,
         'text_processing' => 0,
@@ -204,7 +204,7 @@ class AssessmentQuestionResult extends ContentEntityBase implements AssessmentQu
       ->setDisplayConfigurable('view', TRUE)
       ->setRequired(TRUE);
 
-    $fields['status']->setDescription(t('A boolean indicating whether the Assessment question result is published.'))
+    $fields['status']->setDescription(t('A boolean indicating whether the Quiz question result is published.'))
       ->setDisplayOptions('form', ['type' => 'hidden']);
 
     $fields['created'] = BaseFieldDefinition::create('created')
@@ -237,8 +237,8 @@ class AssessmentQuestionResult extends ContentEntityBase implements AssessmentQu
 
     // Reference to the Assessment result entity.
     $fields['arid'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Assessment result'))
-      ->setDescription(t('Reference to the assessment result entity.'))
+      ->setLabel(t('Quiz result'))
+      ->setDescription(t('Reference to the quiz result entity.'))
       ->setSetting('target_type', 'assessment_result')
       ->setSetting('handler', 'default')
       ->setDisplayOptions('form', [

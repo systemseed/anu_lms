@@ -20,6 +20,6 @@ entity.assessment_question_result_type.add_form:
     - entity.assessment_question_result_type.collection
 entity.assessment_result.add_form:
   route_name: entity.assessment_result.add_form
-  title: 'Add Assessment result'
+  title: 'Add Quiz result'
   appears_on:
     - entity.assessment_result.collection

@@ -50,13 +50,13 @@ class AssessmentQuestionResultForm extends ContentEntityForm {
 
     switch ($status) {
       case SAVED_NEW:
-        $this->messenger()->addMessage($this->t('Created the %label Assessment question result.', [
+        $this->messenger()->addMessage($this->t('Created the %label Quiz question result.', [
           '%label' => $entity->label(),
         ]));
         break;
 
       default:
-        $this->messenger()->addMessage($this->t('Saved the %label Assessment question result.', [
+        $this->messenger()->addMessage($this->t('Saved the %label Quiz question result.', [
           '%label' => $entity->label(),
         ]));
     }

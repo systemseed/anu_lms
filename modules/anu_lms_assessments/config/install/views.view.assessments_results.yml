@@ -4,7 +4,7 @@ dependencies:
   module:
     - anu_lms_assessments
 id: assessments_results
-label: 'Assessments: Results'
+label: 'Quizzes: Results'
 module: views
 description: ''
 tag: ''
@@ -513,7 +513,7 @@ display:
           admin_label: ''
           empty: true
           tokenize: false
-          content: 'The current assessment does not have any submissions yet.'
+          content: 'The current quiz does not have any submissions yet.'
           plugin_id: text_custom
       relationships: {  }
       arguments:

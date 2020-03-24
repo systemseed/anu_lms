@@ -67,7 +67,7 @@ class Lesson extends React.Component {
               {!this.nextLesson && node.module && node.module.assessment.id > 0 &&
               <LessonGrid>
                 <LessonNavigationButton href={node.module.assessment.path}>
-                  Go to the module assessment
+                  Go to the module quiz
                 </LessonNavigationButton>
               </LessonGrid>
               }
