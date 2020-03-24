@@ -56,17 +56,17 @@ const StyledLink = styled('a')({
   color: 'black',
 });
 
-const CourseList = ({ nodes }) => (
+const CourseList = ({ nodes, settings }) => (
   <PageContainer>
     <Container maxWidth="lg">
-      <StyledCoursesDescription
-        variant="body2"
-        color="textSecondary"
-        component="div"
-      >
-        Course description
-      </StyledCoursesDescription>
-
+      {settings.courses_description &&
+        <StyledCoursesDescription
+          variant="body2"
+          color="textSecondary"
+          component="div"
+          dangerouslySetInnerHTML={{__html: settings.courses_description}}
+        />
+      }
       <StyledGridContainer container spacing={4}>
       {nodes.map(node => (
         <Grid item md={4} sm={6} xs={12} key={node.id}>
