@@ -1,0 +1,19 @@
+uuid: f8a4cec6-af85-43fb-b3bc-2bfd309c86fb
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.anu_organization
+    - node.type.course
+  module:
+    - gnode
+    - node
+id: group_content_type_76eaf64eea4b8
+label: 'Organization: Group node (Course)'
+description: 'Adds <em class="placeholder">Course</em> content to groups both publicly and privately.'
+group_type: anu_organization
+content_plugin: 'group_node:course'
+plugin_config:
+  group_cardinality: 0
+  entity_cardinality: 1
+  use_creation_wizard: false

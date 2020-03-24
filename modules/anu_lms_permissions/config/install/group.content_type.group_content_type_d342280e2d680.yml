@@ -1,0 +1,19 @@
+uuid: 04b00390-639f-4c36-a3f2-7fdb8b2590cf
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.anu_organization
+    - node.type.module_assessment
+  module:
+    - gnode
+    - node
+id: group_content_type_d342280e2d680
+label: 'Organization: Group node (Module&#039;s assessment)'
+description: 'Adds <em class="placeholder">Module&#039;s assessment</em> content to groups both publicly and privately.'
+group_type: anu_organization
+content_plugin: 'group_node:module_assessment'
+plugin_config:
+  group_cardinality: 0
+  entity_cardinality: 1
+  use_creation_wizard: false

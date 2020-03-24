@@ -1,0 +1,17 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.anu_organization
+id: anu_organization-member
+label: Member
+weight: -100
+internal: true
+audience: member
+group_type: anu_organization
+permissions_ui: true
+permissions:
+  - 'view group_node:course entity'
+  - 'view group_node:module entity'
+  - 'view group_node:module_assessment entity'
+  - 'view group_node:module_lesson entity'

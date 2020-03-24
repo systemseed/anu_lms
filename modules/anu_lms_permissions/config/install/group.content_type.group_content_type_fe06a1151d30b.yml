@@ -1,0 +1,17 @@
+uuid: 5211e93c-8b7d-468a-b1d8-f556b4c7faa2
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.anu_organization
+  module:
+    - user
+id: group_content_type_fe06a1151d30b
+label: 'Organization: Group membership'
+description: 'Adds users to groups as members.'
+group_type: anu_organization
+content_plugin: group_membership
+plugin_config:
+  group_cardinality: 0
+  entity_cardinality: 1
+  use_creation_wizard: false

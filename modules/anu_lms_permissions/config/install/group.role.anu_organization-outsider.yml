@@ -1,0 +1,13 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.anu_organization
+id: anu_organization-outsider
+label: Outsider
+weight: -101
+internal: true
+audience: outsider
+group_type: anu_organization
+permissions_ui: true
+permissions: {  }
