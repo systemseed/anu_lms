@@ -64,6 +64,9 @@ const StyledTypography = withStyles(theme => ({
     textShadow: '1px 1px 1px black',
     position: 'relative',
     zIndex: 10,
+    textAlign: 'center',
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
   }
 }))(Typography);
 
