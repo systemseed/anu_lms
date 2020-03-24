@@ -116,8 +116,7 @@ const Header = ({ width, dispatch, isLessonSidebarVisibleOnDesktop, isLessonSide
         <StyledDiv/>
 
         <StyledButtonGroup variant="text">
-
-          {/* Render primary menu of the site */}
+          {/* Render secondary menu of the site */}
           {menu && menu.secondary && menu.secondary.map(menuItem => (
             <StyledButton
               startIcon={<StyledIcon fontSize="large">{getMenuIconByTitle(menuItem.title)}</StyledIcon>}
@@ -128,17 +127,6 @@ const Header = ({ width, dispatch, isLessonSidebarVisibleOnDesktop, isLessonSide
               {isWidthUp('sm', width) && menuItem.title}
             </StyledButton>
           ))}
-
-
-          {node && node.type === 'module_assessment' &&
-          <StyledButton
-            startIcon={<StyledIcon fontSize="large">assignment</StyledIcon>}
-            // TODO: Only if has access.
-            href={`/node/${node.id}/assessment_results`}
-          >
-            {isWidthUp('sm', width) && 'Results'}
-          </StyledButton>
-          }
         </StyledButtonGroup>
 
       </StyledToolbar>

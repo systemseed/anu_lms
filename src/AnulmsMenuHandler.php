@@ -57,8 +57,21 @@ class AnulmsMenuHandler {
     // If the current page is a node page and the current user has permissions
     // to edit it, show appropriate link.
     $node = $this->currentRouteMatch->getParameter('node');
-    if (!empty($node) && $node instanceof NodeInterface && $node->access('update')) {
-      $this->addMenuItem($items, 'Edit page', $node->toUrl('edit-form')->toString());
+    if (!empty($node) && $node instanceof NodeInterface) {
+
+      // If the current user can update the node show appropriate link.
+      if ($node->access('update')) {
+        $this->addMenuItem($items, 'Edit page', $node->toUrl('edit-form')
+          ->toString());
+      }
+
+      if ($this->moduleHandler->moduleExists('anu_lms_assessments')) {
+        if ($node->bundle() == 'module_assessment') {
+          $assessment_results_url = Url::fromRoute('anu_lms_assessments.assessment.results', ['node' => $node->id()])
+            ->toString();
+          $this->addMenuItem($items, 'Results', $assessment_results_url);
+        }
+      }
     }
 
     // If permissions module is enabled, we add a new link to manage organizations.
