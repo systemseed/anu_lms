@@ -14,15 +14,16 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import Hidden from '@material-ui/core/Hidden';
 import BackButton from '../../01_atoms/BackButton';
+import PageContainer from '../../01_atoms/PageContainer';
 import { getMenuPathByTitle } from '../../../utils/menu';
 
 const StyledGridContainer = withStyles(theme => ({
   root: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
     [theme.breakpoints.up('sm')]: {
-      marginTop: theme.spacing(4),
-      marginBottom: theme.spacing(4),
+      paddingTop: theme.spacing(4),
+      paddingBottom: theme.spacing(4),
     }
   }
 }))(Grid);
@@ -71,7 +72,10 @@ const StyledTypography = withStyles(theme => ({
 }))(Typography);
 
 const Image = styled('img')({
-  width: '100%',
+  maxWidth: '100%',
+  maxHeight: '250px',
+  display: 'block',
+  margin: '0 auto',
 });
 
 const Course = ({ node, width }) => {
@@ -84,60 +88,61 @@ const Course = ({ node, width }) => {
   }
 
   return (
-    <Container maxWidth="lg">
+    <PageContainer>
+      <Container maxWidth="lg">
 
-      <BackButton title="Back to courses" href={getMenuPathByTitle('Courses')}/>
-
-      <StyledGridContainer container spacing={isWidthUp('sm', width) ? 2 : 0} alignItems="center">
-        <Grid item md={5}>
-          {node.title &&
-          <Typography component="h2" variant="h2">{node.title}</Typography>
-          }
-          {node.description &&
-          <Box dangerouslySetInnerHTML={{__html: node.description}}/>
-          }
-          {firstLesson && firstLesson.path &&
-          <Box mb={2} mt={2}>
-            <Button
-              href={firstLesson.path}
-              variant="contained"
-              color="primary"
-              size="large"
-              fullWidth={!isWidthUp('sm', width)}
-            >
-              Start Course
-            </Button>
-          </Box>
-          }
-        </Grid>
-        <Grid item md={2}/>
-        <Grid item md={5}>
-          {node.image && node.image.url &&
-          <Hidden smDown>
-            <Image src={node.image.url} alt={node.title}/>
-          </Hidden>
-          }
-        </Grid>
-      </StyledGridContainer>
-
-      <Typography component="h3" variant="h3" align="center">Course modules</Typography>
-
-      <StyledGridContainer container spacing={isWidthUp('sm', width) ? 6 : 2}>
-        {node.modules.map(module => (
-          <Grid item xs={12} md={6} key={module.id}>
-            <Card>
-              <CardActionArea onClick={() => window.location.href = module.path}>
-                <StyledCardMedia image={module.image.url}>
-                  <StyledShadowBox />
-                  <StyledTypography component="h2" variant="h1">{module.title}</StyledTypography>
-                </StyledCardMedia>
-              </CardActionArea>
-            </Card>
+        <StyledGridContainer container spacing={isWidthUp('sm', width) ? 2 : 0} alignItems="center">
+          <Grid item md={5}>
+            <BackButton title="Back to courses" href={getMenuPathByTitle('Courses')}/>
+            {node.title &&
+            <Typography component="h2" variant="h2">{node.title}</Typography>
+            }
+            {node.description &&
+            <Box dangerouslySetInnerHTML={{__html: node.description}}/>
+            }
+            {firstLesson && firstLesson.path &&
+            <Box mb={2} mt={2}>
+              <Button
+                href={firstLesson.path}
+                variant="contained"
+                color="primary"
+                size="large"
+                fullWidth={!isWidthUp('sm', width)}
+              >
+                Start Course
+              </Button>
+            </Box>
+            }
           </Grid>
-        ))}
-      </StyledGridContainer>
+          <Grid item md={2}/>
+          <Grid item md={5}>
+            {node.image && node.image.url &&
+            <Hidden smDown>
+              <Image src={node.image.url} alt={node.title}/>
+            </Hidden>
+            }
+          </Grid>
+        </StyledGridContainer>
 
-    </Container>
+        <Typography component="h3" variant="h3" align="center">Course modules</Typography>
+
+        <StyledGridContainer container spacing={isWidthUp('sm', width) ? 6 : 2}>
+          {node.modules.map(module => (
+            <Grid item xs={12} md={6} key={module.id}>
+              <Card>
+                <CardActionArea onClick={() => window.location.href = module.path}>
+                  <StyledCardMedia image={module.image.url}>
+                    <StyledShadowBox />
+                    <StyledTypography component="h2" variant="h1">{module.title}</StyledTypography>
+                  </StyledCardMedia>
+                </CardActionArea>
+              </Card>
+            </Grid>
+          ))}
+        </StyledGridContainer>
+
+      </Container>
+    </PageContainer>
   );
 }
 

@@ -5,10 +5,7 @@ import { withStyles } from '@material-ui/core'
 
 const StyledButton = withStyles(theme => ({
   root: {
-    marginTop: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
-      marginBottom: theme.spacing(2),
-    }
+    marginBottom: theme.spacing(2),
   }
 }))(Button);
 

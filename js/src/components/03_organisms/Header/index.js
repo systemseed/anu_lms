@@ -5,7 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
-import { withStyles, styled } from '@material-ui/core/styles';
+import { withStyles, makeStyles, styled } from '@material-ui/core/styles';
 import { Icon } from '@material-ui/core';
 import { getCurrentNode } from '../../../utils/node';
 import * as lessonActions from '../../../redux/actions/lesson';
@@ -62,12 +62,6 @@ const StyledButtonGroup = withStyles(theme => ({
   }
 }))(ButtonGroup);
 
-const StyledAppBar = withStyles(theme => ({
-  root: {
-    background: '#3E3E3E',
-  }
-}))(AppBar);
-
 const StyledToolbar = withStyles(theme => ({
   root: {
     background: '#3E3E3E',
@@ -79,11 +73,23 @@ const StyledDiv = styled('div')({
   flexGrow: 1
 });
 
+const useAppBarStyles = makeStyles({
+  root: {
+    background: '#3E3E3E',
+    zIndex: 100
+  }
+});
+
+const StyledAppBar = ({ children, ...props }) => {
+  const classes = useAppBarStyles();
+  return <AppBar className={classes.root} {...props}>{children}</AppBar>;
+};
+
 const Header = ({ width, dispatch, isLessonSidebarVisibleOnDesktop, isLessonSidebarVisibleOnMobile }) => {
   const node = getCurrentNode();
   const menu = getMenu();
   return (
-    <StyledAppBar position="static">
+    <StyledAppBar position="sticky">
       <StyledToolbar disableGutters>
 
         <StyledButtonGroup variant="text">

@@ -26,7 +26,7 @@ const StyledCardMedia = withStyles({
 
 const StyledCardMediaOverlay = withStyles({
   root: {
-    background: 'rgba(0, 0, 0, 0.3)',
+    background: 'rgba(0, 0, 0, 0.4)',
     position: 'absolute',
     left: 0,
     right: 0,
@@ -41,6 +41,7 @@ const StyledCardMediaTypography = withStyles(theme => ({
     fontWeight: 'bold',
     padding: theme.spacing(2),
     position: 'relative',
+    textShadow: '1px 1px 1px black',
   }
 }))(Typography);
 
