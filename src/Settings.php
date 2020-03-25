@@ -7,7 +7,7 @@ use Drupal\Core\Entity\EntityRepositoryInterface;
 use Symfony\Component\Serializer\Serializer;
 
 /**
- * Helper service to group functionality.
+ * Settings service.
  */
 class Settings {
 
