@@ -7,6 +7,7 @@ dependencies:
     - paragraphs.paragraphs_type.lesson_heading
     - paragraphs.paragraphs_type.lesson_highlight
     - paragraphs.paragraphs_type.lesson_image
+    - paragraphs.paragraphs_type.lesson_image_thumbnail
     - paragraphs.paragraphs_type.lesson_image_wide
     - paragraphs.paragraphs_type.lesson_list
     - paragraphs.paragraphs_type.lesson_section
@@ -40,18 +41,13 @@ settings:
       lesson_image_wide: lesson_image_wide
       lesson_highlight: lesson_highlight
       lesson_divider: lesson_divider
+      lesson_image_thumbnail: lesson_image_thumbnail
       question_long_answer: question_long_answer
       question_short_answer: question_short_answer
       question_scale: question_scale
       question_multi_choice: question_multi_choice
       question_single_choice: question_single_choice
     target_bundles_drag_drop:
-      competency_attributes:
-        weight: -21
-        enabled: false
-      competency_results:
-        weight: -20
-        enabled: false
       lesson_section:
         weight: -19
         enabled: false
@@ -76,6 +72,9 @@ settings:
       lesson_divider:
         enabled: true
         weight: -12
+      lesson_image_thumbnail:
+        enabled: true
+        weight: 20
       question_long_answer:
         enabled: true
         weight: 24
