@@ -27,5 +27,5 @@ export const getMenuPathByTitle = menuTitle => {
 
   const flatMenu = [...menu.primary, ...menu.secondary];
   const item = flatMenu.find(item => item.title === menuTitle);
-  return item ? item.url : '';
+  return item ? item.url : '/';
 }
