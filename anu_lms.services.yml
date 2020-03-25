@@ -6,6 +6,9 @@ services:
     class: Drupal\anu_lms\Routing\RouteSubscriber
     tags:
       - { name: event_subscriber }
+  anu_lms.settings:
+    class: Drupal\anu_lms\Settings
+    arguments: ['@entity.repository', '@serializer']
   theme.negotiator.anu_lms_theme:
     class: Drupal\anu_lms\Theme\PageThemeNegotiator
     tags:

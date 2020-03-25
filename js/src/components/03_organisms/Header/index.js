@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import { withStyles, makeStyles, styled } from '@material-ui/core/styles';
-import { Icon } from '@material-ui/core';
+import { Icon, Link } from '@material-ui/core';
 import { getCurrentNode } from '../../../utils/node';
 import * as lessonActions from '../../../redux/actions/lesson';
 import { getMenu, getMenuIconByTitle } from '../../../utils/menu';
@@ -86,7 +86,20 @@ const StyledImg = styled('img')({
   maxWidth: '130px',
   marginRight: '20px',
   marginLeft: '20px',
+  '&:hover': {
+    opacity: '0.95',
+  }
 });
+
+const StyledLink = withStyles(theme => ({
+  root: {
+    display: 'none',
+    textDecoration: 'none',
+    [theme.breakpoints.up('sm')]: {
+      display: 'block',
+    },
+  }
+}))(Link);
 
 const StyledAppBar = ({ children, ...props }) => {
   const classes = useAppBarStyles();
@@ -100,7 +113,9 @@ const Header = ({ settings, width, dispatch, isLessonSidebarVisibleOnDesktop, is
     <StyledAppBar position="sticky">
       <StyledToolbar disableGutters>
         {settings.logo && settings.logo.url &&
-          <StyledImg src={settings.logo.url} alt={settings.logo.alt} />
+          <StyledLink href="/">
+            <StyledImg src={settings.logo.url} alt={settings.logo.alt} />
+          </StyledLink>
         }
 
         <StyledButtonGroup variant="text">
