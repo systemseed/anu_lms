@@ -3,10 +3,9 @@ import Text from '../components/01_atoms/Text';
 import List from '../components/01_atoms/List';
 import ImageWithCaption from '../components/01_atoms/ImageWithCaption';
 import ImageWideWithCaption from '../components/01_atoms/ImageWideWithCaption';
+import ImageWithCaptionThumbnail from '../components/01_atoms/ImageWithCaptionThumbnail';
 import TextHighlighted from '../components/01_atoms/TextHighlighted';
 import Divider from '../components/01_atoms/Divider';
-import ImageWithCaptionThumbnail
-  from '../components/01_atoms/ImageWithCaptionThumbnail'
 
 export default {
   lesson_heading: Heading,
