@@ -143,14 +143,8 @@ const getLessonParagraphs = paragraphs => {
         }
 
       case 'lesson_image':
-        return {
-          bundle,
-          id: getNumberValue(paragraph, 'id'),
-          image: getImage(paragraph, 'field_lesson_image_image'),
-          caption: getTextValue(paragraph, 'field_lesson_image_caption'),
-        }
-
       case 'lesson_image_wide':
+      case 'lesson_image_thumbnail':
         return {
           bundle,
           id: getNumberValue(paragraph, 'id'),

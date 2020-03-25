@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies: {  }
+id: lesson_image_thumbnail
+label: 'Lesson: Image with caption (thumbnail)'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }
