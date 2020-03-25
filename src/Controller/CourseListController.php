@@ -139,6 +139,10 @@ class CourseListController extends ControllerBase {
       ],
     ];
     $entity = ConfigPages::config('anu_lms_settings');
+    if (empty($entity)) {
+      return [];
+    }
+
     // Get translated version of the entity.
     $entity = $this->entityRepository->getTranslationFromContext($entity);
     return $this->serializer->normalize($entity, 'json_recursive', $context);
