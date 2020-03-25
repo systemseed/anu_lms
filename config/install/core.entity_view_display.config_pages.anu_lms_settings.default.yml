@@ -1,0 +1,33 @@
+uuid: 747d49ac-8673-438f-b220-501d41cd6696
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - config_pages.type.anu_lms_settings
+    - field.field.config_pages.anu_lms_settings.field_courses_description
+    - field.field.config_pages.anu_lms_settings.field_logo
+  module:
+    - image
+    - text
+id: config_pages.anu_lms_settings.default
+targetEntityType: config_pages
+bundle: anu_lms_settings
+mode: default
+content:
+  field_courses_description:
+    weight: 1
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_logo:
+    weight: 0
+    label: above
+    settings:
+      image_style: ''
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+    region: content
+hidden: {  }

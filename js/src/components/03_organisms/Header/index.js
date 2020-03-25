@@ -80,17 +80,28 @@ const useAppBarStyles = makeStyles({
   }
 });
 
+const StyledImg = styled('img')({
+  width: '100%',
+  display: 'block',
+  maxWidth: '130px',
+  marginRight: '20px',
+  marginLeft: '20px',
+});
+
 const StyledAppBar = ({ children, ...props }) => {
   const classes = useAppBarStyles();
   return <AppBar className={classes.root} {...props}>{children}</AppBar>;
 };
 
-const Header = ({ width, dispatch, isLessonSidebarVisibleOnDesktop, isLessonSidebarVisibleOnMobile }) => {
+const Header = ({ settings, width, dispatch, isLessonSidebarVisibleOnDesktop, isLessonSidebarVisibleOnMobile }) => {
   const node = getCurrentNode();
   const menu = getMenu();
   return (
     <StyledAppBar position="sticky">
       <StyledToolbar disableGutters>
+        {settings.logo && settings.logo.url &&
+          <StyledImg src={settings.logo.url} alt={settings.logo.alt} />
+        }
 
         <StyledButtonGroup variant="text">
 

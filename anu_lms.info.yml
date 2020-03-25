@@ -6,6 +6,7 @@ dependencies:
   - anu_lms_assessments
   - cer
   - content_translation
+  - config_pages
   - entity_browser
   - entity_browser_entity_form
   - entity_reference_revisions

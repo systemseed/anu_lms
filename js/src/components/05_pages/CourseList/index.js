@@ -41,15 +41,32 @@ const StyledCardMedia = withStyles({
   }
 })(CardMedia);
 
+const StyledCoursesDescription = withStyles(theme => ({
+  root: {
+    paddingTop: theme.spacing(2),
+    textAlign: 'center',
+    [theme.breakpoints.up('sm')]: {
+      paddingTop: theme.spacing(4),
+    }
+  }
+}))(Typography);
+
 const StyledLink = styled('a')({
   textDecoration: 'none',
   color: 'black',
 });
 
-const CourseList = ({ nodes }) => (
+const CourseList = ({ nodes, settings }) => (
   <PageContainer>
     <Container maxWidth="lg">
-
+      {settings.courses_description &&
+        <StyledCoursesDescription
+          variant="body2"
+          color="textSecondary"
+          component="div"
+          dangerouslySetInnerHTML={{__html: settings.courses_description}}
+        />
+      }
       <StyledGridContainer container spacing={4}>
       {nodes.map(node => (
         <Grid item md={4} sm={6} xs={12} key={node.id}>
