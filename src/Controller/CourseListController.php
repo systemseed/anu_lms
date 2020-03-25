@@ -3,7 +3,7 @@
 namespace Drupal\anu_lms\Controller;
 
 use Drupal\anu_lms\AnulmsMenuHandler;
-use Drupal\config_pages\Entity\ConfigPages;
+use Drupal\anu_lms\Settings;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityRepositoryInterface;
@@ -18,21 +18,25 @@ class CourseListController extends ControllerBase {
   protected $serializer;
   protected $entityRepository;
   protected $anulmsMenuHandler;
+  protected $anulmsSettings;
 
   /**
    * Creates an NodeViewController object.
    *
    * @param \Drupal\anu_lms\AnulmsMenuHandler $anulmsMenuHandler
    *   Anu LMS menu handler.
+   * @param \Drupal\anu_lms\Settings $anulmsSettings
+   *   Anu LMS Settings service.
    * @param \Drupal\Core\Entity\EntityRepositoryInterface $entity_repository
    *   The entity repository.
    * @param \Symfony\Component\Serializer\Serializer $serializer
    *   The serializer.
    */
-  public function __construct(AnulmsMenuHandler $anulmsMenuHandler, EntityRepositoryInterface $entity_repository = NULL, Serializer $serializer = NULL) {
+  public function __construct(AnulmsMenuHandler $anulmsMenuHandler, Settings $anulmsSettings, EntityRepositoryInterface $entity_repository = NULL, Serializer $serializer = NULL) {
     $this->serializer = $serializer;
     $this->entityRepository = $entity_repository;
     $this->anulmsMenuHandler = $anulmsMenuHandler;
+    $this->anulmsSettings = $anulmsSettings;
   }
 
   /**
@@ -41,6 +45,7 @@ class CourseListController extends ControllerBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('anu_lms.menu_handler'),
+      $container->get('anu_lms.settings'),
       $container->get('entity.repository'),
       $container->get('serializer')
     );
@@ -63,7 +68,7 @@ class CourseListController extends ControllerBase {
 
     $build['#attached']['library'][] = 'anu_lms/application';
     $build['#attached']['library'][] = 'core/drupalSettings';
-    $build['#attached']['drupalSettings']['anu_settings'] = $this->getAnuSettings();
+    $build['#attached']['drupalSettings']['anu_settings'] = $this->anulmsSettings->getSettings();
     $build['#attached']['drupalSettings']['anu_courses'] = $normalizedCourses;
     $build['#attached']['drupalSettings']['anu_menu'] = $this->anulmsMenuHandler->getMenu();
 
@@ -116,35 +121,5 @@ class CourseListController extends ControllerBase {
     }
 
     return NULL;
-  }
-
-  protected function getAnuSettings() {
-    // Default configurations.
-    $context = [
-      'max_depth' => 1,
-      'settings' => [
-        'config_pages' => [
-          'exclude_fields' => [
-            'id',
-            'entity_type',
-            'entity_bundle',
-            'uid',
-            'uuid',
-            'label',
-            'type',
-            'context',
-            'changed',
-          ],
-        ],
-      ],
-    ];
-    $entity = ConfigPages::config('anu_lms_settings');
-    if (empty($entity)) {
-      return [];
-    }
-
-    // Get translated version of the entity.
-    $entity = $this->entityRepository->getTranslationFromContext($entity);
-    return $this->serializer->normalize($entity, 'json_recursive', $context);
   }
 }
