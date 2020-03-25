@@ -1,5 +1,5 @@
 uuid: f9f6c31c-9a09-47c6-8103-57fe792adc86
-langcode: en-gb
+langcode: en
 status: true
 dependencies: {  }
 id: anu_lms_settings
