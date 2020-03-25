@@ -579,8 +579,16 @@ display:
         - 'languages:language_interface'
         - url.query_args
       tags:
+        - 'config:core.entity_view_display.assessment_question_result.long_answer.default'
+        - 'config:core.entity_view_display.assessment_question_result.long_answer.embedded'
+        - 'config:core.entity_view_display.assessment_question_result.multiple_choice.default'
+        - 'config:core.entity_view_display.assessment_question_result.multiple_choice.embedded'
+        - 'config:core.entity_view_display.assessment_question_result.scale.default'
+        - 'config:core.entity_view_display.assessment_question_result.scale.embedded'
         - 'config:core.entity_view_display.assessment_question_result.short_answer.default'
         - 'config:core.entity_view_display.assessment_question_result.short_answer.embedded'
+        - 'config:core.entity_view_display.assessment_question_result.single_choice.default'
+        - 'config:core.entity_view_display.assessment_question_result.single_choice.embedded'
   assessment_results_embed:
     display_plugin: embed
     id: assessment_results_embed
@@ -637,8 +645,16 @@ display:
         - url
         - url.query_args
       tags:
+        - 'config:core.entity_view_display.assessment_question_result.long_answer.default'
+        - 'config:core.entity_view_display.assessment_question_result.long_answer.embedded'
+        - 'config:core.entity_view_display.assessment_question_result.multiple_choice.default'
+        - 'config:core.entity_view_display.assessment_question_result.multiple_choice.embedded'
+        - 'config:core.entity_view_display.assessment_question_result.scale.default'
+        - 'config:core.entity_view_display.assessment_question_result.scale.embedded'
         - 'config:core.entity_view_display.assessment_question_result.short_answer.default'
         - 'config:core.entity_view_display.assessment_question_result.short_answer.embedded'
+        - 'config:core.entity_view_display.assessment_question_result.single_choice.default'
+        - 'config:core.entity_view_display.assessment_question_result.single_choice.embedded'
   question_results_embed:
     display_plugin: embed
     id: question_results_embed
@@ -695,5 +711,13 @@ display:
         - url
         - url.query_args
       tags:
+        - 'config:core.entity_view_display.assessment_question_result.long_answer.default'
+        - 'config:core.entity_view_display.assessment_question_result.long_answer.embedded'
+        - 'config:core.entity_view_display.assessment_question_result.multiple_choice.default'
+        - 'config:core.entity_view_display.assessment_question_result.multiple_choice.embedded'
+        - 'config:core.entity_view_display.assessment_question_result.scale.default'
+        - 'config:core.entity_view_display.assessment_question_result.scale.embedded'
         - 'config:core.entity_view_display.assessment_question_result.short_answer.default'
         - 'config:core.entity_view_display.assessment_question_result.short_answer.embedded'
+        - 'config:core.entity_view_display.assessment_question_result.single_choice.default'
+        - 'config:core.entity_view_display.assessment_question_result.single_choice.embedded'
