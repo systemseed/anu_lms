@@ -20,7 +20,8 @@
         "drupal/paragraphs": "^1.11",
         "drupal/range": "^1.1",
         "drupal/rest_entity_recursive": "^1.0@beta",
-        "drupal/group": "^1.0@RC"
+        "drupal/group": "^1.0@RC",
+        "drupal/config_pages": "^2.6"
     },
     "require-dev": {
         "drupal/webpack_react": "^1.0@alpha"
