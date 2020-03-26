@@ -81,11 +81,10 @@ const useAppBarStyles = makeStyles({
 });
 
 const StyledImg = styled('img')({
-  width: '100%',
   display: 'block',
-  maxWidth: '130px',
   marginRight: '20px',
   marginLeft: '20px',
+  maxHeight: '46px',
   '&:hover': {
     opacity: '0.95',
   }
