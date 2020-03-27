@@ -105,9 +105,16 @@ const StyledAppBar = ({ children, ...props }) => {
   return <AppBar className={classes.root} {...props}>{children}</AppBar>;
 };
 
-const Header = ({ settings, width, dispatch, isLessonSidebarVisibleOnDesktop, isLessonSidebarVisibleOnMobile }) => {
+const Header = ({
+  settings,
+  width,
+  dispatch,
+  isLessonSidebarVisibleOnDesktop,
+  isLessonSidebarVisibleOnMobile
+}) => {
   const node = getCurrentNode();
   const menu = getMenu();
+
   return (
     <StyledAppBar position="sticky">
       <StyledToolbar disableGutters>
@@ -144,7 +151,7 @@ const Header = ({ settings, width, dispatch, isLessonSidebarVisibleOnDesktop, is
 
         </StyledButtonGroup>
 
-        <StyledDiv/>
+        <StyledDiv />
 
         <StyledButtonGroup variant="text">
           {/* Render secondary menu of the site */}
@@ -159,7 +166,6 @@ const Header = ({ settings, width, dispatch, isLessonSidebarVisibleOnDesktop, is
             </StyledButton>
           ))}
         </StyledButtonGroup>
-
       </StyledToolbar>
     </StyledAppBar>
   );

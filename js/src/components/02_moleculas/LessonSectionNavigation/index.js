@@ -5,13 +5,15 @@ import LessonNavigationButton from '../../01_atoms/LessonNavigationButton'
 import LessonGrid from '../../01_atoms/LessonGrid'
 
 class LessonSectionNavigation extends React.Component {
-
   componentDidMount () {
     window.scrollTo(0, 0);
   }
 
   render() {
-    const { lesson, nextLesson, currentIndex, history } = this.props;
+    const { lesson, assessment, nextLesson, currentIndex, history } = this.props;
+
+    console.log(assessment);
+
     return (
       <LessonGrid>
 
@@ -24,10 +26,15 @@ class LessonSectionNavigation extends React.Component {
 
         {typeof lesson.sections[currentIndex + 1] === 'undefined' && nextLesson &&
         <LessonNavigationButton href={nextLesson.path}>
-          Next lesson: {nextLesson.title}
+          Go to next lesson
         </LessonNavigationButton>
         }
 
+        {typeof lesson.sections[currentIndex + 1] === 'undefined' && !nextLesson && assessment &&
+          <LessonNavigationButton href={assessment.path}>
+            Go to the module quiz
+          </LessonNavigationButton>
+        }
       </LessonGrid>
     )
   }

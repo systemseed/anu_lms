@@ -23,57 +23,66 @@ class Lesson extends React.Component {
 
   render() {
     const { node } = this.props;
+    const assessment = node.module && node.module.assessment && node.module.assessment.id > 0
+      ? node.module.assessment
+      : null;
+
+    console.log(node);
 
     return (
       <LessonPageTemplate module={node.module}>
+        <Heading type="h1">{node.title}</Heading>
 
-          <Heading type="h1">{node.title}</Heading>
+        <HashRouter hashType="noslash">
+          <Switch>
+            <Redirect exact from="/" to="/section-1"/>
+            {node.sections.map((paragraphs, index) =>
+              <Route path={`/section-${index + 1}`} key={index} exact>
 
-          {node.sections.length > 1 &&
-          <HashRouter hashType="noslash">
-            <Switch>
-              <Redirect exact from="/" to="/section-1"/>
-              {node.sections.map((paragraphs, index) =>
-                <Route path={`/section-${index + 1}`} key={index} exact>
+                {/* Render all page paragraphs */}
+                <Paragraphs items={paragraphs} />
 
-                  {/* Render all page paragraphs */}
-                  <Paragraphs items={paragraphs} />
+                {/* Render NEXT buttons at the end of the page */}
+                <LessonSectionNavigation
+                  lesson={node}
+                  nextLesson={this.nextLesson}
+                  currentIndex={index}
+                  assessment={assessment}
+                />
 
-                  {/* Render NEXT buttons at the end of the page */}
-                  <LessonSectionNavigation lesson={node} nextLesson={this.nextLesson} currentIndex={index} />
+              </Route>
+            )}
+          </Switch>
+        </HashRouter>
 
-                </Route>
-              )}
-            </Switch>
-          </HashRouter>
-          }
+        {/*
+        // TODO - why?
+        {node.sections.length === 1 && node.sections.map((paragraphs, index) =>
+          <React.Fragment key={index} >
 
-          {node.sections.length === 1 && node.sections.map((paragraphs, index) =>
-            <React.Fragment key={index} >
+            {/* Render all page paragraphs }
+            <Paragraphs items={paragraphs} />
 
-              {/* Render all page paragraphs */}
-              <Paragraphs items={paragraphs} />
+            {/* Render NEXT button at the end of the page }
+            {this.nextLesson &&
+            <LessonGrid>
+              <LessonNavigationButton href={this.nextLesson.path}>
+                Next lesson: {this.nextLesson.title}
+              </LessonNavigationButton>
+            </LessonGrid>
+            }
 
-              {/* Render NEXT button at the end of the page */}
-              {this.nextLesson &&
-              <LessonGrid>
-                <LessonNavigationButton href={this.nextLesson.path}>
-                  Next lesson: {this.nextLesson.title}
-                </LessonNavigationButton>
-              </LessonGrid>
-              }
-
-              {/* Button that takes to the assessment */}
-              {!this.nextLesson && node.module && node.module.assessment.id > 0 &&
-              <LessonGrid>
-                <LessonNavigationButton href={node.module.assessment.path}>
-                  Go to the module quiz
-                </LessonNavigationButton>
-              </LessonGrid>
-              }
-            </React.Fragment>
-          )}
-
+            {/* Button that takes to the assessment }
+            {!this.nextLesson && node.module && node.module.assessment.id > 0 &&
+            <LessonGrid>
+              <LessonNavigationButton href={node.module.assessment.path}>
+                Go to the module quiz
+              </LessonNavigationButton>
+            </LessonGrid>
+            }
+          </React.Fragment>
+        )}
+        */}
       </LessonPageTemplate>
     )
   }
