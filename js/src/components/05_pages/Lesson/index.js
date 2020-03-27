@@ -54,7 +54,8 @@ class Lesson extends React.Component {
 
         <HashRouter hashType="noslash">
           <Switch>
-            <Redirect exact from="/" to="/section-1"/>
+            {/* TODO - unclean for sections.length === 1 */}
+            <Redirect exact from="/" to="/section-1" />
 
             {node.sections.map((paragraphs, index) =>
               <Route path={`/section-${index + 1}`} key={index} exact>
@@ -64,7 +65,7 @@ class Lesson extends React.Component {
                   onChange={result => this.handleChangeValidation(result, index)}
                 />
 
-              {/* Render "Next ..." buttons at the end of the page */}
+                {/* Render "Next ..." buttons at the end of the page */}
                 <LessonSectionNavigation
                   lesson={node}
                   nextLesson={this.nextLesson}
@@ -76,35 +77,6 @@ class Lesson extends React.Component {
             )}
           </Switch>
         </HashRouter>
-
-        {/*
-        // TODO - why?
-        {node.sections.length === 1 && node.sections.map((paragraphs, index) =>
-          <React.Fragment key={index} >
-
-            {/* Render all page paragraphs }
-            <Paragraphs items={paragraphs} />
-
-            {/* Render NEXT button at the end of the page }
-            {this.nextLesson &&
-            <LessonGrid>
-              <LessonNavigationButton href={this.nextLesson.path}>
-                Next lesson: {this.nextLesson.title}
-              </LessonNavigationButton>
-            </LessonGrid>
-            }
-
-            {/* Button that takes to the assessment }
-            {!this.nextLesson && node.module && node.module.assessment.id > 0 &&
-            <LessonGrid>
-              <LessonNavigationButton href={node.module.assessment.path}>
-                Go to the module quiz
-              </LessonNavigationButton>
-            </LessonGrid>
-            }
-          </React.Fragment>
-        )}
-        */}
       </LessonPageTemplate>
     )
   }
