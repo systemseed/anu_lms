@@ -7,9 +7,6 @@ import LessonGrid from '../LessonGrid'
 const StyledBox = withStyles(theme => ({
   root: {
     marginBottom: theme.spacing(4),
-    [theme.breakpoints.up('sm')]: {
-      marginBottom: theme.spacing(8),
-    }
   }
 }))(Box);
 

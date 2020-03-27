@@ -11,9 +11,6 @@ import LessonGrid from '../LessonGrid';
 const StyledBox = withStyles(theme => ({
   root: {
     marginBottom: theme.spacing(4),
-    [theme.breakpoints.up('sm')]: {
-      marginBottom: theme.spacing(8),
-    }
   }
 }))(Box);
 
@@ -47,7 +44,7 @@ const StyledIcon = withStyles(theme => ({
 
 const StyledListItemIcon = withStyles(theme => ({
   root: {
-    minWidth: '32px'
+    minWidth: 32
   }
 }))(ListItemIcon);
 
@@ -61,6 +58,7 @@ const ListElement = ({ items, type }) => (
             <StyledListItemIcon>
               <StyledIcon fontSize="small">brightness_1</StyledIcon>
             </StyledListItemIcon>
+
             <ListItemText>
               {item}
             </ListItemText>
@@ -68,6 +66,7 @@ const ListElement = ({ items, type }) => (
         ))}
       </List>
       }
+
       {type === 'ol' &&
       <NumberedList dense component={type}>
         {items.map((item, index) => (
