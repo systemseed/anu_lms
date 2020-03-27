@@ -19,8 +19,9 @@ class QuizOptionsStandaloneAdapter extends React.Component {
   }
 
   onSubmit() {
-    const { aqid, bundle } = this.props;
+    const { aqid, bundle, onChange } = this.props;
     const { value } = this.state;
+
     this.setState({
       isSubmitting: true,
       correctValue: null,
@@ -51,6 +52,8 @@ class QuizOptionsStandaloneAdapter extends React.Component {
           })
           .then(({ data }) => {
             this.setState({ correctValue: data.correctAnswer });
+            // MCQ has been answered, fire callback for Lesson page validation.
+            onChange(true);
           })
           .catch(error => {
             console.log('Could not send quiz data: ' + error);

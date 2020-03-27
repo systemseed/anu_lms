@@ -1,6 +1,6 @@
 import React from 'react';
 import Heading from '../../01_atoms/Heading';
-import ParagraphsWithAssessments from '../../02_moleculas/ParagraphsWithAssessment';
+import ParagraphsWithAssessments from '../../02_molecules/ParagraphsWithAssessment';
 import LessonPageTemplate from '../../04_templates/LessonPageTemplate';
 
 class Assessment extends React.Component {

@@ -3,7 +3,6 @@ import axios from 'axios';
 import QuizScale from '../../01_atoms/QuizScale';
 
 class QuizScaleAssessmentAdapter extends React.Component {
-
   constructor(props) {
     super(props);
 
