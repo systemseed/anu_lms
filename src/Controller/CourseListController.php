@@ -7,6 +7,8 @@ use Drupal\anu_lms\Settings;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityRepositoryInterface;
+use Drupal\node\Entity\Node;
+use Drupal\node\NodeInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Serializer\Serializer;
 
@@ -52,11 +54,15 @@ class CourseListController extends ControllerBase {
   }
 
   public function build() {
-    // @todo: include access check into the query.
-    $courses = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
-      'type' => 'course',
-      'status' => 1,
-    ]);
+    $courses = \Drupal::entityQuery('node')
+      ->condition('type', 'course')
+      ->condition('status', NodeInterface::PUBLISHED)
+      ->sort('created')
+      ->execute();
+
+    if (!empty($courses)) {
+      $courses = Node::loadMultiple($courses);
+    }
 
     $normalizedCourses = [];
     foreach ($courses as $course) {
