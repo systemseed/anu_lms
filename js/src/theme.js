@@ -73,6 +73,17 @@ const customizedTheme = createMuiTheme({
       fontSize: '1rem',
     }
   },
+  overrides: {
+    MuiFormControlLabel: {
+      root: {
+        alignItems: 'flex-start',
+        marginBottom: theme.spacing(1),
+      },
+      label: {
+        marginTop: theme.spacing(1),
+      }
+    },
+  },
 });
 
 export default customizedTheme;
