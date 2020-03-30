@@ -54,7 +54,7 @@ const ListElement = ({ items, type }) => (
       {type === 'ul' &&
       <List dense component={type}>
         {items.map((item, index) => (
-          <ListItem key={index}>
+          <ListItem key={index} alignItems="flex-start">
             <StyledListItemIcon>
               <StyledIcon fontSize="small">brightness_1</StyledIcon>
             </StyledListItemIcon>

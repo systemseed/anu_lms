@@ -81,7 +81,12 @@ const customizedTheme = createMuiTheme({
       },
       label: {
         marginTop: theme.spacing(1),
-      }
+      },
+    },
+    MuiListItemIcon: {
+      alignItemsFlexStart: {
+        marginTop: theme.spacing(1.5),
+      },
     },
   },
 });
