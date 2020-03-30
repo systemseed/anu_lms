@@ -2,7 +2,6 @@ import React from 'react';
 import QuizTextAnswer from '../../01_atoms/QuizTextAnswer';
 
 class QuizTextAnswerAssessmentAdapter extends React.Component {
-
   constructor(props) {
     super(props);
 

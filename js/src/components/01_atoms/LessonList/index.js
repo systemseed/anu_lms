@@ -30,6 +30,7 @@ const LessonList = ({ lessons, assessment, fontSize }) => {
           {lesson.title}
         </MenuItem>
       )}
+
       {assessment &&
       <MenuItem
         key={assessment.id}

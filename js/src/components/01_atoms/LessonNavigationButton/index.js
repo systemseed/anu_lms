@@ -12,9 +12,9 @@ const StyledButton = withStyles(theme => ({
       fontSize: '1.25em',
       paddingTop: theme.spacing(1.5),
       paddingBottom: theme.spacing(1.5),
-    }
-  }
-}))(Button)
+    },
+  },
+}))(Button);
 
 const LessonNavigationButton = ({...props}) => (
   <StyledButton
@@ -24,6 +24,6 @@ const LessonNavigationButton = ({...props}) => (
     size="large"
     {...props}
   />
-)
+);
 
 export default LessonNavigationButton

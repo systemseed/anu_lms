@@ -42,11 +42,13 @@ const QuizTextAnswer = ({ question, value, correctValue, multiline, isSubmitting
         rowsMax={10}
         disabled={isSubmitting || !!correctValue}
       />
+
       {correctValue &&
       <StyledTypography>
         <strong>Suggested answer:</strong> {correctValue}
       </StyledTypography>
       }
+
       {!correctValue && onSubmit &&
       <StyledButton variant="contained" onClick={onSubmit} disabled={isSubmitting}>
         {isSubmitting &&
