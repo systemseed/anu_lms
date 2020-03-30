@@ -19,7 +19,7 @@ class Lesson extends React.Component {
     this.state = {
       // TODO - use drupalSettings.anu_settings
       enableNext: sections.map(paragraphs => {
-        if (paragraphs.some(paragraph => paragraph.bundle.startsWith('question_'))) {
+        if (paragraphs.some(paragraph => paragraph.bundle === 'question_multi_choice')) {
           return false;
         }
         return true;
