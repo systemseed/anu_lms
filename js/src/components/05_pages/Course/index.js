@@ -131,7 +131,7 @@ const Course = ({ node, width }) => {
         <Typography component="h3" variant="h3" align="center">Course modules</Typography>
 
         <StyledGridContainer container spacing={isWidthUp('sm', width) ? 6 : 2}>
-          {node.modules.map(module => (module.nid && (
+          {node.modules.map(module => (module.title && (
             <Grid item xs={12} md={6} key={module.id}>
               <Card>
                 <CardActionArea onClick={() => window.location.href = module.path}>
