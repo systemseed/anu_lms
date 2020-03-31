@@ -11,6 +11,6 @@ export const getSettings = () => {
 
   return {
     courses_description: getTextValue(anu_settings, 'field_courses_description'),
-    logo: getImage(anu_settings, 'field_logo'),
+    logo: getImage(anu_settings, 'field_logo', 'logo'),
   }
 };
