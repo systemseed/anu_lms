@@ -13,8 +13,11 @@ import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import Hidden from '@material-ui/core/Hidden';
+
 import BackButton from '../../01_atoms/BackButton';
+import DownloadCourse from  '../../01_atoms/DownloadCourse';
 import PageContainer from '../../01_atoms/PageContainer';
+
 import { getMenuPathByTitle } from '../../../utils/menu';
 
 const StyledGridContainer = withStyles(theme => ({
@@ -56,6 +59,14 @@ const StyledShadowBox = withStyles(theme => ({
         background: 'rgba(0, 0, 0, 0.2)',
       }
     }
+  }
+}))(Box);
+
+const StyledBox = withStyles(theme => ({
+  root: {
+    marginTop: theme.spacing(2),
+    alignItems: 'center',
+    justifyContent: 'space-around',
   }
 }))(Box);
 
@@ -117,6 +128,7 @@ const Course = ({ node, width }) => {
             </Box>
             }
           </Grid>
+
           <Grid item md={2}/>
 
           <Grid item md={5}>
@@ -125,6 +137,12 @@ const Course = ({ node, width }) => {
               <Image src={node.image.url} alt={node.title}/>
             </Hidden>
             }
+
+            <StyledBox display="flex">
+              <Typography variant="body1">For learning offline</Typography>
+
+              <DownloadCourse course={node} />
+            </StyledBox>
           </Grid>
         </StyledGridContainer>
 
