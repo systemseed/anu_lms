@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies: {  }
+name: image_wide_with_caption
+label: '[ANU LMS] Paragraph: Image with caption (full width)'
+effects:
+  fc24796a-148e-4454-9d0d-fb46e1953ca3:
+    uuid: fc24796a-148e-4454-9d0d-fb46e1953ca3
+    id: image_scale
+    weight: 1
+    data:
+      width: 1200
+      height: null
+      upscale: false

@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies: {  }
+name: image_thumbnail_with_caption
+label: '[ANU LMS] Paragraph: Image with caption (thumbnail)'
+effects:
+  16389f39-3cc6-4638-82e9-23d09d6214eb:
+    uuid: 16389f39-3cc6-4638-82e9-23d09d6214eb
+    id: image_scale
+    weight: 1
+    data:
+      width: 250
+      height: null
+      upscale: false

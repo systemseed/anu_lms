@@ -87,7 +87,7 @@ const getAssessmentFields = node => ({
 
 const getModuleFields = node => ({
   description: getTextValue(node, 'field_module_description'),
-  image: getImage(node, 'field_module_image'),
+  image: getImage(node, 'field_module_image', 'module_preview'),
   course: getCourse(getObjectValue(node, 'field_module_course')),
   // TODO: Lessons might be loading too deeply. For performance reasons we may want to limit it.
   lessons: getArrayValue(node, 'field_module_lessons').map(lesson => getLesson(lesson)),
@@ -96,7 +96,7 @@ const getModuleFields = node => ({
 
 const getCourseFields = node => ({
   description: getTextValue(node, 'field_course_description'),
-  image: getImage(node, 'field_course_image'),
+  image: getImage(node, 'field_course_image', 'course_preview'),
   // TODO: Modules might be loading too deeply. For performance reasons we may want to limit it.
   modules: getArrayValue(node, 'field_course_modules').map(module => getModule(module))
 });
@@ -143,11 +143,17 @@ const getLessonParagraphs = paragraphs => {
         }
 
       case 'lesson_image':
+        return {
+          bundle,
+          id: getNumberValue(paragraph, 'id'),
+          image: getImage(paragraph, 'field_lesson_image_image', 'image_with_caption'),
+          caption: getTextValue(paragraph, 'field_lesson_image_caption'),
+        }
       case 'lesson_image_wide':
         return {
           bundle,
           id: getNumberValue(paragraph, 'id'),
-          image: getImage(paragraph, 'field_lesson_image_image'),
+          image: getImage(paragraph, 'field_lesson_image_image', 'image_wide_with_caption'),
           caption: getTextValue(paragraph, 'field_lesson_image_caption'),
         }
 
@@ -155,7 +161,7 @@ const getLessonParagraphs = paragraphs => {
         return {
           bundle,
           id: getNumberValue(paragraph, 'id'),
-          image: getImage(paragraph, 'field_lesson_image_image'),
+          image: getImage(paragraph, 'field_lesson_image_image', 'image_thumbnail_with_caption'),
           caption: getTextValue(paragraph, 'field_lesson_image_caption_long'),
         }
 

@@ -9,6 +9,15 @@ services:
   anu_lms.settings:
     class: Drupal\anu_lms\Settings
     arguments: ['@entity.repository', '@serializer']
+  anu_lms.normalizer.image_file:
+    class: Drupal\anu_lms\Normalizer\ImageFileNormalizer
+    tags:
+      - { name: normalizer, priority: 12 }
+  anu_lms.normalizer.image_item:
+    class: Drupal\anu_lms\Normalizer\ImageItemNormalizer
+    arguments: ['@entity.repository']
+    tags:
+      - { name: normalizer, priority: 11 }
   theme.negotiator.anu_lms_theme:
     class: Drupal\anu_lms\Theme\PageThemeNegotiator
     tags:
