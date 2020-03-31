@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies: {  }
+name: image_with_caption
+label: '[ANU LMS] Paragraph: Image with caption'
+effects:
+  def6b67b-f53f-4583-97d8-404aa19a1354:
+    uuid: def6b67b-f53f-4583-97d8-404aa19a1354
+    id: image_scale
+    weight: 1
+    data:
+      width: 750
+      height: null
+      upscale: false

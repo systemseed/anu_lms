@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies: {  }
+name: course_preview
+label: '[ANU LMS] Course preview'
+effects:
+  9e98152a-7b37-411b-aa94-fa81dc80649e:
+    uuid: 9e98152a-7b37-411b-aa94-fa81dc80649e
+    id: image_scale
+    weight: 1
+    data:
+      width: 400
+      height: 250
+      upscale: false

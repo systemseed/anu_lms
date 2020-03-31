@@ -89,25 +89,12 @@ const getImageURL = (entity, fieldName, imageStyle = 'original') => {
     return '';
   }
 
-  const uri = getObjectValue(field, 'uri');
-  if (!(uri && uri.url)) {
+  const image_styles = getObjectValue(field, 'image_styles');
+  if (!(image_styles && imageStyle in image_styles)) {
     return '';
   }
 
-  // Grab URL of the originally uploaded image.
-  const originalURL = uri.url;
-  return originalURL; // TODO: Add support for image styles.
-
-  // Define hardcoded value for Drupal file system.
-  // TODO: Take from config.
-  const filesPrefix = '/sites/default/files';
-
-  // Get the second part of the original URL usually looking like
-  // /media/folder/something.jpg.
-  const publicFilePath = originalURL.split(filesPrefix)[1];
-
-  // Build the full URL of the image based on Drupal's image styles pattern.
-  return `${filesPrefix}/styles/${imageStyle}/public${publicFilePath}`;
+  return image_styles[imageStyle];
 };
 
 /**
