@@ -22,17 +22,27 @@ const StyledButton = withStyles(theme => ({
   }
 }))(Button);
 
-const StyledTypography = withStyles(theme => ({
+const TypographyTopSpaced = withStyles(theme => ({
   root: {
     marginTop: theme.spacing(2),
+  }
+}))(Typography);
+
+const TypographyBottomSpaced = withStyles(theme => ({
+  root: {
+    marginBottom: theme.spacing(2),
   }
 }))(Typography);
 
 const QuizTextAnswer = ({ question, value, correctValue, multiline, isSubmitting, onChange, onSubmit }) => (
   <StyledBox>
     <LessonGrid>
+      <TypographyBottomSpaced variant="body1">
+        {question}
+      </TypographyBottomSpaced>
+
       <TextField
-        label={question}
+        label="Enter your answer"
         value={value}
         onChange={onChange}
         variant="outlined"
@@ -44,9 +54,9 @@ const QuizTextAnswer = ({ question, value, correctValue, multiline, isSubmitting
       />
 
       {correctValue &&
-      <StyledTypography>
+      <TypographyTopSpaced variant="body1">
         <strong>Suggested answer:</strong> {correctValue}
-      </StyledTypography>
+      </TypographyTopSpaced>
       }
 
       {!correctValue && onSubmit &&
