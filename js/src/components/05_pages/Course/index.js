@@ -80,6 +80,7 @@ const Image = styled('img')({
 
 const Course = ({ node, width }) => {
   let firstLesson = null;
+
   if (node.modules.length > 0) {
     const module = node.modules.find(module => module.lessons.length > 0);
     if (module) {
@@ -90,16 +91,18 @@ const Course = ({ node, width }) => {
   return (
     <PageContainer>
       <Container maxWidth="lg">
-
         <StyledGridContainer container spacing={isWidthUp('sm', width) ? 2 : 0} alignItems="center">
           <Grid item md={5}>
             <BackButton title="Back to courses" href={getMenuPathByTitle('Courses')}/>
+
             {node.title &&
             <Typography component="h2" variant="h2">{node.title}</Typography>
             }
+
             {node.description &&
             <Box dangerouslySetInnerHTML={{__html: node.description}}/>
             }
+
             {firstLesson && firstLesson.path &&
             <Box mb={2} mt={2}>
               <Button
@@ -115,6 +118,7 @@ const Course = ({ node, width }) => {
             }
           </Grid>
           <Grid item md={2}/>
+
           <Grid item md={5}>
             {node.image && node.image.url &&
             <Hidden smDown>
@@ -127,20 +131,20 @@ const Course = ({ node, width }) => {
         <Typography component="h3" variant="h3" align="center">Course modules</Typography>
 
         <StyledGridContainer container spacing={isWidthUp('sm', width) ? 6 : 2}>
-          {node.modules.map(module => (
+          {node.modules.map(module => (module.nid && (
             <Grid item xs={12} md={6} key={module.id}>
               <Card>
                 <CardActionArea onClick={() => window.location.href = module.path}>
                   <StyledCardMedia image={module.image.url}>
                     <StyledShadowBox />
+
                     <StyledTypography component="h2" variant="h1">{module.title}</StyledTypography>
                   </StyledCardMedia>
                 </CardActionArea>
               </Card>
             </Grid>
-          ))}
+          )))}
         </StyledGridContainer>
-
       </Container>
     </PageContainer>
   );
