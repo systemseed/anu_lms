@@ -60,7 +60,7 @@ const Module = ({ node, width }) => {
 
         <StyledGridContainer container spacing={2}>
           <Grid item md={4} xs={12}>
-            {node.lessons && node.lessons.length > 0 &&
+            {(node.lessons.length > 0 || node.assessment) &&
             <>
               <Typography component="h4" variant="h4">Module content</Typography>
               <LessonList lessons={node.lessons} assessment={node.assessment} />

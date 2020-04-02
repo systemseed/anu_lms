@@ -72,7 +72,7 @@ const LessonSidebar = ({module}) => (
       </StyledCardMediaLink>
     </StyledCard>
 
-    {module.lessons.length > 0 &&
+    {(module.lessons.length > 0 || module.assessment) &&
     <Box>
       <StyledTypography>Module's content</StyledTypography>
       <LessonList lessons={module.lessons} assessment={module.assessment} fontSize="small" />
