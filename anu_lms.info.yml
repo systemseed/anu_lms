@@ -21,6 +21,7 @@ dependencies:
   - options
   - paragraphs
   - path
+  - prepopulate
   - rest_paragraphs_recursive
   - text
   - user

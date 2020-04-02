@@ -1,8 +1,6 @@
 import React from 'react';
 import { HashRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Heading from '../../01_atoms/Heading';
-import LessonGrid from '../../01_atoms/LessonGrid';
-import LessonNavigationButton from '../../01_atoms/LessonNavigationButton';
 import LessonSectionNavigation from '../../02_molecules/LessonSectionNavigation';
 import Paragraphs from '../../03_organisms/Paragraphs';
 import LessonPageTemplate from '../../04_templates/LessonPageTemplate';
@@ -42,7 +40,7 @@ class Lesson extends React.Component {
   }
 
   render() {
-    const { node, settings } = this.props;
+    const { node } = this.props;
     const { enableNext } = this.state;
     const assessment = node.module && node.module.assessment && node.module.assessment.id > 0
       ? node.module.assessment

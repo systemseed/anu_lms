@@ -1,6 +1,5 @@
 import React from 'react';
 import { withRouter } from 'react-router';
-import Grid from '@material-ui/core/Grid'
 import LessonNavigationButton from '../../01_atoms/LessonNavigationButton'
 import LessonGrid from '../../01_atoms/LessonGrid'
 
