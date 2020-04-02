@@ -44,45 +44,79 @@ export const getCourseList = () => {
   return anu_courses.map(course => getCourse(course));
 };
 
-const getGeneralNodeFields = node => ({
-  id: getNumberValue(node, 'nid'),
-  type: getTextValue(node, 'entity_bundle'),
-  title: getTextValue(node, 'title'),
-  path: getNodePath(node),
-});
+const getGeneralNodeFields = node => {
+  const isPublished = getBooleanValue(node, 'status');
 
-const getLesson = node => ({
-  ...getGeneralNodeFields(node),
-  ...getLessonFields(node)
-});
+  return {
+    id: getNumberValue(node, 'nid'),
+    type: getTextValue(node, 'entity_bundle'),
+    title: getTextValue(node, 'title') + (isPublished ? '' : ' [unpublished]'),
+    path: getNodePath(node),
+    isPublished,
+  }
+}
 
-const getAssessment = node => ({
-  ...getGeneralNodeFields(node),
-  ...getAssessmentFields(node),
-})
+const getLesson = node => {
+  const generalNodeFields = getGeneralNodeFields(node);
+  if (!generalNodeFields.id) {
+    return null;
+  }
 
-const getModule = node => ({
-  ...getGeneralNodeFields(node),
-  ...getModuleFields(node)
-});
+  return {
+    ...generalNodeFields,
+    ...getLessonFields(node)
+  }
+}
 
-const getCourse = node => ({
-  ...getGeneralNodeFields(node),
-  ...getCourseFields(node)
-});
+const getAssessment = node => {
+  const generalNodeFields = getGeneralNodeFields(node);
+  if (!generalNodeFields.id) {
+    return null;
+  }
+
+  return {
+    ...generalNodeFields,
+    ...getAssessmentFields(node)
+  }
+}
+
+const getModule = node => {
+  const generalNodeFields = getGeneralNodeFields(node);
+  if (!generalNodeFields.id) {
+    return null;
+  }
+
+  return {
+    ...generalNodeFields,
+    ...getModuleFields(node)
+  }
+}
+
+const getCourse = node => {
+  const generalNodeFields = getGeneralNodeFields(node);
+  if (!generalNodeFields.id) {
+    return null;
+  }
+
+  return {
+    ...generalNodeFields,
+    ...getCourseFields(node)
+  }
+}
 
 const getLessonFields = node => ({
   module: getLessonModule(node, 'field_module_lesson_module'),
   sections: getArrayValue(node, 'field_module_lesson_content')
     .map(section => {
-      const paragraphs = getArrayValue(section, 'field_lesson_section_content')
+      const paragraphs = getArrayValue(section, 'field_lesson_section_content').filter(Boolean)
       return getLessonParagraphs(paragraphs)
-    }),
+    })
+    .filter(Boolean),
 });
 
 const getAssessmentFields = node => ({
   module: getLessonModule(node, 'field_module_assessment_module'),
-  items: getLessonParagraphs(getArrayValue(node, 'field_module_assessment_items')),
+  items: getLessonParagraphs(getArrayValue(node, 'field_module_assessment_items')).filter(Boolean),
 });
 
 const getModuleFields = node => ({
@@ -90,7 +124,7 @@ const getModuleFields = node => ({
   image: getImage(node, 'field_module_image', 'module_preview'),
   course: getCourse(getObjectValue(node, 'field_module_course')),
   // TODO: Lessons might be loading too deeply. For performance reasons we may want to limit it.
-  lessons: getArrayValue(node, 'field_module_lessons').map(lesson => getLesson(lesson)),
+  lessons: getArrayValue(node, 'field_module_lessons').map(lesson => getLesson(lesson)).filter(Boolean),
   assessment: getAssessment(getObjectValue(node, 'field_module_assessment')),
 });
 
@@ -98,7 +132,7 @@ const getCourseFields = node => ({
   description: getTextValue(node, 'field_course_description'),
   image: getImage(node, 'field_course_image', 'course_preview'),
   // TODO: Modules might be loading too deeply. For performance reasons we may want to limit it.
-  modules: getArrayValue(node, 'field_course_modules').map(module => getModule(module))
+  modules: getArrayValue(node, 'field_course_modules').map(module => getModule(module)).filter(Boolean)
 });
 
 const getLessonModule = (node, field_name) => {
@@ -139,7 +173,7 @@ const getLessonParagraphs = paragraphs => {
           bundle,
           id: getNumberValue(paragraph, 'id'),
           type: getTextValue(paragraph, 'field_lesson_list_type'),
-          items: getArrayValue(paragraph, 'field_lesson_list_items').map(item => item && item.value)
+          items: getArrayValue(paragraph, 'field_lesson_list_items').map(item => item && item.value).filter(Boolean)
         }
 
       case 'lesson_image':
@@ -224,7 +258,7 @@ const getLessonParagraphs = paragraphs => {
             id: getTextValue(option, 'id'),
             value: getTextValue(option, 'field_single_multi_choice_value'),
             isCorrect: getBooleanValue(option, 'field_single_multi_choice_right'),
-          })),
+          })).filter(Boolean),
         }
 
       default:
