@@ -1,4 +1,5 @@
 import React from 'react';
+import 'babel-polyfill';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import GetApp from '@material-ui/icons/GetApp';
@@ -13,7 +14,7 @@ class DownloadCourse extends React.Component {
     this.handleDownload = this.handleDownload.bind(this);
   }
 
-  handleDownload() {
+  async handleDownload() {
     const { course } = this.props;
 
     this.setState({ loading: true });
@@ -23,9 +24,9 @@ class DownloadCourse extends React.Component {
     window.setTimeout(() => this.setState({ loading: false }), 2000);
 
 
-    // const request = new Request('/node/281');
-    // const aaa = await fetch(request, {mode: 'no-cors'});
-    // console.log('aaa', aaa);
+    const request = new Request('/node/281');
+    const aaa = await fetch(request, {mode: 'no-cors'});
+    console.log('aaa', aaa);
 
     // <script type="application\/json" data-drupal-selector="drupal-settings-json">(.*?)<\/script>
 
@@ -45,14 +46,14 @@ class DownloadCourse extends React.Component {
       const request = new Request(url);
       //const request = new Request('/node/' + url);
 
-      fetch(request, {mode: 'no-cors'})
+      fetch(request, { mode: 'no-cors' })
         .then(function (response) {
           //console.log(response);
           // Don't cache redirects or errors.
           if (response.ok) {
             const copy = response.clone();
 
-            console.log(response.text());
+            console.log('text', response.text());
             caches
               .open('pwa-main-8.x-1.3-v1')
               .then(function (cache) {
