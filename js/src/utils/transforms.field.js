@@ -122,6 +122,7 @@ const getImageAlt = (entity, fieldName) => {
 const getImage = (entity, fieldName, imageStyle = 'original') => ({
   url: getImageURL(entity, fieldName, imageStyle),
   alt: getImageAlt(entity, fieldName),
+  type: 'image',
 });
 
 /**
