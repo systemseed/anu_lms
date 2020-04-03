@@ -1,5 +1,5 @@
 import React from 'react';
-import 'babel-polyfill';
+import 'regenerator-runtime/runtime';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import GetApp from '@material-ui/icons/GetApp';
