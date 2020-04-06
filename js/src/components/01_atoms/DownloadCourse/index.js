@@ -193,7 +193,7 @@ class DownloadCourse extends React.Component {
           }
         </Button>
         {result && result === 'success' &&
-        <ResultMessage>Course has been successfully downloaded to your device!</ResultMessage>
+        <ResultMessage>Successfully downloaded to your device!</ResultMessage>
         }
         {result && result === 'error' &&
         <ResultMessage>Could not download the course. Please contact site administrator.</ResultMessage>
