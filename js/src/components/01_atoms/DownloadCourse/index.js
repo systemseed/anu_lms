@@ -1,5 +1,7 @@
 import React from 'react';
 import 'regenerator-runtime/runtime';
+import { getNode } from '../../../utils/node';
+import { getPwaSettings } from '../../../utils/settings';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import GetApp from '@material-ui/icons/GetApp';
@@ -12,63 +14,141 @@ class DownloadCourse extends React.Component {
       loading: false,
     };
     this.handleDownload = this.handleDownload.bind(this);
+    this.saveUrlToCache = this.saveUrlToCache.bind(this);
+    this.cacheLessonsAndReturnLessonImages = this.cacheLessonsAndReturnLessonImages.bind(this);
   }
 
   async handleDownload() {
     const { course } = this.props;
+    let urlsToCache = [];
 
+    // Indicate loading process.
     this.setState({ loading: true });
+    try {
+      // Cache some global pages.
+      urlsToCache.push('/');
+      urlsToCache.push('/courses');
 
-    // TODO - replace with API call & handling
-    console.log(course);
-    window.setTimeout(() => this.setState({ loading: false }), 2000);
+      // Cache Course data.
+      urlsToCache.push('/node/' + course.id);
+      if (course.image && course.image.url) {
+        urlsToCache.push(course.image.url);
+      }
 
+      // Prepare Module related urls to cache.
+      let lessonUrls = [];
+      const moduleUrls = course.modules.map((module) => {
+        const urls = [];
 
-    const request = new Request('/node/281');
-    const aaa = await fetch(request, {mode: 'no-cors'});
-    console.log('aaa', aaa);
+        // Cache Module data.
+        urls.push('/node/' + module.id);
+        if (module.image && module.image.url) {
+          urls.push(module.image.url);
+        }
 
-    // <script type="application\/json" data-drupal-selector="drupal-settings-json">(.*?)<\/script>
+        // Find Module's lessons and return as a result,
+        // they will be cached separately.
+        const moduleLessonUrls = module.lessons.map((lesson) => '/node/' + lesson.id);
+        lessonUrls = lessonUrls.concat(moduleLessonUrls);
 
-    const moduleIds = course.modules.map((module) => {
-      const ids = module.lessons.map((lesson) => lesson.id);
-      ids.push(module.assessment.id);
-      ids.push(module.id);
-      return ids;
-    });
+        // Add Module's assessment.
+        if (module.assessment && module.assessment.id) {
+          lessonUrls.push('/node/' + module.assessment.id);
+        }
 
-    moduleIds.push('/sites/default/files/styles/image_with_caption/public/2020-04/download.jpeg');
-    console.log(moduleIds);
+        return urls;
+      });
 
-    const courseContentIds = moduleIds.flat();
+      // Add Module data for caching.
+      urlsToCache = urlsToCache.concat(moduleUrls.flat());
 
-    courseContentIds.map((url) => {
+      // Cache lessons and returns list of lesson images (from paragraphs) to cache.
+      const lessonImageUrls = await this.cacheLessonsAndReturnLessonImages(lessonUrls);
+      urlsToCache = urlsToCache.concat(lessonImageUrls.flat());
+
+      // Save collected urls to cache.
+      await this.saveUrlToCache(urlsToCache);
+
+      // Updates loading status.
+      this.setState({ loading: false });
+    }
+    catch (error) {
+      // Updates loading status.
+      this.setState({ loading: false });
+      console.error('Could not download course content: ' + error);
+      alert('Could not download the course content. Please contact site administrator.');
+    }
+  };
+
+  /**
+   * Cache lessons and returns list of lesson images (from paragraphs) to cache.
+   */
+  async cacheLessonsAndReturnLessonImages(lessonUrls) {
+    return Promise.all(lessonUrls.map(async (url) => {
+      // Makes request to get lessons data.
       const request = new Request(url);
-      //const request = new Request('/node/' + url);
+      const response = await fetch(request, { mode: 'no-cors' });
+      const responseClone = response.clone();
 
-      fetch(request, { mode: 'no-cors' })
-        .then(function (response) {
-          //console.log(response);
-          // Don't cache redirects or errors.
-          if (response.ok) {
-            const copy = response.clone();
+      // Parse lesson content to get Lesson json data.
+      const responseContent = await response.text();
+      const regExpString = /<script type="application\/json" data-drupal-selector="drupal-settings-json">(.*?)<\/script>/g;
+      const regExpResult = regExpString.exec(responseContent);
+      const lessonJson = JSON.parse(regExpResult[1]);
 
-            console.log('text', response.text());
-            caches
-              .open('pwa-main-8.x-1.3-v1')
-              .then(function (cache) {
-                return cache.put(request, copy);
-              })
-              .catch(function (error) {
-                console.error("Error: ", error);
-              });
+      // Get Lesson object from page json data.
+      const lessonNode = getNode(lessonJson.node);
+
+      const paragraphUrls = [];
+      // Gather lesson images.
+      if (lessonNode.type === 'module_lesson') {
+        lessonNode.sections.map(section => {
+          section.map(paragraph => {
+
+            for (const [key, value] of Object.entries(paragraph)) {
+              if (typeof value === 'object' && value.type && value.type === 'image') {
+                paragraphUrls.push(value.url);
+              }
+            }
+          })
+        })
+      }
+      // Gather assessment images.
+      if (lessonNode.type === 'module_assessment') {
+        lessonNode.items.map(item => {
+          for (const [key, value] of Object.entries(item)) {
+            if (typeof value === 'object' && value.type && value.type === 'image') {
+              paragraphUrls.push(value.url);
+            }
           }
         })
-        .catch(function (error) {
-          console.error("PWA: Response not cacheable ", error);
-        });
-    });
-  };
+      }
+
+      // Put lesson to the pwa cache.
+      const cacheName = getPwaSettings().current_cache;
+      const cache = await caches.open(cacheName);
+      await cache.put(request, responseClone);
+
+      return paragraphUrls;
+    }));
+  }
+
+  /**
+   *
+   * @param urls
+   * @returns {Promise<[unknown, unknown, unknown, unknown, unknown, unknown, unknown, unknown, unknown, unknown]>}
+   */
+  async saveUrlToCache(urls) {
+    return Promise.all(urls.map(async (url) => {
+      const request = new Request(url);
+      const response = await fetch(request, { mode: 'no-cors' });
+      const responseClone = response.clone();
+
+      const cacheName = getPwaSettings().current_cache;
+      const cache = await caches.open(cacheName);
+      await cache.put(request, responseClone);
+    }));
+  }
 
   render() {
     const { loading } = this.state;
@@ -81,7 +161,7 @@ class DownloadCourse extends React.Component {
         onClick={this.handleDownload}
         disabled={loading}
       >
-        Download course2234
+        Download course
 
         {loading &&
         <CircularProgress

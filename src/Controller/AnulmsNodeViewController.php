@@ -83,6 +83,7 @@ class AnulmsNodeViewController extends NodeViewController {
     $build['#attached']['drupalSettings']['anu_settings'] = $this->anulmsSettings->getSettings();
     $build['#attached']['drupalSettings']['node'] = $this->normalizeNode($node, $context);
     $build['#attached']['drupalSettings']['anu_menu'] = $this->anulmsMenuHandler->getMenu();
+    $build['#attached']['drupalSettings']['pwa_settings'] = $this->anulmsSettings->getPwaSettings();
 
     $build['application'] = [
       '#type' => 'markup',

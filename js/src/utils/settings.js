@@ -14,3 +14,7 @@ export const getSettings = () => {
     logo: getImage(anu_settings, 'field_logo', 'logo'),
   }
 };
+
+export const getPwaSettings = () => {
+  return drupalSettings && drupalSettings.pwa_settings || null;
+};

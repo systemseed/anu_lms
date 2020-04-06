@@ -77,6 +77,7 @@ class CourseListController extends ControllerBase {
     $build['#attached']['drupalSettings']['anu_settings'] = $this->anulmsSettings->getSettings();
     $build['#attached']['drupalSettings']['anu_courses'] = $normalizedCourses;
     $build['#attached']['drupalSettings']['anu_menu'] = $this->anulmsMenuHandler->getMenu();
+    $build['#attached']['drupalSettings']['pwa_settings'] = $this->anulmsSettings->getPwaSettings();
 
     $build['application'] = [
       '#type' => 'markup',
