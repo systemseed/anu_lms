@@ -66,6 +66,10 @@ class Settings {
    * Code from /pwa/src/Controller/PWAController.php:151
    */
   public function getPwaSettings() {
+    if (!\Drupal::moduleHandler()->moduleExists('pwa')) {
+      return NULL;
+    }
+
     // Get module configuration.
     $config = \Drupal::config('pwa.config');
 
