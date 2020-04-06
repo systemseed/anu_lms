@@ -14,6 +14,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import Hidden from '@material-ui/core/Hidden';
 
+import { getPwaSettings } from '../../../utils/settings';
 import BackButton from '../../01_atoms/BackButton';
 import DownloadCourse from  '../../01_atoms/DownloadCourse';
 import PageContainer from '../../01_atoms/PageContainer';
@@ -91,6 +92,7 @@ const Image = styled('img')({
 
 const Course = ({ node, width }) => {
   let firstLesson = null;
+  const pwaSettings = getPwaSettings();
 
   if (node.modules.length > 0) {
     const module = node.modules.find(module => module.lessons.length > 0);
@@ -138,11 +140,13 @@ const Course = ({ node, width }) => {
             </Hidden>
             }
 
+            {pwaSettings &&
             <StyledBox display="flex">
               <Typography variant="body1">For learning offline</Typography>
 
-              <DownloadCourse course={node} />
+              <DownloadCourse course={node}/>
             </StyledBox>
+            }
           </Grid>
         </StyledGridContainer>
 
