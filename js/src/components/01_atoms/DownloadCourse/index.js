@@ -1,21 +1,34 @@
 import React from 'react';
 import 'regenerator-runtime/runtime';
-import { getNode } from '../../../utils/node';
-import { getPwaSettings } from '../../../utils/settings';
-import Button from '@material-ui/core/Button';
+import { Box, Button, withStyles } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import GetApp from '@material-ui/icons/GetApp';
+
+import { getPwaSettings } from '../../../utils/settings';
+import { getNode } from '../../../utils/node';
+
+const ResultMessage = withStyles(theme => ({
+  root: {
+    position: 'absolute',
+    fontSize: '0.8em',
+    marginTop: '4px',
+    maxWidth: '200px',
+    textAlign: 'center',
+  }
+}))(Box);
 
 class DownloadCourse extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      result: null,
       loading: false,
     };
     this.handleDownload = this.handleDownload.bind(this);
     this.saveUrlToCache = this.saveUrlToCache.bind(this);
     this.cacheLessonsAndReturnLessonImages = this.cacheLessonsAndReturnLessonImages.bind(this);
+    this.getParagraphImagesFromContent = this.getParagraphImagesFromContent.bind(this);
   }
 
   async handleDownload() {
@@ -70,13 +83,12 @@ class DownloadCourse extends React.Component {
       await this.saveUrlToCache(urlsToCache);
 
       // Updates loading status.
-      this.setState({ loading: false });
+      this.setState({ loading: false, result: 'success' });
     }
     catch (error) {
       // Updates loading status.
-      this.setState({ loading: false });
+      this.setState({ loading: false, result: 'error' });
       console.error('Could not download course content: ' + error);
-      alert('Could not download the course content. Please contact site administrator.');
     }
   };
 
@@ -92,58 +104,67 @@ class DownloadCourse extends React.Component {
 
       // Parse lesson content to get Lesson json data.
       const responseContent = await response.text();
-      const regExpString = /<script type="application\/json" data-drupal-selector="drupal-settings-json">(.*?)<\/script>/g;
-      const regExpResult = regExpString.exec(responseContent);
-      const lessonJson = JSON.parse(regExpResult[1]);
-
-      // Get Lesson object from page json data.
-      const lessonNode = getNode(lessonJson.node);
-
-      const paragraphUrls = [];
-      // Gather lesson images.
-      if (lessonNode.type === 'module_lesson') {
-        lessonNode.sections.map(section => {
-          section.map(paragraph => {
-
-            for (const [key, value] of Object.entries(paragraph)) {
-              if (typeof value === 'object' && value.type && value.type === 'image') {
-                paragraphUrls.push(value.url);
-              }
-            }
-          })
-        })
-      }
-      // Gather assessment images.
-      if (lessonNode.type === 'module_assessment') {
-        lessonNode.items.map(item => {
-          for (const [key, value] of Object.entries(item)) {
-            if (typeof value === 'object' && value.type && value.type === 'image') {
-              paragraphUrls.push(value.url);
-            }
-          }
-        })
-      }
+      const paragraphUrls = this.getParagraphImagesFromContent(responseContent);
 
       // Put lesson to the pwa cache.
       const cacheName = getPwaSettings().current_cache;
       const cache = await caches.open(cacheName);
       await cache.put(request, responseClone);
 
+      // Returns parsed lesson paragraph urls.
       return paragraphUrls;
     }));
   }
 
   /**
-   *
-   * @param urls
-   * @returns {Promise<[unknown, unknown, unknown, unknown, unknown, unknown, unknown, unknown, unknown, unknown]>}
+   * Parses lesson content to get list of paragraph image urls.
+   */
+  getParagraphImagesFromContent(pageContent) {
+    const regExpString = /<script type="application\/json" data-drupal-selector="drupal-settings-json">(.*?)<\/script>/g;
+    const regExpResult = regExpString.exec(pageContent);
+    const lessonJson = JSON.parse(regExpResult[1]);
+
+    // Get Lesson object from page json data.
+    const lessonNode = getNode(lessonJson.node);
+
+    const paragraphUrls = [];
+    // Gather lesson images.
+    if (lessonNode.type === 'module_lesson') {
+      lessonNode.sections.map(section => {
+        section.map(paragraph => {
+
+          for (const [key, value] of Object.entries(paragraph)) {
+            if (typeof value === 'object' && value.type && value.type === 'image') {
+              paragraphUrls.push(value.url);
+            }
+          }
+        })
+      })
+    }
+    // Gather assessment images.
+    if (lessonNode.type === 'module_assessment') {
+      lessonNode.items.map(item => {
+        for (const [key, value] of Object.entries(item)) {
+          if (typeof value === 'object' && value.type && value.type === 'image') {
+            paragraphUrls.push(value.url);
+          }
+        }
+      })
+    }
+    return paragraphUrls;
+  }
+
+  /**
+   * Save passed urls to the pwa cache.
    */
   async saveUrlToCache(urls) {
     return Promise.all(urls.map(async (url) => {
+      // Makes request to get data.
       const request = new Request(url);
       const response = await fetch(request, { mode: 'no-cors' });
       const responseClone = response.clone();
 
+      // Put response to the pwa cache.
       const cacheName = getPwaSettings().current_cache;
       const cache = await caches.open(cacheName);
       await cache.put(request, responseClone);
@@ -151,25 +172,33 @@ class DownloadCourse extends React.Component {
   }
 
   render() {
-    const { loading } = this.state;
+    const { loading, result } = this.state;
 
     return (
-      <Button
-        variant="outlined"
-        color="primary"
-        startIcon={<GetApp />}
-        onClick={this.handleDownload}
-        disabled={loading}
-      >
-        Download course
+      <div>
+        <Button
+          variant="outlined"
+          color="primary"
+          startIcon={<GetApp />}
+          onClick={this.handleDownload}
+          disabled={loading}
+        >
+          Download course
 
-        {loading &&
-        <CircularProgress
-          size={24}
-          style={{ position: 'absolute' }}
-        />
+          {loading &&
+          <CircularProgress
+            size={24}
+            style={{ position: 'absolute' }}
+          />
+          }
+        </Button>
+        {result && result === 'success' &&
+        <ResultMessage>Course has been successfully downloaded to your device!</ResultMessage>
         }
-      </Button>
+        {result && result === 'error' &&
+        <ResultMessage>Could not download the course. Please contact site administrator.</ResultMessage>
+        }
+      </div>
     )
   }
 }
