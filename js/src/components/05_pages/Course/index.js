@@ -67,9 +67,15 @@ const StyledBox = withStyles(theme => ({
   root: {
     marginTop: theme.spacing(2),
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
   }
 }))(Box);
+
+const OfflineStyledTypography = withStyles(theme => ({
+  root: {
+    marginRight: theme.spacing(2),
+  }
+}))(Typography);
 
 const StyledTypography = withStyles(theme => ({
   root: {
@@ -142,7 +148,7 @@ const Course = ({ node, width }) => {
 
             {pwaSettings &&
             <StyledBox display="flex">
-              <Typography variant="body1">For learning offline</Typography>
+              <OfflineStyledTypography variant="body1">For learning offline</OfflineStyledTypography>
 
               <DownloadCourse course={node}/>
             </StyledBox>
