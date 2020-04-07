@@ -56,7 +56,6 @@ class CourseListController extends ControllerBase {
   public function build() {
     $courses = \Drupal::entityQuery('node')
       ->condition('type', 'course')
-      ->condition('status', NodeInterface::PUBLISHED)
       ->sort('created')
       ->execute();
 
