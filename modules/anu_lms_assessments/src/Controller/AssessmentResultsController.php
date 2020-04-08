@@ -2,10 +2,10 @@
 
 namespace Drupal\anu_lms_assessments\Controller;
 
-use Drupal\anu_lms_assessments\Entity\AssessmentQuestionInterface;
 use Drupal\anu_lms_assessments\Entity\AssessmentResultInterface;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\node\NodeInterface;
 
 
@@ -46,14 +46,13 @@ class AssessmentResultsController extends ControllerBase {
     return $build;
   }
 
-  public function checkAccess(NodeInterface $node) {
+  public function checkAccess(NodeInterface $node, AccountInterface $account) {
     if (empty($node) || $node->bundle() !== 'module_assessment') {
       return AccessResult::forbidden();
     }
 
-    $access_control_handler = $this->entityTypeManager()->getAccessControlHandler('node');
     // TODO: Separate access to view the results?
-    return $access_control_handler->access($node, 'update', NULL, TRUE);
+    return AccessResult::allowedIfHasPermission($account, 'administer assessment question result entities');
   }
 
 }
