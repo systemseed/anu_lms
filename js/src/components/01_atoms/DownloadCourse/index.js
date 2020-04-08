@@ -10,10 +10,11 @@ import { getNode } from '../../../utils/node';
 const ResultMessage = withStyles(theme => ({
   root: {
     position: 'absolute',
-    fontSize: '0.8em',
+    fontSize: '0.7em',
     marginTop: '4px',
     maxWidth: '200px',
     textAlign: 'center',
+    color: '#ffab00',
   }
 }))(Box);
 
