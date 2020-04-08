@@ -19,8 +19,6 @@ class Application extends React.Component {
     this.node = getCurrentNode();
     this.courses = getCourseList();
     this.settings = getSettings();
-
-    console.log(this.node);
   }
 
   render() {

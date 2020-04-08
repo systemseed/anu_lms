@@ -13,8 +13,12 @@ import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import Hidden from '@material-ui/core/Hidden';
+
+import { getPwaSettings } from '../../../utils/settings';
 import BackButton from '../../01_atoms/BackButton';
+import DownloadCourse from  '../../01_atoms/DownloadCourse';
 import PageContainer from '../../01_atoms/PageContainer';
+
 import { getMenuPathByTitle } from '../../../utils/menu';
 
 const StyledGridContainer = withStyles(theme => ({
@@ -59,6 +63,20 @@ const StyledShadowBox = withStyles(theme => ({
   }
 }))(Box);
 
+const StyledBox = withStyles(theme => ({
+  root: {
+    marginTop: theme.spacing(2),
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
+}))(Box);
+
+const OfflineStyledTypography = withStyles(theme => ({
+  root: {
+    marginRight: theme.spacing(2),
+  }
+}))(Typography);
+
 const StyledTypography = withStyles(theme => ({
   root: {
     color: 'white',
@@ -80,6 +98,7 @@ const Image = styled('img')({
 
 const Course = ({ node, width }) => {
   let firstLesson = null;
+  const pwaSettings = getPwaSettings();
 
   if (node.modules.length > 0) {
     const module = node.modules.find(module => module.lessons.length > 0);
@@ -117,6 +136,7 @@ const Course = ({ node, width }) => {
             </Box>
             }
           </Grid>
+
           <Grid item md={2}/>
 
           <Grid item md={5}>
@@ -124,6 +144,14 @@ const Course = ({ node, width }) => {
             <Hidden smDown>
               <Image src={node.image.url} alt={node.title}/>
             </Hidden>
+            }
+
+            {pwaSettings &&
+            <StyledBox display="flex">
+              <OfflineStyledTypography variant="body1">For learning offline</OfflineStyledTypography>
+
+              <DownloadCourse course={node}/>
+            </StyledBox>
             }
           </Grid>
         </StyledGridContainer>

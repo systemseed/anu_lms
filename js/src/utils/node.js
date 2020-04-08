@@ -14,6 +14,10 @@ export const getCurrentNode = () => {
   }
   const { node } = drupalSettings;
 
+  return getNode(node);
+};
+
+export const getNode = (node) => {
   const bundle = getTextValue(node, 'entity_bundle');
   if (bundle === 'module_lesson') {
     return getLesson(node);

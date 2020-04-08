@@ -60,4 +60,32 @@ class Settings {
     return $this->serializer->normalize($entity, 'json_recursive', $context);
   }
 
+  /**
+   * Returns Pwa settings.
+   *
+   * Code from /pwa/src/Controller/PWAController.php:151
+   */
+  public function getPwaSettings() {
+    if (!\Drupal::moduleHandler()->moduleExists('pwa')) {
+      return NULL;
+    }
+
+    // Get module configuration.
+    $config = \Drupal::config('pwa.config');
+
+    // Look up module release from package info.
+    $pwa_module_info = system_get_info('module', 'pwa');
+    $pwa_module_version = $pwa_module_info['version'];
+
+    // Packaging script will always provide the published module version. Checking
+    // for NULL is only so maintainers have something predictable to test against.
+    if ($pwa_module_version == null) {
+      $pwa_module_version = '8.x-1.x-dev';
+    }
+
+    return [
+      'current_cache' => 'pwa-main-' . $pwa_module_version . '-v' . ($config->get('cache_version') ?: 1),
+    ];
+  }
+
 }
