@@ -2,6 +2,7 @@ import {
   getArrayValue,
   getBooleanValue,
   getImage,
+  getLinkURL,
   getNodePath,
   getNumberValue,
   getObjectValue,
@@ -217,6 +218,13 @@ const getLessonParagraphs = paragraphs => {
           id: getNumberValue(paragraph, 'id'),
           type: getTextValue(paragraph, 'field_lesson_divider_type'),
           counter: getTextValue(paragraph, 'field_lesson_divider_type') === 'numeric' ? dividerCounter++ : 0,
+        }
+
+      case 'lesson_embedded_video':
+        return {
+          bundle,
+          id: getNumberValue(paragraph, 'id'),
+          url: getLinkURL(paragraph, 'field_lesson_embedded_video_url'),
         }
 
       case 'question_short_answer':

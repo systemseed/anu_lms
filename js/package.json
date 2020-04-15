@@ -9,6 +9,7 @@
     "@material-ui/icons": "^4.9.1",
     "axios": "^0.19.2",
     "he": "^1.2.0",
+    "react-player": "^1.15.3",
     "react-redux": "^7.2.0",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",

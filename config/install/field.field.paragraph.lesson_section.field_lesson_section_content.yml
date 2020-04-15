@@ -4,6 +4,7 @@ dependencies:
   config:
     - field.storage.paragraph.field_lesson_section_content
     - paragraphs.paragraphs_type.lesson_divider
+    - paragraphs.paragraphs_type.lesson_embedded_video
     - paragraphs.paragraphs_type.lesson_heading
     - paragraphs.paragraphs_type.lesson_highlight
     - paragraphs.paragraphs_type.lesson_image
@@ -41,6 +42,7 @@ settings:
       lesson_image_wide: lesson_image_wide
       lesson_highlight: lesson_highlight
       lesson_divider: lesson_divider
+      lesson_embedded_video: lesson_embedded_video
       lesson_image_thumbnail: lesson_image_thumbnail
       question_long_answer: question_long_answer
       question_short_answer: question_short_answer
@@ -72,6 +74,9 @@ settings:
       lesson_divider:
         enabled: true
         weight: -12
+      lesson_embedded_video:
+        enabled: true
+        weight: 18
       lesson_image_thumbnail:
         enabled: true
         weight: 20

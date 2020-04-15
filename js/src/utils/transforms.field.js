@@ -126,6 +126,18 @@ const getImage = (entity, fieldName, imageStyle = 'original') => ({
 });
 
 /**
+ * Returns value of the URL field.
+ */
+const getLinkURL = (entity, fieldName) => {
+  const field = getObjectValue(entity, fieldName);
+  if (!field) {
+    return '';
+  }
+
+  return field.uri ? field.uri : '';
+}
+
+/**
  * Return properly file URL from the file field.
  */
 const getFileURL = (entity, fieldName) => {
@@ -191,6 +203,7 @@ export {
   getImageURL,
   getImageAlt,
   getImage,
+  getLinkURL,
   getFileURL,
   getFileMime,
   getFileSize,
