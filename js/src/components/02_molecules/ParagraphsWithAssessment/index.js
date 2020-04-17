@@ -2,13 +2,14 @@ import React from 'react';
 import axios from 'axios';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import QuizTextAnswerAssessmentAdapter from '../../02_molecules/QuizTextAnswerAssessmentAdapter';
-import QuizScaleAssessmentAdapter from '../../02_molecules/QuizScaleAssessmentAdapter';
-import QuizOptionsAssessmentAdapter from '../../02_molecules/QuizOptionsAssessmentAdapter';
+
 import paragraphsMapping from '../../../utils/paragraphsMapping';
 import LessonGrid from '../../01_atoms/LessonGrid';
+import QuizSubmit from '../../01_atoms/QuizSubmit';
 import LessonNavigationButton from '../../01_atoms/LessonNavigationButton';
+import QuizTextAnswerAssessmentAdapter from '../QuizTextAnswerAssessmentAdapter';
+import QuizScaleAssessmentAdapter from '../QuizScaleAssessmentAdapter';
+import QuizOptionsAssessmentAdapter from '../QuizOptionsAssessmentAdapter';
 
 const paragraphs = {
   ...paragraphsMapping,
@@ -20,7 +21,6 @@ const paragraphs = {
 };
 
 class ParagraphsWithAssessments extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -78,7 +78,7 @@ class ParagraphsWithAssessments extends React.Component {
       });
   }
 
-  render () {
+  render() {
     const { items, node } = this.props;
     const { assessmentData, correctValues, correctValuesCount, isSubmitting } = this.state;
 
@@ -94,14 +94,17 @@ class ParagraphsWithAssessments extends React.Component {
         // Quiz paragraph receives some extra props to handle widget's behavior.
         const value = paragraph.aqid in assessmentData ? assessmentData[paragraph.aqid] : null;
         const correctValue = correctValues && paragraph.aqid in correctValues ? correctValues[paragraph.aqid] : null;
-        return <Component
-          key={paragraph.id}
-          {...paragraph}
-          value={value}
-          onChange={value => this.handleChange(value, paragraph.aqid)}
-          correctValue={correctValue}
-          isSubmitting={isSubmitting}
-        />
+
+        return (
+          <Component
+            key={paragraph.id}
+            {...paragraph}
+            value={value}
+            onChange={value => this.handleChange(value, paragraph.aqid)}
+            correctValue={correctValue}
+            isSubmitting={isSubmitting}
+          />
+        );
       }
       return null;
     });
@@ -110,24 +113,26 @@ class ParagraphsWithAssessments extends React.Component {
       <>
         {paragraphsRendered}
         <LessonGrid>
-          {correctValues && correctValuesCount !== -1 &&
-          <Typography variant="h3">You scored {correctValuesCount} out of {Object.keys(correctValues).length}</Typography>
-          }
-          {!correctValues &&
-          <LessonNavigationButton onClick={this.handleSubmit} disabled={isSubmitting}>
-            {isSubmitting &&
-            <><CircularProgress color="inherit" size={24}/>&nbsp;&nbsp;&nbsp;&nbsp;</>
-            }
-            Submit quiz
-          </LessonNavigationButton>
-          }
-          {node.module && node.module.course &&
-          <Box mt={4}>
-            <LessonNavigationButton href={node.module.course.path} variant={correctValues ? "contained" : "outlined"}>
-              Back to the course
-            </LessonNavigationButton>
-          </Box>
-          }
+          {correctValues && correctValuesCount !== -1 && (
+            <Typography variant="h3">
+              You scored {correctValuesCount} out of {Object.keys(correctValues).length}
+            </Typography>
+          )}
+
+          {!correctValues && (
+            <QuizSubmit onSubmit={this.handleSubmit} isSubmitting={isSubmitting} isQuiz />
+          )}
+
+          {node.module && node.module.course && (
+            <Box mt={4}>
+              <LessonNavigationButton
+                href={node.module.course.path}
+                variant={correctValues ? "contained" : "outlined"}
+              >
+                Back to the course
+              </LessonNavigationButton>
+            </Box>
+          )}
         </LessonGrid>
       </>
     );

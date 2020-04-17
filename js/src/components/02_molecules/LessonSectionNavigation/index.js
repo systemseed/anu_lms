@@ -15,50 +15,54 @@ class LessonSectionNavigation extends React.Component {
 
     return (
       <Detector
-        render={({ online }) => (
-          <LessonGrid>
-            {typeof lesson.sections[currentIndex + 1] !== 'undefined' && (
-              <LessonNavigationButton
-                disabled={!!online || !isEnabled}
-                onClick={() => history.push({ pathname: `/section-${currentIndex + 2}` })}
-              >
-                {!isEnabled
-                ? 'You must complete all answers to proceed'
-                : 'Next'
-                }
-              </LessonNavigationButton>
-            )}
+        render={({ online }) => {
+          const disabled = !online ? false : !isEnabled;
 
-            {typeof lesson.sections[currentIndex + 1] === 'undefined'
-            && nextLesson
-            && (
-              <LessonNavigationButton
-                disabled={!!online || !isEnabled}
-                href={nextLesson.path}
-              >
-                {!isEnabled
-                ? 'You must complete all answers to proceed'
-                : 'Go to next lesson'
-                }
-              </LessonNavigationButton>
-            )}
+          return (
+            <LessonGrid>
+              {typeof lesson.sections[currentIndex + 1] !== 'undefined' && (
+                <LessonNavigationButton
+                  disabled={disabled}
+                  onClick={() => history.push({ pathname: `/section-${currentIndex + 2}` })}
+                >
+                  {disabled
+                  ? 'You must complete all answers to proceed'
+                  : 'Next'
+                  }
+                </LessonNavigationButton>
+              )}
 
-            {typeof lesson.sections[currentIndex + 1] === 'undefined'
-            && !nextLesson
-            && assessment
-            && (
-              <LessonNavigationButton
-                disabled={!!online || !isEnabled}
-                href={assessment.path}
-              >
-                {!isEnabled
-                ? 'You must complete all answers to proceed'
-                : 'Go to the module quiz'
-                }
-              </LessonNavigationButton>
-            )}
-          </LessonGrid>
-        )}
+              {typeof lesson.sections[currentIndex + 1] === 'undefined'
+              && nextLesson
+              && (
+                <LessonNavigationButton
+                  disabled={disabled}
+                  href={nextLesson.path}
+                >
+                  {disabled
+                  ? 'You must complete all answers to proceed'
+                  : 'Go to next lesson'
+                  }
+                </LessonNavigationButton>
+              )}
+
+              {typeof lesson.sections[currentIndex + 1] === 'undefined'
+              && !nextLesson
+              && assessment
+              && (
+                <LessonNavigationButton
+                  disabled={disabled}
+                  href={assessment.path}
+                >
+                  {disabled
+                  ? 'You must complete all answers to proceed'
+                  : 'Go to the module quiz'
+                  }
+                </LessonNavigationButton>
+              )}
+            </LessonGrid>
+          );
+        }}
       />
     );
   }
