@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.lesson_embedded_video.field_lesson_embedded_video_url
+    - paragraphs.paragraphs_type.lesson_embedded_video
+  module:
+    - link
+id: paragraph.lesson_embedded_video.default
+targetEntityType: paragraph
+bundle: lesson_embedded_video
+mode: default
+content:
+  field_lesson_embedded_video_url:
+    weight: 0
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+hidden: {  }
