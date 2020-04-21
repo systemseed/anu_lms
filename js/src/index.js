@@ -10,7 +10,8 @@ import theme from './theme';
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <CssBaseline />
+
     <Application />
   </ThemeProvider>,
-  document.querySelector('#anu-lms'),
+  document.querySelector('#anu-lms')
 );

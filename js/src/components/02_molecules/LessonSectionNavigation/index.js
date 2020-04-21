@@ -1,69 +1,70 @@
 import React from 'react';
 import { withRouter } from 'react-router';
-import LessonNavigationButton from '../../01_atoms/LessonNavigationButton'
-import LessonGrid from '../../01_atoms/LessonGrid'
+import { Detector } from 'react-detect-offline';
+
+import LessonNavigationButton from '../../01_atoms/LessonNavigationButton';
+import LessonGrid from '../../01_atoms/LessonGrid';
 
 class LessonSectionNavigation extends React.Component {
-  componentDidMount () {
+  componentDidMount() {
     window.scrollTo(0, 0);
   }
 
   render() {
-    const {
-      lesson,
-      assessment,
-      nextLesson,
-      currentIndex,
-      history,
-      isEnabled
-    } = this.props;
+    const { lesson, assessment, nextLesson, currentIndex, history, isEnabled } = this.props;
 
     return (
-      <LessonGrid>
-        {typeof lesson.sections[currentIndex + 1] !== 'undefined' &&
-          <LessonNavigationButton
-            disabled={!isEnabled}
-            onClick={
-              () => history.push({pathname: `/section-${currentIndex + 2}`})
-            }
-          >
-            {!isEnabled
-            ? 'You must complete all answers to proceed'
-            : 'Next'
-            }
-          </LessonNavigationButton>
-        }
+      <Detector
+        render={({ online }) => {
+          const disabled = !online ? false : !isEnabled;
 
-        {typeof lesson.sections[currentIndex + 1] === 'undefined'
-        && nextLesson
-        && (
-          <LessonNavigationButton
-            disabled={!isEnabled}
-            href={nextLesson.path}
-          >
-            {!isEnabled
-            ? 'You must complete all answers to proceed'
-            : 'Go to next lesson'
-            }
-          </LessonNavigationButton>
-        )}
+          return (
+            <LessonGrid>
+              {typeof lesson.sections[currentIndex + 1] !== 'undefined' && (
+                <LessonNavigationButton
+                  disabled={disabled}
+                  onClick={() => history.push({ pathname: `/section-${currentIndex + 2}` })}
+                >
+                  {disabled
+                  ? 'You must complete all answers to proceed'
+                  : 'Next'
+                  }
+                </LessonNavigationButton>
+              )}
 
-        {typeof lesson.sections[currentIndex + 1] === 'undefined'
-        && !nextLesson
-        && assessment
-        && (
-          <LessonNavigationButton
-            disabled={!isEnabled}
-            href={assessment.path}
-          >
-            {!isEnabled
-            ? 'You must complete all answers to proceed'
-            : 'Go to the module quiz'
-            }
-          </LessonNavigationButton>
-        )}
-      </LessonGrid>
-    )
+              {typeof lesson.sections[currentIndex + 1] === 'undefined'
+              && nextLesson
+              && (
+                <LessonNavigationButton
+                  disabled={disabled}
+                  href={nextLesson.path}
+                >
+                  {disabled
+                  ? 'You must complete all answers to proceed'
+                  : 'Go to next lesson'
+                  }
+                </LessonNavigationButton>
+              )}
+
+              {typeof lesson.sections[currentIndex + 1] === 'undefined'
+              && !nextLesson
+              && assessment
+              && (
+                <LessonNavigationButton
+                  disabled={disabled}
+                  href={assessment.path}
+                >
+                  {disabled
+                  ? 'You must complete all answers to proceed'
+                  : 'Go to the module quiz'
+                  }
+                </LessonNavigationButton>
+              )}
+            </LessonGrid>
+          );
+        }}
+      />
+    );
   }
 }
 
