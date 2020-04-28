@@ -38,7 +38,7 @@ class AnulmsMenuHandler {
   public function getPrimaryMenu() {
     $items = [];
 
-    $this->addMenuItem($items, 'Home', '/');
+    $this->addMenuItem($items, 'Home',  Url::fromRoute('<front>')->toString());
 
     // Add the link to the courses page only in case if the home page url is not
     // set to have the same url as courses list page.
