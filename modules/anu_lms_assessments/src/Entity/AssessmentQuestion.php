@@ -151,6 +151,7 @@ class AssessmentQuestion extends EditorialContentEntityBase implements Assessmen
         'max_length' => 512,
         'text_processing' => 0,
       ])
+      ->setTranslatable(TRUE)
       ->setDefaultValue('')
       ->setDisplayOptions('view', [
         'label' => 'above',
