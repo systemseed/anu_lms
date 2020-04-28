@@ -76,6 +76,9 @@ class CourseListController extends ControllerBase {
     $build['#attached']['drupalSettings']['anu_settings'] = $this->anulmsSettings->getSettings();
     $build['#attached']['drupalSettings']['anu_courses'] = $normalizedCourses;
     $build['#attached']['drupalSettings']['anu_menu'] = $this->anulmsMenuHandler->getMenu();
+    if (\Drupal::moduleHandler()->moduleExists('language')) {
+      $build['#attached']['drupalSettings']['language'] = $this->anulmsSettings->getLanguageSettings();
+    }
     if (\Drupal::moduleHandler()->moduleExists('pwa')) {
       $build['#attached']['drupalSettings']['pwa_settings'] = $this->anulmsSettings->getPwaSettings();
     }
