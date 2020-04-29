@@ -7,6 +7,8 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import Application from './Application';
 import theme from './theme';
 
+import './i18n';
+
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <CssBaseline />

@@ -74,7 +74,7 @@ const LessonSidebar = ({module}) => (
 
     {(module.lessons.length > 0 || module.assessment) &&
     <Box>
-      <StyledTypography>Module's content</StyledTypography>
+      <StyledTypography>Module content</StyledTypography>
       <LessonList lessons={module.lessons} assessment={module.assessment} fontSize="small" />
     </Box>
     }
