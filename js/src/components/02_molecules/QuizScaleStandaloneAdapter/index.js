@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import QuizScale from '../../01_atoms/QuizScale';
+import { getLanguageSettings } from '../../../utils/settings';
 
 class QuizScaleStandaloneAdapter extends React.Component {
 
@@ -32,13 +33,17 @@ class QuizScaleStandaloneAdapter extends React.Component {
       correctValue: null,
     });
 
+    // Use current language in post request.
+    const languageSettings = getLanguageSettings();
+    const languagePrefix = languageSettings ? '/' + languageSettings.current_language : '';
+
     axios
       .get('/session/token')
       .then(({ data }) => {
         axios.defaults.headers.common['X-CSRF-Token'] = data;
         axios.defaults.headers.post['Content-Type'] = 'application/json';
         axios
-          .post('/assessments/question', {
+          .post(languagePrefix + '/assessments/question', {
             questionId: aqid,
             value
           })

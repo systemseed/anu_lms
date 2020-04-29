@@ -18,3 +18,7 @@ export const getSettings = () => {
 export const getPwaSettings = () => {
   return drupalSettings && drupalSettings.pwa_settings || null;
 };
+
+export const getLanguageSettings = () => {
+  return drupalSettings && drupalSettings.language || null;
+};
