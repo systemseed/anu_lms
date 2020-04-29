@@ -2,35 +2,35 @@ export const getMenu = () => {
   return drupalSettings && drupalSettings.anu_menu || null;
 }
 
-export const getMenuIconByTitle = menuTitle => {
+export const getMenuIconById = id => {
   const icons = {
-    'Home': 'home',
-    'Courses': 'dashboard',
-    'Add module': 'post_add',
-    'Add lesson': 'post_add',
-    'Add quiz': 'post_add',
-    'Edit course': 'edit',
-    'Edit module': 'edit',
-    'Edit lesson': 'edit',
-    'Edit quiz': 'edit',
-    'Results': 'assignment',
-    'Profile': 'account_circle',
-    'Organization': 'group',
-    'Organizations': 'group',
-    'Login': 'exit_to_app',
-    'Logout': 'exit_to_app', // Can't believe MUI does not have a proper logout icon...
+    'home': 'home',
+    'courses': 'dashboard',
+    'add-module': 'post_add',
+    'add-lesson': 'post_add',
+    'add-quiz': 'post_add',
+    'edit-course': 'edit',
+    'edit-module': 'edit',
+    'edit-lesson': 'edit',
+    'edit-quiz': 'edit',
+    'results': 'assignment',
+    'profile': 'account_circle',
+    'organization': 'group',
+    'organizations': 'group',
+    'login': 'exit_to_app',
+    'logout': 'exit_to_app', // Can't believe MUI does not have a proper logout icon...
   };
 
-  return menuTitle in icons ? icons[menuTitle] : '';
+  return id in icons ? icons[id] : '';
 }
 
-export const getMenuPathByTitle = menuTitle => {
+export const getMenuPathById = id => {
   const menu = getMenu();
   if (!menu) {
     return '';
   }
 
   const flatMenu = [...menu.primary, ...menu.secondary];
-  const item = flatMenu.find(item => item.title === menuTitle);
+  const item = flatMenu.find(item => item.id === id);
   return item ? item.url : '/';
 }
