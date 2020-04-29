@@ -8,6 +8,10 @@ const customizedTheme = createMuiTheme({
     primary: {
       main: '#4698c9',
     },
+    secondary: {
+      main: '#3E3E3E',
+      dark: '#2E2E2E',
+    },
   },
   typography: {
     fontFamily: 'Lato, Roboto, Arial',
@@ -19,7 +23,7 @@ const customizedTheme = createMuiTheme({
       [theme.breakpoints.up('sm')]: {
         marginBottom: '1em',
         fontSize: '2.5em',
-      }
+      },
     },
     h2: {
       fontSize: '1.25em',
@@ -28,7 +32,7 @@ const customizedTheme = createMuiTheme({
       [theme.breakpoints.up('sm')]: {
         marginBottom: '1em',
         fontSize: '2em',
-      }
+      },
     },
     h3: {
       fontSize: '1.125em',
@@ -37,7 +41,7 @@ const customizedTheme = createMuiTheme({
       [theme.breakpoints.up('sm')]: {
         marginBottom: '1em',
         fontSize: '1.75em',
-      }
+      },
     },
     h4: {
       fontSize: '1em',
@@ -46,7 +50,7 @@ const customizedTheme = createMuiTheme({
       [theme.breakpoints.up('sm')]: {
         marginBottom: '1em',
         fontSize: '1.5em',
-      }
+      },
     },
     h5: {
       fontSize: '0.875em',
@@ -55,7 +59,7 @@ const customizedTheme = createMuiTheme({
       [theme.breakpoints.up('sm')]: {
         marginBottom: '1em',
         fontSize: '1.25em',
-      }
+      },
     },
     h6: {
       fontSize: '0.75em',
@@ -64,14 +68,14 @@ const customizedTheme = createMuiTheme({
       [theme.breakpoints.up('sm')]: {
         marginBottom: '1em',
         fontSize: '1em',
-      }
+      },
     },
     button: {
       fontWeight: 700,
     },
     body2: {
       fontSize: '1rem',
-    }
+    },
   },
   overrides: {
     MuiFormControlLabel: {

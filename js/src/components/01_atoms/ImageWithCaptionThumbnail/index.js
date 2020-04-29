@@ -21,7 +21,7 @@ const StyledImg = styled('img')({
 
 const StyledTypography = withStyles(theme => ({
   root: {
-    color: '#3E3E3E',
+    color: theme.palette.secondary.main,
     marginTop: theme.spacing(2),
     [theme.breakpoints.up('sm')]: {
       marginTop: 0,
