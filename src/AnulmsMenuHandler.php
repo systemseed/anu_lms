@@ -57,7 +57,11 @@ class AnulmsMenuHandler {
     // If the current page is a node page and the current user has permissions
     // to edit it, show appropriate link.
     $node = $this->currentRouteMatch->getParameter('node');
+    $url_options = ['language' => \Drupal::languageManager()->getCurrentLanguage()];
+
     if (!empty($node) && $node instanceof NodeInterface) {
+      $node = \Drupal::service('entity.repository')
+        ->getTranslationFromContext($node);
 
       // If the current user can update the node show appropriate link.
       if ($node->access('update')) {
@@ -68,7 +72,7 @@ class AnulmsMenuHandler {
           'module_assessment' => $this->t('Edit quiz'),
         ];
 
-        $this->addMenuItem($items, $names[$node->bundle()], $node->toUrl('edit-form')->toString());
+        $this->addMenuItem($items, $names[$node->bundle()], $node->toUrl('edit-form', $url_options)->toString());
       }
 
       if ($node->bundle() == 'course') {
@@ -114,7 +118,7 @@ class AnulmsMenuHandler {
     // Menu for authenticated user.
     if ($this->currentUser->isAuthenticated()) {
       $user = User::load($this->currentUser->id());
-      $this->addMenuItem($items, 'Profile', $user->toUrl('edit-form')->toString());
+      $this->addMenuItem($items, 'Profile', $user->toUrl('edit-form', $url_options)->toString());
 
       $user_logout_url = Url::fromRoute('user.logout')->toString();
       $this->addMenuItem($items, $this->t('Logout'), $user_logout_url);
