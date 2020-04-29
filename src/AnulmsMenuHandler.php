@@ -118,7 +118,7 @@ class AnulmsMenuHandler {
     // Menu for authenticated user.
     if ($this->currentUser->isAuthenticated()) {
       $user = User::load($this->currentUser->id());
-      $this->addMenuItem($items, 'Profile', $user->toUrl('edit-form', $url_options)->toString());
+      $this->addMenuItem($items, $this->t('Profile'), $user->toUrl('edit-form', $url_options)->toString());
 
       $user_logout_url = Url::fromRoute('user.logout')->toString();
       $this->addMenuItem($items, $this->t('Logout'), $user_logout_url);
