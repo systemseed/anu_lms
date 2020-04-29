@@ -4,6 +4,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 
 import paragraphsMapping from '../../../utils/paragraphsMapping';
+import { getLanguageSettings } from '../../../utils/settings';
 import LessonGrid from '../../01_atoms/LessonGrid';
 import QuizSubmit from '../../01_atoms/QuizSubmit';
 import LessonNavigationButton from '../../01_atoms/LessonNavigationButton';
@@ -53,13 +54,17 @@ class ParagraphsWithAssessments extends React.Component {
       correctValues: null,
     });
 
+    // Use current language in post request.
+    const languageSettings = getLanguageSettings();
+    const languagePrefix = languageSettings ? '/' + languageSettings.current_language : '';
+
     axios
       .get('/session/token')
       .then(({ data }) => {
         axios.defaults.headers.common['X-CSRF-Token'] = data;
         axios.defaults.headers.post['Content-Type'] = 'application/json';
         axios
-          .post('/assessments/assessment', {
+          .post(languagePrefix + '/assessments/assessment', {
             nid: node.id,
             data: assessmentData,
           })

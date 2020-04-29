@@ -46,7 +46,7 @@ class AssessmentQuestionSettingsForm extends FormBase {
    *   Form definition array.
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $form['assessmentquestion_settings']['#markup'] = 'Settings form for Question entities. Manage field settings here.';
+    $form['assessmentquestion_settings']['#markup'] = t('Settings form for Question entities. Manage field settings here.');
     return $form;
   }
 

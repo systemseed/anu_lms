@@ -5,6 +5,8 @@
  * Contains assessments.module.
  */
 
+use Drupal\Core\Render\Element;
+
 /**
  * Implements hook_views_data_alter().
  */
@@ -82,4 +84,22 @@ function anu_lms_assessments_theme_suggestions_assessment_question_result(array 
   $suggestions[] = 'assessment_question_result__' . $entity->id();
   $suggestions[] = 'assessment_question_result__' . $entity->id() . '__' . $sanitized_view_mode;
   return $suggestions;
+}
+
+/**
+ * Workaround to show translatable fields inside nested paragraphs.
+ *
+ * @param $entity_form
+ *   Nested array of form elements that comprise the entity form.
+ * @param $form_state
+ *   The form state of the parent form.
+ */
+function anu_lms_assessments_inline_entity_form_entity_form_alter(&$entity_form, &$form_state) {
+  $children = Element::children($entity_form);
+
+  foreach ($children as $field_name) {
+    if (!empty($entity_form[$field_name]['#multilingual']) && $entity_form[$field_name]['#multilingual']) {
+      $entity_form[$field_name]['#access'] = true;
+    }
+  }
 }

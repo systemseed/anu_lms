@@ -60,6 +60,9 @@ class AssessmentRestResource extends ResourceBase {
         ->getStorage('assessment_question')
         ->load($question_id);
 
+      $question = \Drupal::service('entity.repository')
+        ->getTranslationFromContext($question);
+
       $question_result = \Drupal::entityTypeManager()
         ->getStorage('assessment_question_result')
         ->create([
