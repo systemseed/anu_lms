@@ -19,7 +19,7 @@ import BackButton from '../../01_atoms/BackButton';
 import DownloadCourse from  '../../01_atoms/DownloadCourse';
 import PageContainer from '../../01_atoms/PageContainer';
 
-import { getMenuPathByTitle } from '../../../utils/menu';
+import { getMenuPathById } from '../../../utils/menu';
 
 const StyledGridContainer = withStyles(theme => ({
   root: {
@@ -112,7 +112,7 @@ const Course = ({ node, width }) => {
       <Container maxWidth="lg">
         <StyledGridContainer container spacing={isWidthUp('sm', width) ? 2 : 0} alignItems="center">
           <Grid item md={5}>
-            <BackButton title="Back to courses" href={getMenuPathByTitle('Courses')}/>
+            <BackButton title="Back to courses" href={getMenuPathById('courses')}/>
 
             {node.title &&
             <Typography component="h2" variant="h2">{node.title}</Typography>

@@ -9,7 +9,7 @@ import { withStyles, makeStyles, styled } from '@material-ui/core/styles';
 import { Icon, Link } from '@material-ui/core';
 import { getCurrentNode } from '../../../utils/node';
 import * as lessonActions from '../../../redux/actions/lesson';
-import { getMenu, getMenuIconByTitle } from '../../../utils/menu';
+import { getMenu, getMenuIconById } from '../../../utils/menu';
 
 const ButtonRaw = ({ isActive, ...props }) => (
   <Button {...props} />
@@ -129,7 +129,7 @@ const Header = ({
           {/* Render primary menu of the site */}
           {menu && menu.primary && menu.primary.map(menuItem => (
             <StyledButton
-              startIcon={<StyledIcon fontSize="large">{getMenuIconByTitle(menuItem.title)}</StyledIcon>}
+              startIcon={<StyledIcon fontSize="large">{getMenuIconById(menuItem.id)}</StyledIcon>}
               href={menuItem.url}
               isActive={window.location.pathname === menuItem.url}
               key={menuItem.url}
@@ -157,7 +157,7 @@ const Header = ({
           {/* Render secondary menu of the site */}
           {menu && menu.secondary && menu.secondary.map(menuItem => (
             <StyledButton
-              startIcon={<StyledIcon fontSize="large">{getMenuIconByTitle(menuItem.title)}</StyledIcon>}
+              startIcon={<StyledIcon fontSize="large">{getMenuIconById(menuItem.id)}</StyledIcon>}
               href={menuItem.url}
               isActive={window.location.pathname === menuItem.url}
               key={menuItem.url}
