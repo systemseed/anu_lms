@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import { Detector } from 'react-detect-offline';
+import { withTranslation } from 'react-i18next';
 
 import LessonNavigationButton from '../../01_atoms/LessonNavigationButton';
 import LessonGrid from '../../01_atoms/LessonGrid';
@@ -11,7 +12,15 @@ class LessonSectionNavigation extends React.Component {
   }
 
   render() {
-    const { lesson, assessment, nextLesson, currentIndex, history, isEnabled } = this.props;
+    const {
+      t,
+      lesson,
+      assessment,
+      nextLesson,
+      currentIndex,
+      history,
+      isEnabled,
+    } = this.props;
 
     return (
       <Detector
@@ -26,8 +35,8 @@ class LessonSectionNavigation extends React.Component {
                   onClick={() => history.push({ pathname: `/section-${currentIndex + 2}` })}
                 >
                   {disabled
-                  ? 'You must complete all answers to proceed'
-                  : 'Next'
+                  ? t('You must complete all answers to proceed')
+                  : t('Next')
                   }
                 </LessonNavigationButton>
               )}
@@ -40,26 +49,27 @@ class LessonSectionNavigation extends React.Component {
                   href={nextLesson.path}
                 >
                   {disabled
-                  ? 'You must complete all answers to proceed'
-                  : 'Go to next lesson'
+                  ? t('You must complete all answers to proceed')
+                  : t('Go to next lesson')
                   }
                 </LessonNavigationButton>
               )}
 
               {typeof lesson.sections[currentIndex + 1] === 'undefined'
-              && !nextLesson
-              && assessment
-              && (
-                <LessonNavigationButton
-                  disabled={disabled}
-                  href={assessment.path}
-                >
-                  {disabled
-                  ? 'You must complete all answers to proceed'
-                  : 'Go to the module quiz'
-                  }
-                </LessonNavigationButton>
-              )}
+                && !nextLesson
+                && assessment
+                && (
+                  <LessonNavigationButton
+                    disabled={disabled}
+                    href={assessment.path}
+                  >
+                    {disabled
+                    ? t('You must complete all answers to proceed')
+                    : t('Go to the module quiz')
+                    }
+                  </LessonNavigationButton>
+                )
+              }
             </LessonGrid>
           );
         }}
@@ -68,4 +78,4 @@ class LessonSectionNavigation extends React.Component {
   }
 }
 
-export default withRouter(LessonSectionNavigation);
+export default withRouter(withTranslation()(LessonSectionNavigation));

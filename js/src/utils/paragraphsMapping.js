@@ -18,4 +18,4 @@ export default {
   lesson_highlight: TextHighlighted,
   lesson_divider: Divider,
   lesson_embedded_video: EmbeddedVideo,
-}
+};

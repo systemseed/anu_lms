@@ -22,5 +22,13 @@
   "Module content": "Module content [TI-ET]",
   "For learning offline": "For learning offline [TI-ET]",
   "Download course": "Download course [TI-ET]",
-  "Course modules": "Course modules [TI-ET]"
+  "Course modules": "Course modules [TI-ET]",
+  "Successfully downloaded to your device!": "Successfully downloaded to your device! [TI-ET]",
+  "Could not download the course. Please contact site administrator.": "Could not download the course. Please contact site administrator. [TI-ET]",
+  "Start Module": "Start Module [TI-ET]",
+  "Back to Modules": "Back to Modules [TI-ET]",
+  "Submit quiz": "Submit quiz [TI-ET]",
+  "Submit answer": "Submit answer [TI-ET]",
+  "You cannot submit quizzes while offline.": "You cannot submit quizzes while offline. [TI-ET]",
+  "You cannot submit answers while offline.": "You cannot submit answers while offline. [TI-ET]"
 }

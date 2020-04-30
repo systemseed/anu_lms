@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withTranslation } from 'react-i18next';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -112,6 +113,7 @@ const StyledAppBar = ({ children, ...props }) => {
 };
 
 const Header = ({
+  t,
   settings,
   width,
   dispatch,
@@ -157,7 +159,7 @@ const Header = ({
                 onClick={() => isWidthUp('sm', width) ? dispatch(lessonActions.toggleSidebarOnDesktop()) : dispatch(lessonActions.toggleSidebarOnMobile())}
                 isActive={isWidthUp('sm', width) ? isLessonSidebarVisibleOnDesktop : isLessonSidebarVisibleOnMobile}
               >
-                {isWidthUp('sm', width) && 'Contents'}
+                {isWidthUp('sm', width) && t('Contents')}
               </StyledButton>
             )}
 
@@ -193,4 +195,4 @@ const mapStateToProps = ({ lesson }) => ({
   isLessonSidebarVisibleOnMobile: lesson.isSidebarVisibleOnMobile,
 });
 
-export default connect(mapStateToProps)(withWidth()(Header));
+export default connect(mapStateToProps)(withWidth()(withTranslation()(Header)));

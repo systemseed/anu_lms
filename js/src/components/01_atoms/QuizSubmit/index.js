@@ -1,5 +1,6 @@
 import React from 'react';
 import { Detector } from 'react-detect-offline';
+import { withTranslation } from 'react-i18next';
 
 import { withStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
@@ -20,7 +21,7 @@ const StyledCircularProgress = withStyles(theme => ({
   },
 }))(CircularProgress);
 
-const QuizSubmit = ({ onSubmit, isSubmitting, isQuiz }) => {
+const QuizSubmit = ({ t, onSubmit, isSubmitting, isQuiz }) => {
   const ButtonComp = isQuiz ? LessonNavigationButton : StyledButton;
 
   return (
@@ -34,12 +35,14 @@ const QuizSubmit = ({ onSubmit, isSubmitting, isQuiz }) => {
           >
             {isSubmitting && <StyledCircularProgress size={20} />}
 
-            Submit {isQuiz ? 'quiz' : 'answer'}
+            {isQuiz ? t('Submit quiz') : t('Submit answer')}
           </ButtonComp>
 
           {!online && (
             <Typography variant="subtitle1">
-              You cannot submit {isQuiz ? 'quizzes' : 'answers'} while offline.
+              {isQuiz
+                ? t('You cannot submit quizzes while offline.')
+                : t('You cannot submit answers while offline.')}
             </Typography>
           )}
         </>
@@ -48,4 +51,4 @@ const QuizSubmit = ({ onSubmit, isSubmitting, isQuiz }) => {
   );
 };
 
-export default QuizSubmit;
+export default withTranslation()(QuizSubmit);

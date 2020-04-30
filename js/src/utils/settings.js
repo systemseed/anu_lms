@@ -2,6 +2,7 @@ import { getImage, getTextValue } from './transforms.field';
 
 export const getSettings = () => {
   const { anu_settings } = drupalSettings;
+
   if (!anu_settings) {
     return [];
   }
