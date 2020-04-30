@@ -11,9 +11,11 @@ import { withStyles, makeStyles, styled } from '@material-ui/core/styles';
 import { Icon, Link } from '@material-ui/core';
 
 import LanguageSwitcher from '../../02_molecules/LanguageSwitcher';
-import { getCurrentNode } from '../../../utils/node';
+
 import * as lessonActions from '../../../redux/actions/lesson';
+import { getCurrentNode } from '../../../utils/node';
 import { getMenu, getMenuIconById } from '../../../utils/menu';
+import { getLangCodePrefix } from '../../../utils/settings';
 
 const ButtonRaw = ({ isActive, ...props }) => <Button {...props} />;
 
@@ -130,7 +132,7 @@ const Header = ({
       <StyledAppBar position="sticky">
         <StyledToolbar disableGutters>
           {settings.logo && settings.logo.url && (
-            <StyledLink href="/">
+            <StyledLink href={getLangCodePrefix()}>
               <StyledImg src={settings.logo.url} alt={settings.logo.alt} />
             </StyledLink>
           )}
@@ -141,7 +143,7 @@ const Header = ({
               <StyledButton
                 startIcon={(
                   <StyledIcon fontSize="large">
-                    {getMenuIconById(menuItem.title)}
+                    {getMenuIconById(menuItem.id)}
                   </StyledIcon>
                 )}
                 href={menuItem.url}
@@ -173,7 +175,7 @@ const Header = ({
               <StyledButton
                 startIcon={(
                   <StyledIcon fontSize="large">
-                    {getMenuIconById(menuItem.title)}
+                    {getMenuIconById(menuItem.id)}
                   </StyledIcon>
                 )}
                 href={menuItem.url}

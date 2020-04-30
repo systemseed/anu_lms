@@ -89,12 +89,13 @@ const getImageURL = (entity, fieldName, imageStyle = 'original') => {
     return '';
   }
 
-  const image_styles = getObjectValue(field, 'image_styles');
-  if (!(image_styles && imageStyle in image_styles)) {
+  const imageStyles = getObjectValue(field, 'image_styles');
+
+  if (!(imageStyles && imageStyle in imageStyles)) {
     return '';
   }
 
-  return image_styles[imageStyle];
+  return imageStyles[imageStyle];
 };
 
 /**
@@ -186,11 +187,13 @@ const getNodePath = node => {
   const nid = getNumberValue(node, 'nid');
   const path = getObjectValue(node, 'path');
   const unaliasedPath = `/node/${nid}`;
+
   if (!(path && path.alias)) {
     return unaliasedPath;
   }
+
   return path.alias;
-}
+};
 
 // The export is done this way so that node.js can also
 // require these functions.

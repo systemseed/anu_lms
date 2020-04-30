@@ -6,6 +6,8 @@ import { withTranslation } from 'react-i18next';
 import LessonNavigationButton from '../../01_atoms/LessonNavigationButton';
 import LessonGrid from '../../01_atoms/LessonGrid';
 
+import { getLangCodePrefix } from '../../../utils/settings';
+
 class LessonSectionNavigation extends React.Component {
   componentDidMount() {
     window.scrollTo(0, 0);
@@ -35,8 +37,8 @@ class LessonSectionNavigation extends React.Component {
                   onClick={() => history.push({ pathname: `/section-${currentIndex + 2}` })}
                 >
                   {disabled
-                  ? t('You must complete all answers to proceed')
-                  : t('Next')
+                    ? t('You must complete all answers to proceed')
+                    : t('Next')
                   }
                 </LessonNavigationButton>
               )}
@@ -46,11 +48,11 @@ class LessonSectionNavigation extends React.Component {
               && (
                 <LessonNavigationButton
                   disabled={disabled}
-                  href={nextLesson.path}
+                  href={`${getLangCodePrefix()}${nextLesson.path}`}
                 >
                   {disabled
-                  ? t('You must complete all answers to proceed')
-                  : t('Go to next lesson')
+                    ? t('You must complete all answers to proceed')
+                    : t('Go to next lesson')
                   }
                 </LessonNavigationButton>
               )}
@@ -61,11 +63,11 @@ class LessonSectionNavigation extends React.Component {
                 && (
                   <LessonNavigationButton
                     disabled={disabled}
-                    href={assessment.path}
+                    href={`${getLangCodePrefix()}${assessment.path}`}
                   >
                     {disabled
-                    ? t('You must complete all answers to proceed')
-                    : t('Go to the module quiz')
+                      ? t('You must complete all answers to proceed')
+                      : t('Go to the module quiz')
                     }
                   </LessonNavigationButton>
                 )

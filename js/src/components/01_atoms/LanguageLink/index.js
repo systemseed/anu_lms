@@ -4,12 +4,16 @@ import PropTypes from 'prop-types';
 import Link from '@material-ui/core/Link';
 import { withStyles } from '@material-ui/core';
 
-const StyledLink = withStyles({
+const StyledLink = withStyles(theme => ({
   root: {
     fontWeight: ({ active }) => (active ? 700 : 400),
     opacity: ({ active }) => (active ? 1 : 0.7),
-  }
-})(Link);
+    marginRight: theme.spacing(3),
+    '&:last-child': {
+      marginRight: 0,
+    },
+  },
+}))(Link);
 
 const LanguageLink = ({ isActive, label, url, color }) => (
   <StyledLink

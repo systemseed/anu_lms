@@ -13,14 +13,10 @@ export const getSettings = () => {
   };
 };
 
-export const getPwaSettings = () => {
-  return (drupalSettings && drupalSettings.pwa_settings) || null;
-};
+export const getPwaSettings = () => (drupalSettings && drupalSettings.pwa_settings) || null;
 
-export const getLanguageSettings = () => {
-  return (drupalSettings && drupalSettings.language) || null;
-};
+export const getLanguageSettings = () => (drupalSettings && drupalSettings.language) || null;
 
-export const getLangCode = () => {
-  return getLanguageSettings() && getLanguageSettings().current_language;
-};
+export const getLangCode = () => getLanguageSettings() && getLanguageSettings().current_language;
+
+export const getLangCodePrefix = () => (getLangCode() ? `/${getLangCode()}` : '');

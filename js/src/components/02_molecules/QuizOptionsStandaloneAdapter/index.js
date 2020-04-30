@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import QuizOptions from '../../01_atoms/QuizOptions';
-import { getLanguageSettings } from '../../../utils/settings';
+import { getLangCodePrefix } from '../../../utils/settings';
 
 class QuizOptionsStandaloneAdapter extends React.Component {
   constructor(props) {
@@ -29,6 +29,7 @@ class QuizOptionsStandaloneAdapter extends React.Component {
     });
 
     let formatterValue;
+
     if (bundle === 'question_single_choice') {
       formatterValue = Number.parseInt(value);
     }
@@ -41,27 +42,23 @@ class QuizOptionsStandaloneAdapter extends React.Component {
       }
     }
 
-    // Use current language in post request.
-    const languageSettings = getLanguageSettings();
-    const languagePrefix = languageSettings ? '/' + languageSettings.current_language : '';
-
     axios
       .get('/session/token')
       .then(({ data }) => {
         axios.defaults.headers.common['X-CSRF-Token'] = data;
         axios.defaults.headers.post['Content-Type'] = 'application/json';
         axios
-          .post(languagePrefix + '/assessments/question', {
+          .post(`${getLangCodePrefix()}/assessments/question`, {
             questionId: aqid,
             value: formatterValue,
           })
-          .then(({ data }) => {
-            this.setState({ correctValue: data.correctAnswer });
+          .then(({ data: response }) => {
+            this.setState({ correctValue: response.correctAnswer });
             // MCQ has been answered, fire callback for Lesson page validation.
             onChange(true);
           })
           .catch(error => {
-            console.log('Could not send quiz data: ' + error);
+            console.log(`Could not send quiz data: ${error}`);
           })
           .finally(() => {
             this.setState({ isSubmitting: false });

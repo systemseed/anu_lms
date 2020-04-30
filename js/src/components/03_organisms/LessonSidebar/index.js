@@ -6,6 +6,8 @@ import CardMedia from '@material-ui/core/CardMedia';
 
 import LessonList from '../../01_atoms/LessonList';
 
+import { getLangCodePrefix } from '../../../utils/settings';
+
 const StyledCard = withStyles({
   root: {
     borderRadius: 0,
@@ -66,11 +68,13 @@ const StyledTypography = withStyles(theme => ({
 const LessonSidebar = ({ t, module }) => (
   <Box>
     <StyledCard>
-      <StyledCardMediaLink href={module.path}>
+      <StyledCardMediaLink href={`${getLangCodePrefix()}${module.path}`}>
         <StyledCardMedia image={module.image.url} title={module.title}>
           <StyledCardMediaOverlay/>
 
-          <StyledCardMediaTypography>{module.title}</StyledCardMediaTypography>
+          <StyledCardMediaTypography>
+            {module.title}
+          </StyledCardMediaTypography>
         </StyledCardMedia>
       </StyledCardMediaLink>
     </StyledCard>

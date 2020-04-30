@@ -17,12 +17,12 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import Hidden from '@material-ui/core/Hidden';
 
-import { getPwaSettings } from '../../../utils/settings';
 import BackButton from '../../01_atoms/BackButton';
 import DownloadCourse from '../../01_atoms/DownloadCourse';
 import PageContainer from '../../01_atoms/PageContainer';
 
 import { getMenuPathById } from '../../../utils/menu';
+import { getPwaSettings, getLangCodePrefix } from '../../../utils/settings';
 
 const StyledGridContainer = withStyles(theme => ({
   root: {
@@ -114,7 +114,11 @@ const Course = ({ t, node, width }) => {
   return (
     <PageContainer>
       <Container maxWidth="lg">
-        <StyledGridContainer container spacing={isWidthUp('sm', width) ? 2 : 0} alignItems="center">
+        <StyledGridContainer
+          container
+          spacing={isWidthUp('sm', width) ? 2 : 0}
+          alignItems="center"
+        >
           <Grid item md={5}>
             <BackButton
               title={t('Back to Courses')}
@@ -132,7 +136,7 @@ const Course = ({ t, node, width }) => {
             {firstLesson && firstLesson.path && (
               <Box mb={2} mt={2}>
                 <Button
-                  href={firstLesson.path}
+                  href={`${getLangCodePrefix()}${firstLesson.path}`}
                   variant="contained"
                   color="primary"
                   size="large"
@@ -144,7 +148,7 @@ const Course = ({ t, node, width }) => {
             )}
           </Grid>
 
-          <Grid item md={2}/>
+          <Grid item md={2} />
 
           <Grid item md={5}>
             {node.image && node.image.url && (
@@ -173,7 +177,11 @@ const Course = ({ t, node, width }) => {
           {node.modules.map(module => (module.title && (
             <Grid item xs={12} md={6} key={module.id}>
               <Card>
-                <CardActionArea onClick={() => window.location.href = module.path}>
+                <CardActionArea
+                  onClick={() => (
+                    window.location.href = `${getLangCodePrefix()}${module.path}`
+                  )}
+                >
                   <StyledCardMedia image={module.image.url}>
                     <StyledShadowBox />
 

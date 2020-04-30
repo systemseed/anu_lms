@@ -16,6 +16,8 @@ import LessonList from '../../01_atoms/LessonList';
 import BackButton from '../../01_atoms/BackButton';
 import PageContainer from '../../01_atoms/PageContainer';
 
+import { getLangCodePrefix } from '../../../utils/settings';
+
 const StyledGridContainer = withStyles(theme => ({
   root: {
     paddingTop: theme.spacing(2),
@@ -43,7 +45,12 @@ const Module = ({ t, node, width }) => {
       <Container maxWidth="lg">
         <StyledGridContainer container spacing={2} alignItems="center">
           <Grid item md={4}>
-            {node.course && <BackButton title={t('Back to Modules')} href={node.course.path} />}
+            {node.course &&
+              <BackButton
+                title={t('Back to Modules')}
+                href={`${getLangCodePrefix()}${node.course.path}`}
+              />
+            }
 
             {node.title && (
               <Typography component="h2" variant="h2">
@@ -52,7 +59,12 @@ const Module = ({ t, node, width }) => {
             )}
 
             {firstLesson && firstLesson.path && isWidthUp('sm', width) && (
-              <Button href={firstLesson.path} variant="contained" color="primary" size="large">
+              <Button
+                href={`${getLangCodePrefix()}${firstLesson.path}`}
+                variant="contained"
+                color="primary"
+                size="large"
+              >
                 {t('Start Module')}
               </Button>
             )}
@@ -61,11 +73,13 @@ const Module = ({ t, node, width }) => {
           <Grid item md={2} />
 
           <Grid item md={6}>
-            {node.image && node.image.url && <Image src={node.image.url} alt={node.title} />}
+            {node.image && node.image.url && (
+              <Image src={node.image.url} alt={node.title} />
+            )}
 
             {firstLesson && firstLesson.path && !isWidthUp('sm', width) && (
               <Button
-                href={firstLesson.path}
+                href={`${getLangCodePrefix()}${firstLesson.path}`}
                 variant="contained"
                 color="primary"
                 size="large"

@@ -13,7 +13,7 @@ import 'regenerator-runtime/runtime';
 const ResultMessage = withStyles({
   root: {
     position: 'absolute',
-    fontSize: '0.7em',
+    fontSize: '0.8em',
     marginTop: '4px',
     maxWidth: '200px',
     textAlign: 'center',
@@ -195,11 +195,13 @@ class DownloadCourse extends React.Component {
 
           {loading && <CircularProgress size={24} style={{ position: 'absolute' }} />}
         </Button>
+
         {result && result === 'success' && (
           <ResultMessage>
             {t('Successfully downloaded to your device!')}
           </ResultMessage>
         )}
+
         {result && result === 'error' && (
           <ResultMessage>
             {t('Could not download the course. Please contact site administrator.')}

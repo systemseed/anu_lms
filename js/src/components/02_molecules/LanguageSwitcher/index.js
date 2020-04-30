@@ -5,44 +5,49 @@ import Container from '@material-ui/core/Container';
 import { withStyles } from '@material-ui/core/styles';
 
 import LanguageLink from '../../01_atoms/LanguageLink';
-import { getLanguageSettings } from '../../../utils/settings';
+import { getLanguageSettings, getLangCode } from '../../../utils/settings';
 
-const StyledContainer = withStyles(theme => ({
+const StyledBox = withStyles(theme => ({
   root: {
-    display: 'flex',
-    flexDirection: 'row-reverse',
     backgroundColor: theme.palette.secondary.dark,
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
   },
-}))(Container);
+}))(Box);
+
+const StyledContainer = withStyles({
+  root: {
+    display: 'flex',
+    flexDirection: 'row-reverse',
+  },
+})(Container);
 
 const LanguageSwitcher = () => {
   const langSettings = getLanguageSettings();
-  const curentLang = langSettings && langSettings.current_language;
   const languages = langSettings
     && langSettings.links
     && Object.keys(langSettings.links).map(code => ({
       code,
-      ...langSettings.links[code]
+      ...langSettings.links[code],
     }));
   const orderedLanguages = languages.sort((a, b) => a.weight - b.weight);
 
   return (
     languages && (
-      <StyledContainer>
-        <Box display="flex">
-          {orderedLanguages.map(lang => (
-            <Box ml={3}>
+      <StyledBox>
+        <StyledContainer>
+          <Box display="flex">
+            {orderedLanguages.map(lang => (
               <LanguageLink
-                isActive={curentLang === lang.code}
+                key={lang.code}
+                isActive={getLangCode() === lang.code}
                 label={lang.title}
                 url={lang.url}
               />
-            </Box>
-          ))}
-        </Box>
-      </StyledContainer>
+            ))}
+          </Box>
+        </StyledContainer>
+      </StyledBox>
     )
   );
 };
