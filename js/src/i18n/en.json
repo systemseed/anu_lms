@@ -32,5 +32,7 @@
   "You cannot submit quizzes while offline.": "You cannot submit quizzes while offline.",
   "You cannot submit answers while offline.": "You cannot submit answers while offline.",
   "assessmentScore": "You scored {{correctValuesCount}} out of {{totalValuesCount}}.",
-  "Back to the course": "Back to the course"
+  "Back to the course": "Back to the course",
+  "Enter your answer": "Enter your answer",
+  "Suggested answer:": "Suggested answer:"
 }
