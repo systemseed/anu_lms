@@ -34,5 +34,5 @@
   "assessmentScore": "You scored {{correctValuesCount}} out of {{totalValuesCount}}. [ES]",
   "Back to the course": "Back to the course [ES]",
   "Enter your answer": "Enter your answer [ES]",
-  "Suggested answer:": "Suggested answer: [ES]"
+  "Suggested answer": "Suggested answer: [ES]"
 }

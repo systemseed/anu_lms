@@ -34,5 +34,5 @@
   "assessmentScore": "You scored {{correctValuesCount}} out of {{totalValuesCount}}. [TI-ET]",
   "Back to the course": "Back to the course [TI-ET]",
   "Enter your answer": "Enter your answer [TI-ET]",
-  "Suggested answer:": "Suggested answer: [TI-ET]"
+  "Suggested answer": "Suggested answer: [TI-ET]"
 }

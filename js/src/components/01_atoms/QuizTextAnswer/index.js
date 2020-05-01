@@ -60,7 +60,7 @@ const QuizTextAnswer = ({
 
       {correctValue && (
         <TypographyTopSpaced variant="body1">
-          <strong>{t('Suggested answer:')}</strong> {correctValue}
+          <strong>{t('Suggested answer')}</strong> {correctValue}
         </TypographyTopSpaced>
       )}
 
