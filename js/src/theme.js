@@ -1,9 +1,24 @@
 import { createMuiTheme } from '@material-ui/core/styles';
+import { getDirection } from './i18n';
 
 const theme = createMuiTheme();
 
+/**
+ * Returns the appropriate Material Icon names affected by RTL displays.
+ */
+export const getRTLIcon = type => {
+  const lookup = {
+    arrow_back: {
+      rtl: 'arrow_forward',
+      ltr: 'arrow_back',
+    },
+  };
+
+  return lookup[type] ? lookup[type][getDirection()] : null;
+};
+
 const customizedTheme = createMuiTheme({
-  direction: 'ltr',
+  direction: getDirection(),
   palette: {
     primary: {
       main: '#4698c9',

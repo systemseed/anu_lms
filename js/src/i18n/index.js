@@ -35,7 +35,9 @@ i18n
     keySeparator: false,
     interpolation: {
       escapeValue: false,
-    }
+    },
   });
 
 export default i18n;
+
+export const getDirection = () => i18n.dir();
