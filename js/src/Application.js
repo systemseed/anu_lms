@@ -1,6 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+
 import Header from './components/03_organisms/Header';
 import Lesson from './components/05_pages/Lesson';
 import Module from './components/05_pages/Module';

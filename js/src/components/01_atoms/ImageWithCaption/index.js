@@ -18,11 +18,11 @@ const StyledImg = styled('img')({
   display: 'block',
 });
 
-const StyledTypography = withStyles({
+const StyledTypography = withStyles(theme => ({
   root: {
-    color: '#3E3E3E'
+    color: theme.palette.secondary.main,
   }
-})(Typography);
+}))(Typography);
 
 const ImageWithCaption = ({ image, caption }) => (
   <StyledBox>

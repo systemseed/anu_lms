@@ -1,10 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 import QuizScale from '../../01_atoms/QuizScale';
-import { getLanguageSettings } from '../../../utils/settings';
+import { getLangCodePrefix } from '../../../utils/settings';
 
 class QuizScaleStandaloneAdapter extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -28,14 +27,11 @@ class QuizScaleStandaloneAdapter extends React.Component {
   onSubmit() {
     const { aqid } = this.props;
     const { value } = this.state;
+
     this.setState({
       isSubmitting: true,
       correctValue: null,
     });
-
-    // Use current language in post request.
-    const languageSettings = getLanguageSettings();
-    const languagePrefix = languageSettings ? '/' + languageSettings.current_language : '';
 
     axios
       .get('/session/token')
@@ -43,15 +39,15 @@ class QuizScaleStandaloneAdapter extends React.Component {
         axios.defaults.headers.common['X-CSRF-Token'] = data;
         axios.defaults.headers.post['Content-Type'] = 'application/json';
         axios
-          .post(languagePrefix + '/assessments/question', {
+          .post(`${getLangCodePrefix()}/assessments/question`, {
             questionId: aqid,
             value
           })
-          .then(({ data }) => {
-            this.setState({ correctValue: data.correctAnswer });
+          .then(({ data: response }) => {
+            this.setState({ correctValue: response.correctAnswer });
           })
           .catch(error => {
-            console.log('Could not send quiz data: ' + error);
+            console.log(`Could not send quiz data: ${error}`);
           })
           .finally(() => {
             this.setState({ isSubmitting: false });

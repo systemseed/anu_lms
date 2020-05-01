@@ -7,10 +7,10 @@ import PageContainer from '../../01_atoms/PageContainer';
 import LessonSidebar from '../../03_organisms/LessonSidebar';
 import * as lessonActions from '../../../redux/actions/lesson';
 
-const useSidebarStyles = makeStyles({
+const useSidebarStyles = makeStyles(theme => ({
   root: ({ isSidebarVisible }) => ({
     background: '#e8e8e8',
-    color: '#3e3e3e',
+    color: theme.palette.secondary.main,
     position: 'absolute',
     left: isSidebarVisible ? 0 : '-220px',
     bottom: 0,
@@ -20,7 +20,7 @@ const useSidebarStyles = makeStyles({
     minHeight: '100vh', // TODO: Ugly hack, should find something better than this!
     zIndex: 10,
   })
-});
+}));
 
 const StyledSidebar = ({ isSidebarVisible, children, ...props }) => {
   const classes = useSidebarStyles({ isSidebarVisible });

@@ -2,6 +2,7 @@
 
 namespace Drupal\anu_lms;
 
+use Drupal\Component\Utility\Html;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Path\PathValidatorInterface;
 use Drupal\Core\Routing\CurrentRouteMatch;
@@ -38,14 +39,14 @@ class AnulmsMenuHandler {
   public function getPrimaryMenu() {
     $items = [];
 
-    $this->addMenuItem($items, $this->t('Home'),  Url::fromRoute('<front>')->toString());
+    $this->addMenuItem($items, 'Home',  Url::fromRoute('<front>')->toString());
 
     // Add the link to the courses page only in case if the home page url is not
     // set to have the same url as courses list page.
     $homepage_url = \Drupal::configFactory()->get('system.site')->get('page.front');
     $course_list_url = Url::fromRoute('anu_lms.course_list_controller')->toString();
     if ($homepage_url != $course_list_url) {
-      $this->addMenuItem($items, $this->t('Courses'), $course_list_url);
+      $this->addMenuItem($items, 'Courses', $course_list_url);
     }
 
     return $items;
@@ -66,10 +67,10 @@ class AnulmsMenuHandler {
       // If the current user can update the node show appropriate link.
       if ($node->access('update')) {
         $names = [
-          'course' => $this->t('Edit course'),
-          'module' => $this->t('Edit module'),
-          'module_lesson' => $this->t('Edit lesson'),
-          'module_assessment' => $this->t('Edit quiz'),
+          'course' => 'Edit course',
+          'module' => 'Edit module',
+          'module_lesson' => 'Edit lesson',
+          'module_assessment' => 'Edit quiz',
         ];
 
         $this->addMenuItem($items, $names[$node->bundle()], $node->toUrl('edit-form', $url_options)->toString());
@@ -77,18 +78,18 @@ class AnulmsMenuHandler {
 
       if ($node->bundle() == 'course') {
         $module_add_url = $this->getReferencedNodeAddLink($node, 'field_module_course', 'module');
-        $this->addMenuItem($items, $this->t('Add module'), $module_add_url);
+        $this->addMenuItem($items, 'Add module', $module_add_url);
       }
       elseif ($node->bundle() == 'module') {
         // Add a link for adding a new lesson to the module.
         $lesson_add_url = $this->getReferencedNodeAddLink($node, 'field_module_lesson_module', 'module_lesson');
-        $this->addMenuItem($items, $this->t('Add lesson'), $lesson_add_url);
+        $this->addMenuItem($items, 'Add lesson', $lesson_add_url);
 
         // Add a link for adding a new final quiz.
         $quiz = $node->get('field_module_assessment')->first();
         if (empty($quiz)) {
           $quiz_add_url = $this->getReferencedNodeAddLink($node, 'field_module_assessment_module', 'module_assessment');
-          $this->addMenuItem($items, $this->t('Add quiz'), $quiz_add_url);
+          $this->addMenuItem($items, 'Add quiz', $quiz_add_url);
         }
       }
 
@@ -96,7 +97,7 @@ class AnulmsMenuHandler {
         if ($node->bundle() == 'module_assessment') {
           $assessment_results_url = Url::fromRoute('anu_lms_assessments.assessment.results', ['node' => $node->id()])
             ->toString();
-          $this->addMenuItem($items, $this->t('Results'), $assessment_results_url);
+          $this->addMenuItem($items, 'Results', $assessment_results_url);
         }
       }
     }
@@ -110,7 +111,7 @@ class AnulmsMenuHandler {
         ->execute();
 
       if (!empty($groups)) {
-        $label = $this->formatPlural(count($groups), $this->t('Organization'), $this->t('Organizations'));
+        $label = $this->formatPlural(count($groups), 'Organization', 'Organizations');
         $this->addMenuItem($items, $label, Url::fromRoute('anu_lms_permissions.organization_list')->toString());
       }
     }
@@ -118,15 +119,15 @@ class AnulmsMenuHandler {
     // Menu for authenticated user.
     if ($this->currentUser->isAuthenticated()) {
       $user = User::load($this->currentUser->id());
-      $this->addMenuItem($items, $this->t('Profile'), $user->toUrl('edit-form', $url_options)->toString());
+      $this->addMenuItem($items, 'Profile', $user->toUrl('edit-form', $url_options)->toString());
 
       $user_logout_url = Url::fromRoute('user.logout')->toString();
-      $this->addMenuItem($items, $this->t('Logout'), $user_logout_url);
+      $this->addMenuItem($items, 'Logout', $user_logout_url);
     }
     // Menu for anonymous user.
     else {
       $user_login_url = Url::fromRoute('user.login')->toString();
-      $this->addMenuItem($items, $this->t('Login'), $user_login_url);
+      $this->addMenuItem($items, 'Login', $user_login_url);
     }
 
     return $items;
@@ -135,7 +136,7 @@ class AnulmsMenuHandler {
   protected function addMenuItem(&$items, $menu_title, $menu_url) {
     // Validation checks access to the URL as well.
     if ($this->pathValidator->isValid($menu_url)) {
-      $items[] = ['title' => $menu_title, 'url' => $menu_url];
+      $items[] = ['id' => HTML::getId($menu_title), 'title' => $this->t($menu_title), 'url' => $menu_url];
     }
   }
 

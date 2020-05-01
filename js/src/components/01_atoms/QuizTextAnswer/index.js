@@ -1,4 +1,6 @@
 import React from 'react';
+import { withTranslation } from 'react-i18next';
+
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
@@ -29,6 +31,7 @@ const TypographyBottomSpaced = withStyles(theme => ({
 }))(Typography);
 
 const QuizTextAnswer = ({
+  t,
   question,
   value,
   correctValue,
@@ -44,7 +47,7 @@ const QuizTextAnswer = ({
       </TypographyBottomSpaced>
 
       <TextField
-        label="Enter your answer"
+        label={t('Enter your answer')}
         value={value}
         onChange={onChange}
         variant="outlined"
@@ -57,7 +60,7 @@ const QuizTextAnswer = ({
 
       {correctValue && (
         <TypographyTopSpaced variant="body1">
-          <strong>Suggested answer:</strong> {correctValue}
+          <strong>{t('Suggested answer')}</strong> {correctValue}
         </TypographyTopSpaced>
       )}
 
@@ -66,4 +69,4 @@ const QuizTextAnswer = ({
   </StyledBox>
 );
 
-export default QuizTextAnswer;
+export default withTranslation()(QuizTextAnswer);
