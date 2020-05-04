@@ -12,11 +12,9 @@ import 'regenerator-runtime/runtime';
 
 const ResultMessage = withStyles({
   root: {
-    position: 'absolute',
     fontSize: '0.8em',
-    marginTop: '4px',
-    maxWidth: '200px',
-    textAlign: 'center',
+    marginTop: 4,
+    position: 'absolute',
     color: '#ffab00',
   },
 })(Box);
@@ -112,7 +110,7 @@ class DownloadCourse extends React.Component {
       urlsToCache.push('/courses');
 
       // Cache Course data.
-      urlsToCache.push(`/node/${  course.id}`);
+      urlsToCache.push(`/node/${course.id}`);
 
       if (course.image && course.image.url) {
         urlsToCache.push(course.image.url);

@@ -1,7 +1,10 @@
 import React from 'react';
+
 import Button from '@material-ui/core/Button';
-import ArrowBack from '@material-ui/icons/ArrowBack';
+import Icon from '@material-ui/core/Icon';
 import { withStyles } from '@material-ui/core';
+
+import { getRTLIcon } from '../../../theme';
 
 const StyledButton = withStyles(theme => ({
   root: {
@@ -10,7 +13,10 @@ const StyledButton = withStyles(theme => ({
 }))(Button);
 
 const BackButton = ({ title, href }) => (
-  <StyledButton href={href} startIcon={<ArrowBack />}>
+  <StyledButton
+    href={href}
+    startIcon={<Icon>{getRTLIcon('arrow_back')}</Icon>}
+  >
     {title}
   </StyledButton>
 );
