@@ -1,17 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import Box from '@material-ui/core/Box';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import { Icon, withStyles } from '@material-ui/core'
+import { Icon, withStyles } from '@material-ui/core';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+
 import LessonGrid from '../LessonGrid';
 
 const StyledBox = withStyles(theme => ({
   root: {
     marginBottom: theme.spacing(4),
-  }
+  },
 }))(Box);
 
 const NumberedList = withStyles(theme => ({
@@ -20,64 +22,77 @@ const NumberedList = withStyles(theme => ({
     color: '#4698c9',
     fontWeight: 'bold',
     paddingLeft: theme.spacing(4),
-  }
+    paddingTop: 0,
+    paddingBottom: 0,
+  },
 }))(List);
 
-const NumberedListItem = withStyles(theme => ({
+const StyledListItem = withStyles({
+  dense: {
+    '&:first-child': {
+      paddingTop: 0,
+    },
+    '&:last-child': {
+      paddingBottom: 0,
+    },
+  },
+})(ListItem);
+
+const NumberedListItem = withStyles({
   root: {
     display: 'list-item',
-  }
-}))(ListItem);
+  },
+})(StyledListItem);
 
 const NumberedListItemText = withStyles({
   root: {
     color: 'black',
-  }
+  },
 })(ListItemText);
 
-const StyledIcon = withStyles(theme => ({
+const StyledIcon = withStyles({
   fontSizeSmall: {
     fontSize: '8px !important',
     color: '#4698c9',
   },
-}))(Icon);
+})(Icon);
 
-const StyledListItemIcon = withStyles(theme => ({
+const StyledListItemIcon = withStyles({
   root: {
-    minWidth: 32
-  }
-}))(ListItemIcon);
+    minWidth: 32,
+  },
+})(ListItemIcon);
 
 const ListElement = ({ items, type }) => (
   <StyledBox>
     <LessonGrid>
-      {type === 'ul' &&
-      <List dense component={type}>
-        {items.map((item, index) => (
-          <ListItem key={index} alignItems="flex-start">
-            <StyledListItemIcon>
-              <StyledIcon fontSize="small">brightness_1</StyledIcon>
-            </StyledListItemIcon>
+      {type === 'ul' && (
+        <List dense component={type}>
+          {items.map((item, index) => (
+            <StyledListItem key={index} alignItems="flex-start">
+              <StyledListItemIcon>
+                <StyledIcon fontSize="small">brightness_1</StyledIcon>
+              </StyledListItemIcon>
 
-            <ListItemText>
-              {item}
-            </ListItemText>
-          </ListItem>
-        ))}
-      </List>
-      }
+              <ListItemText>
+                {item}
+              </ListItemText>
+            </StyledListItem>
+          ))}
+        </List>
+      )}
 
-      {type === 'ol' &&
-      <NumberedList dense component={type}>
-        {items.map((item, index) => (
-          <NumberedListItem key={index}>
-            <NumberedListItemText>
-              {item}
-            </NumberedListItemText>
-          </NumberedListItem>
-        ))}
-      </NumberedList>
-      }
+      {type === 'ol' && (
+        <NumberedList dense component={type}>
+          {items.map((item, index) => (
+            <NumberedListItem key={index}>
+              <NumberedListItemText>
+                {item}
+              </NumberedListItemText>
+            </NumberedListItem>
+          ))}
+        </NumberedList>
+      )}
     </LessonGrid>
   </StyledBox>
 );
