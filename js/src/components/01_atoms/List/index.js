@@ -16,16 +16,21 @@ const StyledBox = withStyles(theme => ({
   },
 }))(Box);
 
+const StyledList = withStyles({
+  dense: {
+    paddingTop: 0,
+    paddingBottom: 0,
+  },
+})(List);
+
 const NumberedList = withStyles(theme => ({
   root: {
     listStyle: 'decimal',
     color: '#4698c9',
     fontWeight: 'bold',
     paddingLeft: theme.spacing(4),
-    paddingTop: 0,
-    paddingBottom: 0,
   },
-}))(List);
+}))(StyledList);
 
 const StyledListItem = withStyles({
   dense: {
@@ -67,7 +72,7 @@ const ListElement = ({ items, type }) => (
   <StyledBox>
     <LessonGrid>
       {type === 'ul' && (
-        <List dense component={type}>
+        <StyledList dense component={type}>
           {items.map((item, index) => (
             <StyledListItem key={index} alignItems="flex-start">
               <StyledListItemIcon>
@@ -79,7 +84,7 @@ const ListElement = ({ items, type }) => (
               </ListItemText>
             </StyledListItem>
           ))}
-        </List>
+        </StyledList>
       )}
 
       {type === 'ol' && (
