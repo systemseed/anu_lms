@@ -111,7 +111,7 @@ class DownloadCourse extends React.Component {
       urlsToCache.push(`${getLangCodePrefix()}/courses`);
 
       // Cache Course data.
-      urlsToCache.push(`/node/${course.id}`);
+      urlsToCache.push(`${getLangCodePrefix()}/node/${course.id}`);
 
       if (course.image && course.image.url) {
         urlsToCache.push(course.image.url);
