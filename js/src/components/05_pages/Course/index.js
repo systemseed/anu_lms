@@ -68,8 +68,9 @@ const StyledShadowBox = withStyles(theme => ({
 
 const StyledBox = withStyles(theme => ({
   root: {
-    marginTop: theme.spacing(2),
-    alignItems: 'baseline',
+    width: 'max-content',
+    margin: 'auto',
+    marginTop: theme.spacing(2), // (16px)
   },
 }))(Box);
 
