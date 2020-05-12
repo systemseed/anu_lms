@@ -44,7 +44,8 @@ class AnulmsMenuHandler {
     // Add the link to the courses page only in case if the home page url is not
     // set to have the same url as courses list page.
     $homepage_url = \Drupal::configFactory()->get('system.site')->get('page.front');
-    $course_list_url = Url::fromRoute('anu_lms.course_list_controller')->toString();
+    // Use getInternalPath instead of getString to get path without langcode.
+    $course_list_url = '/' . Url::fromRoute('anu_lms.course_list_controller')->getInternalPath();
     if ($homepage_url != $course_list_url) {
       $this->addMenuItem($items, 'Courses', $course_list_url);
     }

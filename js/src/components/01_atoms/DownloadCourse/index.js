@@ -7,6 +7,7 @@ import GetApp from '@material-ui/icons/GetApp';
 
 import { getPwaSettings } from '../../../utils/settings';
 import { getNode } from '../../../utils/node';
+import { getLangCodePrefix } from '../../../utils/settings';
 
 import 'regenerator-runtime/runtime';
 
@@ -106,11 +107,11 @@ class DownloadCourse extends React.Component {
 
     try {
       // Cache some global pages.
-      urlsToCache.push('/');
-      urlsToCache.push('/courses');
+      urlsToCache.push(`${getLangCodePrefix()}/`);
+      urlsToCache.push(`${getLangCodePrefix()}/courses`);
 
       // Cache Course data.
-      urlsToCache.push(`/node/${course.id}`);
+      urlsToCache.push(`${getLangCodePrefix()}/node/${course.id}`);
 
       if (course.image && course.image.url) {
         urlsToCache.push(course.image.url);
@@ -122,19 +123,19 @@ class DownloadCourse extends React.Component {
         const urls = [];
 
         // Cache Module data.
-        urls.push(`/node/${module.id}`);
+        urls.push(`${getLangCodePrefix()}/node/${module.id}`);
         if (module.image && module.image.url) {
           urls.push(module.image.url);
         }
 
         // Find Module's lessons and return as a result,
         // they will be cached separately.
-        const moduleLessonUrls = module.lessons.map((lesson) => '/node/' + lesson.id);
+        const moduleLessonUrls = module.lessons.map((lesson) => `${getLangCodePrefix()}/node/${lesson.id}`);
         lessonUrls = lessonUrls.concat(moduleLessonUrls);
 
         // Add Module's assessment.
         if (module.assessment && module.assessment.id) {
-          lessonUrls.push(`/node/${module.assessment.id}`);
+          lessonUrls.push(`${getLangCodePrefix()}/node/${module.assessment.id}`);
         }
 
         return urls;

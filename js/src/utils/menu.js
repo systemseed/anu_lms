@@ -1,3 +1,5 @@
+import { getLangCodePrefix } from './settings';
+
 export const getMenu = () => {
   return (drupalSettings && drupalSettings.anu_menu) || null;
 };
@@ -34,5 +36,5 @@ export const getMenuPathById = id => {
   const flatMenu = [...menu.primary, ...menu.secondary];
   const item = flatMenu.find(el => el.id === id);
 
-  return item ? item.url : '/';
+  return item ? item.url : getLangCodePrefix();
 };
