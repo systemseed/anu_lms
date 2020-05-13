@@ -47,7 +47,7 @@ class AnulmsMenuHandler {
     // Use getInternalPath instead of getString to get path without langcode.
     $course_list_url = '/' . Url::fromRoute('anu_lms.course_list_controller')->getInternalPath();
     if ($homepage_url != $course_list_url) {
-      $this->addMenuItem($items, 'Courses', $course_list_url);
+      $this->addMenuItem($items, 'Courses', Url::fromRoute('anu_lms.course_list_controller')->toString());
     }
 
     return $items;
