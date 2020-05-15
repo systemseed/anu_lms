@@ -1,0 +1,14 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the module.
+ */
+
+/**
+ *
+ */
+function anu_lms_assessments_update_8001() {
+  $database = \Drupal::database();
+  $database->query("ALTER TABLE assessment_result MODIFY name VARCHAR(255)");
+}
