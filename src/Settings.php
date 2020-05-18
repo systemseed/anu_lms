@@ -120,14 +120,18 @@ class Settings {
     $route_name = $this->pathMatcher->isFrontPage() ? '<front>' : '<current>';
     $links = $this->languageManager->getLanguageSwitchLinks($type, Url::fromRoute($route_name));
 
-    if (empty($links) || empty($links->links)) {
-      return [];
-    }
-
     // Get current langcode.
     $current_langcode = $this->languageManager->getCurrentLanguage($type)->getId();
 
-    $links_output = [];
+    $output = [
+      'current_language' => $current_langcode,
+      'links' => [],
+    ];
+
+    if (empty($links) || empty($links->links)) {
+      return $output;
+    }
+
     foreach ($links->links as $langcode => $link) {
       if (empty($link['url']) || empty($link['title']) || empty($link['language'])) {
         continue;
@@ -138,17 +142,14 @@ class Settings {
       $url->setOptions($link);
 
       // Prepare link.
-      $links_output[$langcode] = [
+      $output['links'][$langcode] = [
         'url' => $url->toString(),
         'title' => $link['title'],
         'weight' => $link['language']->getWeight()
       ];
     }
 
-    return [
-      'current_language' => $current_langcode,
-      'links' => $links_output,
-    ];
+    return $output;
   }
 
 }
