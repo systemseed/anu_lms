@@ -32,6 +32,10 @@ const LanguageSwitcher = () => {
     }));
   const orderedLanguages = languages.sort((a, b) => a.weight - b.weight);
 
+  if (languages.length === 0) {
+    return null;
+  }
+
   return (
     languages && (
       <StyledBox>

@@ -17,6 +17,16 @@ export const getPwaSettings = () => (drupalSettings && drupalSettings.pwa_settin
 
 export const getLanguageSettings = () => (drupalSettings && drupalSettings.language) || null;
 
-export const getLangCode = () => getLanguageSettings() && getLanguageSettings().current_language;
+export const getLangCode = () => {
+  const settings = getLanguageSettings();
+  return settings && settings.current_language ? settings.current_language : '';
+}
 
-export const getLangCodePrefix = () => (getLangCode() ? `/${getLangCode()}` : '');
+export const getLangCodePrefix = () => {
+  const settings = getLanguageSettings();
+  const langcode = getLangCode();
+  if (settings.links.length === 0 || !langcode) {
+    return '';
+  }
+  return `/${langcode}`;
+};
