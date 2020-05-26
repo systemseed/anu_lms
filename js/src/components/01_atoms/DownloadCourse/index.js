@@ -3,22 +3,20 @@ import { withTranslation } from 'react-i18next';
 
 import { Box, Button, withStyles } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import GetApp from '@material-ui/icons/GetApp';
+import SyncIcon from '@material-ui/icons/Sync';
 
-import { getPwaSettings } from '../../../utils/settings';
+import { getPwaSettings, getLangCodePrefix } from '../../../utils/settings';
 import { getNode } from '../../../utils/node';
-import { getLangCodePrefix } from '../../../utils/settings';
 
 import 'regenerator-runtime/runtime';
 
-const ResultMessage = withStyles({
+const ResultMessage = withStyles(theme => ({
   root: {
-    fontSize: '0.8em',
-    marginTop: 4,
-    position: 'absolute',
+    fontSize: '0.8rem',
+    marginTop: theme.spacing(1),
     color: '#ffab00',
   },
-})(Box);
+}))(Box);
 
 class DownloadCourse extends React.Component {
   constructor(props) {
@@ -182,15 +180,16 @@ class DownloadCourse extends React.Component {
     const { loading, result } = this.state;
 
     return (
-      <div>
+      <>
         <Button
           variant="outlined"
           color="primary"
-          startIcon={<GetApp />}
+          startIcon={<SyncIcon />}
           onClick={this.handleDownload}
           disabled={loading}
+          style={{ width: 'max-content' }}
         >
-          {t('Download course')}
+          {t('Make available offline')}
 
           {loading && <CircularProgress size={24} style={{ position: 'absolute' }} />}
         </Button>
@@ -206,7 +205,7 @@ class DownloadCourse extends React.Component {
             {t('Could not download the course. Please contact site administrator.')}
           </ResultMessage>
         )}
-      </div>
+      </>
     );
   }
 }

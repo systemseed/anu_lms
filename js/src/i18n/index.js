@@ -27,8 +27,6 @@ const resources = {
   },
 };
 
-console.log(camelcase(getLangCode()));
-
 i18n
   .use(initReactI18next)
   .init({
