@@ -68,18 +68,10 @@ const StyledShadowBox = withStyles(theme => ({
 
 const StyledBox = withStyles(theme => ({
   root: {
-    width: 'max-content',
-    margin: 'auto',
-    alignItems: 'baseline',
-    marginTop: theme.spacing(2), // (16px)
+    marginTop: theme.spacing(2),
+    flexDirection: 'column',
   },
 }))(Box);
-
-const OfflineStyledTypography = withStyles(theme => ({
-  root: {
-    marginRight: theme.spacing(2),
-  },
-}))(Typography);
 
 const StyledTypography = withStyles(theme => ({
   root: {
@@ -118,7 +110,6 @@ const Course = ({ t, node, width }) => {
         <StyledGridContainer
           container
           spacing={isWidthUp('sm', width) ? 2 : 0}
-          alignItems="center"
         >
           <Grid item md={5}>
             <BackButton
@@ -152,21 +143,22 @@ const Course = ({ t, node, width }) => {
           <Grid item md={2} />
 
           <Grid item md={5}>
-            {node.image && node.image.url && (
-              <Hidden smDown>
-                <Image src={node.image.url} alt={node.title}/>
-              </Hidden>
-            )}
+            <Box mt={6}>
+              {node.image && node.image.url && (
+                <Hidden smDown>
+                  <Image src={node.image.url} alt={node.title}/>
+                </Hidden>
+              )}
 
-            {pwaSettings && (
-              <StyledBox display="flex">
-                <OfflineStyledTypography variant="body1">
-                  {t('For learning offline')}
-                </OfflineStyledTypography>
-
-                <DownloadCourse course={node} />
-              </StyledBox>
-            )}
+              {pwaSettings && (
+                <StyledBox
+                  display="flex"
+                  alignItems="center"
+                >
+                  <DownloadCourse course={node} />
+                </StyledBox>
+              )}
+            </Box>
           </Grid>
         </StyledGridContainer>
 
