@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core';
 
 import ImageBulletItem from '../../01_atoms/ImageBulletItem';
 import LessonGrid from '../../06_hocs/LessonGrid';
+import Highlighted from '../../06_hocs/Highlighted'
 
 const StyledBox = withStyles(theme => ({
   root: {
@@ -20,7 +21,7 @@ const StyledHeading = withStyles(theme => ({
 }))(Typography);
 
 const ImageBulletListContents = ({title, items}) => (
-  <>
+  <LessonGrid>
     {title && <StyledHeading variant="h5" component="h5">{title}</StyledHeading>}
 
     {items.map(({id, image, size, text}) => (
@@ -31,26 +32,25 @@ const ImageBulletListContents = ({title, items}) => (
         text={text}
       />
     ))}
-  </>
+  </LessonGrid>
 );
 
 const ImageBulletList = ({title, isHighlight, items}) => (
-  <LessonGrid>
-    <StyledBox>
-      {isHighlight ? (
-        // TODO
+  <StyledBox>
+    {isHighlight ? (
+      <Highlighted>
         <ImageBulletListContents
           title={title}
           items={items}
         />
-      ) : (
-        <ImageBulletListContents
-          title={title}
-          items={items}
-        />
-      )}
-    </StyledBox>
-  </LessonGrid>
+      </Highlighted>
+    ) : (
+      <ImageBulletListContents
+        title={title}
+        items={items}
+      />
+    )}
+  </StyledBox>
 );
 
 ImageBulletList.propTypes = {

@@ -190,14 +190,19 @@ const getLessonParagraphs = paragraphs => {
         }
 
       case 'lesson_image_bullet_list':
-        console.log(paragraph);
         return {
           bundle,
           id: getNumberValue(paragraph, 'id'),
           title: getTextValue(paragraph, 'field_content_heading'),
           isHighlight: getBooleanValue(paragraph, 'field_is_highlight'),
           items: getArrayValue(paragraph, 'field_items').map(item => {
-            const size = getNumberValue(paragraph, 'field_size');
+            let size = getTextValue(item, 'field_size');
+
+            if (size) {
+              size = size === 'small' ? 20 : 50;
+            } else {
+              size = 0;
+            }
 
             return {
               id: getNumberValue(item, 'id'),
