@@ -156,8 +156,8 @@ const getLessonParagraphs = paragraphs => {
   return paragraphs.map(paragraph => {
 
     const bundle = getTextValue(paragraph, 'entity_bundle');
-    switch (bundle) {
 
+    switch (bundle) {
       case 'lesson_heading':
         return {
           bundle,
@@ -188,6 +188,30 @@ const getLessonParagraphs = paragraphs => {
           image: getImage(paragraph, 'field_lesson_image_image', 'image_with_caption'),
           caption: getTextValue(paragraph, 'field_lesson_image_caption'),
         }
+
+      case 'lesson_image_bullet_list':
+        console.log(paragraph);
+        return {
+          bundle,
+          id: getNumberValue(paragraph, 'id'),
+          title: getTextValue(paragraph, 'field_content_heading'),
+          isHighlight: getBooleanValue(paragraph, 'field_is_highlight'),
+          items: getArrayValue(paragraph, 'field_items').map(item => {
+            const size = getNumberValue(paragraph, 'field_size');
+
+            return {
+              id: getNumberValue(item, 'id'),
+              image: getImage(
+                item,
+                'field_content_image',
+                size === 20 ? 'anu_lms_paragraph_image_bullet_list_small' : 'anu_lms_paragraph_image_bullet_list_large',
+              ),
+              size,
+              text: getTextValue(item, 'field_content_text'),
+            };
+          }),
+        }
+
       case 'lesson_image_wide':
         return {
           bundle,

@@ -8,7 +8,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 
 import QuizSubmit from '../QuizSubmit';
-import LessonGrid from '../LessonGrid';
+import LessonGrid from '../../06_hocs/LessonGrid';
 import CheckboxWithValidation from '../CheckboxWithValidation';
 import RadioWithValidation from '../RadioWithValidation';
 

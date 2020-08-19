@@ -2,7 +2,7 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core';
 import Box from '@material-ui/core/Box'
-import LessonGrid from '../LessonGrid'
+import LessonGrid from '../../06_hocs/LessonGrid'
 
 const StyledBox = withStyles(theme => ({
   root: {
@@ -18,6 +18,7 @@ const StyledBox = withStyles(theme => ({
   }
 }))(Box);
 
+// TODO - use spacings
 const StyledHeading = withStyles(theme => ({
   root: {
     color: 'white',
@@ -30,6 +31,7 @@ const StyledHeading = withStyles(theme => ({
   }
 }))(Typography);
 
+// TODO - use spacings
 const StyledText = withStyles(theme => ({
   root: {
     color: 'white',

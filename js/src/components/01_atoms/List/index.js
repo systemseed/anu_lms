@@ -8,7 +8,7 @@ import { Icon, withStyles } from '@material-ui/core';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 
-import LessonGrid from '../LessonGrid';
+import LessonGrid from '../../06_hocs/LessonGrid';
 
 const StyledBox = withStyles(theme => ({
   root: {

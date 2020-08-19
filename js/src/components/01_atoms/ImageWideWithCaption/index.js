@@ -2,7 +2,7 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
-import LessonGrid from '../LessonGrid'
+import LessonGrid from '../../06_hocs/LessonGrid';
 
 const useStyles = makeStyles(theme => ({
   wrapper: ({ image }) => ({
