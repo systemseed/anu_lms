@@ -1,0 +1,10 @@
+uuid: f4be9467-d601-4a20-a005-67369c2bd89e
+langcode: en-gb
+status: true
+dependencies: {  }
+id: lesson_image_bullet_list
+label: 'Lesson: Image bullet list'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

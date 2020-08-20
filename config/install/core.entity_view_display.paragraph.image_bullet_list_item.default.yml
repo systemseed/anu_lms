@@ -1,0 +1,42 @@
+uuid: 288fa606-1a20-4ea6-b210-2f70d617cf9d
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.image_bullet_list_item.field_content_image
+    - field.field.paragraph.image_bullet_list_item.field_content_text
+    - field.field.paragraph.image_bullet_list_item.field_size
+    - paragraphs.paragraphs_type.image_bullet_list_item
+  module:
+    - image
+    - options
+    - text
+id: paragraph.image_bullet_list_item.default
+targetEntityType: paragraph
+bundle: image_bullet_list_item
+mode: default
+content:
+  field_content_image:
+    weight: 0
+    label: hidden
+    settings:
+      image_style: ''
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+    region: content
+  field_content_text:
+    weight: 2
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_size:
+    weight: 1
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: list_default
+    region: content
+hidden: {  }

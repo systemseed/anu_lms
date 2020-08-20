@@ -5,7 +5,7 @@ import { withTranslation } from 'react-i18next';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 
-import LessonGrid from '../../01_atoms/LessonGrid';
+import LessonGrid from '../../06_hocs/LessonGrid'
 import QuizSubmit from '../../01_atoms/QuizSubmit';
 import LessonNavigationButton from '../../01_atoms/LessonNavigationButton';
 import QuizTextAnswerAssessmentAdapter from '../QuizTextAnswerAssessmentAdapter';

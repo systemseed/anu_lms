@@ -2,7 +2,7 @@ import React from 'react';
 import Box from '@material-ui/core/Box';
 import { withStyles } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography'
-import LessonGrid from '../LessonGrid'
+import LessonGrid from '../../06_hocs/LessonGrid'
 
 const StyledWrapperBox = withStyles(theme => ({
   root: {

@@ -1,0 +1,23 @@
+uuid: b4899f77-5280-4e7c-a72d-1db2f7383c98
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_is_highlight
+    - paragraphs.paragraphs_type.lesson_image_bullet_list
+id: paragraph.lesson_image_bullet_list.field_is_highlight
+field_name: field_is_highlight
+entity_type: paragraph
+bundle: lesson_image_bullet_list
+label: 'Is highlight?'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

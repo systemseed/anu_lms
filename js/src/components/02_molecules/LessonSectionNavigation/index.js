@@ -4,7 +4,7 @@ import { Detector } from 'react-detect-offline';
 import { withTranslation } from 'react-i18next';
 
 import LessonNavigationButton from '../../01_atoms/LessonNavigationButton';
-import LessonGrid from '../../01_atoms/LessonGrid';
+import LessonGrid from '../../06_hocs/LessonGrid'
 
 import { getLangCodePrefix } from '../../../utils/settings';
 

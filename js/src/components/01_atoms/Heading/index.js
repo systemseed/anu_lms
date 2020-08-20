@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
-import LessonGrid from '../LessonGrid';
+import LessonGrid from '../../06_hocs/LessonGrid';
 
 const Heading = ({type, children}) => (
   <LessonGrid>
