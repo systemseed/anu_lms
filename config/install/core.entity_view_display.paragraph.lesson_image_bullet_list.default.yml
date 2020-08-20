@@ -1,0 +1,44 @@
+uuid: 66799845-8d12-4997-9757-2c4e07628332
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.lesson_image_bullet_list.field_content_heading
+    - field.field.paragraph.lesson_image_bullet_list.field_is_highlight
+    - field.field.paragraph.lesson_image_bullet_list.field_items
+    - paragraphs.paragraphs_type.lesson_image_bullet_list
+  module:
+    - entity_reference_revisions
+id: paragraph.lesson_image_bullet_list.default
+targetEntityType: paragraph
+bundle: lesson_image_bullet_list
+mode: default
+content:
+  field_content_heading:
+    weight: 0
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_is_highlight:
+    weight: 1
+    label: hidden
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
+    region: content
+  field_items:
+    type: entity_reference_revisions_entity_view
+    weight: 2
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+hidden: {  }

@@ -1,0 +1,19 @@
+uuid: 3346b377-0f67-47f5-b020-4fa011d6218c
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_content_heading
+    - paragraphs.paragraphs_type.lesson_image_bullet_list
+id: paragraph.lesson_image_bullet_list.field_content_heading
+field_name: field_content_heading
+entity_type: paragraph
+bundle: lesson_image_bullet_list
+label: Heading
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

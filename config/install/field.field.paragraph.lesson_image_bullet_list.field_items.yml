@@ -1,0 +1,103 @@
+uuid: 4b46f29e-d242-437a-bdd8-50fea036cb65
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_items
+    - paragraphs.paragraphs_type.image_bullet_list_item
+    - paragraphs.paragraphs_type.lesson_image_bullet_list
+  module:
+    - entity_reference_revisions
+id: paragraph.lesson_image_bullet_list.field_items
+field_name: field_items
+entity_type: paragraph
+bundle: lesson_image_bullet_list
+label: Items
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      image_bullet_list_item: image_bullet_list_item
+    target_bundles_drag_drop:
+      competency_attributes:
+        weight: 26
+        enabled: false
+      competency_results:
+        weight: 27
+        enabled: false
+      content_fullwidth_text:
+        weight: 28
+        enabled: false
+      content_text:
+        weight: 29
+        enabled: false
+      content_text_with_background:
+        weight: 30
+        enabled: false
+      content_text_with_image:
+        weight: 31
+        enabled: false
+      content_video_with_text:
+        weight: 32
+        enabled: false
+      image_bullet_list_item:
+        enabled: true
+        weight: 33
+      lesson_divider:
+        weight: 34
+        enabled: false
+      lesson_embedded_video:
+        weight: 35
+        enabled: false
+      lesson_heading:
+        weight: 36
+        enabled: false
+      lesson_highlight:
+        weight: 37
+        enabled: false
+      lesson_image:
+        weight: 38
+        enabled: false
+      lesson_image_bullet_list:
+        weight: 39
+        enabled: false
+      lesson_image_thumbnail:
+        weight: 40
+        enabled: false
+      lesson_image_wide:
+        weight: 41
+        enabled: false
+      lesson_list:
+        weight: 42
+        enabled: false
+      lesson_section:
+        weight: 43
+        enabled: false
+      lesson_text:
+        weight: 44
+        enabled: false
+      question_long_answer:
+        weight: 45
+        enabled: false
+      question_multi_choice:
+        weight: 46
+        enabled: false
+      question_scale:
+        weight: 47
+        enabled: false
+      question_short_answer:
+        weight: 48
+        enabled: false
+      question_single_choice:
+        weight: 49
+        enabled: false
+      single_multi_choice_item:
+        weight: 50
+        enabled: false
+field_type: entity_reference_revisions

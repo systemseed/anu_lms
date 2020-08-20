@@ -1,0 +1,52 @@
+uuid: 44e00380-fed8-4874-832d-d6628e72eff3
+langcode: en-gb
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.lesson_image_bullet_list.field_content_heading
+    - field.field.paragraph.lesson_image_bullet_list.field_is_highlight
+    - field.field.paragraph.lesson_image_bullet_list.field_items
+    - paragraphs.paragraphs_type.lesson_image_bullet_list
+  module:
+    - paragraphs
+id: paragraph.lesson_image_bullet_list.default
+targetEntityType: paragraph
+bundle: lesson_image_bullet_list
+mode: default
+content:
+  field_content_heading:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_is_highlight:
+    weight: 1
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
+    region: content
+  field_items:
+    type: paragraphs
+    weight: 2
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      features:
+        collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
+    third_party_settings: {  }
+    region: content
+hidden:
+  created: true
+  status: true
