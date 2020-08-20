@@ -209,7 +209,7 @@ const getLessonParagraphs = paragraphs => {
               image: getImage(
                 item,
                 'field_content_image',
-                size === 20 ? 'anu_lms_paragraph_image_bullet_list_small' : 'anu_lms_paragraph_image_bullet_list_large',
+                size === 20 ? 'image_bullet_list_small' : 'image_bullet_list_large',
               ),
               size,
               text: getTextValue(item, 'field_content_text'),
