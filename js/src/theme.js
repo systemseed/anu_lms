@@ -107,6 +107,14 @@ const customizedTheme = createMuiTheme({
         marginTop: theme.spacing(1.5),
       },
     },
+    MuiButton: {
+      root: {
+        '&.secondary': {
+          textTransform: 'none',
+          fontWeight: 400,
+        },
+      },
+    },
   },
 });
 

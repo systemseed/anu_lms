@@ -7,6 +7,7 @@ import ImageWithCaptionThumbnail from '../components/01_atoms/ImageWithCaptionTh
 import TextHighlighted from '../components/01_atoms/TextHighlighted';
 import Divider from '../components/01_atoms/Divider';
 import EmbeddedVideo from '../components/01_atoms/EmbeddedVideo';
+import Resource from '../components/01_atoms/Resource';
 import ImageBulletList from '../components/02_molecules/ImageBulletList';
 
 export default {
@@ -20,4 +21,5 @@ export default {
   lesson_divider: Divider,
   lesson_embedded_video: EmbeddedVideo,
   lesson_image_bullet_list: ImageBulletList,
+  lesson_resource: Resource,
 };
