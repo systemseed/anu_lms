@@ -1,5 +1,4 @@
 application:
-  webpack: true
   css:
     theme:
       https://fonts.googleapis.com/css?family=Lato:400,700:
@@ -13,4 +12,3 @@ application:
   js:
     js/dist/index.js:
       preprocess: false
-      source: 'js/src/index.js'
