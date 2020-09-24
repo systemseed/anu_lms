@@ -112,7 +112,7 @@ class AnulmsMenuHandler {
         ->execute();
 
       if (!empty($groups)) {
-        $label = $this->formatPlural(count($groups), 'Organization', 'Organizations');
+        $label = $this->formatPlural(count($groups), 'Organization', 'Organizations')->render();
         $this->addMenuItem($items, $label, Url::fromRoute('anu_lms_permissions.organization_list')->toString());
       }
     }
