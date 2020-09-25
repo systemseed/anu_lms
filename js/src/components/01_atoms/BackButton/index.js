@@ -12,10 +12,11 @@ const StyledButton = withStyles(theme => ({
   },
 }))(Button);
 
-const BackButton = ({ title, href }) => (
+const BackButton = ({ title, href, onClick }) => (
   <StyledButton
     href={href}
     startIcon={<Icon>{getRTLIcon('arrow_back')}</Icon>}
+    onClick={onClick}
   >
     {title}
   </StyledButton>

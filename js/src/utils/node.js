@@ -6,7 +6,8 @@ import {
   getNodePath,
   getNumberValue,
   getObjectValue,
-  getTextValue
+  getTextValue,
+  getFileURL,
 } from './transforms.field';
 
 export const getCurrentNode = () => {
@@ -23,13 +24,13 @@ export const getNode = (node) => {
   if (bundle === 'module_lesson') {
     return getLesson(node);
   }
-  else if (bundle === 'module_assessment') {
+  if (bundle === 'module_assessment') {
     return getAssessment(node);
   }
-  else if (bundle === 'module') {
+  if (bundle === 'module') {
     return getModule(node);
   }
-  else if (bundle === 'course') {
+  if (bundle === 'course') {
     return getCourse(node);
   }
 
@@ -153,8 +154,8 @@ const getLessonModule = (node, field_name) => {
 const getLessonParagraphs = paragraphs => {
   let dividerCounter = 1;
   let question = null;
-  return paragraphs.map(paragraph => {
 
+  return paragraphs.map(paragraph => {
     const bundle = getTextValue(paragraph, 'entity_bundle');
 
     switch (bundle) {
@@ -300,6 +301,23 @@ const getLessonParagraphs = paragraphs => {
             value: getTextValue(option, 'field_single_multi_choice_value'),
             isCorrect: getBooleanValue(option, 'field_single_multi_choice_right'),
           })).filter(Boolean),
+        }
+
+      case 'lesson_resource':
+        const file = getObjectValue(paragraph, 'field_resource_file');
+        const media = getObjectValue(file, 'field_media_document');
+        const fileName = getTextValue(media, 'filename').split('.');
+
+        return {
+          bundle,
+          id: getNumberValue(paragraph, 'id'),
+          file: {
+            path: getFileURL(file, 'field_media_document'),
+            type: getTextValue(media, 'filemime'),
+            ext: fileName[fileName.length - 1],
+          },
+          name: getTextValue(paragraph, 'field_resource_name'),
+          description: getTextValue(paragraph, 'field_resource_description'),
         }
 
       default:

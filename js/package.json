@@ -19,7 +19,6 @@
     "react-detect-offline": "^2.4.0",
     "react-dom": "^16.13.1",
     "react-i18next": "^11.4.0",
-    "react-pdf": "^5.0.0",
     "react-player": "^1.15.3",
     "react-redux": "^7.2.0",
     "react-router": "^5.1.2",
@@ -48,6 +47,13 @@
     "eslint-plugin-react": "^7.18.3",
     "eslint-plugin-react-hooks": "^3.0.0",
     "prettier": "^1.19.1",
-    "pretty-quick": "^2.0.1"
+    "pretty-quick": "^2.0.1",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "scripts": {
+    "start": "webpack-dev-server --mode development",
+    "build": "webpack --mode production"
   }
 }

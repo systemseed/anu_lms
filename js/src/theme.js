@@ -88,6 +88,9 @@ const customizedTheme = createMuiTheme({
     button: {
       fontWeight: 700,
     },
+    body1: {
+      fontSize: 18,
+    },
     body2: {
       fontSize: '1rem',
     },
