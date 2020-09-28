@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_resource_name
+    - paragraphs.paragraphs_type.lesson_resource
+id: paragraph.lesson_resource.field_resource_name
+field_name: field_resource_name
+entity_type: paragraph
+bundle: lesson_resource
+label: Name
+description: 'A helpful title for the file to easily identify it in the Lesson, which should be different from the file name.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

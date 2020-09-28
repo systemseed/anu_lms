@@ -88,6 +88,9 @@ const customizedTheme = createMuiTheme({
     button: {
       fontWeight: 700,
     },
+    body1: {
+      fontSize: 18,
+    },
     body2: {
       fontSize: '1rem',
     },
@@ -105,6 +108,14 @@ const customizedTheme = createMuiTheme({
     MuiListItemIcon: {
       alignItemsFlexStart: {
         marginTop: theme.spacing(1.5),
+      },
+    },
+    MuiButton: {
+      root: {
+        '&.secondary': {
+          textTransform: 'none',
+          fontWeight: 400,
+        },
       },
     },
   },

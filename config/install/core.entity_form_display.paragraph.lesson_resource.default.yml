@@ -1,0 +1,41 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.lesson_resource.field_resource_description
+    - field.field.paragraph.lesson_resource.field_resource_file
+    - field.field.paragraph.lesson_resource.field_resource_name
+    - paragraphs.paragraphs_type.lesson_resource
+  module:
+    - media_library
+id: paragraph.lesson_resource.default
+targetEntityType: paragraph
+bundle: lesson_resource
+mode: default
+content:
+  field_resource_description:
+    weight: 2
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_resource_file:
+    type: media_library_widget
+    weight: 0
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+    region: content
+  field_resource_name:
+    weight: 1
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+hidden:
+  created: true
+  status: true

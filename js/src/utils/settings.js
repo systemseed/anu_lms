@@ -20,7 +20,7 @@ export const getLanguageSettings = () => (drupalSettings && drupalSettings.langu
 export const getLangCode = () => {
   const settings = getLanguageSettings();
   return settings && settings.current_language ? settings.current_language : '';
-}
+};
 
 export const getLangCodePrefix = () => {
   const settings = getLanguageSettings();

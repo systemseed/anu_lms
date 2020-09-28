@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_resource_description
+    - paragraphs.paragraphs_type.lesson_resource
+id: paragraph.lesson_resource.field_resource_description
+field_name: field_resource_description
+entity_type: paragraph
+bundle: lesson_resource
+label: Description
+description: 'Optional text to describe the resource in more detail.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
