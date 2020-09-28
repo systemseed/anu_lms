@@ -1,13 +1,17 @@
+uuid: 730fe73a-1d5d-40ac-822a-18613d3654bd
 langcode: en
 status: true
 dependencies:
   module:
     - paragraphs
-id: paragraph.field_is_highlight
-field_name: field_is_highlight
+id: paragraph.field_resource_description
+field_name: field_resource_description
 entity_type: paragraph
-type: boolean
-settings: {  }
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
 module: core
 locked: false
 cardinality: 1

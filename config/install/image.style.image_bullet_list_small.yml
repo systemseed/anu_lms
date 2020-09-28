@@ -1,5 +1,4 @@
-uuid: d387887e-0d4c-44c9-982d-f9a486bebf27
-langcode: en-gb
+langcode: en
 status: true
 dependencies: {  }
 name: image_bullet_list_small

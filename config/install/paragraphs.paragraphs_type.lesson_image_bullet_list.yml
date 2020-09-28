@@ -1,5 +1,4 @@
-uuid: f4be9467-d601-4a20-a005-67369c2bd89e
-langcode: en-gb
+langcode: en
 status: true
 dependencies: {  }
 id: lesson_image_bullet_list

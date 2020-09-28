@@ -1,13 +1,16 @@
+uuid: 5e1d2cd5-f6c1-43f2-abfd-c7f96af43064
 langcode: en
 status: true
 dependencies:
   module:
+    - media
     - paragraphs
-id: paragraph.field_is_highlight
-field_name: field_is_highlight
+id: paragraph.field_resource_file
+field_name: field_resource_file
 entity_type: paragraph
-type: boolean
-settings: {  }
+type: entity_reference
+settings:
+  target_type: media
 module: core
 locked: false
 cardinality: 1

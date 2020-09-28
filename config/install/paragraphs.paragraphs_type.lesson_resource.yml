@@ -1,0 +1,10 @@
+uuid: a39f734c-0f86-47c2-b900-1d28c0eb8f41
+langcode: en
+status: true
+dependencies: {  }
+id: lesson_resource
+label: 'Lesson: Resource'
+icon_uuid: null
+icon_default: null
+description: 'Allows the course admin to add a file (usually a document, presentation or PDF) to view and download as part of the lesson.'
+behavior_plugins: {  }
