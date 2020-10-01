@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { withAlert } from 'react-alert';
 import QuizOptions from '../../01_atoms/QuizOptions';
 import { getLangCodePrefix } from '../../../utils/settings';
 
@@ -20,7 +21,7 @@ class QuizOptionsStandaloneAdapter extends React.Component {
   }
 
   onSubmit() {
-    const { aqid, bundle, onChange } = this.props;
+    const { aqid, bundle, onChange, alert } = this.props;
     const { value } = this.state;
 
     this.setState({
@@ -58,6 +59,7 @@ class QuizOptionsStandaloneAdapter extends React.Component {
             onChange(true);
           })
           .catch(error => {
+            alert.error('Could not submit the response. Please, refresh the page and try again or contact the administrator.');
             console.log(`Could not send quiz data: ${error}`);
           })
           .finally(() => {
@@ -106,4 +108,4 @@ class QuizOptionsStandaloneAdapter extends React.Component {
   }
 }
 
-export default QuizOptionsStandaloneAdapter;
+export default withAlert()(QuizOptionsStandaloneAdapter);

@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { withAlert } from 'react-alert';
 import QuizTextAnswer from '../../01_atoms/QuizTextAnswer';
 import { getLangCodePrefix } from '../../../utils/settings';
 
@@ -22,7 +23,7 @@ class QuizTextAnswerStandaloneAdapter extends React.Component {
   }
 
   onSubmit() {
-    const { aqid } = this.props;
+    const { aqid, alert } = this.props;
     const { value } = this.state;
 
     this.setState({
@@ -44,6 +45,7 @@ class QuizTextAnswerStandaloneAdapter extends React.Component {
             this.setState({ correctValue: response.correctAnswer });
           })
           .catch(error => {
+            alert.error('Could not submit the response. Please, refresh the page and try again or contact the administrator.');
             console.log(`Could not send quiz data: ${error}`);
           })
           .finally(() => {
@@ -70,4 +72,4 @@ class QuizTextAnswerStandaloneAdapter extends React.Component {
   }
 }
 
-export default QuizTextAnswerStandaloneAdapter;
+export default withAlert()(QuizTextAnswerStandaloneAdapter);
