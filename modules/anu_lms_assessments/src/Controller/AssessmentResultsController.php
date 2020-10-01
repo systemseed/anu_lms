@@ -47,12 +47,19 @@ class AssessmentResultsController extends ControllerBase {
   }
 
   public function checkAccess(NodeInterface $node, AccountInterface $account) {
+
+    // The route is valid only for lesson nodes.
     if (empty($node) || $node->bundle() !== 'module_assessment') {
       return AccessResult::forbidden();
     }
 
-    // TODO: Separate access to view the results?
-    return AccessResult::allowedIfHasPermission($account, 'administer assessment question result entities');
+    // If the current user can create / update the lesson, then they should be
+    // able to see the responses to the questions.
+    if ($node->access('update')) {
+      return AccessResult::allowed();
+    }
+
+    return AccessResult::forbidden();
   }
 
 }

@@ -24,69 +24,6 @@ function anu_lms_assessments_views_data_alter(array &$data) {
 }
 
 /**
- * Implements hook_theme().
- * TODO: Drop?
- */
-function anu_lms_assessments_theme() {
-  $theme = [];
-  $theme['assessment_question'] = [
-    'render element' => 'elements',
-    'file' => 'assessment_question.page.inc',
-    'template' => 'assessment_question',
-  ];
-  $theme['assessment_question_content_add_list'] = [
-    'render element' => 'content',
-    'variables' => ['content' => NULL],
-    'file' => 'assessment_question.page.inc',
-  ];
-  $theme['assessment_question_result'] = [
-    'render element' => 'elements',
-    'file' => 'assessment_question_result.page.inc',
-    'template' => 'assessment_question_result',
-  ];
-  $theme['assessment_question_result_content_add_list'] = [
-    'render element' => 'content',
-    'variables' => ['content' => NULL],
-    'file' => 'assessment_question_result.page.inc',
-  ];
-  return $theme;
-}
-
-/**
- * Implements hook_theme_suggestions_HOOK().
- * TODO: Drop?
- */
-function anu_lms_assessments_theme_suggestions_assessment_question(array $variables) {
-  $suggestions = [];
-  $entity = $variables['elements']['#assessment_question'];
-  $sanitized_view_mode = strtr($variables['elements']['#view_mode'], '.', '_');
-
-  $suggestions[] = 'assessment_question__' . $sanitized_view_mode;
-  $suggestions[] = 'assessment_question__' . $entity->bundle();
-  $suggestions[] = 'assessment_question__' . $entity->bundle() . '__' . $sanitized_view_mode;
-  $suggestions[] = 'assessment_question__' . $entity->id();
-  $suggestions[] = 'assessment_question__' . $entity->id() . '__' . $sanitized_view_mode;
-  return $suggestions;
-}
-
-/**
- * Implements hook_theme_suggestions_HOOK().
- * TODO: Drop?
- */
-function anu_lms_assessments_theme_suggestions_assessment_question_result(array $variables) {
-  $suggestions = [];
-  $entity = $variables['elements']['#assessment_question_result'];
-  $sanitized_view_mode = strtr($variables['elements']['#view_mode'], '.', '_');
-
-  $suggestions[] = 'assessment_question_result__' . $sanitized_view_mode;
-  $suggestions[] = 'assessment_question_result__' . $entity->bundle();
-  $suggestions[] = 'assessment_question_result__' . $entity->bundle() . '__' . $sanitized_view_mode;
-  $suggestions[] = 'assessment_question_result__' . $entity->id();
-  $suggestions[] = 'assessment_question_result__' . $entity->id() . '__' . $sanitized_view_mode;
-  return $suggestions;
-}
-
-/**
  * Workaround to show translatable fields inside nested paragraphs.
  *
  * @param $entity_form

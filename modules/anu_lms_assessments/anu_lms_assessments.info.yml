@@ -1,9 +1,11 @@
-name: Anu LMS Quizzes
-description: Adds quiz functionality to LMS.
+name: 'Anu LMS Quizzes'
+description: 'Adds quiz functionality to LMS.'
 type: module
 core: 8.x
 dependencies:
+  - anu_lms_assessments
   - entity_reference_revisions
+  - features
   - field
   - inline_entity_form
   - options
@@ -14,5 +16,5 @@ dependencies:
   - taxonomy
   - user
   - views
-package: anu_lms
+package: 'Anu LMS'
 core_incompatible: false

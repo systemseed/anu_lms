@@ -1,11 +1,16 @@
-anu_lms_assessments.assessment_question.responses:
-  path: '/admin/structure/assessment_question/{assessment_question}/responses'
+# Shows assessment results on the separate page
+# for the Lesson node type with Question(s) inside.
+anu_lms_assessments.question.results:
+  path: '/node/{node}/questions_results'
   defaults:
-    _controller: '\Drupal\anu_lms_assessments\Controller\AssessmentQuestionResponsesController::page'
-    _title_callback: '\Drupal\anu_lms_assessments\Controller\AssessmentQuestionResponsesController::title'
+    _controller: '\Drupal\anu_lms_assessments\Controller\QuestionsResultsController::resultsPage'
+    _title_callback: '\Drupal\anu_lms_assessments\Controller\QuestionsResultsController::resultsPageTitle'
   requirements:
-    _custom_access: '\Drupal\anu_lms_assessments\Controller\AssessmentQuestionResponsesController::checkAccess'
+    _custom_access: '\Drupal\anu_lms_assessments\Controller\QuestionsResultsController::checkAccess'
+  options:
+    _admin_route: TRUE
 
+# Shows assessment results on the separate page for the Quiz node type.
 anu_lms_assessments.assessment.results:
   path: '/node/{node}/assessment_results'
   defaults:
