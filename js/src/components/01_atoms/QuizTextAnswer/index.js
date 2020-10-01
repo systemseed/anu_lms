@@ -55,6 +55,9 @@ const QuizTextAnswer = ({
         multiline={multiline}
         rows={3}
         rowsMax={10}
+        inputProps={ !multiline && {
+          maxLength: 255,
+        }}
         disabled={isSubmitting || !!correctValue}
       />
 

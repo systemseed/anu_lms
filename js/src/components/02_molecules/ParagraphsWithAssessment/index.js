@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { withTranslation } from 'react-i18next';
+import { withAlert } from 'react-alert';
 
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
@@ -49,7 +50,7 @@ class ParagraphsWithAssessments extends React.Component {
   }
 
   handleSubmit() {
-    const { node } = this.props;
+    const { node, alert } = this.props;
     const { assessmentData } = this.state;
 
     this.setState({
@@ -74,6 +75,7 @@ class ParagraphsWithAssessments extends React.Component {
             });
           })
           .catch(error => {
+            alert.error('Could not send the quiz. Please, refresh the page and try again or contact the administrator.');
             console.log(`Could not send quiz data: ${error}`);
           })
           .finally(() => {
@@ -149,4 +151,4 @@ class ParagraphsWithAssessments extends React.Component {
   }
 }
 
-export default withTranslation()(ParagraphsWithAssessments);
+export default withAlert()(withTranslation()(ParagraphsWithAssessments));
