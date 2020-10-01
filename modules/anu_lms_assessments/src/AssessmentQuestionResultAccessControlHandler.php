@@ -6,7 +6,6 @@ use Drupal\Core\Entity\EntityAccessControlHandler;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Access\AccessResult;
-use Drupal\node\Plugin\views\filter\Access;
 
 /**
  * Access controller for the Assessment question result entity.
