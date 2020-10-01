@@ -100,6 +100,11 @@ class AnulmsMenuHandler {
             ->toString();
           $this->addMenuItem($items, 'Results', $assessment_results_url);
         }
+        elseif ($node->bundle() == 'module_lesson') {
+          $assessment_results_url = Url::fromRoute('anu_lms_assessments.question.results', ['node' => $node->id()])
+            ->toString();
+          $this->addMenuItem($items, 'Results', $assessment_results_url);
+        }
       }
     }
 

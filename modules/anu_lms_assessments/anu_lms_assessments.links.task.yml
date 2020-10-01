@@ -15,16 +15,17 @@ entity.assessment_question.version_history:
   base_route: entity.assessment_question.canonical
   title: 'Revisions'
 
-entity.assessment_question.responses:
-  route_name: anu_lms_assessments.assessment_question.responses
-  base_route: entity.assessment_question.canonical
-  title: 'Responses'
-
 entity.assessment_question.delete_form:
   route_name:  entity.assessment_question.delete_form
   base_route:  entity.assessment_question.canonical
   title: Delete
   weight: 10
+
+anu_lms_assessments.question.results:
+  route_name: anu_lms_assessments.question.results
+  base_route: entity.node.canonical
+  weight: 8
+  title: 'Results'
 
 anu_lms_assessments.assessment.results:
   route_name: anu_lms_assessments.assessment.results
@@ -49,12 +50,6 @@ entity.assessment_question_result.delete_form:
   base_route:  entity.assessment_question_result.canonical
   title: Delete
   weight: 10
-
-# Assessment result routing definition
-assessment_result.settings_tab:
-  route_name: assessment_result.settings
-  title: 'Settings'
-  base_route: assessment_result.settings
 
 entity.assessment_result.canonical:
   route_name: entity.assessment_result.canonical

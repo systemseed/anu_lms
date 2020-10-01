@@ -29,9 +29,6 @@ delete all question revisions:
   title: 'Delete all revisions'
   description: 'Role requires permission to <em>view Question revisions</em> and <em>delete rights</em> for question entities in question or <em>administer question entities</em>.'
 
-permission_callbacks:
-  - \Drupal\anu_lms_assessments\AssessmentQuestionPermissions::generatePermissions
-
 add assessment question result entities:
   title: 'Create new Question result entities'
 

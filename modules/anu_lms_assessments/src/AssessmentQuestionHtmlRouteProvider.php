@@ -42,10 +42,6 @@ class AssessmentQuestionHtmlRouteProvider extends AdminHtmlRouteProvider {
       $collection->add("{$entity_type_id}.revision_revert_translation_confirm", $translation_route);
     }
 
-    if ($settings_form_route = $this->getSettingsFormRoute($entity_type)) {
-      $collection->add("$entity_type_id.settings", $settings_form_route);
-    }
-
     return $collection;
   }
 
@@ -163,30 +159,6 @@ class AssessmentQuestionHtmlRouteProvider extends AdminHtmlRouteProvider {
           '_title' => 'Revert to earlier revision of a translation',
         ])
         ->setRequirement('_permission', 'revert all question revisions')
-        ->setOption('_admin_route', TRUE);
-
-      return $route;
-    }
-  }
-
-  /**
-   * Gets the settings form route.
-   *
-   * @param \Drupal\Core\Entity\EntityTypeInterface $entity_type
-   *   The entity type.
-   *
-   * @return \Symfony\Component\Routing\Route|null
-   *   The generated route, if available.
-   */
-  protected function getSettingsFormRoute(EntityTypeInterface $entity_type) {
-    if (!$entity_type->getBundleEntityType()) {
-      $route = new Route("/admin/structure/{$entity_type->id()}/settings");
-      $route
-        ->setDefaults([
-          '_form' => 'Drupal\anu_lms_assessments\Form\AssessmentQuestionSettingsForm',
-          '_title' => "{$entity_type->getLabel()} settings",
-        ])
-        ->setRequirement('_permission', $entity_type->getAdminPermission())
         ->setOption('_admin_route', TRUE);
 
       return $route;

@@ -1,7 +1,7 @@
 langcode: en
 status: true
 dependencies: {  }
-name: Anu LMS
+name: 'Anu LMS'
 machine_name: anu_lms
 description: 'Auto-generated bundle from package anu_lms'
 assignments:

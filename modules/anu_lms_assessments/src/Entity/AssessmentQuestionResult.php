@@ -31,7 +31,7 @@ use Drupal\user\UserInterface;
  *       "delete" = "Drupal\anu_lms_assessments\Form\AssessmentQuestionResultDeleteForm",
  *     },
  *     "route_provider" = {
- *       "html" = "Drupal\anu_lms_assessments\AssessmentQuestionResultHtmlRouteProvider",
+ *       "html" = "Drupal\Core\Entity\Routing\AdminHtmlRouteProvider",
  *     },
  *     "access" = "Drupal\anu_lms_assessments\AssessmentQuestionResultAccessControlHandler",
  *   },

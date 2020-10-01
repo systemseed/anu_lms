@@ -1,46 +1,39 @@
 # Question menu items definition
 entity.assessment_question.collection:
-  title: 'Question list'
+  title: 'Questions'
   route_name: entity.assessment_question.collection
   description: 'List Question entities'
   parent: system.admin_structure
-  weight: 100
+  weight: 105
 
 # Question type menu items definition
 entity.assessment_question_type.collection:
-  title: 'Question type'
+  title: 'Question types'
   route_name: entity.assessment_question_type.collection
-  description: 'List Question type (bundles)'
+  description: 'List of Question types (bundles)'
   parent: system.admin_structure
-  weight: 99
+  weight: 95
 
 # Assessment question result menu items definition
 entity.assessment_question_result.collection:
-  title: 'Question result list'
+  title: 'Question results'
   route_name: entity.assessment_question_result.collection
   description: 'List Question result entities'
   parent: system.admin_structure
-  weight: 100
-
+  weight: 106
 
 # Assessment question result type menu items definition
 entity.assessment_question_result_type.collection:
-  title: 'Question result type'
+  title: 'Question result types'
   route_name: entity.assessment_question_result_type.collection
-  description: 'List Question result type (bundles)'
+  description: 'List Question result types (bundles)'
   parent: system.admin_structure
-  weight: 99
+  weight: 96
 
 # Assessment result menu items definition
 entity.assessment_result.collection:
-  title: 'Quiz result list'
+  title: 'Quiz results'
   route_name: entity.assessment_result.collection
   description: 'List Quiz result entities'
   parent: system.admin_structure
-  weight: 100
-
-assessment_result.admin.structure.settings:
-  title: 'Quiz result settings'
-  description: 'Configure Quiz result entities'
-  route_name: assessment_result.settings
-  parent: system.admin_structure
+  weight: 107

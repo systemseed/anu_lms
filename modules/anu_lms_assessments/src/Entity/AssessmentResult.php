@@ -29,7 +29,7 @@ use Drupal\user\UserInterface;
  *       "delete" = "Drupal\anu_lms_assessments\Form\AssessmentResultDeleteForm",
  *     },
  *     "route_provider" = {
- *       "html" = "Drupal\anu_lms_assessments\AssessmentResultHtmlRouteProvider",
+ *       "html" = "Drupal\Core\Entity\Routing\AdminHtmlRouteProvider",
  *     },
  *     "access" = "Drupal\anu_lms_assessments\AssessmentResultAccessControlHandler",
  *   },
@@ -51,7 +51,6 @@ use Drupal\user\UserInterface;
  *     "delete-form" = "/admin/structure/assessment_result/{assessment_result}/delete",
  *     "collection" = "/admin/structure/assessment_result",
  *   },
- *   field_ui_base_route = "assessment_result.settings"
  * )
  */
 class AssessmentResult extends ContentEntityBase implements AssessmentResultInterface {

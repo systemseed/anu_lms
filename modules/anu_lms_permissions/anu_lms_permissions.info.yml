@@ -5,9 +5,13 @@ core: 8.x
 dependencies:
   - anu_lms
   - field
+  - gnode
   - group:gnode
   - group:group
+  - groupmedia
+  - media
+  - node
   - path
   - user
-package: anu_lms
+package: 'Anu LMS'
 core_incompatible: false

@@ -11,6 +11,7 @@ audience: member
 group_type: anu_organization
 permissions_ui: true
 permissions:
+  - 'view group_media:document entity'
   - 'view group_node:course entity'
   - 'view group_node:module entity'
   - 'view group_node:module_assessment entity'
