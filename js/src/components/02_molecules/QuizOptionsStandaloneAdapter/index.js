@@ -22,7 +22,7 @@ class QuizOptionsStandaloneAdapter extends React.Component {
 
   onSubmit() {
     const { aqid, bundle, onChange, alert } = this.props;
-    const { value } = this.state;
+    const { values } = this.state;
 
     this.setState({
       isSubmitting: true,
@@ -32,15 +32,10 @@ class QuizOptionsStandaloneAdapter extends React.Component {
     let formatterValue;
 
     if (bundle === 'question_single_choice') {
-      formatterValue = Number.parseInt(value);
+      formatterValue = Number.parseInt(values, 10);
     }
     else {
-      formatterValue = [];
-      for (let id in value) {
-        if (value.hasOwnProperty(id) && value[id]) {
-          formatterValue.push(Number.parseInt(id, 10));
-        }
-      }
+      formatterValue = values.map(value => Number.parseInt(value, 10));
     }
 
     axios
@@ -85,9 +80,7 @@ class QuizOptionsStandaloneAdapter extends React.Component {
     this.setState({ values: newValues });
   };
 
-  handleRadioChange(event) {
-    this.setState({ values: event.target.value });
-  }
+  handleRadioChange = (event) => this.setState({ values: event.target.value });
 
   render() {
     const { bundle, question, options } = this.props;
