@@ -1,0 +1,67 @@
+<?php
+
+/**
+ * @file
+ * Main entry point for the module.
+ */
+
+use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Updates description.
+ */
+function anu_lms_form_node_course_delete_form_alter(&$form) {
+  $form['description']['#markup'] = t('This will delete all modules and lessons in this course and the translations. Are you sure you want to delete?');
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Updates description.
+ */
+function anu_lms_form_node_module_delete_form_alter(&$form) {
+  $form['description']['#markup'] = t('This will delete all lessons in this module and the translations. Are you sure you want to delete?');
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_delete().
+ *
+ * Removes leftover content related to the node.
+ */
+function anu_lms_node_delete(NodeInterface $node) {
+  // Collects leftover contents IDs.
+  switch ($node->getType()) {
+    case 'course':
+      $nids = \Drupal::entityQuery('node')
+        ->condition('type', 'module')
+        ->condition('field_module_course.target_id', $node->id())
+        ->execute();
+      break;
+
+    case 'module':
+      $lessons_nids = \Drupal::entityQuery('node')
+        ->condition('type', 'module_lesson')
+        ->condition('field_module_lesson_module.target_id', $node->id())
+        ->execute();
+
+      $quizzes_nids = \Drupal::entityQuery('node')
+        ->condition('type', 'module_assessment')
+        ->condition('field_module_assessment_module.target_id', $node->id())
+        ->execute();
+
+      $nids = array_merge($lessons_nids, $quizzes_nids);
+      break;
+  }
+
+  if (!empty($nids)) {
+    // Deletes nodes by chunks.
+    $nids = array_values($nids);
+    $storage = \Drupal::entityTypeManager()->getStorage('node');
+    foreach (array_chunk($nids, 50) as $chunk) {
+      $nodes = $storage->loadMultiple($chunk);
+      $storage->delete($nodes);
+    }
+  }
+}
