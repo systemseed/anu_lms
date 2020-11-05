@@ -34,7 +34,7 @@
                 "Add entity form mode to Edit button": "https://www.drupal.org/files/issues/2019-08-20/2821917-20-support-form-mode.patch"
             },
             "drupal/paragraphs": {
-                "Fix error with empty langcode on saving in certain cases": "https://www.drupal.org/files/issues/2019-08-10/paragraphs-set_langcode_widgets-290139_updated.patch"
+                "Fix error with empty langcode on saving in certain cases": "https://www.drupal.org/files/issues/2020-06-25/paragraphs-2901390-51.patch"
             },
             "drupal/webpack": {
                 "Fixes issue with multiple saving": "https://www.drupal.org/files/issues/2020-01-25/3085696-multiple-save-fix.patch"
