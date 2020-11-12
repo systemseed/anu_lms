@@ -10,10 +10,19 @@ const StyledBox = withStyles(theme => ({
   }
 }))(Box);
 
+const StyledTypography = withStyles(theme => ({
+  root: {
+    '& img': {
+      maxWidth: '100%',
+      height: 'auto',
+    }
+  },
+}))(Typography);
+
 const Text = ({ value }) => (
   <StyledBox>
     <LessonGrid>
-      <Typography component="div"  dangerouslySetInnerHTML={{ __html: value }} />
+      <StyledTypography component="div" dangerouslySetInnerHTML={{ __html: value }} />
     </LessonGrid>
   </StyledBox>
 );
