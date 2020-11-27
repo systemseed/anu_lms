@@ -16,5 +16,7 @@ dependencies:
   - taxonomy
   - user
   - views
+  - views_data_export
+  - xls_serialization
 package: 'Anu LMS'
 core_incompatible: false
