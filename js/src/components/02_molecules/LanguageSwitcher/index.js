@@ -36,12 +36,47 @@ const LanguageSwitcher = () => {
     return null;
   }
 
+  const mainLanguages = [];
+  const secondaryLanguages = [];
+
+  orderedLanguages.forEach((lang) => {
+    if (lang.is_main) {
+      mainLanguages.push(lang);
+    } else {
+      secondaryLanguages.push(lang);
+    }
+  });
+
+  // No main languages defined
+  if (mainLanguages.length === 0) {
+    mainLanguages = orderedLanguages.slice(0,6);
+    if (orderedLanguages.length > 6) {
+      secondaryLanguages = orderedLanguages.slice(6);
+    } else {
+      secondaryLanguages = [];
+    }
+  }
+
   return (
     languages && (
       <StyledBox>
         <StyledContainer>
           <Box display="flex">
-            {orderedLanguages.map(lang => (
+            {mainLanguages.map(lang => (
+              <LanguageLink
+                key={lang.code}
+                isActive={getLangCode() === lang.code}
+                label={lang.title}
+                url={lang.url}
+              />
+            ))}
+            {(secondaryLanguages.length > 0) && (
+              <LanguageLink
+                key="more"
+                label="More"
+                url="#"
+              />
+            ) && secondaryLanguages.map(lang => (
               <LanguageLink
                 key={lang.code}
                 isActive={getLangCode() === lang.code}
