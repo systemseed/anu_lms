@@ -98,6 +98,11 @@ class QuestionRestResource extends ResourceBase {
         $response_entities = \Drupal::entityTypeManager()
           ->getStorage('paragraph')
           ->loadMultiple($responses);
+        foreach ($response_entities as $response_entity) {
+          // Setting flag for workaround for preventing re saving paragraph and changing parent_id.
+          // Implementation made as patch for entity_reference_revisions module.
+          $response_entity->dontSave = TRUE;
+        }
         $question_result->set('field_single_multi_choice', $response_entities);
 
         // TODO: Multiple correct values in radio?
