@@ -114,7 +114,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: ID
+          label: ''
           exclude: true
           alter:
             alter_text: false
@@ -147,7 +147,7 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: true
+          element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
@@ -156,10 +156,8 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
-          type: number_integer
-          settings:
-            thousand_separator: ''
-            prefix_suffix: true
+          type: number_unformatted
+          settings: {  }
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -375,12 +373,110 @@ display:
           field: nothing
           relationship: none
           group_type: group
+          admin_label: 'Link to view'
+          label: ''
+          exclude: true
+          alter:
+            alter_text: true
+            text: '<a href="/node/{{ aid }}/assessment_results/{{ id }}">View results</a>'
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: false
+          plugin_id: custom
+        nothing_1:
+          id: nothing_1
+          table: views
+          field: nothing
+          relationship: none
+          group_type: group
+          admin_label: 'Link to download'
+          label: ''
+          exclude: true
+          alter:
+            alter_text: true
+            text: '<a href="/node/{{ aid }}/assessment_results_download/{{ id }}">Download results</a>'
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: false
+          plugin_id: custom
+        dropbutton:
+          id: dropbutton
+          table: views
+          field: dropbutton
+          relationship: none
+          group_type: group
           admin_label: Links
           label: Links
           exclude: false
           alter:
-            alter_text: true
-            text: '<a href="/node/{{ aid }}/assessment_results/{{ id }}">View results</a>'
+            alter_text: false
+            text: ''
             make_link: false
             path: ''
             absolute: false
@@ -416,8 +512,16 @@ display:
           empty: ''
           hide_empty: false
           empty_zero: false
-          hide_alter_empty: false
-          plugin_id: custom
+          hide_alter_empty: true
+          fields:
+            nothing: nothing
+            nothing_1: nothing_1
+            id: '0'
+            aid: '0'
+            user_id: '0'
+            created: '0'
+          destination: true
+          plugin_id: dropbutton
       filters:
         status:
           value: '1'
@@ -448,7 +552,18 @@ display:
           entity_type: assessment_result
           entity_field: created
           plugin_id: date
-      header: {  }
+      header:
+        area_text_custom:
+          id: area_text_custom
+          table: views
+          field: area_text_custom
+          relationship: none
+          group_type: group
+          admin_label: 'Download results button'
+          empty: false
+          tokenize: true
+          content: "<ul class=\"action-links\">\r\n  <li>\r\n    <a href=\"/node/{{ aid|striptags }}/assessment_results_download\" class=\"button button--primary\" data-drupal-link-system-path=\"/node/{{ aid|striptags }}/assessment_results_download\">Download results</a>\r\n  </li>\r\n</ul>"
+          plugin_id: text_custom
       footer: {  }
       empty:
         area_text_custom:
