@@ -101,6 +101,7 @@ content:
       collapsible: false
       collapsed: false
       allow_duplicate: false
+      revision: false
     third_party_settings:
       entity_browser_entity_form:
         entity_browser_id: _none
@@ -142,6 +143,7 @@ content:
       allow_new: true
       allow_existing: true
       match_operator: CONTAINS
+      revision: false
       collapsible: false
       collapsed: false
       allow_duplicate: false
@@ -192,6 +194,11 @@ content:
       size: 60
       placeholder: ''
       match_limit: 10
+    third_party_settings: {  }
+  url_redirects:
+    weight: 50
+    region: content
+    settings: {  }
     third_party_settings: {  }
 hidden:
   promote: true
