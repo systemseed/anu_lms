@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -72,7 +73,7 @@ const useStyles = makeStyles({
   },
 });
 
-const LanguageMenu = ({ options }) => {
+const LanguageMenu = ({ options, t }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const handleClick = (event) => {
@@ -88,7 +89,7 @@ const LanguageMenu = ({ options }) => {
   return (
     <>
       <LanguageLink
-        label="More"
+        label={t('More')}
         onClick={handleClick}
         endIcon={<ExpandMoreIcon style={{ fontSize: 18 }} />}
         className={classes.more}
@@ -124,4 +125,4 @@ LanguageMenu.defaultProps = {
   options: [],
 };
 
-export default LanguageMenu;
+export default withTranslation()(LanguageMenu);
