@@ -145,7 +145,8 @@ class Settings {
       $output['links'][$langcode] = [
         'url' => $url->toString(),
         'title' => $link['title'],
-        'weight' => $link['language']->getWeight()
+        'weight' => $link['language']->getWeight(),
+        'is_main' => isset($link['is_main']) ? $link['is_main'] : FALSE,
       ];
     }
 

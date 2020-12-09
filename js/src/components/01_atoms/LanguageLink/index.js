@@ -1,40 +1,43 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Link from '@material-ui/core/Link';
+import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core';
 
-const StyledLink = withStyles(theme => ({
+const StyledButton = withStyles(theme => ({
   root: {
     fontWeight: ({ active }) => (active ? 700 : 400),
-    opacity: ({ active }) => (active ? 1 : 0.7),
-    marginRight: theme.spacing(3),
-    '&:last-child': {
-      marginRight: 0,
-    },
+    textTransform: 'none',
   },
-}))(Link);
+}))(Button);
 
-const LanguageLink = ({ isActive, label, url, color }) => (
-  <StyledLink
+const LanguageLink = ({ isActive, label, url, onClick, endIcon, className }) => (
+  <StyledButton
     href={url}
+    onClick={onClick}
     active={isActive}
-    style={{ color }}
+    endIcon={endIcon}
+    className={className}
   >
     {label}
-  </StyledLink>
+  </StyledButton>
 );
 
 LanguageLink.propTypes = {
   isActive: PropTypes.bool,
   label: PropTypes.string.isRequired,
-  url: PropTypes.string.isRequired,
-  color: PropTypes.string,
+  url: PropTypes.string,
+  className: PropTypes.string,
+  onClick: PropTypes.func,
+  endIcon: PropTypes.string,
 };
 
 LanguageLink.defaultProps = {
   isActive: false,
-  color: '#fff',
+  className: '',
+  url: null,
+  onClick: () => {},
+  endIcon: null,
 };
 
 export default LanguageLink;

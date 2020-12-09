@@ -10,7 +10,7 @@ import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import { withStyles, makeStyles, styled } from '@material-ui/core/styles';
 import { Icon, Link } from '@material-ui/core';
 
-import LanguageSwitcher from '../../02_molecules/LanguageSwitcher';
+import LanguageSwitcher from '../LanguageSwitcher';
 
 import * as lessonActions from '../../../redux/actions/lesson';
 import { getCurrentNode } from '../../../utils/node';
