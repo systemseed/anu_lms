@@ -48,8 +48,8 @@ const LanguageSwitcher = () => {
     return null;
   }
 
-  const mainLanguages = [];
-  const secondaryLanguages = [];
+  let mainLanguages = [];
+  let secondaryLanguages = [];
 
   orderedLanguages.forEach((lang) => {
     if (lang.is_main) {
@@ -73,7 +73,7 @@ const LanguageSwitcher = () => {
     languages && (
       <StyledBox>
         <StyledContainer>
-          <Box display="flex">
+          <Box display="flex" flexWrap="wrap">
 
             {mainLanguages.map(lang => (
               <LanguageLink

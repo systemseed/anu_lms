@@ -90,7 +90,7 @@ const LanguageMenu = ({ options }) => {
       <LanguageLink
         label="More"
         onClick={handleClick}
-        endIcon={<ExpandMoreIcon />}
+        endIcon={<ExpandMoreIcon style={{ fontSize: 18 }} />}
         className={classes.more}
       />
       <StyledMenu
