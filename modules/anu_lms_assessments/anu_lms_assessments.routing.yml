@@ -10,6 +10,17 @@ anu_lms_assessments.question.results:
   options:
     _admin_route: TRUE
 
+# Returns assessment results as XLS spreadsheet for the Lesson node type with Question(s) inside.
+anu_lms_assessments.question.results_download:
+  path: '/node/{node}/questions_results_download'
+  defaults:
+    _controller: '\Drupal\anu_lms_assessments\Controller\QuestionsResultsController::resultsDownloadPage'
+    _title_callback: '\Drupal\anu_lms_assessments\Controller\QuestionsResultsController::resultsPageTitle'
+  requirements:
+    _custom_access: '\Drupal\anu_lms_assessments\Controller\QuestionsResultsController::checkAccess'
+  options:
+    _admin_route: TRUE
+
 # Shows assessment results on the separate page for the Quiz node type.
 anu_lms_assessments.assessment.results:
   path: '/node/{node}/assessment_results'
@@ -50,7 +61,7 @@ anu_lms_assessments.assessment.result:
 
 # Returns assessment results as XLS spreadsheet for the User.
 anu_lms_assessments.assessment.result_download:
-  path: '/node/{node}/assessment_results/{assessment_result}'
+  path: '/node/{node}/assessment_results_download/{assessment_result}'
   defaults:
     _controller: '\Drupal\anu_lms_assessments\Controller\AssessmentResultsController::resultDownloadPage'
     _title_callback: '\Drupal\anu_lms_assessments\Controller\AssessmentResultsController::resultPageTitle'

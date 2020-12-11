@@ -45,6 +45,34 @@ class QuestionsResultsController extends ControllerBase {
     return $build;
   }
 
+  public function resultsDownloadPage(NodeInterface $node) {
+    $build = [];
+
+    // Load questions from the lesson content.
+    // TODO: Test for empty node.
+    /** @var ParagraphInterface[] $paragraphs */
+    $sections = $node->get('field_module_lesson_content')->referencedEntities();
+    $question_ids = [];
+    foreach ($sections as $section) {
+      $paragraphs = $section->get('field_lesson_section_content')->referencedEntities();
+      foreach ($paragraphs as $paragraph) {
+        if (strpos($paragraph->bundle(), 'question_') !== FALSE) {
+          $question_ids[] = $paragraph->get('field_question')->getString();
+        }
+      }
+    }
+
+    $build['lesson_questions_responses'] = [
+      '#type' => 'view',
+      '#name' => 'lesson_questions_responses',
+      '#display_id' => 'lesson_questions_responses_download',
+      '#arguments' => [$node->id(), implode('+', $question_ids)],
+      '#embed' => TRUE,
+    ];
+
+    return $build;
+  }
+
   public function checkAccess(NodeInterface $node, AccountInterface $account) {
 
     // The route is valid only for lesson nodes.
