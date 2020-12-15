@@ -7,6 +7,7 @@ import { camelcase } from '../utils/helpers';
 import ar from './ar.json';
 import en from './en.json';
 import es from './es.json';
+import fr from './fr.json';
 import tiEt from './ti-et.json';
 
 const resources = {
@@ -21,6 +22,9 @@ const resources = {
   },
   es: {
     translation: es,
+  },
+  fr: {
+    translation: fr,
   },
   tiEt: {
     translation: tiEt,
