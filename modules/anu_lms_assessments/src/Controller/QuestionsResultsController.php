@@ -38,7 +38,7 @@ class QuestionsResultsController extends ControllerBase {
       '#type' => 'view',
       '#name' => 'lesson_questions_responses',
       '#display_id' => 'lesson_questions_responses_embed',
-      '#arguments' => [implode('+', $question_ids)],
+      '#arguments' => [implode('+', $question_ids), $node->id()], // nid needs for generating download link.
       '#embed' => TRUE,
     ];
 
