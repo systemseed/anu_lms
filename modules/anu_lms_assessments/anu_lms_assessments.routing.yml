@@ -21,38 +21,11 @@ anu_lms_assessments.assessment.results:
   options:
     _admin_route: TRUE
 
-# Returns assessment results as XLS spreadsheet for the Quiz node type.
-anu_lms_assessments.assessment.results_download:
-  path: '/node/{node}/assessment_results_download'
-  defaults:
-    _controller: '\Drupal\anu_lms_assessments\Controller\AssessmentResultsController::resultsDownloadPage'
-    _title_callback: '\Drupal\anu_lms_assessments\Controller\AssessmentResultsController::resultsPageTitle'
-  requirements:
-    _custom_access: '\Drupal\anu_lms_assessments\Controller\AssessmentResultsController::checkAccess'
-  options:
-    _admin_route: TRUE
-
 # Shows assessment results on the separate page for the User.
 anu_lms_assessments.assessment.result:
   path: '/node/{node}/assessment_results/{assessment_result}'
   defaults:
     _controller: '\Drupal\anu_lms_assessments\Controller\AssessmentResultsController::resultPage'
-    _title_callback: '\Drupal\anu_lms_assessments\Controller\AssessmentResultsController::resultPageTitle'
-  requirements:
-    _custom_access: '\Drupal\anu_lms_assessments\Controller\AssessmentResultsController::checkAccess'
-  options:
-    _admin_route: TRUE
-    parameters:
-      node:
-        type: entity:node
-      assessment_result:
-        type: entity:assessment_result
-
-# Returns assessment results as XLS spreadsheet for the User.
-anu_lms_assessments.assessment.result_download:
-  path: '/node/{node}/assessment_results_download/{assessment_result}'
-  defaults:
-    _controller: '\Drupal\anu_lms_assessments\Controller\AssessmentResultsController::resultDownloadPage'
     _title_callback: '\Drupal\anu_lms_assessments\Controller\AssessmentResultsController::resultPageTitle'
   requirements:
     _custom_access: '\Drupal\anu_lms_assessments\Controller\AssessmentResultsController::checkAccess'
