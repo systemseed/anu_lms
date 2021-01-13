@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+import { Offline, Online } from 'react-detect-offline';
 
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import LanguageLink from '../../01_atoms/LanguageLink';
+import SnackAlert from '../../01_atoms/SnackAlert';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import { withStyles, makeStyles } from '@material-ui/core/styles';
@@ -76,11 +78,24 @@ const useStyles = makeStyles({
 const LanguageMenu = ({ options, t }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
+  const [alertOpen, setAlertOpen] = React.useState(false);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleOfflineClick = (event) => {
+    event.preventDefault();
+    setAnchorEl(null);
+    setAlertOpen(true);
+  };
+
+  const handleAlertClose = (event, reason) => {
+    setAlertOpen(false);
   };
 
   if (options.length === 0) {
@@ -100,19 +115,45 @@ const LanguageMenu = ({ options, t }) => {
         onClose={handleClose}
       >
         {options.map(lang => (
-          <StyledMenuItem
-            key={lang.code}
-            onClick={() => (window.location.href = lang.url)}
-          >
-            <LanguageLink
-              isActive={getLangCode() === lang.code}
-              label={lang.title}
-              className={classes.listLink}
-              url="#"
-            />
-          </StyledMenuItem>
+          <>
+            <Online>
+              <StyledMenuItem
+                key={lang.code}
+                onClick={() => (window.location.href = lang.url)}
+              >
+                <LanguageLink
+                  isActive={getLangCode() === lang.code}
+                  label={lang.title}
+                  className={classes.listLink}
+                  url="#"
+                />
+              </StyledMenuItem>
+            </Online>
+            <Offline>
+              <StyledMenuItem
+                key={lang.code}
+                onClick={handleOfflineClick}
+              >
+                <LanguageLink
+                  isActive={getLangCode() === lang.code}
+                  label={lang.title}
+                  className={classes.listLink}
+                  url="#"
+                />
+              </StyledMenuItem>
+            </Offline>
+          </>
         ))}
       </StyledMenu>
+      <SnackAlert
+        show={alertOpen}
+        message={t('It is not possible to change language whilst you are offline.')}
+        onClose={handleAlertClose}
+        severity="warning"
+        variant="filled"
+        spaced
+        duration={5000}
+      />
     </>
   );
 };
