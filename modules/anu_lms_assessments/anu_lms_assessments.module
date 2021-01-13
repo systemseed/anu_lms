@@ -21,6 +21,17 @@ function anu_lms_assessments_views_data_alter(array &$data) {
     'base field' => 'aqrid',
     'field' => 'id',
   ];
+
+  $data['assessment_question']['assessment_question_result']['relationship'] = [
+    'title' => t('Qestion result'),
+    'label' => t('Qestion result'),
+    'group' => 'Question',
+    'help' => t('Reference to the Question result'),
+    'id' => 'standard',
+    'base' => 'assessment_question_result',
+    'base field' => 'aqid__target_id',
+    'field' => 'id',
+  ];
 }
 
 /**

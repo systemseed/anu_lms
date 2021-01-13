@@ -3,14 +3,18 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.assessment_question_result.embedded
+    - user.role.authenticated
   module:
     - anu_lms_assessments
     - entity_reference_revisions
     - options
     - rest
     - serialization
+    - user
     - views_data_export
     - xls_serialization
+_core:
+  default_config_hash: 5AQ29mhqtHx3t1B42aLUK3C5upmX7PvpdKMksCfPlVY
 id: assessments_question_responses
 label: 'Quizzes: User responses'
 module: views
@@ -581,7 +585,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          default_action: empty
+          default_action: ignore
           exception:
             value: all
             title_enable: false
@@ -615,7 +619,8 @@ display:
         arguments: false
         relationships: false
         fields: false
-      path: node/%node/assessment_results_download/%assessment_result
+        access: false
+      path: node/%/assessment_results_download/%
       filename: results.xls
       automatic_download: false
       store_in_public_file_directory: false
@@ -973,6 +978,11 @@ display:
           entity_type: assessment_question_result
           entity_field: created
           plugin_id: field
+      access:
+        type: role
+        options:
+          role:
+            authenticated: authenticated
     cache_metadata:
       max-age: -1
       contexts:
@@ -980,6 +990,7 @@ display:
         - 'languages:language_interface'
         - request_format
         - url
+        - user.roles
       tags:
         - 'config:core.entity_view_display.assessment_question_result.long_answer.default'
         - 'config:core.entity_view_display.assessment_question_result.long_answer.embedded'
@@ -1626,6 +1637,7 @@ display:
         arguments: false
         relationships: false
         fields: false
+        access: false
       path: node/%/assessment_results_download
       filename: results.xls
       automatic_download: false
@@ -1984,6 +1996,11 @@ display:
           entity_type: assessment_question_result
           entity_field: created
           plugin_id: field
+      access:
+        type: role
+        options:
+          role:
+            authenticated: authenticated
     cache_metadata:
       max-age: -1
       contexts:
@@ -1991,6 +2008,7 @@ display:
         - 'languages:language_interface'
         - request_format
         - url
+        - user.roles
       tags:
         - 'config:core.entity_view_display.assessment_question_result.long_answer.default'
         - 'config:core.entity_view_display.assessment_question_result.long_answer.embedded'
