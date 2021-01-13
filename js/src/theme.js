@@ -27,25 +27,9 @@ const customizedTheme = createMuiTheme({
       main: '#3E3E3E',
       dark: '#2E2E2E',
     },
-    info: {
-      main: '#0288D1',
-      light: '#e5f3fa',
-    },
-    success: {
-      main: '#009688',
-      light: '#e0f2f1',
-    },
     warning: {
       main: '#ffca28',
       light: '#ffecb3',
-    },
-    error: {
-      main: '#f44336',
-      light: '#ffebee',
-    },
-    text: {
-      secondary: '#37474f',
-      subdued: '#78909c',
     },
   },
   typography: {
