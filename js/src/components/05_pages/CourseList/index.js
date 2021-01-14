@@ -5,7 +5,7 @@ import {
   CardContent,
   CardActionArea,
   CardMedia,
-  Chip,
+  // Chip,
   Container,
   Grid,
   Typography,
@@ -19,10 +19,8 @@ import { getLangCodePrefix } from '../../../utils/settings';
 
 const StyledGridContainer = withStyles(theme => ({
   root: {
-    paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
     [theme.breakpoints.up('sm')]: {
-      paddingTop: theme.spacing(4),
       paddingBottom: theme.spacing(4),
     },
   },
@@ -61,6 +59,19 @@ const StyledLink = styled('a')({
   color: 'black',
 });
 
+const AccentTypography = withStyles(theme => ({
+  root: {
+    display: 'flex',
+    alignItems: 'center',
+    height: 35,
+    borderLeft: `4px solid ${theme.palette.accent}`,
+    paddingLeft: theme.spacing(3),
+    [theme.breakpoints.up('sm')]: {
+      height: 50,
+    },
+  },
+}))(Typography);
+
 class CourseList extends React.Component {
   constructor(props) {
     super(props);
@@ -85,12 +96,10 @@ class CourseList extends React.Component {
       <PageContainer>
         <Container maxWidth="lg">
           <Box mt={4}>
-            <Typography variant="h1" style={{ marginBottom: '0.6em' }}>
-              Courses
-            </Typography>
+            <Typography variant="h1">Courses</Typography>
           </Box>
 
-          {/*
+          {/* TODO in
           <div>
             {[{ id: 'all', name: 'All courses' }].concat(categories).map(category => (
               <Chip
@@ -113,32 +122,41 @@ class CourseList extends React.Component {
             />
           )}
 
-          <StyledGridContainer container spacing={4}>
-            {nodes.map(node => (
-              <Grid item md={4} sm={6} xs={12} key={node.id}>
-                <StyledCard>
-                  <StyledCardActionArea component="div">
-                    <StyledLink href={`${getLangCodePrefix()}${node.path}`}>
-                      <StyledCardMedia image={node.image.url} title={node.title} />
+          {categories.map(category => (
+            <div style={{ marginBottom: 100 }}>
+              <AccentTypography variant="h4" component="h2">
+                {category.name}
+              </AccentTypography>
 
-                      <CardContent>
-                        <Typography gutterBottom variant="h4" component="h2">
-                          {node.title}
-                        </Typography>
+              <StyledGridContainer container spacing={4}>
+                {nodes.map(node =>
+                  node.categories.find(filterCat => category.id === filterCat.id) && (
+                    <Grid item md={4} sm={6} xs={12} key={node.id}>
+                      <StyledCard>
+                        <StyledCardActionArea component="div">
+                          <StyledLink href={`${getLangCodePrefix()}${node.path}`}>
+                            <StyledCardMedia image={node.image.url} title={node.title} />
 
-                        <Typography
-                          variant="body2"
-                          color="textSecondary"
-                          component="div"
-                          dangerouslySetInnerHTML={{ __html: node.description }}
-                        />
-                      </CardContent>
-                    </StyledLink>
-                  </StyledCardActionArea>
-                </StyledCard>
-              </Grid>
-            ))}
-          </StyledGridContainer>
+                            <CardContent>
+                              <Typography gutterBottom variant="h4">
+                                {node.title}
+                              </Typography>
+
+                              <Typography
+                                variant="body2"
+                                color="textSecondary"
+                                dangerouslySetInnerHTML={{ __html: node.description }}
+                              />
+                            </CardContent>
+                          </StyledLink>
+                        </StyledCardActionArea>
+                      </StyledCard>
+                    </Grid>
+                  )
+                )}
+              </StyledGridContainer>
+            </div>
+          ))}
         </Container>
       </PageContainer>
     );
