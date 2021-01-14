@@ -14,6 +14,7 @@ import {
 } from '@material-ui/core';
 
 import PageContainer from '../../01_atoms/PageContainer';
+import Accented from '../../06_hocs/Accented';
 
 import { getLangCodePrefix } from '../../../utils/settings';
 
@@ -58,19 +59,6 @@ const StyledLink = styled('a')({
   textDecoration: 'none',
   color: 'black',
 });
-
-const AccentTypography = withStyles(theme => ({
-  root: {
-    display: 'flex',
-    alignItems: 'center',
-    height: 35,
-    borderLeft: `4px solid ${theme.palette.accent}`,
-    paddingLeft: theme.spacing(3),
-    [theme.breakpoints.up('sm')]: {
-      height: 50,
-    },
-  },
-}))(Typography);
 
 class CourseList extends React.Component {
   constructor(props) {
@@ -124,9 +112,11 @@ class CourseList extends React.Component {
 
           {categories.map(category => (
             <div style={{ marginBottom: 100 }}>
-              <AccentTypography variant="h4" component="h2">
-                {category.name}
-              </AccentTypography>
+              <Accented>
+                <Typography variant="h4" component="h2">
+                  {category.name}
+                </Typography>
+              </Accented>
 
               <StyledGridContainer container spacing={4}>
                 {nodes.map(node =>
