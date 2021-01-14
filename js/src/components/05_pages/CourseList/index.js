@@ -46,10 +46,10 @@ const StyledCardMedia = withStyles({
 
 const StyledCoursesDescription = withStyles(theme => ({
   root: {
-    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(2),
     textAlign: 'center',
     [theme.breakpoints.up('sm')]: {
-      paddingTop: theme.spacing(2),
+      paddingBottom: theme.spacing(4),
     },
   },
 }))(Typography);
