@@ -124,7 +124,9 @@ class CourseList extends React.Component {
                     <Grid item md={4} sm={6} xs={12} key={node.id}>
                       <StyledCard>
                         <StyledCardActionArea component="div">
-                          <StyledLink href={`${getLangCodePrefix()}${node.path}`}>
+                          <StyledLink
+                            href={`${getLangCodePrefix()}${node.path}?category=${category.id}`}
+                          >
                             <StyledCardMedia image={node.image.url} title={node.title} />
 
                             <CardContent>
