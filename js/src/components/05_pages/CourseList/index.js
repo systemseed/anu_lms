@@ -5,7 +5,7 @@ import {
   CardContent,
   CardActionArea,
   CardMedia,
-  // Chip,
+  Chip,
   Container,
   Grid,
   Typography,
@@ -65,9 +65,30 @@ class CourseList extends React.Component {
     super(props);
 
     this.state = {
+      url: new URL(window.location),
       activeCategory: 'all',
     };
   }
+
+  componentDidMount() {
+    this.handleURLChange();
+  }
+
+  componentDidUpdate() {
+    this.handleURLChange();
+  }
+
+  handleURLChange = () => {
+    const { activeCategory, url } = this.state;
+
+    if (url.searchParams.has('category')) {
+      url.searchParams.set('category', activeCategory);
+    } else {
+      url.searchParams.append('category', activeCategory);
+    }
+
+    window.history.pushState(null, '', url.href);
+  };
 
   handleCategoryClick = category => this.setState({ activeCategory: category.id });
 
@@ -87,7 +108,7 @@ class CourseList extends React.Component {
             <Typography variant="h1">Courses</Typography>
           </Box>
 
-          {/* TODO in
+          {
           <div>
             {[{ id: 'all', name: 'All courses' }].concat(categories).map(category => (
               <Chip
@@ -99,7 +120,7 @@ class CourseList extends React.Component {
               />
             ))}
           </div>
-          */}
+          }
 
           {settings.courses_description && (
             <StyledCoursesDescription
@@ -111,6 +132,7 @@ class CourseList extends React.Component {
           )}
 
           {categories.map(category => (
+            (activeCategory === 'all' || activeCategory === category.id) && (
             <div style={{ marginBottom: 100 }}>
               <Accented>
                 <Typography variant="h4" component="h2">
@@ -119,7 +141,7 @@ class CourseList extends React.Component {
               </Accented>
 
               <StyledGridContainer container spacing={4}>
-                {nodes.map(node =>
+                {nodes.map(node => (
                   node.categories.find(filterCat => category.id === filterCat.id) && (
                     <Grid item md={4} sm={6} xs={12} key={node.id}>
                       <StyledCard>
@@ -145,10 +167,10 @@ class CourseList extends React.Component {
                       </StyledCard>
                     </Grid>
                   )
-                )}
+                ))}
               </StyledGridContainer>
             </div>
-          ))}
+          )))}
         </Container>
       </PageContainer>
     );

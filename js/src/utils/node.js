@@ -239,7 +239,7 @@ const getCourseFields = node => ({
   description: getTextValue(node, 'field_course_description'),
   image: getImage(node, 'field_course_image', 'course_preview'),
   categories: getArrayValue(node, 'field_course_category').map(category => ({
-    id: getTextValue(category, 'uuid'),
+    id: getTextValue(category, 'tid'),
     name: getTextValue(category, 'name'),
   })),
   // TODO: Modules might be loading too deeply. For performance reasons we may want to limit it.
