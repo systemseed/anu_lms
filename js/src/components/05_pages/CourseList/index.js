@@ -12,6 +12,7 @@ import {
   withStyles,
   styled,
 } from '@material-ui/core';
+import { withTheme } from '@material-ui/core/styles';
 
 import PageContainer from '../../01_atoms/PageContainer';
 import Accented from '../../06_hocs/Accented';
@@ -93,7 +94,7 @@ class CourseList extends React.Component {
   handleCategoryClick = category => this.setState({ activeCategory: category.id });
 
   render() {
-    const { nodes, settings } = this.props;
+    const { nodes, settings, theme } = this.props;
     const { activeCategory } = this.state;
     const allCategories = nodes.map(node => node.categories).flat();
     // Keep unique categories only.
@@ -108,8 +109,7 @@ class CourseList extends React.Component {
             <Typography variant="h1">Courses</Typography>
           </Box>
 
-          {
-          <div>
+          <div style={{ marginBottom: theme.spacing(5) }}>
             {[{ id: 'all', name: 'All courses' }].concat(categories).map(category => (
               <Chip
                 label={category.name}
@@ -120,7 +120,6 @@ class CourseList extends React.Component {
               />
             ))}
           </div>
-          }
 
           {settings.courses_description && (
             <StyledCoursesDescription
@@ -177,4 +176,4 @@ class CourseList extends React.Component {
   }
 }
 
-export default CourseList;
+export default withTheme(CourseList);
