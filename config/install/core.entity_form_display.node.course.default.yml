@@ -3,8 +3,10 @@ status: true
 dependencies:
   config:
     - core.entity_form_mode.node.embedded
+    - field.field.node.course.field_course_category
     - field.field.node.course.field_course_description
     - field.field.node.course.field_course_image
+    - field.field.node.course.field_course_label
     - field.field.node.course.field_course_modules
     - image.style.thumbnail
     - node.type.course
@@ -32,6 +34,8 @@ third_party_settings:
       label: Course
     group_course_info:
       children:
+        - field_course_category
+        - field_course_label
         - field_course_image
         - field_course_description
       parent_name: group_course
@@ -64,8 +68,20 @@ targetEntityType: node
 bundle: course
 mode: default
 content:
+  created:
+    type: datetime_timestamp
+    weight: 9
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_course_category:
+    weight: 101
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
   field_course_description:
-    weight: 3
+    weight: 104
     settings:
       rows: 5
       placeholder: ''
@@ -73,12 +89,18 @@ content:
     type: text_textarea
     region: content
   field_course_image:
-    weight: 2
+    weight: 103
     settings:
       progress_indicator: throbber
       preview_image_style: thumbnail
     third_party_settings: {  }
     type: image_image
+    region: content
+  field_course_label:
+    weight: 102
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
     region: content
   field_course_modules:
     weight: 15
@@ -93,6 +115,7 @@ content:
       collapsible: false
       collapsed: false
       allow_duplicate: false
+      revision: false
     third_party_settings:
       entity_browser_entity_form:
         entity_browser_id: _none
@@ -132,7 +155,6 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
-  created: true
   promote: true
   sticky: true
   uid: true
