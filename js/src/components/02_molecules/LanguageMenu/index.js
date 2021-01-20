@@ -147,7 +147,7 @@ const LanguageMenu = ({ options, t }) => {
       </StyledMenu>
       <SnackAlert
         show={alertOpen}
-        message={t('It is not possible to change language whilst you are offline.')}
+        message={t('It is not possible to change language while you are offline.')}
         onClose={handleAlertClose}
         severity="warning"
         variant="filled"

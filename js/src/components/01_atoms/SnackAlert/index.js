@@ -61,7 +61,7 @@ const SnackAlert = ({
         error: <ErrorIcon />,
       }}
     >
-      <Typography variant="body2" style={{ whiteSpace: 'nowrap' }}>
+      <Typography variant="body2">
         {message}
       </Typography>
     </StyledAlert>
