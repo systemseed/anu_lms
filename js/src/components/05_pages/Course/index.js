@@ -97,7 +97,9 @@ const Course = ({ t, node, width }) => {
   let firstLesson = null;
   const pwaSettings = getPwaSettings();
   const params = new URLSearchParams(window.location.search);
-  const { name: categoryName } = node.categories.find(cat => cat.id === params.get('category'));
+  // If there category parameter is invalid, display the first one it's categorized under.
+  const { name: categoryName } =
+    node.categories.find(cat => cat.id === params.get('category')) || node.categories[0];
 
   if (node.modules.length > 0) {
     const module = node.modules.find(module => module.lessons.length > 0);
@@ -116,7 +118,7 @@ const Course = ({ t, node, width }) => {
 
             <Accented>
               <Typography variant="h4" component="h2">
-                {categoryName || 'Uncategorized'}
+                {categoryName}
               </Typography>
             </Accented>
 
