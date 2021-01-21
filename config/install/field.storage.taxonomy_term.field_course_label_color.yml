@@ -11,11 +11,23 @@ type: list_string
 settings:
   allowed_values:
     -
+      value: yellow
+      label: Yellow
+    -
       value: grey
       label: Grey
     -
-      value: yellow
-      label: Yellow
+      value: green
+      label: Green
+    -
+      value: purple
+      label: Purple
+    -
+      value: blue
+      label: Blue
+    -
+      value: red
+      label: Red
   allowed_values_function: ''
 module: options
 locked: false
