@@ -1,0 +1,30 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.course_label.field_course_label_color
+    - taxonomy.vocabulary.course_label
+  module:
+    - options
+    - text
+id: taxonomy_term.course_label.default
+targetEntityType: taxonomy_term
+bundle: course_label
+mode: default
+content:
+  description:
+    label: hidden
+    type: text_default
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_course_label_color:
+    weight: 1
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: list_default
+    region: content
+hidden:
+  langcode: true

@@ -27,6 +27,8 @@ const customizedTheme = createMuiTheme({
       main: '#3E3E3E',
       dark: '#2E2E2E',
     },
+    // TODO - consolidate
+    accent: '#ffca28',
     warning: {
       main: '#ffca28',
       light: '#ffecb3',
@@ -38,10 +40,9 @@ const customizedTheme = createMuiTheme({
     h1: {
       fontSize: '1.5em',
       marginBottom: '0.75em',
-      fontWeight: 700,
       [theme.breakpoints.up('sm')]: {
         marginBottom: '1em',
-        fontSize: '2.5em',
+        fontSize: '2.75em',
       },
     },
     h2: {
@@ -120,6 +121,20 @@ const customizedTheme = createMuiTheme({
           textTransform: 'none',
           fontWeight: 400,
         },
+      },
+    },
+    MuiChip: {
+      root: {
+        marginRight: theme.spacing(1),
+        height: 35,
+      },
+      label: {
+        fontSize: 16,
+        paddingLeft: theme.spacing(2.5),
+        paddingRight: theme.spacing(2.5),
+      },
+      outlined: {
+        backgroundColor: 'white',
       },
     },
   },

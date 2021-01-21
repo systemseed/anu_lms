@@ -2,13 +2,16 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.course.field_course_category
     - field.field.node.course.field_course_description
     - field.field.node.course.field_course_image
+    - field.field.node.course.field_course_label
     - field.field.node.course.field_course_modules
     - image.style.medium
     - node.type.course
   module:
     - image
+    - options
     - text
     - user
 id: node.course.default
@@ -16,6 +19,14 @@ targetEntityType: node
 bundle: course
 mode: default
 content:
+  field_course_category:
+    weight: 105
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
   field_course_description:
     weight: 102
     label: above
@@ -31,6 +42,14 @@ content:
       image_link: ''
     third_party_settings: {  }
     type: image
+    region: content
+  field_course_label:
+    weight: 106
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
     region: content
   field_course_modules:
     weight: 103
