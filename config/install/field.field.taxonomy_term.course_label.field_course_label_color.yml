@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_course_label_color
+    - taxonomy.vocabulary.course_label
+  module:
+    - options
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: taxonomy_term.course_label.field_course_label_color
+field_name: field_course_label_color
+entity_type: taxonomy_term
+bundle: course_label
+label: Color
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: grey
+default_value_callback: ''
+settings: {  }
+field_type: list_string
