@@ -27,6 +27,10 @@ const customizedTheme = createMuiTheme({
       main: '#3E3E3E',
       dark: '#2E2E2E',
     },
+    warning: {
+      main: '#ffca28',
+      light: '#ffecb3',
+    },
   },
   typography: {
     fontFamily: 'Lato, Roboto, Arial',
