@@ -7,9 +7,10 @@ const AccentBox = withStyles(theme => ({
     height: 35,
     borderLeft: `4px solid ${theme.palette.accent}`,
     paddingLeft: theme.spacing(2),
-    marginBottom: theme.spacing(3),
+    marginBottom: theme.spacing(2),
     [theme.breakpoints.up('sm')]: {
       height: 50,
+      marginBottom: theme.spacing(3),
     },
     '& .MuiTypography-root': {
       marginBottom: 0,

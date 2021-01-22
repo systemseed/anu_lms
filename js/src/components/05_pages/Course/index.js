@@ -9,6 +9,7 @@ import {
   styled,
   withWidth,
   isWidthUp,
+  isWidthDown,
 } from '@material-ui/core';
 import { withTheme } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
@@ -119,14 +120,20 @@ const Course = ({ t, node, width, theme }) => {
             <BackButton title={t('Back to Courses')} href={getMenuPathById('courses')} />
 
             <Accented>
-              <Box display="flex" style={{ whiteSpace: 'nowrap' }}>
+              <Box display="flex">
                 <Typography variant="h4" component="h2" style={{ marginRight: theme.spacing(2) }}>
                   {categoryName}
                 </Typography>
 
-                <CourseLabel {...node.label} />
+                {isWidthUp('md', width) && <CourseLabel {...node.label} />}
               </Box>
             </Accented>
+
+            {isWidthDown('sm', width) && (
+              <Box mb={2}>
+                <CourseLabel {...node.label} />
+              </Box>
+            )}
 
             {node.title && (
               <Typography component="h2" variant="h2">

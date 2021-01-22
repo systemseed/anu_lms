@@ -14,7 +14,12 @@ const CourseLabel = ({ name, color, theme }) => {
   };
 
   return (
-    <Box px={1} py={0.5} bgcolor={colorLookup[color]} style={{ borderRadius: 4 }}>
+    <Box
+      px={1}
+      py={0.5}
+      bgcolor={colorLookup[color]}
+      style={{ borderRadius: 4, width: 'max-content', height: 'max-content' }}
+    >
       <Typography variant="subtitle2" style={{ textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
         {name}
       </Typography>
