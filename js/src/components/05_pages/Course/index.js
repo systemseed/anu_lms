@@ -125,11 +125,11 @@ const Course = ({ t, node, width, theme }) => {
                   {categoryName}
                 </Typography>
 
-                {isWidthUp('md', width) && <CourseLabel {...node.label} />}
+                {isWidthUp('sm', width) && <CourseLabel {...node.label} />}
               </Box>
             </Accented>
 
-            {isWidthDown('sm', width) && (
+            {isWidthDown('xs', width) && (
               <Box mb={2}>
                 <CourseLabel {...node.label} />
               </Box>
