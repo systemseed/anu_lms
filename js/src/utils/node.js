@@ -8,6 +8,7 @@ import {
   getObjectValue,
   getTextValue,
   getFileURL,
+  getCourseLabelValue,
 } from './transforms.field';
 
 const getGeneralNodeFields = node => {
@@ -238,6 +239,7 @@ const getAssessment = node => {
 const getCourseFields = node => ({
   description: getTextValue(node, 'field_course_description'),
   image: getImage(node, 'field_course_image', 'course_preview'),
+  label: getCourseLabelValue(node),
   categories: getArrayValue(node, 'field_course_category').map(category => ({
     id: getTextValue(category, 'tid'),
     name: getTextValue(category, 'name'),

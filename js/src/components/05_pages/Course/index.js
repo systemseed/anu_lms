@@ -10,6 +10,7 @@ import {
   withWidth,
   isWidthUp,
 } from '@material-ui/core';
+import { withTheme } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 
 import Card from '@material-ui/core/Card';
@@ -18,6 +19,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import Hidden from '@material-ui/core/Hidden';
 
 import BackButton from '../../01_atoms/BackButton';
+import CourseLabel from '../../01_atoms/CourseLabel';
 import DownloadCourse from '../../01_atoms/DownloadCourse';
 import PageContainer from '../../01_atoms/PageContainer';
 import Accented from '../../06_hocs/Accented';
@@ -93,7 +95,7 @@ const Image = styled('img')({
   margin: '0 auto',
 });
 
-const Course = ({ t, node, width }) => {
+const Course = ({ t, node, width, theme }) => {
   let firstLesson = null;
   const pwaSettings = getPwaSettings();
   const params = new URLSearchParams(window.location.search);
@@ -113,13 +115,17 @@ const Course = ({ t, node, width }) => {
     <PageContainer>
       <Container maxWidth="lg">
         <StyledGridContainer container spacing={isWidthUp('sm', width) ? 2 : 0}>
-          <Grid item md={5}>
+          <Grid item md={6}>
             <BackButton title={t('Back to Courses')} href={getMenuPathById('courses')} />
 
             <Accented>
-              <Typography variant="h4" component="h2">
-                {categoryName}
-              </Typography>
+              <Box display="flex" style={{ whiteSpace: 'nowrap' }}>
+                <Typography variant="h4" component="h2" style={{ marginRight: theme.spacing(2) }}>
+                  {categoryName}
+                </Typography>
+
+                <CourseLabel {...node.label} />
+              </Box>
             </Accented>
 
             {node.title && (
@@ -145,7 +151,7 @@ const Course = ({ t, node, width }) => {
             )}
           </Grid>
 
-          <Grid item md={2} />
+          <Grid item md={1} />
 
           <Grid item md={5}>
             <Box mt={6}>
@@ -197,4 +203,4 @@ const Course = ({ t, node, width }) => {
   );
 }
 
-export default withWidth()(withTranslation()(Course));
+export default withWidth()(withTranslation()(withTheme(Course)));

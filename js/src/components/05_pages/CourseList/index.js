@@ -14,6 +14,7 @@ import {
 } from '@material-ui/core';
 import { withTheme } from '@material-ui/core/styles';
 
+import CourseLabel from '../../01_atoms/CourseLabel';
 import PageContainer from '../../01_atoms/PageContainer';
 import Accented from '../../06_hocs/Accented';
 
@@ -148,7 +149,13 @@ class CourseList extends React.Component {
                           <StyledLink
                             href={`${getLangCodePrefix()}${node.path}?category=${category.id}`}
                           >
-                            <StyledCardMedia image={node.image.url} title={node.title} />
+                            <Box position="relative">
+                              <Box position="absolute" m={1} style={{ right: 0 }}>
+                                <CourseLabel {...node.label} />
+                              </Box>
+
+                              <StyledCardMedia image={node.image.url} title={node.title} />
+                            </Box>
 
                             <CardContent>
                               <Typography gutterBottom variant="h4">
