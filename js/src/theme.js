@@ -126,6 +126,7 @@ const customizedTheme = createMuiTheme({
     MuiChip: {
       root: {
         marginRight: theme.spacing(1),
+        marginBottom: theme.spacing(1),
         height: 35,
       },
       label: {
