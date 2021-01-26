@@ -3,6 +3,7 @@ import React from 'react';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
+import withWidth, { isWidthUp, isWidthDown } from '@material-ui/core/withWidth';
 
 import LanguageLink from '../../01_atoms/LanguageLink';
 import LanguageMenu from '../../02_molecules/LanguageMenu';
@@ -11,15 +12,9 @@ import { getLanguageSettings, getLangCode } from '../../../utils/settings';
 const StyledBox = withStyles(theme => ({
   root: {
     backgroundColor: theme.palette.secondary.dark,
+    paddingBottom: theme.spacing(0.5),
   },
 }))(Box);
-
-const StyledContainer = withStyles({
-  root: {
-    display: 'flex',
-    flexDirection: 'row-reverse',
-  },
-})(Container);
 
 const useStyles = makeStyles({
   link: {
@@ -33,7 +28,7 @@ const useStyles = makeStyles({
   },
 });
 
-const LanguageSwitcher = () => {
+const LanguageSwitcher = ({ label, width }) => {
   const classes = useStyles();
   const langSettings = getLanguageSettings();
   const languages = langSettings
@@ -72,28 +67,44 @@ const LanguageSwitcher = () => {
   return (
     languages && (
       <StyledBox>
-        <StyledContainer>
-          <Box display="flex" flexWrap="wrap">
+        <Box
+          ml={1}
+          pt={0.5}
+          position="absolute"
+          display={isWidthUp('sm', width) ? 'block' : 'none'}
+        >
+          {label && <img height={30} src={label.url} alt={label.alt} />}
+        </Box>
 
-            {mainLanguages.map(lang => (
-              <LanguageLink
-                key={lang.code}
-                isActive={getLangCode() === lang.code}
-                label={lang.title}
-                url={lang.url}
-                className={classes.link}
-              />
-            ))}
+        <Container
+          style={{
+            display: 'flex',
+            flexDirection: isWidthDown('xs', width) ? 'row' : 'row-reverse',
+          }}
+        >
+          <Box display="flex" justifyContent="space-between">
+            <Box mr={2} pt={0.5} display={isWidthDown('xs', width) ? 'block' : 'none'}>
+              {label && <img height={30} src={label.url} alt={label.alt} />}
+            </Box>
 
-            <LanguageMenu
-              options={secondaryLanguages}
-            />
-              
+            <Box>
+              {mainLanguages.map(lang => (
+                <LanguageLink
+                  key={lang.code}
+                  isActive={getLangCode() === lang.code}
+                  label={lang.title}
+                  url={lang.url}
+                  className={classes.link}
+                />
+              ))}
+
+              <LanguageMenu options={secondaryLanguages} />
+            </Box>
           </Box>
-        </StyledContainer>
+        </Container>
       </StyledBox>
     )
   );
 };
 
-export default LanguageSwitcher;
+export default withWidth()(LanguageSwitcher);

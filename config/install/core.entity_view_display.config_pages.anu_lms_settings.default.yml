@@ -3,6 +3,7 @@ status: true
 dependencies:
   config:
     - config_pages.type.anu_lms_settings
+    - field.field.config_pages.anu_lms_settings.field_beta_label
     - field.field.config_pages.anu_lms_settings.field_courses_description
     - field.field.config_pages.anu_lms_settings.field_logo
   module:
@@ -13,6 +14,15 @@ targetEntityType: config_pages
 bundle: anu_lms_settings
 mode: default
 content:
+  field_beta_label:
+    weight: 2
+    label: above
+    settings:
+      image_style: ''
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+    region: content
   field_courses_description:
     weight: 1
     label: above

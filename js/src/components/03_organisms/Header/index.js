@@ -127,7 +127,7 @@ const Header = ({
 
   return (
     <>
-      <LanguageSwitcher />
+      <LanguageSwitcher label={settings.betaLogo} />
 
       <StyledAppBar position="sticky">
         <StyledToolbar disableGutters>
