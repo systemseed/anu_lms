@@ -144,17 +144,19 @@ class CourseList extends React.Component {
             <Typography variant="h1">Courses</Typography>
           </Box>
 
-          <div style={{ marginBottom: theme.spacing(5) }}>
-            {[{ id: 'all', name: 'All courses' }].concat(categories).map(category => (
-              <Chip
-                label={category.name}
-                color={category.id === activeCategory ? 'secondary' : 'default'}
-                onClick={() => this.handleCategoryClick(category)}
-                clickable={category.id !== activeCategory}
-                variant={category.id === activeCategory ? 'default' : 'outlined'}
-              />
-            ))}
-          </div>
+          {allCoursesHaveCategories && (
+            <div style={{ marginBottom: theme.spacing(5) }}>
+              {[{ id: 'all', name: 'All courses' }].concat(categories).map(category => (
+                <Chip
+                  label={category.name}
+                  color={category.id === activeCategory ? 'secondary' : 'default'}
+                  onClick={() => this.handleCategoryClick(category)}
+                  clickable={category.id !== activeCategory}
+                  variant={category.id === activeCategory ? 'default' : 'outlined'}
+                />
+              ))}
+            </div>
+          )}
 
           {settings.courses_description && (
             <StyledCoursesDescription
