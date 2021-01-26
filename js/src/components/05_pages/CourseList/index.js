@@ -102,10 +102,40 @@ class CourseList extends React.Component {
     const categories = allCategories.filter(
       (cat1, i, array) => array.findIndex(cat2 => cat1.id === cat2.id) === i
     );
-    const allCoursesHaveCategories = nodes.every(node => {
-      console.log(node.categories);
-      return node.categories;
-    });
+    const allCoursesHaveCategories = nodes.every(node => node.categories.length > 0);
+    const CourseListItem = ({ node, category }) => (
+      <Grid item md={4} sm={6} xs={12} key={node.id}>
+        <StyledCard>
+          <StyledCardActionArea component="div">
+            <StyledLink
+              href={`${getLangCodePrefix()}${node.path}${
+                category ? `'?category='${category.id}` : ''
+              }`}
+            >
+              <Box position="relative">
+                <Box position="absolute" m={1} style={{ right: 0 }}>
+                  <CourseLabel {...node.label} />
+                </Box>
+
+                <StyledCardMedia image={node.image.url} title={node.title} />
+              </Box>
+
+              <CardContent>
+                <Typography gutterBottom variant="h4">
+                  {node.title}
+                </Typography>
+
+                <Typography
+                  variant="body2"
+                  color="textSecondary"
+                  dangerouslySetInnerHTML={{ __html: node.description }}
+                />
+              </CardContent>
+            </StyledLink>
+          </StyledCardActionArea>
+        </StyledCard>
+      </Grid>
+    );
 
     return (
       <PageContainer>
@@ -147,35 +177,7 @@ class CourseList extends React.Component {
                 <StyledGridContainer container spacing={4}>
                   {nodes.map(node => (
                     node.categories.find(filterCat => category.id === filterCat.id) && (
-                      <Grid item md={4} sm={6} xs={12} key={node.id}>
-                        <StyledCard>
-                          <StyledCardActionArea component="div">
-                            <StyledLink
-                              href={`${getLangCodePrefix()}${node.path}?category=${category.id}`}
-                            >
-                              <Box position="relative">
-                                <Box position="absolute" m={1} style={{ right: 0 }}>
-                                  <CourseLabel {...node.label} />
-                                </Box>
-
-                                <StyledCardMedia image={node.image.url} title={node.title} />
-                              </Box>
-
-                              <CardContent>
-                                <Typography gutterBottom variant="h4">
-                                  {node.title}
-                                </Typography>
-
-                                <Typography
-                                  variant="body2"
-                                  color="textSecondary"
-                                  dangerouslySetInnerHTML={{ __html: node.description }}
-                                />
-                              </CardContent>
-                            </StyledLink>
-                          </StyledCardActionArea>
-                        </StyledCard>
-                      </Grid>
+                      <CourseListItem node={node} category={category} />
                     )
                   ))}
                 </StyledGridContainer>
@@ -184,35 +186,7 @@ class CourseList extends React.Component {
           ))) : (
             <StyledGridContainer container spacing={4}>
               {nodes.map(node => (
-                <Grid item md={4} sm={6} xs={12} key={node.id}>
-                  <StyledCard>
-                    <StyledCardActionArea component="div">
-                      <StyledLink
-                        href={`${getLangCodePrefix()}${node.path}?category=${category.id}`}
-                      >
-                        <Box position="relative">
-                          <Box position="absolute" m={1} style={{ right: 0 }}>
-                            <CourseLabel {...node.label} />
-                          </Box>
-
-                          <StyledCardMedia image={node.image.url} title={node.title} />
-                        </Box>
-
-                        <CardContent>
-                          <Typography gutterBottom variant="h4">
-                            {node.title}
-                          </Typography>
-
-                          <Typography
-                            variant="body2"
-                            color="textSecondary"
-                            dangerouslySetInnerHTML={{ __html: node.description }}
-                          />
-                        </CardContent>
-                      </StyledLink>
-                    </StyledCardActionArea>
-                  </StyledCard>
-                </Grid>
+                <CourseListItem node={node} />
               ))}
             </StyledGridContainer>
           )}
