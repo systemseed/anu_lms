@@ -109,7 +109,7 @@ class CourseList extends React.Component {
           <StyledCardActionArea component="div">
             <StyledLink
               href={`${getLangCodePrefix()}${node.path}${
-                category ? `'?category='${category.id}` : ''
+                category ? `?category=${category.id}` : ''
               }`}
             >
               <Box position="relative">
