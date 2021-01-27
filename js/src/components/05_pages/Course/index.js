@@ -102,7 +102,7 @@ const Course = ({ t, node, width, theme }) => {
   const params = new URLSearchParams(window.location.search);
   // If there category parameter is invalid, display the first one it's categorized under.
   const { name: categoryName } =
-    node.categories.find(cat => cat.id === params.get('category')) || node.categories[0];
+    node.categories.find(cat => cat.id === params.get('category')) || node.categories[0] || {};
 
   if (node.modules.length > 0) {
     const module = node.modules.find(module => module.lessons.length > 0);
@@ -119,15 +119,17 @@ const Course = ({ t, node, width, theme }) => {
           <Grid item md={6}>
             <BackButton title={t('Back to Courses')} href={getMenuPathById('courses')} />
 
-            <Accented>
-              <Box display="flex">
-                <Typography variant="h4" component="h2" style={{ marginRight: theme.spacing(2) }}>
-                  {categoryName}
-                </Typography>
+            {categoryName && (
+              <Accented>
+                <Box display="flex">
+                  <Typography variant="h4" component="h2" style={{ marginRight: theme.spacing(2) }}>
+                    {categoryName}
+                  </Typography>
 
-                {isWidthUp('sm', width) && <CourseLabel {...node.label} />}
-              </Box>
-            </Accented>
+                  {isWidthUp('sm', width) && <CourseLabel {...node.label} />}
+                </Box>
+              </Accented>
+            )}
 
             {isWidthDown('xs', width) && (
               <Box mb={2}>

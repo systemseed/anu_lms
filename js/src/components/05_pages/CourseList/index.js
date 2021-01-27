@@ -102,6 +102,40 @@ class CourseList extends React.Component {
     const categories = allCategories.filter(
       (cat1, i, array) => array.findIndex(cat2 => cat1.id === cat2.id) === i
     );
+    const allCoursesHaveCategories = nodes.every(node => node.categories.length > 0);
+    const CourseListItem = ({ node, category }) => (
+      <Grid item md={4} sm={6} xs={12} key={node.id}>
+        <StyledCard>
+          <StyledCardActionArea component="div">
+            <StyledLink
+              href={`${getLangCodePrefix()}${node.path}${
+                category ? `?category=${category.id}` : ''
+              }`}
+            >
+              <Box position="relative">
+                <Box position="absolute" m={1} style={{ right: 0 }}>
+                  <CourseLabel {...node.label} />
+                </Box>
+
+                <StyledCardMedia image={node.image.url} title={node.title} />
+              </Box>
+
+              <CardContent>
+                <Typography gutterBottom variant="h4">
+                  {node.title}
+                </Typography>
+
+                <Typography
+                  variant="body2"
+                  color="textSecondary"
+                  dangerouslySetInnerHTML={{ __html: node.description }}
+                />
+              </CardContent>
+            </StyledLink>
+          </StyledCardActionArea>
+        </StyledCard>
+      </Grid>
+    );
 
     return (
       <PageContainer>
@@ -110,17 +144,19 @@ class CourseList extends React.Component {
             <Typography variant="h1">Courses</Typography>
           </Box>
 
-          <div style={{ marginBottom: theme.spacing(5) }}>
-            {[{ id: 'all', name: 'All courses' }].concat(categories).map(category => (
-              <Chip
-                label={category.name}
-                color={category.id === activeCategory ? 'secondary' : 'default'}
-                onClick={() => this.handleCategoryClick(category)}
-                clickable={category.id !== activeCategory}
-                variant={category.id === activeCategory ? 'default' : 'outlined'}
-              />
-            ))}
-          </div>
+          {allCoursesHaveCategories && (
+            <div style={{ marginBottom: theme.spacing(5) }}>
+              {[{ id: 'all', name: 'All courses' }].concat(categories).map(category => (
+                <Chip
+                  label={category.name}
+                  color={category.id === activeCategory ? 'secondary' : 'default'}
+                  onClick={() => this.handleCategoryClick(category)}
+                  clickable={category.id !== activeCategory}
+                  variant={category.id === activeCategory ? 'default' : 'outlined'}
+                />
+              ))}
+            </div>
+          )}
 
           {settings.courses_description && (
             <StyledCoursesDescription
@@ -131,52 +167,31 @@ class CourseList extends React.Component {
             />
           )}
 
-          {categories.map(category => (
+          {allCoursesHaveCategories ? (categories.map(category => (
             (activeCategory === 'all' || activeCategory === category.id) && (
-            <div style={{ marginBottom: 100 }}>
-              <Accented>
-                <Typography variant="h4" component="h2">
-                  {category.name}
-                </Typography>
-              </Accented>
+              <div style={{ marginBottom: 100 }}>
+                <Accented>
+                  <Typography variant="h4" component="h2">
+                    {category.name}
+                  </Typography>
+                </Accented>
 
-              <StyledGridContainer container spacing={4}>
-                {nodes.map(node => (
-                  node.categories.find(filterCat => category.id === filterCat.id) && (
-                    <Grid item md={4} sm={6} xs={12} key={node.id}>
-                      <StyledCard>
-                        <StyledCardActionArea component="div">
-                          <StyledLink
-                            href={`${getLangCodePrefix()}${node.path}?category=${category.id}`}
-                          >
-                            <Box position="relative">
-                              <Box position="absolute" m={1} style={{ right: 0 }}>
-                                <CourseLabel {...node.label} />
-                              </Box>
-
-                              <StyledCardMedia image={node.image.url} title={node.title} />
-                            </Box>
-
-                            <CardContent>
-                              <Typography gutterBottom variant="h4">
-                                {node.title}
-                              </Typography>
-
-                              <Typography
-                                variant="body2"
-                                color="textSecondary"
-                                dangerouslySetInnerHTML={{ __html: node.description }}
-                              />
-                            </CardContent>
-                          </StyledLink>
-                        </StyledCardActionArea>
-                      </StyledCard>
-                    </Grid>
-                  )
-                ))}
-              </StyledGridContainer>
-            </div>
-          )))}
+                <StyledGridContainer container spacing={4}>
+                  {nodes.map(node => (
+                    node.categories.find(filterCat => category.id === filterCat.id) && (
+                      <CourseListItem node={node} category={category} />
+                    )
+                  ))}
+                </StyledGridContainer>
+              </div>
+            )
+          ))) : (
+            <StyledGridContainer container spacing={4}>
+              {nodes.map(node => (
+                <CourseListItem node={node} />
+              ))}
+            </StyledGridContainer>
+          )}
         </Container>
       </PageContainer>
     );
