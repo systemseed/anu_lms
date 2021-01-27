@@ -16,17 +16,17 @@ const StyledBox = withStyles(theme => ({
   },
 }))(Box);
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   link: {
     color: '#fff',
     lineHeight: '18px',
-    padding: '9px 12px',
+    padding: `${theme.spacing(1)}px ${theme.spacing(1.5)}px`,
     borderRadius: 0,
     '&:hover': {
       backgroundColor: '#212121',
     },
   },
-});
+}));
 
 const LanguageSwitcher = ({ label, width }) => {
   const classes = useStyles();
@@ -68,7 +68,7 @@ const LanguageSwitcher = ({ label, width }) => {
     languages && (
       <StyledBox>
         <Box
-          ml={1}
+          ml={2}
           pt={0.5}
           position="absolute"
           display={isWidthUp('sm', width) ? 'block' : 'none'}
