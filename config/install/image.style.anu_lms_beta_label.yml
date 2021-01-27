@@ -1,5 +1,4 @@
-uuid: 606769ce-3641-45e4-8172-745025eb85cb
-langcode: en-gb
+langcode: en
 status: true
 dependencies: {  }
 name: anu_lms_beta_label
