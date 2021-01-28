@@ -67,6 +67,7 @@ class ImageFileNormalizer extends ContentEntityNormalizer {
       'image_thumbnail_with_caption',
       'image_bullet_list_small',
       'image_bullet_list_large',
+      'anu_lms_beta_label',
     ];
 
     // Load image style entities in bulk.

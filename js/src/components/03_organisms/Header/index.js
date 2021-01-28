@@ -7,7 +7,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
-import { withStyles, makeStyles, styled } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { Icon, Link } from '@material-ui/core';
 
 import LanguageSwitcher from '../LanguageSwitcher';
@@ -73,10 +73,6 @@ const StyledToolbar = withStyles(theme => ({
   },
 }))(Toolbar);
 
-const StyledDiv = styled('div')({
-  flexGrow: 1,
-});
-
 const useAppBarStyles = makeStyles(theme => ({
   root: {
     background: theme.palette.secondary.main,
@@ -84,15 +80,16 @@ const useAppBarStyles = makeStyles(theme => ({
   },
 }));
 
-const StyledImg = styled('img')({
-  display: 'block',
-  marginRight: '20px',
-  marginLeft: '20px',
-  maxHeight: '46px',
-  '&:hover': {
-    opacity: '0.95',
-  },
-});
+const useLogoStyles = makeStyles(theme => ({
+  root: {
+    marginRight: theme.spacing(2),
+    marginLeft: theme.spacing(2),
+    maxHeight: 46,
+    '&:hover': {
+      opacity: '0.95',
+    },
+  }
+}));
 
 const StyledLink = withStyles(theme => ({
   root: {
@@ -124,16 +121,17 @@ const Header = ({
 }) => {
   const node = getCurrentNode();
   const menu = getMenu();
+  const logoClasses = useLogoStyles();
 
   return (
     <>
-      <LanguageSwitcher />
+      <LanguageSwitcher label={settings.betaLogo} />
 
       <StyledAppBar position="sticky">
         <StyledToolbar disableGutters>
           {settings.logo && settings.logo.url && (
             <StyledLink href={getLangCodePrefix()}>
-              <StyledImg src={settings.logo.url} alt={settings.logo.alt} />
+              <img className={logoClasses.root} src={settings.logo.url} alt={settings.logo.alt} />
             </StyledLink>
           )}
 
@@ -167,7 +165,7 @@ const Header = ({
 
           </StyledButtonGroup>
 
-          <StyledDiv />
+          <div style={{ flexGrow: 1 }} />
 
           <StyledButtonGroup variant="text">
             {/* Render secondary menu of the site */}

@@ -10,6 +10,7 @@ export const getSettings = () => {
   return {
     courses_description: getTextValue(anu_settings, 'field_courses_description'),
     logo: getImage(anu_settings, 'field_logo', 'logo'),
+    betaLogo: getImage(anu_settings, 'field_beta_label', 'anu_lms_beta_label'),
   };
 };
 
