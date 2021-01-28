@@ -22,6 +22,19 @@ class CourseListController extends ControllerBase {
   protected $anulmsMenuHandler;
   protected $anulmsSettings;
 
+  protected function getCources() {
+    $courses = \Drupal::entityQuery('node')
+      ->condition('type', 'course')
+      ->sort('created')
+      ->execute();
+
+    if (empty($courses)) {
+      return [];
+    }
+
+    return $courses;
+  }
+
   /**
    * Creates an NodeViewController object.
    *
@@ -54,10 +67,7 @@ class CourseListController extends ControllerBase {
   }
 
   public function build() {
-    $courses = \Drupal::entityQuery('node')
-      ->condition('type', 'course')
-      ->sort('created')
-      ->execute();
+    $courses = $this->getCources();
 
     if (!empty($courses)) {
       $courses = Node::loadMultiple($courses);
