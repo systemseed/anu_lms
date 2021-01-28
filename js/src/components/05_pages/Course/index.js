@@ -9,7 +9,9 @@ import {
   styled,
   withWidth,
   isWidthUp,
+  isWidthDown,
 } from '@material-ui/core';
+import { withTheme } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 
 import Card from '@material-ui/core/Card';
@@ -18,8 +20,10 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import Hidden from '@material-ui/core/Hidden';
 
 import BackButton from '../../01_atoms/BackButton';
+import CourseLabel from '../../01_atoms/CourseLabel';
 import DownloadCourse from '../../01_atoms/DownloadCourse';
 import PageContainer from '../../01_atoms/PageContainer';
+import Accented from '../../06_hocs/Accented';
 
 import { getMenuPathById } from '../../../utils/menu';
 import { getPwaSettings, getLangCodePrefix } from '../../../utils/settings';
@@ -92,9 +96,13 @@ const Image = styled('img')({
   margin: '0 auto',
 });
 
-const Course = ({ t, node, width }) => {
+const Course = ({ t, node, width, theme }) => {
   let firstLesson = null;
   const pwaSettings = getPwaSettings();
+  const params = new URLSearchParams(window.location.search);
+  // If there category parameter is invalid, display the first one it's categorized under.
+  const { name: categoryName } =
+    node.categories.find(cat => cat.id === params.get('category')) || node.categories[0] || {};
 
   if (node.modules.length > 0) {
     const module = node.modules.find(module => module.lessons.length > 0);
@@ -107,15 +115,27 @@ const Course = ({ t, node, width }) => {
   return (
     <PageContainer>
       <Container maxWidth="lg">
-        <StyledGridContainer
-          container
-          spacing={isWidthUp('sm', width) ? 2 : 0}
-        >
-          <Grid item md={5}>
-            <BackButton
-              title={t('Back to Courses')}
-              href={getMenuPathById('courses')}
-            />
+        <StyledGridContainer container spacing={isWidthUp('sm', width) ? 2 : 0}>
+          <Grid item md={6}>
+            <BackButton title={t('Back to Courses')} href={getMenuPathById('courses')} />
+
+            {categoryName && (
+              <Accented>
+                <Box display="flex">
+                  <Typography variant="h4" component="h2" style={{ marginRight: theme.spacing(2) }}>
+                    {categoryName}
+                  </Typography>
+
+                  {isWidthUp('sm', width) && <CourseLabel {...node.label} />}
+                </Box>
+              </Accented>
+            )}
+
+            {isWidthDown('xs', width) && (
+              <Box mb={2}>
+                <CourseLabel {...node.label} />
+              </Box>
+            )}
 
             {node.title && (
               <Typography component="h2" variant="h2">
@@ -140,7 +160,7 @@ const Course = ({ t, node, width }) => {
             )}
           </Grid>
 
-          <Grid item md={2} />
+          <Grid item md={1} />
 
           <Grid item md={5}>
             <Box mt={6}>
@@ -171,9 +191,9 @@ const Course = ({ t, node, width }) => {
             <Grid item xs={12} md={6} key={module.id}>
               <Card>
                 <CardActionArea
-                  onClick={() => (
-                    window.location.href = `${getLangCodePrefix()}${module.path}`
-                  )}
+                  onClick={() =>
+                    (window.location.href = `${getLangCodePrefix()}${module.path}`)
+                  }
                 >
                   <StyledCardMedia image={module.image.url}>
                     <StyledShadowBox />
@@ -192,4 +212,4 @@ const Course = ({ t, node, width }) => {
   );
 }
 
-export default withWidth()(withTranslation()(Course));
+export default withWidth()(withTranslation()(withTheme(Course)));

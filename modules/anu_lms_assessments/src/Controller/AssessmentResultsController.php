@@ -28,19 +28,6 @@ class AssessmentResultsController extends ControllerBase {
     return $build;
   }
 
-  public function resultsDownloadPage(NodeInterface $node) {
-    $build = [];
-    $build['assessment_results'] = [
-      '#type' => 'view',
-      '#name' => 'assessments_question_responses',
-      '#display_id' => 'assessments_results_download',
-      '#arguments' => [$node->id()],
-      '#embed' => TRUE,
-    ];
-
-    return $build;
-  }
-
   public function resultPageTitle(NodeInterface $node, AssessmentResultInterface $assessment_result) {
     $author = $assessment_result->getOwner()->getDisplayName();
     return t('Question responses from %username', ['%username' => $author]);
@@ -52,19 +39,6 @@ class AssessmentResultsController extends ControllerBase {
       '#type' => 'view',
       '#name' => 'assessments_question_responses',
       '#display_id' => 'assessment_results_embed',
-      '#arguments' => [$assessment_result->id()],
-      '#embed' => TRUE,
-    ];
-
-    return $build;
-  }
-
-  public function resultDownloadPage(NodeInterface $node, AssessmentResultInterface $assessment_result) {
-    $build = [];
-    $build['assessment_results'] = [
-      '#type' => 'view',
-      '#name' => 'assessments_question_responses',
-      '#display_id' => 'assessment_results_download',
       '#arguments' => [$assessment_result->id()],
       '#embed' => TRUE,
     ];

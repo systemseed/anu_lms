@@ -54,6 +54,22 @@ const getTextValue = (entity, fieldName) => {
 };
 
 /**
+ * Get a mapped objet of a course label.
+ */
+const getCourseLabelValue = entity => {
+  const field = getObjectValue(entity, 'field_course_label');
+
+  if (!field) {
+    return false;
+  }
+
+  return {
+    name: getTextValue(field, 'name'),
+    color: getTextValue(field, 'field_course_label_color'),
+  };
+};
+
+/**
  * Get text value from the field as usual and return it as number.
  */
 const getNumberValue = (entity, fieldName) => {
@@ -211,4 +227,5 @@ export {
   getFileMime,
   getFileSize,
   getNodePath,
+  getCourseLabelValue,
 };
