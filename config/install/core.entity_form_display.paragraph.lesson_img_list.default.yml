@@ -2,18 +2,18 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.paragraph.lesson_image_bullet_list.field_content_heading
-    - field.field.paragraph.lesson_image_bullet_list.field_is_highlight
-    - field.field.paragraph.lesson_image_bullet_list.field_items
-    - paragraphs.paragraphs_type.lesson_image_bullet_list
+    - field.field.paragraph.lesson_img_list.field_lesson_img_list_heading
+    - field.field.paragraph.lesson_img_list.field_lesson_img_list_highlight
+    - field.field.paragraph.lesson_img_list.field_lesson_img_list_items
+    - paragraphs.paragraphs_type.lesson_img_list
   module:
     - paragraphs
-id: paragraph.lesson_image_bullet_list.default
+id: paragraph.lesson_img_list.default
 targetEntityType: paragraph
-bundle: lesson_image_bullet_list
+bundle: lesson_img_list
 mode: default
 content:
-  field_content_heading:
+  field_lesson_img_list_heading:
     weight: 0
     settings:
       size: 60
@@ -21,14 +21,14 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
-  field_is_highlight:
+  field_lesson_img_list_highlight:
     weight: 1
     settings:
       display_label: true
     third_party_settings: {  }
     type: boolean_checkbox
     region: content
-  field_items:
+  field_lesson_img_list_items:
     type: paragraphs
     weight: 2
     settings:

@@ -4,8 +4,8 @@ dependencies:
   module:
     - options
     - paragraphs
-id: paragraph.field_size
-field_name: field_size
+id: paragraph.field_lesson_img_list_item_size
+field_name: field_lesson_img_list_item_size
 entity_type: paragraph
 type: list_string
 settings:

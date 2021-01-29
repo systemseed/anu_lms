@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_lesson_img_list_heading
+    - paragraphs.paragraphs_type.lesson_img_list
+id: paragraph.lesson_img_list.field_lesson_img_list_heading
+field_name: field_lesson_img_list_heading
+entity_type: paragraph
+bundle: lesson_img_list
+label: Heading
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

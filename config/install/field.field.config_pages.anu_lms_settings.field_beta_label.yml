@@ -6,10 +6,6 @@ dependencies:
     - field.storage.config_pages.field_beta_label
   module:
     - image
-    - tmgmt_content
-third_party_settings:
-  tmgmt_content:
-    excluded: false
 id: config_pages.anu_lms_settings.field_beta_label
 field_name: field_beta_label
 entity_type: config_pages
