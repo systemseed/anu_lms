@@ -5,7 +5,6 @@ core: 8.x
 dependencies:
   - anu_lms_assessments
   - entity_reference_revisions
-  - features
   - field
   - inline_entity_form
   - options
