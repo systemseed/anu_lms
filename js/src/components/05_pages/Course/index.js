@@ -117,7 +117,7 @@ const Course = ({ t, node, width, theme }) => {
       <Container maxWidth="lg">
         <StyledGridContainer container spacing={isWidthUp('sm', width) ? 2 : 0}>
           <Grid item md={6}>
-            <BackButton title={t('Back to Courses')} href={getMenuPathById('courses')} />
+            <BackButton title={t('Back to all Courses')} href={getMenuPathById('courses')} />
 
             {categoryName && (
               <Accented>

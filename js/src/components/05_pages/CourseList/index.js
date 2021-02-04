@@ -18,7 +18,7 @@ import CourseLabel from '../../01_atoms/CourseLabel';
 import PageContainer from '../../01_atoms/PageContainer';
 import Accented from '../../06_hocs/Accented';
 
-import { getLangCodePrefix } from '../../../utils/settings';
+import { getLangCodePrefix, getCoursesSettings } from '../../../utils/settings';
 
 const StyledGridContainer = withStyles(theme => ({
   root: {
@@ -97,10 +97,15 @@ class CourseList extends React.Component {
   render() {
     const { nodes, settings, theme } = this.props;
     const { activeCategory } = this.state;
+    const pageSettings = getCoursesSettings();
     const allCategories = nodes.map(node => node.categories).flat();
     // Keep unique categories only.
-    const categories = allCategories.filter(
+    const filteredCategories = allCategories.filter(
       (cat1, i, array) => array.findIndex(cat2 => cat1.id === cat2.id) === i
+    );
+    // Sort categories by weight.
+    const categories = filteredCategories.sort(
+      (cat1, cat2) => (cat1.weight > cat2.weight) ? 1 : ((cat2.weight > cat1.weight) ? -1 : 0)
     );
     const allCoursesHaveCategories = nodes.every(node => node.categories.length > 0);
     const CourseListItem = ({ node, category }) => (
@@ -141,12 +146,12 @@ class CourseList extends React.Component {
       <PageContainer>
         <Container maxWidth="lg">
           <Box mt={4}>
-            <Typography variant="h1">Courses</Typography>
+            <Typography variant="h1">{pageSettings.pageTitle}</Typography>
           </Box>
 
           {allCoursesHaveCategories && (
             <div style={{ marginBottom: theme.spacing(5) }}>
-              {[{ id: 'all', name: 'All courses' }].concat(categories).map(category => (
+              {[{ id: 'all', name: pageSettings.allCoursesLabel }].concat(categories).map(category => (
                 <Chip
                   label={category.name}
                   color={category.id === activeCategory ? 'secondary' : 'default'}

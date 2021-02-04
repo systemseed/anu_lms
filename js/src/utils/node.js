@@ -243,6 +243,7 @@ const getCourseFields = node => ({
   categories: getArrayValue(node, 'field_course_category').map(category => ({
     id: getTextValue(category, 'tid'),
     name: getTextValue(category, 'name'),
+    weight: getTextValue(category, 'weight'),
   })),
   // TODO: Modules might be loading too deeply. For performance reasons we may want to limit it.
   modules: getArrayValue(node, 'field_course_modules')

@@ -31,3 +31,14 @@ export const getLangCodePrefix = () => {
   }
   return `/${langcode}`;
 };
+
+export const getCoursesSettings = () => {
+  if (!drupalSettings.anu_courses_settings) {
+    return [];
+  }
+
+  return {
+    pageTitle: drupalSettings.anu_courses_settings.page_title,
+    allCoursesLabel: drupalSettings.anu_courses_settings.all_courses_label,
+  };
+};

@@ -35,6 +35,14 @@ class CourseListController extends ControllerBase {
     return $courses;
   }
 
+  protected function getPageTitle() {
+    return t('Courses');
+  }
+
+  protected function getAllCoursesLabel() {
+    return t('All courses');
+  }
+
   /**
    * Creates an NodeViewController object.
    *
@@ -92,6 +100,10 @@ class CourseListController extends ControllerBase {
     if (\Drupal::moduleHandler()->moduleExists('pwa')) {
       $build['#attached']['drupalSettings']['pwa_settings'] = $this->anulmsSettings->getPwaSettings();
     }
+    $build['#attached']['drupalSettings']['anu_courses_settings'] = [
+      'page_title' => $this->getPageTitle(),
+      'all_courses_label' => $this->getAllCoursesLabel(),
+    ];
 
     $build['application'] = [
       '#type' => 'markup',
