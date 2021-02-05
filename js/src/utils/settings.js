@@ -33,12 +33,12 @@ export const getLangCodePrefix = () => {
 };
 
 export const getCoursesSettings = () => {
-  if (!drupalSettings.anu_courses_settings) {
+  if (!drupalSettings.anu_courses) {
     return [];
   }
 
   return {
-    pageTitle: drupalSettings.anu_courses_settings.page_title,
-    allCoursesLabel: drupalSettings.anu_courses_settings.all_courses_label,
+    pageTitle: drupalSettings.anu_courses.page_title,
+    allCoursesLabel: drupalSettings.anu_courses.all_courses_label,
   };
 };

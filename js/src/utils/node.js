@@ -338,7 +338,11 @@ export const isCourseListPage = () =>
   drupalSettings && typeof drupalSettings.anu_courses !== 'undefined';
 
 export const getCourseList = () => {
-  const { anu_courses: anuCourses } = drupalSettings;
+  if (!drupalSettings.hasOwnProperty('anu_courses')) {
+    return [];
+  }
+
+  const { courses: anuCourses } = drupalSettings.anu_courses;
 
   if (!anuCourses || !Array.isArray(anuCourses)) {
     return [];
