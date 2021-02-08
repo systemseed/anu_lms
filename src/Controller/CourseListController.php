@@ -87,7 +87,7 @@ class CourseListController extends ControllerBase {
     $build['#attached']['drupalSettings']['anu_courses'] = [
       'courses' => $normalizedCourses,
       'page_title' => t('Courses'),
-      'all_courses_label' => t('All courses'),
+      'filter_all_courses_label' => t('All courses'),
     ];
     $build['#attached']['drupalSettings']['anu_menu'] = $this->anulmsMenuHandler->getMenu();
     if (\Drupal::moduleHandler()->moduleExists('language')) {

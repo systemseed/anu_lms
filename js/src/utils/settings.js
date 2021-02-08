@@ -39,6 +39,6 @@ export const getCoursesSettings = () => {
 
   return {
     pageTitle: drupalSettings.anu_courses.page_title,
-    allCoursesLabel: drupalSettings.anu_courses.all_courses_label,
+    filterAllCoursesLabel: drupalSettings.anu_courses.filter_all_courses_label,
   };
 };

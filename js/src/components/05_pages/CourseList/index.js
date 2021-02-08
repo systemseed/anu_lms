@@ -151,7 +151,7 @@ class CourseList extends React.Component {
 
           {allCoursesHaveCategories && (
             <div style={{ marginBottom: theme.spacing(5) }}>
-              {[{ id: 'all', name: pageSettings.allCoursesLabel }].concat(categories).map(category => (
+              {[{ id: 'all', name: pageSettings.filterAllCoursesLabel }].concat(categories).map(category => (
                 <Chip
                   label={category.name}
                   color={category.id === activeCategory ? 'secondary' : 'default'}
