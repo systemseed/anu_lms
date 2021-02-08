@@ -84,7 +84,11 @@ class CourseListController extends ControllerBase {
     $build['#attached']['library'][] = 'anu_lms/application';
     $build['#attached']['library'][] = 'core/drupalSettings';
     $build['#attached']['drupalSettings']['anu_settings'] = $this->anulmsSettings->getSettings();
-    $build['#attached']['drupalSettings']['anu_courses'] = $normalizedCourses;
+    $build['#attached']['drupalSettings']['anu_courses'] = [
+      'courses' => $normalizedCourses,
+      'page_title' => t('Courses'),
+      'filter_all_courses_label' => t('All courses'),
+    ];
     $build['#attached']['drupalSettings']['anu_menu'] = $this->anulmsMenuHandler->getMenu();
     if (\Drupal::moduleHandler()->moduleExists('language')) {
       $build['#attached']['drupalSettings']['language'] = $this->anulmsSettings->getLanguageSettings();
@@ -92,7 +96,6 @@ class CourseListController extends ControllerBase {
     if (\Drupal::moduleHandler()->moduleExists('pwa')) {
       $build['#attached']['drupalSettings']['pwa_settings'] = $this->anulmsSettings->getPwaSettings();
     }
-
     $build['application'] = [
       '#type' => 'markup',
       '#markup' => '<div id="anu-lms"></div>',
