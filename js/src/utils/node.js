@@ -272,6 +272,7 @@ const getCourseFields = node => ({
   categories: getArrayValue(node, 'field_course_category').map(category => ({
     id: getTextValue(category, 'tid'),
     name: getTextValue(category, 'name'),
+    weight: getTextValue(category, 'weight'),
   })),
   // TODO: Modules might be loading too deeply. For performance reasons we may want to limit it.
   modules: getArrayValue(node, 'field_course_modules')
@@ -366,7 +367,11 @@ export const isCourseListPage = () =>
   drupalSettings && typeof drupalSettings.anu_courses !== 'undefined';
 
 export const getCourseList = () => {
-  const { anu_courses: anuCourses } = drupalSettings;
+  if (!drupalSettings.hasOwnProperty('anu_courses')) {
+    return [];
+  }
+
+  const { courses: anuCourses } = drupalSettings.anu_courses;
 
   if (!anuCourses || !Array.isArray(anuCourses)) {
     return [];
