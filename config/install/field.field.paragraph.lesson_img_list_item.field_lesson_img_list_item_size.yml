@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_lesson_img_list_item_size
+    - paragraphs.paragraphs_type.lesson_img_list_item
+  module:
+    - options
+id: paragraph.lesson_img_list_item.field_lesson_img_list_item_size
+field_name: field_lesson_img_list_item_size
+entity_type: paragraph
+bundle: lesson_img_list_item
+label: Size
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

@@ -2,25 +2,18 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.paragraph.field_content_image
-    - paragraphs.paragraphs_type.image_bullet_list_item
+    - field.storage.paragraph.field_lesson_img_list_item_image
+    - paragraphs.paragraphs_type.lesson_img_list_item
   module:
-    - content_translation
     - image
-third_party_settings:
-  content_translation:
-    translation_sync:
-      alt: alt
-      title: title
-      file: '0'
-id: paragraph.image_bullet_list_item.field_content_image
-field_name: field_content_image
+id: paragraph.lesson_img_list_item.field_lesson_img_list_item_image
+field_name: field_lesson_img_list_item_image
 entity_type: paragraph
-bundle: image_bullet_list_item
+bundle: lesson_img_list_item
 label: Image
 description: ''
 required: true
-translatable: true
+translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:

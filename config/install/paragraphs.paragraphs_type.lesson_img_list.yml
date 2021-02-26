@@ -1,7 +1,7 @@
 langcode: en
 status: true
 dependencies: {  }
-id: lesson_image_bullet_list
+id: lesson_img_list
 label: 'Lesson: Image bullet list'
 icon_uuid: null
 icon_default: null

@@ -4,8 +4,8 @@ dependencies:
   module:
     - entity_reference_revisions
     - paragraphs
-id: paragraph.field_items
-field_name: field_items
+id: paragraph.field_lesson_img_list_items
+field_name: field_lesson_img_list_items
 entity_type: paragraph
 type: entity_reference_revisions
 settings:

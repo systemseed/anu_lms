@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_lesson_img_list_item_text
+    - paragraphs.paragraphs_type.lesson_img_list_item
+  module:
+    - text
+id: paragraph.lesson_img_list_item.field_lesson_img_list_item_text
+field_name: field_lesson_img_list_item_text
+entity_type: paragraph
+bundle: lesson_img_list_item
+label: Text
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

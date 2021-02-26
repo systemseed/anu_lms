@@ -2,15 +2,15 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.paragraph.field_items
-    - paragraphs.paragraphs_type.image_bullet_list_item
-    - paragraphs.paragraphs_type.lesson_image_bullet_list
+    - field.storage.paragraph.field_lesson_img_list_items
+    - paragraphs.paragraphs_type.lesson_img_list
+    - paragraphs.paragraphs_type.lesson_img_list_item
   module:
     - entity_reference_revisions
-id: paragraph.lesson_image_bullet_list.field_items
-field_name: field_items
+id: paragraph.lesson_img_list.field_lesson_img_list_items
+field_name: field_lesson_img_list_items
 entity_type: paragraph
-bundle: lesson_image_bullet_list
+bundle: lesson_img_list
 label: Items
 description: ''
 required: true
@@ -22,57 +22,45 @@ settings:
   handler_settings:
     negate: 0
     target_bundles:
-      image_bullet_list_item: image_bullet_list_item
+      lesson_img_list_item: lesson_img_list_item
     target_bundles_drag_drop:
-      competency_attributes:
-        weight: 26
-        enabled: false
-      competency_results:
-        weight: 27
-        enabled: false
-      content_fullwidth_text:
-        weight: 28
-        enabled: false
-      content_text:
-        weight: 29
-        enabled: false
-      content_text_with_background:
+      image_bullet_list_item:
         weight: 30
         enabled: false
-      content_text_with_image:
+      lesson_divider:
         weight: 31
         enabled: false
-      content_video_with_text:
+      lesson_embedded_video:
         weight: 32
         enabled: false
-      image_bullet_list_item:
-        enabled: true
-        weight: 33
-      lesson_divider:
-        weight: 34
-        enabled: false
-      lesson_embedded_video:
-        weight: 35
-        enabled: false
       lesson_heading:
-        weight: 36
+        weight: 33
         enabled: false
       lesson_highlight:
-        weight: 37
+        weight: 34
         enabled: false
       lesson_image:
-        weight: 38
+        weight: 35
         enabled: false
       lesson_image_bullet_list:
-        weight: 39
+        weight: 36
         enabled: false
       lesson_image_thumbnail:
-        weight: 40
+        weight: 37
         enabled: false
       lesson_image_wide:
+        weight: 38
+        enabled: false
+      lesson_img_list:
+        weight: 39
+        enabled: false
+      lesson_img_list_item:
+        enabled: true
+        weight: 40
+      lesson_list:
         weight: 41
         enabled: false
-      lesson_list:
+      lesson_resource:
         weight: 42
         enabled: false
       lesson_section:

@@ -64,6 +64,7 @@ const getLessonParagraphs = paragraphs => {
           caption: getTextValue(paragraph, 'field_lesson_image_caption'),
         };
 
+      // TODO: For removing, replaced by 'lesson_img_list'.
       case 'lesson_image_bullet_list':
         return {
           bundle,
@@ -88,6 +89,34 @@ const getLessonParagraphs = paragraphs => {
               ),
               size,
               text: getTextValue(item, 'field_content_text'),
+            };
+          }),
+        };
+
+      case 'lesson_img_list':
+        return {
+          bundle,
+          id: getNumberValue(paragraph, 'id'),
+          title: getTextValue(paragraph, 'field_lesson_img_list_heading'),
+          isHighlight: getBooleanValue(paragraph, 'field_lesson_img_list_highlight'),
+          items: getArrayValue(paragraph, 'field_lesson_img_list_items').map(item => {
+            let size = getTextValue(item, 'field_lesson_img_list_item_size');
+
+            if (size) {
+              size = size === 'small' ? 20 : 50;
+            } else {
+              size = 0;
+            }
+
+            return {
+              id: getNumberValue(item, 'id'),
+              image: getImage(
+                item,
+                'field_lesson_img_list_item_image',
+                size === 20 ? 'image_bullet_list_small' : 'image_bullet_list_large'
+              ),
+              size,
+              text: getTextValue(item, 'field_lesson_img_list_item_text'),
             };
           }),
         };

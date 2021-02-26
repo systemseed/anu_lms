@@ -20,6 +20,7 @@ export default {
   lesson_highlight: TextHighlighted,
   lesson_divider: Divider,
   lesson_embedded_video: EmbeddedVideo,
-  lesson_image_bullet_list: ImageBulletList,
+  lesson_image_bullet_list: ImageBulletList, // TODO: For removing, replaced by 'lesson_img_list'.
+  lesson_img_list: ImageBulletList,
   lesson_resource: Resource,
 };
