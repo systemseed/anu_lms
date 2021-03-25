@@ -25,5 +25,7 @@ dependencies:
   - rest_paragraphs_recursive
   - text
   - user
+  - media
+  - media_library
 package: anu_lms
 core_incompatible: false
