@@ -2,34 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
 import withWidth, { isWidthUp, isWidthDown } from '@material-ui/core/withWidth';
 
 import LanguageLink from '../../01_atoms/LanguageLink';
-import LanguageMenu from '../../02_molecules/LanguageMenu';
+import LanguageDropdown from '../../02_molecules/LanguageDropdown';
 import { getLanguageSettings, getLangCode } from '../../../utils/settings';
 
-const StyledBox = withStyles(theme => ({
-  root: {
-    backgroundColor: theme.palette.secondary.dark,
-    paddingBottom: theme.spacing(0.5),
-  },
-}))(Box);
-
-const useStyles = makeStyles(theme => ({
-  link: {
-    color: '#fff',
-    lineHeight: '18px',
-    padding: `${theme.spacing(1)}px ${theme.spacing(1.5)}px`,
-    borderRadius: 0,
-    '&:hover': {
-      backgroundColor: '#212121',
-    },
-  },
-}));
-
 const LanguageSwitcher = ({ label, width }) => {
-  const classes = useStyles();
   const langSettings = getLanguageSettings();
   const languages =
     langSettings &&
@@ -67,7 +46,7 @@ const LanguageSwitcher = ({ label, width }) => {
 
   return (
     languages && (
-      <StyledBox>
+      <>
         <Box
           ml={2}
           pt={0.5}
@@ -95,15 +74,14 @@ const LanguageSwitcher = ({ label, width }) => {
                   isActive={getLangCode() === lang.code}
                   label={lang.title}
                   url={lang.url}
-                  className={classes.link}
                 />
               ))}
 
-              <LanguageMenu options={secondaryLanguages} />
+              <LanguageDropdown options={secondaryLanguages} />
             </Box>
           </Box>
         </Container>
-      </StyledBox>
+      </>
     )
   );
 };

@@ -2,12 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import { Offline, Online } from 'react-detect-offline';
-
 import Button from '@material-ui/core/Button';
+import { withStyles, withTheme } from '@material-ui/core/styles';
 
 import SnackAlert from '../SnackAlert';
 
-const LanguageLink = ({ isActive, label, url, onClick, endIcon, className, t }) => {
+const CompactIconButton = withStyles(theme => ({
+  endIcon: {
+    margingLeft: theme.spacing(0.5),
+  },
+}))(Button);
+
+const LanguageLink = ({ isActive, label, url, onClick, endIcon, t, theme }) => {
   const [alertOpen, setAlertOpen] = React.useState(false);
 
   const handleOfflineClick = event => {
@@ -19,36 +25,31 @@ const LanguageLink = ({ isActive, label, url, onClick, endIcon, className, t }) 
     setAlertOpen(false);
   };
 
+  const linkStyle = {
+    color: isActive ? 'inherit' : theme.palette.secondary.light,
+    fontWeight: isActive ? 700 : 'inherit',
+    textTransform: 'none',
+    minWidth: 70,
+    borderRadius: 0,
+  };
+
   return (
     <>
       <Online>
-        <Button
-          href={url}
-          onClick={onClick}
-          endIcon={endIcon}
-          className={className}
-          style={{
-            fontWeight: isActive ? 700 : 400,
-            textTransform: 'none',
-          }}
-        >
+        <CompactIconButton href={url} onClick={onClick} endIcon={endIcon} style={linkStyle}>
           {label}
-        </Button>
+        </CompactIconButton>
       </Online>
 
       <Offline>
-        <Button
+        <CompactIconButton
           href={url}
           onClick={handleOfflineClick}
           endIcon={endIcon}
-          className={className}
-          style={{
-            fontWeight: isActive ? 700 : 400,
-            textTransform: 'none',
-          }}
+          style={linkStyle}
         >
           {label}
-        </Button>
+        </CompactIconButton>
 
         <SnackAlert
           show={alertOpen}
@@ -68,19 +69,19 @@ LanguageLink.propTypes = {
   isActive: PropTypes.bool,
   label: PropTypes.string.isRequired,
   url: PropTypes.string,
-  className: PropTypes.string,
   onClick: PropTypes.func,
   endIcon: PropTypes.element,
   // Inherited from withTranslation HOC.
   t: PropTypes.func.isRequired,
+  // Inherited from withTheme HOC.
+  theme: PropTypes.shape().isRequired,
 };
 
 LanguageLink.defaultProps = {
   isActive: false,
-  className: '',
   url: null,
   onClick: () => {},
   endIcon: null,
 };
 
-export default withTranslation()(LanguageLink);
+export default withTranslation()(withTheme(LanguageLink));

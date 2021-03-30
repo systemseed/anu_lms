@@ -24,6 +24,7 @@ const customizedTheme = createMuiTheme({
       main: '#4698c9',
     },
     secondary: {
+      light: '#546e7a',
       main: '#3E3E3E',
       dark: '#2E2E2E',
     },
