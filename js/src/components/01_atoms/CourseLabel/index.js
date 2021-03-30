@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Typography } from '@material-ui/core';
-import { withTheme } from '@material-ui/core/styles';
 
-const CourseLabel = ({ name, color, theme }) => {
+const CourseLabel = ({ name, color }) => {
   const colorLookup = {
     yellow: '#FFE082',
     grey: '#CFD8DC',
@@ -30,7 +29,6 @@ const CourseLabel = ({ name, color, theme }) => {
 CourseLabel.propTypes = {
   name: PropTypes.string.isRequired,
   color: PropTypes.oneOf(['yellow', 'grey', 'green', 'purple', 'blue', 'red']).isRequired,
-  theme: PropTypes.shape().isRequired,
 };
 
-export default withTheme(CourseLabel);
+export default CourseLabel;

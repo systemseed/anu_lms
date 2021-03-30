@@ -14,16 +14,6 @@ import Course from './components/05_pages/Course';
 import Assessment from './components/05_pages/Assessment';
 import CourseList from './components/05_pages/CourseList';
 
-// optional configuration
-const options = {
-  // you can also just use 'bottom center'
-  position: positions.TOP_RIGHT,
-  timeout: 10000,
-  offset: '30px',
-  // you can also just use 'scale'
-  transition: transitions.FADE
-}
-
 class Application extends React.Component {
   constructor(props) {
     super(props);
@@ -37,9 +27,15 @@ class Application extends React.Component {
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <AlertProvider template={AlertTemplate} {...options}>
-          <Header settings={this.settings} />
-            {/* TODO: Refactor */}
+          <AlertProvider
+            template={AlertTemplate}
+            position={positions.TOP_RIGHT}
+            timeout={10000}
+            offset="30px"
+            transition={transitions.FADE}
+          >
+            <Header settings={this.settings} />
+
             {this.node && (
               <>
                 {this.node.type === 'module_lesson' && <Lesson node={this.node} />}
@@ -48,6 +44,7 @@ class Application extends React.Component {
                 {this.node.type === 'course' && <Course node={this.node} />}
               </>
             )}
+
             {isCourseListPage() && this.courses && (
               <CourseList nodes={this.courses} settings={this.settings} />
             )}

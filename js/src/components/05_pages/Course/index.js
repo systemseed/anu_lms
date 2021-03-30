@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Container,
   Box,
@@ -105,10 +106,11 @@ const Course = ({ t, node, width, theme }) => {
     node.categories.find(cat => cat.id === params.get('category')) || node.categories[0] || {};
 
   if (node.modules.length > 0) {
-    const module = node.modules.find(module => module.lessons.length > 0);
+    const module = node.modules.find(m => m.lessons.length > 0);
 
     if (module) {
-      firstLesson = module.lessons[0];
+      const { lessons } = module;
+      [firstLesson] = lessons;
     }
   }
 
@@ -126,14 +128,16 @@ const Course = ({ t, node, width, theme }) => {
                     {categoryName}
                   </Typography>
 
-                  {isWidthUp('sm', width) && <CourseLabel {...node.label} />}
+                  {node.label && isWidthUp('sm', width) && (
+                    <CourseLabel name={node.label.name} color={node.label.color} />
+                  )}
                 </Box>
               </Accented>
             )}
 
-            {isWidthDown('xs', width) && (
+            {node.label && isWidthDown('xs', width) && (
               <Box mb={2}>
-                <CourseLabel {...node.label} />
+                <CourseLabel name={node.label.name} color={node.label.color} />
               </Box>
             )}
 
@@ -166,15 +170,12 @@ const Course = ({ t, node, width, theme }) => {
             <Box mt={6}>
               {node.image && node.image.url && (
                 <Hidden smDown>
-                  <Image src={node.image.url} alt={node.title}/>
+                  <Image src={node.image.url} alt={node.title} />
                 </Hidden>
               )}
 
               {pwaSettings && (
-                <StyledBox
-                  display="flex"
-                  alignItems="center"
-                >
+                <StyledBox display="flex" alignItems="center">
                   <DownloadCourse course={node} />
                 </StyledBox>
               )}
@@ -187,29 +188,41 @@ const Course = ({ t, node, width, theme }) => {
         </Typography>
 
         <StyledGridContainer container spacing={isWidthUp('sm', width) ? 6 : 2}>
-          {node.modules.map(module => (module.title && (
-            <Grid item xs={12} md={6} key={module.id}>
-              <Card>
-                <CardActionArea
-                  onClick={() =>
-                    (window.location.href = `${getLangCodePrefix()}${module.path}`)
-                  }
-                >
-                  <StyledCardMedia image={module.image.url}>
-                    <StyledShadowBox />
+          {node.modules.map(
+            module =>
+              module.title && (
+                <Grid item xs={12} md={6} key={module.id}>
+                  <Card>
+                    <CardActionArea
+                      onClick={() =>
+                        (window.location.href = `${getLangCodePrefix()}${module.path}`)
+                      }
+                    >
+                      <StyledCardMedia image={module.image.url}>
+                        <StyledShadowBox />
 
-                    <StyledTypography component="h2" variant="h1">
-                      {module.title}
-                    </StyledTypography>
-                  </StyledCardMedia>
-                </CardActionArea>
-              </Card>
-            </Grid>
-          )))}
+                        <StyledTypography component="h2" variant="h1">
+                          {module.title}
+                        </StyledTypography>
+                      </StyledCardMedia>
+                    </CardActionArea>
+                  </Card>
+                </Grid>
+              )
+          )}
         </StyledGridContainer>
       </Container>
     </PageContainer>
   );
-}
+};
+
+Course.propTypes = {
+  node: PropTypes.shape().isRequired,
+  width: PropTypes.string.isRequired,
+  // Inherited from withTranslation HOC.
+  t: PropTypes.func.isRequired,
+  // Inherited from withTheme HOC.
+  theme: PropTypes.shape().isRequired,
+};
 
 export default withWidth()(withTranslation()(withTheme(Course)));

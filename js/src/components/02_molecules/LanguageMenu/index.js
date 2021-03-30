@@ -5,25 +5,13 @@ import { Offline, Online } from 'react-detect-offline';
 
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import LanguageLink from '../../01_atoms/LanguageLink';
-import SnackAlert from '../../01_atoms/SnackAlert';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 
-import { getLangCode } from '../../../utils/settings';
+import LanguageLink from '../../01_atoms/LanguageLink';
+import SnackAlert from '../../01_atoms/SnackAlert';
 
-/* TODO: Make into menu item theme along with LessonList */
-/*
-const useStyles = makeStyles(theme => ({
-  menuItem: {
-    whiteSpace: 'normal',
-    paddingTop: theme.spacing(1.5),
-    paddingBottom: theme.spacing(1.5),
-    fontSize: ({ fontSize }) => (fontSize === 'large' ? '1rem' : '.75rem'),
-  },
-}));
-*/
+import { getLangCode } from '../../../utils/settings';
 
 const StyledMenu = withStyles({
   paper: {
@@ -32,22 +20,8 @@ const StyledMenu = withStyles({
   list: {
     paddingTop: '4px',
     paddingBottom: '4px',
-  }
-})((props) => (
-  <Menu
-    elevation={1}
-    getContentAnchorEl={null}
-    anchorOrigin={{
-      vertical: 'bottom',
-      horizontal: 'right',
-    }}
-    transformOrigin={{
-      vertical: 'top',
-      horizontal: 'right',
-    }}
-    {...props}
-  />
-));
+  },
+})(Menu);
 
 const StyledMenuItem = withStyles(() => ({
   root: {
@@ -80,7 +54,7 @@ const LanguageMenu = ({ options, t }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [alertOpen, setAlertOpen] = React.useState(false);
 
-  const handleClick = (event) => {
+  const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -88,19 +62,20 @@ const LanguageMenu = ({ options, t }) => {
     setAnchorEl(null);
   };
 
-  const handleOfflineClick = (event) => {
+  const handleOfflineClick = event => {
     event.preventDefault();
     setAnchorEl(null);
     setAlertOpen(true);
   };
 
-  const handleAlertClose = (event, reason) => {
+  const handleAlertClose = () => {
     setAlertOpen(false);
   };
 
   if (options.length === 0) {
     return null;
   }
+
   return (
     <>
       <LanguageLink
@@ -109,18 +84,26 @@ const LanguageMenu = ({ options, t }) => {
         endIcon={<ExpandMoreIcon style={{ fontSize: 18 }} />}
         className={classes.more}
       />
+
       <StyledMenu
+        elevation={1}
+        getContentAnchorEl={null}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
         {options.map(lang => (
-          <>
+          <div key={lang.code}>
             <Online>
-              <StyledMenuItem
-                key={lang.code}
-                onClick={() => (window.location.href = lang.url)}
-              >
+              <StyledMenuItem key={lang.code} onClick={() => (window.location.href = lang.url)}>
                 <LanguageLink
                   isActive={getLangCode() === lang.code}
                   label={lang.title}
@@ -129,11 +112,9 @@ const LanguageMenu = ({ options, t }) => {
                 />
               </StyledMenuItem>
             </Online>
+
             <Offline>
-              <StyledMenuItem
-                key={lang.code}
-                onClick={handleOfflineClick}
-              >
+              <StyledMenuItem key={lang.code} onClick={handleOfflineClick}>
                 <LanguageLink
                   isActive={getLangCode() === lang.code}
                   label={lang.title}
@@ -142,9 +123,10 @@ const LanguageMenu = ({ options, t }) => {
                 />
               </StyledMenuItem>
             </Offline>
-          </>
+          </div>
         ))}
       </StyledMenu>
+
       <SnackAlert
         show={alertOpen}
         message={t('It is not possible to change language while you are offline.')}
@@ -160,6 +142,8 @@ const LanguageMenu = ({ options, t }) => {
 
 LanguageMenu.propTypes = {
   options: PropTypes.arrayOf(PropTypes.shape()),
+  // Inherited from withTranslation HOC.
+  t: PropTypes.func.isRequired,
 };
 
 LanguageMenu.defaultProps = {

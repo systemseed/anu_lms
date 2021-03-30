@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 
@@ -6,9 +7,10 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Icon from '@material-ui/core/Icon';
+import Link from '@material-ui/core/Link';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
-import { Icon, Link } from '@material-ui/core';
+import { makeStyles, withStyles, withTheme } from '@material-ui/core/styles';
 
 import LanguageSwitcher from '../LanguageSwitcher';
 
@@ -17,12 +19,9 @@ import { getCurrentNode } from '../../../utils/node';
 import { getMenu, getMenuIconById } from '../../../utils/menu';
 import { getLangCodePrefix } from '../../../utils/settings';
 
-const ButtonRaw = ({ isActive, ...props }) => <Button {...props} />;
-
 const StyledButton = withStyles(theme => ({
   root: {
     color: 'white',
-    background: ({ isActive }) => (isActive ? '#757575' : 'none'),
     borderRadius: 0,
     textTransform: 'none',
     fontSize: '0.875em',
@@ -32,7 +31,7 @@ const StyledButton = withStyles(theme => ({
     },
     [theme.breakpoints.up('md')]: {
       '&:hover': {
-        background: '#757575',
+        background: '#757575 !important',
       },
     },
   },
@@ -46,7 +45,7 @@ const StyledButton = withStyles(theme => ({
   startIcon: {
     margin: 0,
   },
-}))(ButtonRaw);
+}))(Button);
 
 const StyledIcon = withStyles(theme => ({
   fontSizeLarge: {
@@ -73,13 +72,6 @@ const StyledToolbar = withStyles(theme => ({
   },
 }))(Toolbar);
 
-const useAppBarStyles = makeStyles(theme => ({
-  root: {
-    background: theme.palette.secondary.main,
-    zIndex: 100,
-  },
-}));
-
 const useLogoStyles = makeStyles(theme => ({
   root: {
     marginRight: theme.spacing(2),
@@ -88,7 +80,7 @@ const useLogoStyles = makeStyles(theme => ({
     '&:hover': {
       opacity: '0.95',
     },
-  }
+  },
 }));
 
 const StyledLink = withStyles(theme => ({
@@ -101,23 +93,14 @@ const StyledLink = withStyles(theme => ({
   },
 }))(Link);
 
-const StyledAppBar = ({ children, ...props }) => {
-  const classes = useAppBarStyles();
-
-  return (
-    <AppBar className={classes.root} {...props}>
-      {children}
-    </AppBar>
-  );
-};
-
 const Header = ({
   t,
+  theme,
   settings,
   width,
   dispatch,
   isLessonSidebarVisibleOnDesktop,
-  isLessonSidebarVisibleOnMobile
+  isLessonSidebarVisibleOnMobile,
 }) => {
   const node = getCurrentNode();
   const menu = getMenu();
@@ -127,7 +110,13 @@ const Header = ({
     <>
       <LanguageSwitcher label={settings.betaLogo} />
 
-      <StyledAppBar position="sticky">
+      <AppBar
+        position="sticky"
+        style={{
+          background: theme.palette.secondary.main,
+          zIndex: 100,
+        }}
+      >
         <StyledToolbar disableGutters>
           {settings.logo && settings.logo.url && (
             <StyledLink href={getLangCodePrefix()}>
@@ -137,62 +126,89 @@ const Header = ({
 
           <StyledButtonGroup variant="text">
             {/* Render primary menu of the site */}
-            {menu && menu.primary && menu.primary.map(menuItem => (
-              <StyledButton
-                startIcon={(
-                  <StyledIcon fontSize="large">
-                    {getMenuIconById(menuItem.id)}
-                  </StyledIcon>
-                )}
-                href={menuItem.url}
-                isActive={window.location.pathname === menuItem.url}
-                key={menuItem.url}
-              >
-                {isWidthUp('sm', width) && menuItem.title}
-              </StyledButton>
-            ))}
+            {menu &&
+              menu.primary &&
+              menu.primary.map(menuItem => (
+                <StyledButton
+                  key={menuItem.url}
+                  startIcon={
+                    <StyledIcon fontSize="large">{getMenuIconById(menuItem.id)}</StyledIcon>
+                  }
+                  href={menuItem.url}
+                  style={{
+                    background: window.location.pathname === menuItem.url ? '#757575' : 'none',
+                  }}
+                >
+                  {isWidthUp('sm', width) && menuItem.title}
+                </StyledButton>
+              ))}
 
             {/* Special menu item appearing only on the lesson or assessment page */}
             {node && (node.type === 'module_lesson' || node.type === 'module_assessment') && (
               <StyledButton
                 startIcon={<StyledIcon fontSize="large">list</StyledIcon>}
-                onClick={() => isWidthUp('sm', width) ? dispatch(lessonActions.toggleSidebarOnDesktop()) : dispatch(lessonActions.toggleSidebarOnMobile())}
-                isActive={isWidthUp('sm', width) ? isLessonSidebarVisibleOnDesktop : isLessonSidebarVisibleOnMobile}
+                onClick={() =>
+                  isWidthUp('sm', width)
+                    ? dispatch(lessonActions.toggleSidebarOnDesktop())
+                    : dispatch(lessonActions.toggleSidebarOnMobile())
+                }
+                style={{
+                  background: (isWidthUp('sm', width)
+                  ? isLessonSidebarVisibleOnDesktop
+                  : isLessonSidebarVisibleOnMobile)
+                    ? '#757575'
+                    : 'none',
+                }}
               >
                 {isWidthUp('sm', width) && t('Contents')}
               </StyledButton>
             )}
-
           </StyledButtonGroup>
 
           <div style={{ flexGrow: 1 }} />
 
           <StyledButtonGroup variant="text">
             {/* Render secondary menu of the site */}
-            {menu && menu.secondary && menu.secondary.map(menuItem => (
-              <StyledButton
-                startIcon={(
-                  <StyledIcon fontSize="large">
-                    {getMenuIconById(menuItem.id)}
-                  </StyledIcon>
-                )}
-                href={menuItem.url}
-                isActive={window.location.pathname === menuItem.url}
-                key={menuItem.url}
-              >
-                {isWidthUp('sm', width) && menuItem.title}
-              </StyledButton>
-            ))}
+            {menu &&
+              menu.secondary &&
+              menu.secondary.map(menuItem => (
+                <StyledButton
+                  startIcon={
+                    <StyledIcon fontSize="large">{getMenuIconById(menuItem.id)}</StyledIcon>
+                  }
+                  href={menuItem.url}
+                  key={menuItem.url}
+                  style={{
+                    background: window.location.pathname === menuItem.url ? '#757575' : 'none',
+                  }}
+                >
+                  {isWidthUp('sm', width) && menuItem.title}
+                </StyledButton>
+              ))}
           </StyledButtonGroup>
         </StyledToolbar>
-      </StyledAppBar>
+      </AppBar>
     </>
   );
-}
+};
+
+Header.propTypes = {
+  settings: PropTypes.shape().isRequired,
+  isLessonSidebarVisibleOnDesktop: PropTypes.bool.isRequired,
+  isLessonSidebarVisibleOnMobile: PropTypes.bool.isRequired,
+  // Inherited from withWidth HOC.
+  width: PropTypes.string.isRequired,
+  // Inherited from withTranslation HOC
+  t: PropTypes.func.isRequired,
+  // Inherited from withTheme HOC
+  theme: PropTypes.shape().isRequired,
+  // Inherited from connect HOC
+  dispatch: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = ({ lesson }) => ({
   isLessonSidebarVisibleOnDesktop: lesson.isSidebarVisibleOnDesktop,
   isLessonSidebarVisibleOnMobile: lesson.isSidebarVisibleOnMobile,
 });
 
-export default connect(mapStateToProps)(withWidth()(withTranslation()(Header)));
+export default connect(mapStateToProps)(withWidth()(withTranslation()(withTheme(Header))));

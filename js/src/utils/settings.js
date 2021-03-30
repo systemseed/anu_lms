@@ -1,16 +1,16 @@
 import { getImage, getTextValue } from './transforms.field';
 
 export const getSettings = () => {
-  const { anu_settings } = drupalSettings;
+  const { anu_settings: settings } = drupalSettings;
 
-  if (!anu_settings) {
+  if (!settings) {
     return [];
   }
 
   return {
-    courses_description: getTextValue(anu_settings, 'field_courses_description'),
-    logo: getImage(anu_settings, 'field_logo', 'logo'),
-    betaLogo: getImage(anu_settings, 'field_beta_label', 'anu_lms_beta_label'),
+    courses_description: getTextValue(settings, 'field_courses_description'),
+    logo: getImage(settings, 'field_logo', 'logo'),
+    betaLogo: getImage(settings, 'field_beta_label', 'anu_lms_beta_label'),
   };
 };
 

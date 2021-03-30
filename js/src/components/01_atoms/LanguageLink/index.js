@@ -4,52 +4,52 @@ import { withTranslation } from 'react-i18next';
 import { Offline, Online } from 'react-detect-offline';
 
 import Button from '@material-ui/core/Button';
-import { withStyles } from '@material-ui/core';
 
 import SnackAlert from '../SnackAlert';
-
-const StyledButton = withStyles(theme => ({
-  root: {
-    fontWeight: ({ active }) => (active ? 700 : 400),
-    textTransform: 'none',
-  },
-}))(Button);
 
 const LanguageLink = ({ isActive, label, url, onClick, endIcon, className, t }) => {
   const [alertOpen, setAlertOpen] = React.useState(false);
 
-  const handleOfflineClick = (event) => {
+  const handleOfflineClick = event => {
     event.preventDefault();
     setAlertOpen(true);
   };
 
-  const handleAlertClose = (event, reason) => {
+  const handleAlertClose = () => {
     setAlertOpen(false);
   };
 
   return (
     <>
       <Online>
-        <StyledButton
+        <Button
           href={url}
           onClick={onClick}
-          active={isActive}
           endIcon={endIcon}
           className={className}
+          style={{
+            fontWeight: isActive ? 700 : 400,
+            textTransform: 'none',
+          }}
         >
           {label}
-        </StyledButton>
+        </Button>
       </Online>
+
       <Offline>
-        <StyledButton
+        <Button
           href={url}
           onClick={handleOfflineClick}
-          active={isActive}
           endIcon={endIcon}
           className={className}
+          style={{
+            fontWeight: isActive ? 700 : 400,
+            textTransform: 'none',
+          }}
         >
           {label}
-        </StyledButton>
+        </Button>
+
         <SnackAlert
           show={alertOpen}
           message={t('It is not possible to change language while you are offline.')}
@@ -70,7 +70,9 @@ LanguageLink.propTypes = {
   url: PropTypes.string,
   className: PropTypes.string,
   onClick: PropTypes.func,
-  endIcon: PropTypes.string,
+  endIcon: PropTypes.element,
+  // Inherited from withTranslation HOC.
+  t: PropTypes.func.isRequired,
 };
 
 LanguageLink.defaultProps = {

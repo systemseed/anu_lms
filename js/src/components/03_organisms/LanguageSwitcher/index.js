@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
@@ -31,9 +31,10 @@ const useStyles = makeStyles(theme => ({
 const LanguageSwitcher = ({ label, width }) => {
   const classes = useStyles();
   const langSettings = getLanguageSettings();
-  const languages = langSettings
-    && langSettings.links
-    && Object.keys(langSettings.links).map(code => ({
+  const languages =
+    langSettings &&
+    langSettings.links &&
+    Object.keys(langSettings.links).map(code => ({
       code,
       ...langSettings.links[code],
     }));
@@ -46,7 +47,7 @@ const LanguageSwitcher = ({ label, width }) => {
   let mainLanguages = [];
   let secondaryLanguages = [];
 
-  orderedLanguages.forEach((lang) => {
+  orderedLanguages.forEach(lang => {
     if (lang.is_main) {
       mainLanguages.push(lang);
     } else {
@@ -56,7 +57,7 @@ const LanguageSwitcher = ({ label, width }) => {
 
   // No main languages defined
   if (mainLanguages.length === 0) {
-    mainLanguages = orderedLanguages.slice(0,6);
+    mainLanguages = orderedLanguages.slice(0, 6);
     if (orderedLanguages.length > 6) {
       secondaryLanguages = orderedLanguages.slice(6);
     } else {
@@ -105,6 +106,12 @@ const LanguageSwitcher = ({ label, width }) => {
       </StyledBox>
     )
   );
+};
+
+LanguageSwitcher.propTypes = {
+  label: PropTypes.shape().isRequired,
+  // Inherited from withWidth HOC.
+  width: PropTypes.string.isRequired,
 };
 
 export default withWidth()(LanguageSwitcher);
