@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box';
-import Container from '@material-ui/core/Container';
+import Toolbar from '@material-ui/core/Toolbar';
 import withWidth, { isWidthUp, isWidthDown } from '@material-ui/core/withWidth';
 
 import LanguageLink from '../../01_atoms/LanguageLink';
@@ -46,42 +46,30 @@ const LanguageSwitcher = ({ label, width }) => {
 
   return (
     languages && (
-      <>
-        <Box
-          ml={2}
-          pt={0.5}
-          position="absolute"
-          display={isWidthUp('sm', width) ? 'block' : 'none'}
-        >
-          {label && <img height={30} src={label.url} alt={label.alt} />}
-        </Box>
+      <Toolbar style={{ minHeight: 45 }}>
+        {label && <img height={30} src={label.url} alt={label.alt} />}
 
-        <Container
-          style={{
-            display: 'flex',
-            flexDirection: isWidthDown('xs', width) ? 'row' : 'row-reverse',
-          }}
-        >
-          <Box display="flex" justifyContent="space-between">
-            <Box mr={2} pt={0.5} display={isWidthDown('xs', width) ? 'block' : 'none'}>
-              {label && <img height={30} src={label.url} alt={label.alt} />}
-            </Box>
+        <div style={{ flexGrow: 1 }} />
 
-            <Box>
-              {mainLanguages.map(lang => (
-                <LanguageLink
-                  key={lang.code}
-                  isActive={getLangCode() === lang.code}
-                  label={lang.title}
-                  url={lang.url}
-                />
-              ))}
-
-              <LanguageDropdown options={secondaryLanguages} />
-            </Box>
+        <Box display="flex" justifyContent="space-between">
+          <Box mr={2} pt={0.5} display={isWidthDown('xs', width) ? 'block' : 'none'}>
+            {label && <img height={30} src={label.url} alt={label.alt} />}
           </Box>
-        </Container>
-      </>
+
+          <Box>
+            {mainLanguages.map(lang => (
+              <LanguageLink
+                key={lang.code}
+                isActive={getLangCode() === lang.code}
+                label={lang.title}
+                url={lang.url}
+              />
+            ))}
+
+            <LanguageDropdown options={secondaryLanguages} />
+          </Box>
+        </Box>
+      </Toolbar>
     )
   );
 };

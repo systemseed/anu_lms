@@ -5,7 +5,6 @@ import { Detector } from 'react-detect-offline';
 
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import LanguageLink from '../../01_atoms/LanguageLink';

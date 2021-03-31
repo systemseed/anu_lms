@@ -139,6 +139,11 @@ const customizedTheme = createMuiTheme({
         backgroundColor: 'white',
       },
     },
+    MuiAppBar: {
+      colorDefault: {
+        backgroundColor: '#ffffff',
+      },
+    },
   },
 });
 
