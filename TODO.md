@@ -2,6 +2,4 @@
 - Old Browsers notification
 - Alerts for status messages
 - Pick up Drupal messages
-- Update image style for courses page to crop to 16:9
 - Offline support
-- Perform other TODOs
