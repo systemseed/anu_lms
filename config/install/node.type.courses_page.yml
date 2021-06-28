@@ -1,12 +1,6 @@
 langcode: en
 status: true
-dependencies:
-  module:
-    - menu_ui
-third_party_settings:
-  menu_ui:
-    available_menus: {  }
-    parent: ''
+dependencies: {  }
 name: 'Courses page'
 type: courses_page
 description: 'Content page that aggregates and displays courses.'

@@ -1,12 +1,6 @@
 langcode: en
 status: true
-dependencies:
-  module:
-    - menu_ui
-third_party_settings:
-  menu_ui:
-    available_menus: {  }
-    parent: ''
+dependencies: {  }
 name: Quiz
 type: module_assessment
 description: 'Final quiz page at the end of the module.'

@@ -8,7 +8,6 @@ dependencies:
     - field.field.paragraph.course_modules.field_module_title
     - paragraphs.paragraphs_type.course_modules
   module:
-    - entity_browser_entity_form
     - inline_entity_form
 id: paragraph.course_modules.default
 targetEntityType: paragraph
@@ -29,9 +28,7 @@ content:
       collapsible: false
       collapsed: false
       allow_duplicate: false
-    third_party_settings:
-      entity_browser_entity_form:
-        entity_browser_id: _none
+    third_party_settings: {  }
     type: inline_entity_form_complex
     region: content
   field_module_lessons:
@@ -48,9 +45,7 @@ content:
       revision: false
       collapsible: false
       allow_duplicate: false
-    third_party_settings:
-      entity_browser_entity_form:
-        entity_browser_id: _none
+    third_party_settings: {  }
     type: inline_entity_form_complex
     region: content
   field_module_title:

@@ -1,12 +1,6 @@
 langcode: en
 status: true
-dependencies:
-  module:
-    - menu_ui
-third_party_settings:
-  menu_ui:
-    available_menus: {  }
-    parent: ''
+dependencies: {  }
 name: 'Module [LEGACY]'
 type: module
 description: 'A combination of lessons, activities and quizzes targeting one specific education unit.'

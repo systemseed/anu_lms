@@ -1,31 +1,29 @@
 name: Anu LMS
 description: Provides E-Learning capabilities.
 type: module
-package: 'Anu LMS'
+package: Anu LMS
 core_version_requirement: '^8.9 || ^9'
 dependencies:
-  - allowed_formats
-  - anu_lms_assessments
-  - content_translation
-  - config_pages
-  - eck
-  - entity_reference_revisions
-  - field
-  - field_group
-  - file
-  - image
-  - inline_entity_form
-  - language
-  - link
-  - media
-  - media_library
-  - node
-  - options
-  - paragraphs
-  - path
+  - allowed_formats:allowed_formats
+  - anu_lms:anu_lms_assessments
+  - config_pages:config_pages
+  - drupal:ckeditor
+  - drupal:field
+  - drupal:file
+  - drupal:image
+  - drupal:link
+  - drupal:media
+  - drupal:media_library
+  - drupal:node
+  - drupal:options
+  - drupal:path
+  - drupal:taxonomy
+  - drupal:text
+  - drupal:user
+  - eck:eck
+  - field_group:field_group
+  - inline_entity_form:inline_entity_form
+  - paragraphs:paragraphs
   - rest_entity_recursive:rest_paragraphs_recursive
-  - shs_chosen
-  - taxonomy
-  - text
-  - user
+  - shs_chosen:shs_chosen
 core_incompatible: false
