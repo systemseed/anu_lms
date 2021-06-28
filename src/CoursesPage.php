@@ -74,7 +74,10 @@ class CoursesPage {
     $courses = $this->getCoursesByCategories($project_category_ids);
     $normalized_courses = [];
     foreach ($courses as $course) {
-      $normalized_courses[] = $this->normalizer->normalizeEntity($course, ['max_depth' => 1]);
+      $normalized_course = $this->normalizer->normalizeEntity($course, ['max_depth' => 1]);
+      if (!empty($normalized_course)) {
+        $normalized_courses[] = $normalized_course;
+      }
     }
 
     return [
