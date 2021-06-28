@@ -6,12 +6,13 @@ dependencies:
     - field.field.node.course.field_course_description
     - field.field.node.course.field_course_image
     - field.field.node.course.field_course_label
+    - field.field.node.course.field_course_module
     - field.field.node.course.field_course_modules
     - image.style.medium
     - node.type.course
   module:
+    - entity_reference_revisions
     - image
-    - options
     - text
     - user
 id: node.course.default
@@ -20,7 +21,7 @@ bundle: course
 mode: default
 content:
   field_course_category:
-    weight: 105
+    weight: 3
     label: above
     settings:
       link: true
@@ -28,14 +29,14 @@ content:
     type: entity_reference_label
     region: content
   field_course_description:
-    weight: 102
+    weight: 2
     label: above
     settings: {  }
     third_party_settings: {  }
     type: text_default
     region: content
   field_course_image:
-    weight: 101
+    weight: 1
     label: above
     settings:
       image_style: medium
@@ -44,25 +45,27 @@ content:
     type: image
     region: content
   field_course_label:
-    weight: 106
+    weight: 4
     label: above
     settings:
       link: true
     third_party_settings: {  }
     type: entity_reference_label
     region: content
-  field_course_modules:
-    weight: 103
+  field_course_module:
+    type: entity_reference_revisions_entity_view
+    weight: 5
     label: above
     settings:
-      link: true
+      view_mode: default
+      link: ''
     third_party_settings: {  }
-    type: entity_reference_label
     region: content
   links:
-    weight: 100
+    weight: 0
     region: content
     settings: {  }
     third_party_settings: {  }
 hidden:
+  field_course_modules: true
   langcode: true

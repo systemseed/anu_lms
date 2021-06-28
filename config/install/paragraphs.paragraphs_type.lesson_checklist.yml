@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies: {  }
+id: lesson_checklist
+label: 'Lesson: Checklist'
+icon_uuid: null
+icon_default: null
+description: 'Multiple checkboxes with description.'
+behavior_plugins: {  }

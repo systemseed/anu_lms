@@ -5,7 +5,14 @@ dependencies:
     - field.storage.node.field_course_description
     - node.type.course
   module:
+    - allowed_formats
     - text
+third_party_settings:
+  allowed_formats:
+    minimal_html: minimal_html
+    plain_text: '0'
+    basic_html: '0'
+    full_html: '0'
 id: node.course.field_course_description
 field_name: field_course_description
 entity_type: node

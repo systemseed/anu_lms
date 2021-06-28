@@ -1,0 +1,27 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_lesson_text_content
+    - paragraphs.paragraphs_type.checklist_item
+  module:
+    - allowed_formats
+    - text
+third_party_settings:
+  allowed_formats:
+    minimal_html: minimal_html
+    plain_text: '0'
+    basic_html: '0'
+    full_html: '0'
+id: paragraph.checklist_item.field_lesson_text_content
+field_name: field_lesson_text_content
+entity_type: paragraph
+bundle: checklist_item
+label: Description
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

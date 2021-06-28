@@ -7,9 +7,9 @@ third_party_settings:
   menu_ui:
     available_menus: {  }
     parent: ''
-name: 'Module''s lesson'
+name: Lesson
 type: module_lesson
-description: 'A learning unit with content addressing a specific bit of the module.'
+description: 'A learning unit of the module with content addressing a specific bit of the course.'
 help: ''
 new_revision: true
 preview_mode: 0

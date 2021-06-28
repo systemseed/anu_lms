@@ -2,20 +2,20 @@ langcode: en
 status: true
 dependencies:
   config:
-    - core.entity_form_mode.node.embedded
     - field.field.node.course.field_course_category
     - field.field.node.course.field_course_description
     - field.field.node.course.field_course_image
     - field.field.node.course.field_course_label
+    - field.field.node.course.field_course_module
     - field.field.node.course.field_course_modules
     - image.style.thumbnail
     - node.type.course
   module:
-    - entity_browser_entity_form
     - field_group
     - image
-    - inline_entity_form
+    - paragraphs
     - path
+    - shs_chosen
     - text
 third_party_settings:
   field_group:
@@ -28,7 +28,7 @@ third_party_settings:
       format_type: tabs
       region: content
       format_settings:
-        direction: vertical
+        direction: horizontal
         id: ''
         classes: ''
       label: Course
@@ -51,7 +51,7 @@ third_party_settings:
       label: Info
     group_course_modules:
       children:
-        - field_course_modules
+        - field_course_module
       parent_name: group_course
       weight: 14
       format_type: tab
@@ -70,15 +70,26 @@ mode: default
 content:
   created:
     type: datetime_timestamp
-    weight: 9
+    weight: 5
     region: content
     settings: {  }
     third_party_settings: {  }
   field_course_category:
     weight: 101
-    settings: {  }
+    settings:
+      force_deepest: true
+      create_new_items: false
+      create_new_levels: false
+      display_node_count: false
+      chosen_override: false
+      chosen_settings:
+        disable_search: false
+        search_contains: false
+        placeholder_text_multiple: 'Choose some options'
+        placeholder_text_single: 'Choose an option'
+        no_results_text: 'No results match'
     third_party_settings: {  }
-    type: options_select
+    type: options_shs_chosen
     region: content
   field_course_description:
     weight: 104
@@ -98,28 +109,32 @@ content:
     region: content
   field_course_label:
     weight: 102
-    settings: {  }
-    third_party_settings: {  }
-    type: options_select
-    region: content
-  field_course_modules:
-    weight: 15
     settings:
-      form_mode: embedded
-      override_labels: true
-      label_singular: module
-      label_plural: modules
-      allow_new: true
-      allow_existing: true
-      match_operator: CONTAINS
-      collapsible: false
-      collapsed: false
-      allow_duplicate: false
-      revision: false
-    third_party_settings:
-      entity_browser_entity_form:
-        entity_browser_id: _none
-    type: inline_entity_form_complex
+      chosen_override: false
+      chosen_settings:
+        disable_search: false
+        search_contains: false
+        placeholder_text_multiple: 'Choose some options'
+        placeholder_text_single: 'Choose an option'
+        no_results_text: 'No results match'
+      display_node_count: false
+      create_new_items: false
+      create_new_levels: false
+      force_deepest: false
+    third_party_settings: {  }
+    type: options_shs_chosen
+    region: content
+  field_course_module:
+    type: entity_reference_paragraphs
+    weight: 16
+    settings:
+      title: module
+      title_plural: modules
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: course_modules
+    third_party_settings: {  }
     region: content
   langcode:
     type: language_select
@@ -150,11 +165,21 @@ content:
       placeholder: ''
     third_party_settings: {  }
   translation:
-    weight: 5
+    weight: 7
     region: content
     settings: {  }
     third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 6
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
 hidden:
+  field_course_modules: true
   promote: true
   sticky: true
-  uid: true

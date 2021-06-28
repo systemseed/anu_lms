@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.lesson_checklist.field_checklist_items
+    - paragraphs.paragraphs_type.lesson_checklist
+  module:
+    - entity_reference_revisions
+id: paragraph.lesson_checklist.default
+targetEntityType: paragraph
+bundle: lesson_checklist
+mode: default
+content:
+  field_checklist_items:
+    type: entity_reference_revisions_entity_view
+    weight: 0
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+hidden: {  }

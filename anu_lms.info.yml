@@ -1,14 +1,14 @@
 name: Anu LMS
 description: Provides E-Learning capabilities.
 type: module
-core: 8.x
+package: 'Anu LMS'
+core_version_requirement: '^8.9 || ^9'
 dependencies:
+  - allowed_formats
   - anu_lms_assessments
-  - cer
   - content_translation
   - config_pages
-  - entity_browser
-  - entity_browser_entity_form
+  - eck
   - entity_reference_revisions
   - field
   - field_group
@@ -16,16 +16,16 @@ dependencies:
   - image
   - inline_entity_form
   - language
-  - menu_ui
+  - link
+  - media
+  - media_library
   - node
   - options
   - paragraphs
   - path
-  - prepopulate
-  - rest_paragraphs_recursive
+  - rest_entity_recursive:rest_paragraphs_recursive
+  - shs_chosen
+  - taxonomy
   - text
   - user
-  - media
-  - media_library
-package: anu_lms
 core_incompatible: false

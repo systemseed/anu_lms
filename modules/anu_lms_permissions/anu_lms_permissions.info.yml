@@ -1,11 +1,11 @@
-name: 'Anu LMS Permissions'
-description: 'Extends LMS functionality with  organizations / teachers / students permissions.'
+name: Anu LMS Permissions
+description: Extends LMS functionality with  organizations / teachers / students permissions.
 type: module
-core: 8.x
+package: 'Anu LMS'
+core_version_requirement: '^8.9 || ^9'
 dependencies:
   - anu_lms
   - field
-  - gnode
   - group:gnode
   - group:group
   - groupmedia
@@ -13,5 +13,4 @@ dependencies:
   - node
   - path
   - user
-package: 'Anu LMS'
 core_incompatible: false

@@ -28,4 +28,10 @@ settings:
   to:
     prefix: ''
     suffix: ''
+  field:
+    prefix: ''
+    suffix: ''
+  combined:
+    prefix: ''
+    suffix: ''
 field_type: range_integer

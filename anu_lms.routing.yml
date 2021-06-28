@@ -1,7 +1,0 @@
-anu_lms.course_list_controller:
-  path: '/courses'
-  defaults:
-    _controller: '\Drupal\anu_lms\Controller\CourseListController::build'
-    _title: 'Courses'
-  requirements:
-    _permission: 'access anu courses list'

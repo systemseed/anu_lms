@@ -1,19 +1,31 @@
 {
-  "parser": "babel-eslint",
   "parserOptions": {
-    "sourceType": "module",
     "allowImportExportEverywhere": false,
-    "codeFrame": false
+    "codeFrame": false,
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2020,
+    "sourceType": "module"
   },
-  "extends": ["airbnb", "prettier"],
   "env": {
-    "browser": true
+    "browser": true,
+    "es6": true,
+    "node": true
   },
+  "extends": [
+    "eslint:recommended",
+    "plugin:prettier/recommended",
+    "plugin:react/recommended"
+  ],
+  "plugins": ["react"],
   "rules": {
-    "max-len": ["error", {"code": 100}],
-    "prefer-promise-reject-errors": ["off"],
-    "react/jsx-filename-extension": ["off"],
-    "react/prop-types": ["error"],
-    "no-return-assign": ["off"]
+    "no-console": ["error", { "allow": ["error"] }],
+    "react/prop-types": "warn"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   }
 }

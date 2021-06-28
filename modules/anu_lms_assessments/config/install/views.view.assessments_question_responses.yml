@@ -13,8 +13,6 @@ dependencies:
     - user
     - views_data_export
     - xls_serialization
-_core:
-  default_config_hash: 5AQ29mhqtHx3t1B42aLUK3C5upmX7PvpdKMksCfPlVY
 id: assessments_question_responses
 label: 'Quizzes: User responses'
 module: views

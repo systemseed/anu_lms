@@ -1,0 +1,87 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_courses_content
+    - node.type.courses_page
+    - paragraphs.paragraphs_type.course_category
+  module:
+    - entity_reference_revisions
+id: node.courses_page.field_courses_content
+field_name: field_courses_content
+entity_type: node
+bundle: courses_page
+label: Content
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      course_category: course_category
+    target_bundles_drag_drop:
+      course_category:
+        enabled: true
+        weight: 21
+      lesson_divider:
+        weight: -40
+        enabled: false
+      lesson_embedded_video:
+        weight: -39
+        enabled: false
+      lesson_heading:
+        weight: -38
+        enabled: false
+      lesson_highlight:
+        weight: -37
+        enabled: false
+      lesson_image:
+        weight: -36
+        enabled: false
+      lesson_image_thumbnail:
+        weight: -35
+        enabled: false
+      lesson_image_wide:
+        weight: -34
+        enabled: false
+      lesson_img_list:
+        weight: -33
+        enabled: false
+      lesson_img_list_item:
+        weight: -32
+        enabled: false
+      lesson_list:
+        weight: -31
+        enabled: false
+      lesson_resource:
+        weight: -30
+        enabled: false
+      lesson_section:
+        weight: -29
+        enabled: false
+      lesson_text:
+        weight: -28
+        enabled: false
+      question_long_answer:
+        weight: -27
+        enabled: false
+      question_multi_choice:
+        weight: -26
+        enabled: false
+      question_scale:
+        weight: -25
+        enabled: false
+      question_short_answer:
+        weight: -24
+        enabled: false
+      question_single_choice:
+        weight: -23
+        enabled: false
+      single_multi_choice_item:
+        weight: -22
+        enabled: false
+field_type: entity_reference_revisions

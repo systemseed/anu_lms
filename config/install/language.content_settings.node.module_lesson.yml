@@ -3,6 +3,11 @@ status: true
 dependencies:
   config:
     - node.type.module_lesson
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
 id: node.module_lesson
 target_entity_type_id: node
 target_bundle: module_lesson

@@ -3,41 +3,10 @@ status: true
 dependencies:
   config:
     - config_pages.type.anu_lms_settings
-    - field.field.config_pages.anu_lms_settings.field_beta_label
-    - field.field.config_pages.anu_lms_settings.field_courses_description
-    - field.field.config_pages.anu_lms_settings.field_logo
-    - image.style.logo
-  module:
-    - image
-    - text
 id: config_pages.anu_lms_settings.default
 targetEntityType: config_pages
 bundle: anu_lms_settings
 mode: default
-content:
-  field_beta_label:
-    weight: 1
-    settings:
-      preview_image_style: anu_lms_beta_label
-      progress_indicator: throbber
-    third_party_settings: {  }
-    type: image_image
-    region: content
-  field_courses_description:
-    weight: 2
-    settings:
-      rows: 5
-      placeholder: ''
-    third_party_settings: {  }
-    type: text_textarea
-    region: content
-  field_logo:
-    weight: 0
-    settings:
-      preview_image_style: logo
-      progress_indicator: throbber
-    third_party_settings: {  }
-    type: image_image
-    region: content
+content: {  }
 hidden:
   label: true

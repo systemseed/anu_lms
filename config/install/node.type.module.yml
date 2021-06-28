@@ -7,7 +7,7 @@ third_party_settings:
   menu_ui:
     available_menus: {  }
     parent: ''
-name: Module
+name: 'Module [LEGACY]'
 type: module
 description: 'A combination of lessons, activities and quizzes targeting one specific education unit.'
 help: ''

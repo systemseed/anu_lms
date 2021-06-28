@@ -13,6 +13,7 @@ use Drupal\group\Entity\GroupContent;
 use Drupal\node\NodeInterface;
 use Drupal\user\Entity\User;
 
+// @TODO: Delete.
 class AnulmsMenuHandler {
 
   use StringTranslationTrait;
@@ -39,16 +40,7 @@ class AnulmsMenuHandler {
   public function getPrimaryMenu() {
     $items = [];
 
-    $this->addMenuItem($items, 'Home',  Url::fromRoute('<front>')->toString());
 
-    // Add the link to the courses page only in case if the home page url is not
-    // set to have the same url as courses list page.
-    $homepage_url = \Drupal::configFactory()->get('system.site')->get('page.front');
-    // Use getInternalPath instead of getString to get path without langcode.
-    $course_list_url = '/' . Url::fromRoute('anu_lms.course_list_controller')->getInternalPath();
-    if ($homepage_url != $course_list_url) {
-      $this->addMenuItem($items, 'Courses', Url::fromRoute('anu_lms.course_list_controller')->toString());
-    }
 
     return $items;
   }
@@ -120,20 +112,6 @@ class AnulmsMenuHandler {
         $label = $this->formatPlural(count($groups), 'Organization', 'Organizations')->render();
         $this->addMenuItem($items, $label, Url::fromRoute('anu_lms_permissions.organization_list')->toString());
       }
-    }
-
-    // Menu for authenticated user.
-    if ($this->currentUser->isAuthenticated()) {
-      $user = User::load($this->currentUser->id());
-      $this->addMenuItem($items, 'Profile', $user->toUrl('edit-form', $url_options)->toString());
-
-      $user_logout_url = Url::fromRoute('user.logout')->toString();
-      $this->addMenuItem($items, 'Logout', $user_logout_url);
-    }
-    // Menu for anonymous user.
-    else {
-      $user_login_url = Url::fromRoute('user.login')->toString();
-      $this->addMenuItem($items, 'Login', $user_login_url);
     }
 
     return $items;

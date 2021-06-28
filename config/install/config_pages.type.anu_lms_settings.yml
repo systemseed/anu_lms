@@ -13,3 +13,4 @@ menu:
   path: /admin/config/content/anu_lms
   weight: 0
   description: ''
+token: null

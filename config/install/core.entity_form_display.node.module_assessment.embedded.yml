@@ -4,7 +4,6 @@ dependencies:
   config:
     - core.entity_form_mode.node.embedded
     - field.field.node.module_assessment.field_module_assessment_items
-    - field.field.node.module_assessment.field_module_assessment_module
     - node.type.module_assessment
   module:
     - paragraphs
@@ -30,7 +29,7 @@ content:
       features:
         add_above: '0'
         collapse_edit_all: '0'
-        duplicate: duplicate
+        duplicate: '0'
     third_party_settings: {  }
   title:
     type: string_textfield
@@ -47,7 +46,6 @@ content:
     third_party_settings: {  }
 hidden:
   created: true
-  field_module_assessment_module: true
   langcode: true
   path: true
   promote: true

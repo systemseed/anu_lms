@@ -1,0 +1,28 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.lesson_checklist.field_checklist_items
+    - paragraphs.paragraphs_type.lesson_checklist
+  module:
+    - paragraphs
+id: paragraph.lesson_checklist.default
+targetEntityType: paragraph
+bundle: lesson_checklist
+mode: default
+content:
+  field_checklist_items:
+    type: entity_reference_paragraphs
+    weight: 0
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+    region: content
+hidden:
+  created: true
+  status: true

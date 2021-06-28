@@ -1,14 +1,30 @@
-application:
+# A library with the default MUI fonts and icons.
+fonts:
   css:
     theme:
-      https://fonts.googleapis.com/css?family=Lato:400,700:
-        external: true
-        minified: true
-        preprocess: false
-      https://fonts.googleapis.com/icon?family=Material+Icons:
-        external: true
-        minified: true
-        preprocess: false
+      # TODO: Add <link rel="preconnect" href="https://fonts.gstatic.com"> according to google fonts helper.
+      https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;700&display=swap: { external: true }
+      https://fonts.googleapis.com/icon?family=Material+Icons: { external: true }
+
+# A library with shared node_modules across all ANU LMS bundles.
+vendors:
   js:
-    js/dist/index.js:
-      preprocess: false
+    js/dist/vendors.min.js: { minified: true, weight: -16 }
+  dependencies:
+    - core/drupal
+
+# Page with list of courses.
+courses:
+  js:
+    js/dist/courses.min.js: { minified: true, weight: -15 }
+  dependencies:
+    - anu_lms/fonts
+    - anu_lms/vendors
+
+# Individual lesson page.
+lesson:
+  js:
+    js/dist/lesson.min.js: { minified: true, weight: -15 }
+  dependencies:
+    - anu_lms/fonts
+    - anu_lms/vendors

@@ -2,7 +2,6 @@
 
 namespace Drupal\anu_lms;
 
-use Drupal\Core\Url;
 use Drupal\Core\Path\PathMatcherInterface;
 use Drupal\config_pages\Entity\ConfigPages;
 use Symfony\Component\Serializer\Serializer;
@@ -109,48 +108,6 @@ class Settings {
     return [
       'current_cache' => 'pwa-main-' . $pwa_module_version . '-v' . ($config->get('cache_version') ?: 1),
     ];
-  }
-
-  /**
-   * Returns Site Language settings.
-   */
-  public function getLanguageSettings() {
-    // @todo: replace with actual type.
-    $type = 'language_interface';
-    $route_name = $this->pathMatcher->isFrontPage() ? '<front>' : '<current>';
-    $links = $this->languageManager->getLanguageSwitchLinks($type, Url::fromRoute($route_name));
-
-    // Get current langcode.
-    $current_langcode = $this->languageManager->getCurrentLanguage($type)->getId();
-
-    $output = [
-      'current_language' => $current_langcode,
-      'links' => [],
-    ];
-
-    if (empty($links) || empty($links->links)) {
-      return $output;
-    }
-
-    foreach ($links->links as $langcode => $link) {
-      if (empty($link['url']) || empty($link['title']) || empty($link['language'])) {
-        continue;
-      }
-
-      /** @var \Drupal\Core\Url $url */
-      $url = $link['url'];
-      $url->setOptions($link);
-
-      // Prepare link.
-      $output['links'][$langcode] = [
-        'url' => $url->toString(),
-        'title' => $link['title'],
-        'weight' => $link['language']->getWeight(),
-        'is_main' => isset($link['is_main']) ? $link['is_main'] : FALSE,
-      ];
-    }
-
-    return $output;
   }
 
 }

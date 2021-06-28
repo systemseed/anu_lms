@@ -4,6 +4,7 @@ dependencies:
   config:
     - field.storage.node.field_module_assessment_items
     - node.type.module_assessment
+    - paragraphs.paragraphs_type.lesson_checklist
     - paragraphs.paragraphs_type.lesson_divider
     - paragraphs.paragraphs_type.lesson_heading
     - paragraphs.paragraphs_type.lesson_image
@@ -30,62 +31,120 @@ settings:
   handler_settings:
     negate: 0
     target_bundles:
-      lesson_divider: lesson_divider
       lesson_heading: lesson_heading
-      lesson_image: lesson_image
       lesson_text: lesson_text
+      lesson_divider: lesson_divider
+      lesson_image: lesson_image
+      lesson_checklist: lesson_checklist
+      question_short_answer: question_short_answer
       question_long_answer: question_long_answer
+      question_single_choice: question_single_choice
       question_multi_choice: question_multi_choice
       question_scale: question_scale
-      question_short_answer: question_short_answer
-      question_single_choice: question_single_choice
     target_bundles_drag_drop:
-      competency_attributes:
-        weight: 17
+      activity_category:
+        weight: -51
         enabled: false
-      competency_results:
-        weight: 18
+      checklist_item:
+        weight: -49
         enabled: false
+      course_category:
+        weight: -62
+        enabled: false
+      course_modules:
+        weight: -61
+        enabled: false
+      lesson_checklist:
+        enabled: true
+        weight: -67
       lesson_divider:
         enabled: true
-        weight: 19
+        weight: -69
+      lesson_embedded_video:
+        weight: -55
+        enabled: false
       lesson_heading:
         enabled: true
-        weight: 20
+        weight: -71
       lesson_highlight:
-        weight: 21
+        weight: -66
         enabled: false
       lesson_image:
         enabled: true
-        weight: 22
+        weight: -68
+      lesson_image_thumbnail:
+        weight: -53
+        enabled: false
       lesson_image_wide:
-        weight: 23
+        weight: -65
+        enabled: false
+      lesson_img_list:
+        weight: -52
+        enabled: false
+      lesson_img_list_item:
+        weight: -50
         enabled: false
       lesson_list:
-        weight: 24
+        weight: -64
+        enabled: false
+      lesson_resource:
+        weight: -48
         enabled: false
       lesson_section:
-        weight: 25
+        weight: -63
         enabled: false
       lesson_text:
         enabled: true
-        weight: 26
+        weight: -70
+      page_bottom_cta:
+        weight: -47
+        enabled: false
+      page_bullet_list_item:
+        weight: -46
+        enabled: false
+      page_call_to_action:
+        weight: -45
+        enabled: false
+      page_explainer:
+        weight: -44
+        enabled: false
+      page_explainer_info_section:
+        weight: -43
+        enabled: false
+      page_hero:
+        weight: -42
+        enabled: false
+      page_highlight:
+        weight: -41
+        enabled: false
+      page_label:
+        weight: -40
+        enabled: false
+      page_showcase_cards:
+        weight: -39
+        enabled: false
+      page_showcase_list:
+        weight: -38
+        enabled: false
       question_long_answer:
         enabled: true
-        weight: 27
+        weight: -59
       question_multi_choice:
         enabled: true
-        weight: 28
+        weight: -57
       question_scale:
         enabled: true
-        weight: 29
+        weight: -56
       question_short_answer:
         enabled: true
-        weight: 30
+        weight: -60
       question_single_choice:
         enabled: true
-        weight: 31
+        weight: -58
+      showcase_card:
+        weight: -37
+        enabled: false
       single_multi_choice_item:
-        weight: 32
+        weight: -54
         enabled: false
 field_type: entity_reference_revisions

@@ -29,21 +29,6 @@ class AnulmsGroupViewController {
         'description' => $this->t('Create a new course within the organization.'),
         'url' => Url::fromRoute('entity.group_content.create_form', ['group' => $group->id(), 'plugin_id' => 'group_node:course']),
       ],
-      [
-        'title' => $this->t('Create a new module'),
-        'description' => $this->t('Create a new module for a course.'),
-        'url' => Url::fromRoute('entity.group_content.create_form', ['group' => $group->id(), 'plugin_id' => 'group_node:module']),
-      ],
-      [
-        'title' => $this->t('Create a new lesson'),
-        'description' => $this->t('Create a new lesson for a module.'),
-        'url' => Url::fromRoute('entity.group_content.create_form', ['group' => $group->id(), 'plugin_id' => 'group_node:module_lesson']),
-      ],
-      [
-        'title' => $this->t('Create a new quiz'),
-        'description' => $this->t('Create a new final quiz for a module.'),
-        'url' => Url::fromRoute('entity.group_content.create_form', ['group' => $group->id(), 'plugin_id' => 'group_node:module_assessment']),
-      ],
     ];
 
     $blocks['content'] = [

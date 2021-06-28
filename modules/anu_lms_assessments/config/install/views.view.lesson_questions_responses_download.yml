@@ -12,7 +12,6 @@ dependencies:
     - entity_reference_revisions
     - node
     - options
-    - paragraphs
     - rest
     - serialization
     - user

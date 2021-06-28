@@ -1,0 +1,30 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.courses_page.field_courses_content
+    - node.type.courses_page
+  module:
+    - entity_reference_revisions
+    - user
+id: node.courses_page.default
+targetEntityType: node
+bundle: courses_page
+mode: default
+content:
+  field_courses_content:
+    weight: 101
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    type: entity_reference_revisions_entity_view
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  langcode: true

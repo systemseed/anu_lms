@@ -5,7 +5,14 @@ dependencies:
     - field.storage.paragraph.field_lesson_text_content
     - paragraphs.paragraphs_type.lesson_text
   module:
+    - allowed_formats
     - text
+third_party_settings:
+  allowed_formats:
+    minimal_html: minimal_html
+    plain_text: '0'
+    basic_html: '0'
+    full_html: '0'
 id: paragraph.lesson_text.field_lesson_text_content
 field_name: field_lesson_text_content
 entity_type: paragraph

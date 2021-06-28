@@ -1,0 +1,29 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.checklist_item.field_checkbox_option
+    - field.field.paragraph.checklist_item.field_lesson_text_content
+    - paragraphs.paragraphs_type.checklist_item
+  module:
+    - text
+id: paragraph.checklist_item.default
+targetEntityType: paragraph
+bundle: checklist_item
+mode: default
+content:
+  field_checkbox_option:
+    weight: 0
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_lesson_text_content:
+    weight: 1
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+hidden: {  }

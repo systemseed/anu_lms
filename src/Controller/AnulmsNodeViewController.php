@@ -2,32 +2,82 @@
 
 namespace Drupal\anu_lms\Controller;
 
-use Drupal\anu_lms\AnulmsMenuHandler;
+use Drupal\anu_lms\Course;
+use Drupal\anu_lms\Lesson;
 use Drupal\anu_lms\Settings;
+use Drupal\anu_lms\Normalizer;
+use Drupal\anu_lms\CoursesPage;
 use Drupal\Core\Entity\EntityInterface;
-use Drupal\Core\Entity\EntityRepositoryInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Component\Serialization\Json;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\node\Controller\NodeViewController;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Serializer\Serializer;
+use Drupal\node\Controller\NodeViewController;
+use Drupal\Core\Entity\EntityRepositoryInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class AnulmsNodeViewController extends NodeViewController {
 
+  use StringTranslationTrait;
+
+  /**
+   * The serializer.
+   *
+   * @var \Symfony\Component\Serializer\Serializer
+   */
   protected $serializer;
-  protected $anulmsMenuHandler;
+
+  /**
+   * AnuLMS settings service.
+   *
+   * @var \Drupal\anu_lms\Settings
+   */
   protected $anulmsSettings;
+
+  /**
+   * The normalizer.
+   *
+   * @var \Drupal\anu_lms\Normalizer
+   */
+  protected $normalizer;
+
+  /**
+   * The Courses page service.
+   *
+   * @var \Drupal\anu_lms\CoursesPage
+   */
+  protected $coursesPage;
+
+  /**
+   * The course page service.
+   *
+   * @var \Drupal\anu_lms\Course
+   */
+  protected $course;
+
+  /**
+   * The Lesson service.
+   *
+   * @var \Drupal\anu_lms\Lesson
+   */
+  protected $lesson;
 
   /**
    * Creates an NodeViewController object.
    *
-   * @param \Drupal\anu_lms\AnulmsMenuHandler $anulmsMenuHandler
-   *   Anu LMS menu handler.
    * @param \Drupal\anu_lms\Settings $anulmsSettings
    *   Anu LMS Settings service.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
+   * @param \Drupal\anu_lms\Normalizer $normalizer
+   *   The normalizer.
+   * @param \Drupal\anu_lms\Lesson $lesson
+   *   The Lesson service.
+   * @param \Drupal\anu_lms\CoursesPage $coursesPage
+   *   The Courses page service.
    * @param \Drupal\Core\Render\RendererInterface $renderer
    *   The renderer service.
    * @param \Drupal\Core\Session\AccountInterface $current_user
@@ -38,11 +88,14 @@ class AnulmsNodeViewController extends NodeViewController {
    * @param \Symfony\Component\Serializer\Serializer $serializer
    *   The serializer.
    */
-  public function __construct(AnulmsMenuHandler $anulmsMenuHandler, Settings $anulmsSettings, EntityTypeManagerInterface $entity_type_manager, RendererInterface $renderer, AccountInterface $current_user = NULL, EntityRepositoryInterface $entity_repository = NULL, Serializer $serializer = NULL) {
+  public function __construct(Settings $anulmsSettings, EntityTypeManagerInterface $entity_type_manager, Normalizer $normalizer, CoursesPage $coursesPage, Course $course, Lesson $lesson, RendererInterface $renderer, AccountInterface $current_user = NULL, EntityRepositoryInterface $entity_repository = NULL, Serializer $serializer = NULL) {
     parent::__construct($entity_type_manager, $renderer, $current_user, $entity_repository);
-    $this->anulmsMenuHandler = $anulmsMenuHandler;
     $this->anulmsSettings = $anulmsSettings;
     $this->serializer = $serializer;
+    $this->normalizer = $normalizer;
+    $this->coursesPage = $coursesPage;
+    $this->course = $course;
+    $this->lesson = $lesson;
   }
 
   /**
@@ -50,9 +103,12 @@ class AnulmsNodeViewController extends NodeViewController {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('anu_lms.menu_handler'),
       $container->get('anu_lms.settings'),
       $container->get('entity_type.manager'),
+      $container->get('anu_lms.normalizer'),
+      $container->get('anu_lms.courses_page'),
+      $container->get('anu_lms.course'),
+      $container->get('anu_lms.lesson'),
       $container->get('renderer'),
       $container->get('current_user'),
       $container->get('entity.repository'),
@@ -60,87 +116,81 @@ class AnulmsNodeViewController extends NodeViewController {
     );
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function view(EntityInterface $node, $view_mode = 'full', $langcode = NULL) {
+    $node_type = $node->bundle();
+
     // Modify the output only for node types we're responsible for,
-    if (!in_array($node->bundle(), ['course', 'module', 'module_lesson', 'module_assessment'])) {
+    if (!in_array($node_type, ['courses_page', 'course', 'module', 'module_lesson', 'module_assessment'])) {
       return parent::view($node, $view_mode, $langcode);
     }
 
-    $context = ['max_depth' => 2];
-    if ($node->bundle() == 'module_lesson' || $node->bundle() == 'module_assessment') {
-      $context = [
-        'max_depth' => 4,
-        'settings' => [
-          'node' => [
-            'exclude_fields' => ['field_course_modules']
-          ]
-        ]
+    // Collects leftover contents IDs.
+    switch ($node_type) {
+      case 'courses_page':
+        // Get courses page data. Includes normalized current node and list of referenced courses.
+        $content_data = $this->coursesPage->getCoursesPageData($node);
+        break;
+
+      case 'module_lesson':
+      case 'module_assessment':
+        // Get data for viewed lesson or quiz.
+        $content_data = $this->lesson->getLessonPageData($node);
+        break;
+
+      case 'course':
+        $lesson = $this->course->getFirstAccessibleLesson($node);
+        if (!empty($lesson)) {
+          return new RedirectResponse($lesson->toUrl()->toString());
+        }
+        return [
+          '#markup' => $this->t('There no lessons yet in this course yet.'),
+        ];
+
+      default:
+        // Get data for viewed node.
+        $context = ['max_depth' => 2];
+        $content_data[$node_type] = $this->normalizer->normalizeEntity($node, $context);
+        break;
+    }
+
+    $data = [];
+    // Attaches node data.
+    $data['data'] = $content_data;
+
+    // Attaches general site settings.
+    $data['settings'] = $this->anulmsSettings->getSettings();
+
+    if (\Drupal::moduleHandler()->moduleExists('pwa')) {
+      $data['pwa'] = $this->anulmsSettings->getPwaSettings();
+    }
+
+    // You can use `jQuery('#application').data('application')` in console for debug.
+    $build['application'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'div',
+      '#attributes' => [
+        'id' => 'anu-application',
+        'data-application' => Json::encode($data),
+      ],
+    ];
+
+    if ($node_type == 'courses_page') {
+      $build['#attached'] = [
+        'library' => ['anu_lms/courses'],
       ];
     }
-
-    $build['#attached']['library'][] = 'anu_lms/application';
-    $build['#attached']['library'][] = 'core/drupalSettings';
-    $build['#attached']['drupalSettings']['anu_settings'] = $this->anulmsSettings->getSettings();
-    $build['#attached']['drupalSettings']['node'] = $this->normalizeNode($node, $context);
-    $build['#attached']['drupalSettings']['anu_menu'] = $this->anulmsMenuHandler->getMenu();
-    if (\Drupal::moduleHandler()->moduleExists('language')) {
-      $build['#attached']['drupalSettings']['language'] = $this->anulmsSettings->getLanguageSettings();
+    else {
+      $build['#attached'] = [
+        'library' => ['anu_lms/lesson'],
+      ];
     }
-    if (\Drupal::moduleHandler()->moduleExists('pwa')) {
-      $build['#attached']['drupalSettings']['pwa_settings'] = $this->anulmsSettings->getPwaSettings();
-    }
-
-    $build['application'] = [
-      '#type' => 'markup',
-      '#markup' => '<div id="anu-lms"></div>',
-    ];
 
     // Disable cache for this page. @todo can be improved using cache tags.
     $build['#cache']['max-age'] = 0;
     return $build;
-  }
-
-  protected function normalizeNode(EntityInterface $node, array $context = []) {
-
-    // Default configurations.
-    $default_context = [
-      'max_depth' => 4,
-      'settings' => [
-        'user' => [
-          'exclude_fields' => [
-            'access', 'login', 'init', 'mail', 'name', 'roles', 'created', 'changed', 'preferred_langcode', 'preferred_admin_langcode', 'timezone', 'default_langcode', 'langcode', 'role_change',
-          ],
-        ],
-        'node' => [
-          'exclude_fields' => [
-            'uid', 'type', 'changed', 'vid', 'revision_timestamp', 'revision_uid', 'revision_log', 'revision_translation_affected', 'promote', 'sticky', 'menu_link', 'default_langcode', 'langcode', 'content_translation_source', 'content_translation_outdated',
-          ],
-        ],
-        'paragraph' => [
-          'exclude_fields' => [
-            'revision_id', 'revision_translation_affected', 'created', 'parent_id', 'parent_type', 'parent_field_name', 'behavior_settings', 'default_langcode', 'langcode',
-          ],
-        ],
-        'taxonomy_term' => [
-          'exclude_fields' => [
-            'revision_created', 'revision_user', 'revision_log_message', 'description', 'weight', 'parent', 'changed', 'revision_translation_affected', 'path', 'default_langcode', 'langcode', 'content_translation_source', 'content_translation_outdated', 'content_translation_uid', 'content_translation_created',
-          ],
-        ],
-      ],
-    ];
-
-    $context = array_merge($default_context, $context);
-
-    // Double check entity access.
-    if ($node->access('view')) {
-      // Get translated version of the entity.
-      $node = $this->entityRepository->getTranslationFromContext($node);
-
-      // Normalize recursively given entity.
-      return $this->serializer->normalize($node, 'json_recursive', $context);
-    }
-
-    return NULL;
   }
 
 }

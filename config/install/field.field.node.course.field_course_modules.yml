@@ -9,7 +9,7 @@ id: node.course.field_course_modules
 field_name: field_course_modules
 entity_type: node
 bundle: course
-label: Modules
+label: 'Modules [LEGACY]'
 description: ''
 required: false
 translatable: false

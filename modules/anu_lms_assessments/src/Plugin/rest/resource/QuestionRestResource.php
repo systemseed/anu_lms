@@ -6,6 +6,7 @@ use Drupal\anu_lms_assessments\Entity\AssessmentQuestionResult;
 use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
  * Provides a resource to get view modes by entity and bundle.
@@ -39,6 +40,7 @@ class QuestionRestResource extends ResourceBase {
 
   // TODO: Refactor and merge the logic with AssessmentRestResource.
     public function post(array $payload) {
+    try {
       // TODO: Permissions.
       // TODO: Validation.
 
@@ -111,6 +113,10 @@ class QuestionRestResource extends ResourceBase {
       }
 
       $question_result->save();
+    } catch (\Throwable $exception) {
+      $this->logger->error($exception->getMessage() . ' Trace: ' . $exception->getTraceAsString());
+      throw new BadRequestHttpException('An error occurred during request handling');
+    }
 
       return new ModifiedResourceResponse([
         'correctAnswer' => $correct_answer,

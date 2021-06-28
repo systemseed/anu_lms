@@ -1,144 +1,249 @@
-import { createMuiTheme } from '@material-ui/core/styles';
-import { getDirection } from './i18n';
+import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
+import withStyles from '@material-ui/core/styles/withStyles';
 
-const theme = createMuiTheme();
-
-/**
- * Returns the appropriate Material Icon names affected by RTL displays.
- */
-export const getRTLIcon = type => {
-  const lookup = {
-    arrow_back: {
-      rtl: 'arrow_forward',
-      ltr: 'arrow_back',
-    },
-  };
-
-  return lookup[type] ? lookup[type][getDirection()] : null;
-};
-
-const customizedTheme = createMuiTheme({
-  direction: getDirection(),
+// Create a default theme with colors defined, so that
+// in the actual theme we could reference to the existing
+// colors and also breakpoints.
+// See https://material-ui.com/customization/default-theme
+// to find out about all options.
+const defaultTheme = createMuiTheme({
+  typography: {
+    fontFamily: '"Public Sans", sans-serif',
+    fontWeightRegular: 400,
+    fontWeightMedium: 500,
+    fontWeightBold: 700,
+  },
   palette: {
+    common: {
+      black: '#000000',
+      white: '#ffffff',
+    },
+    // Note that it is assumed that the only color that is planned to be
+    // overwritten is the primary. All other colors used in ANU are likely
+    // to stay as is regardless of the project.
     primary: {
-      main: '#4698c9',
+      main: '#004bbd',
+      contrastText: '#ffffff',
     },
-    secondary: {
-      main: '#3E3E3E',
-      dark: '#2E2E2E',
+    grey: {
+      100: '#fafafa',
+      200: '#f6f7f8',
+      300: '#cfd8dc',
+      400: '#445963',
     },
-    // TODO - consolidate
-    accent: '#ffca28',
+    accent1: {
+      main: '#f5de95',
+      contrastText: '#000000',
+    },
+    accent2: {
+      main: '#00796b',
+      contrastText: '#ffffff',
+    },
+    success: {
+      main: '#00796b',
+      contrastText: '#ffffff',
+    },
     warning: {
-      main: '#ffca28',
-      light: '#ffecb3',
+      main: '#f5de95',
+      contrastText: '#000000',
+    },
+    error: {
+      main: '#9f2621',
+      contrastText: '#ffffff',
     },
   },
+});
+
+const theme = createMuiTheme({
+  ...defaultTheme,
   typography: {
-    fontFamily: 'Lato, Roboto, Arial',
-    fontWeight: 400,
     h1: {
-      fontSize: '1.5em',
-      marginBottom: '0.75em',
-      [theme.breakpoints.up('sm')]: {
-        marginBottom: '1em',
-        fontSize: '2.75em',
-      },
+      color: defaultTheme.palette.common.black,
+      fontFamily: defaultTheme.typography.fontFamily,
+      fontWeight: defaultTheme.typography.fontWeightBold,
+      fontSize: '3.75rem',
+      lineHeight: 1.125,
+      letterSpacing: 'normal',
     },
     h2: {
-      fontSize: '1.25em',
-      marginBottom: '0.75em',
-      fontWeight: 700,
-      [theme.breakpoints.up('sm')]: {
-        marginBottom: '1em',
-        fontSize: '2em',
-      },
+      color: defaultTheme.palette.common.black,
+      fontFamily: defaultTheme.typography.fontFamily,
+      fontWeight: defaultTheme.typography.fontWeightMedium,
+      fontSize: '2.625rem',
+      lineHeight: 1.25,
+      letterSpacing: 'normal',
     },
     h3: {
-      fontSize: '1.125em',
-      marginBottom: '0.75em',
-      fontWeight: 700,
-      [theme.breakpoints.up('sm')]: {
-        marginBottom: '1em',
-        fontSize: '1.75em',
-      },
+      color: defaultTheme.palette.common.black,
+      fontFamily: defaultTheme.typography.fontFamily,
+      fontWeight: defaultTheme.typography.fontWeightBold,
+      fontSize: '2.375rem',
+      lineHeight: 1.375,
+      letterSpacing: 'normal',
     },
     h4: {
-      fontSize: '1em',
-      marginBottom: '0.75em',
-      fontWeight: 700,
-      [theme.breakpoints.up('sm')]: {
-        marginBottom: '1em',
-        fontSize: '1.5em',
+      color: defaultTheme.palette.common.black,
+      fontFamily: defaultTheme.typography.fontFamily,
+      fontWeight: defaultTheme.typography.fontWeightRegular,
+      fontSize: '1.5rem',
+      lineHeight: 1.75,
+      letterSpacing: 'normal',
+      [defaultTheme.breakpoints.up('md')]: {
+        fontSize: '2.125rem',
+        lineHeight: 1.5,
       },
     },
     h5: {
-      fontSize: '0.875em',
-      marginBottom: '0.75em',
-      fontWeight: 700,
-      [theme.breakpoints.up('sm')]: {
-        marginBottom: '1em',
-        fontSize: '1.25em',
+      color: defaultTheme.palette.common.black,
+      fontFamily: defaultTheme.typography.fontFamily,
+      fontWeight: defaultTheme.typography.fontWeightBold,
+      fontSize: '1.25rem',
+      lineHeight: 1.25,
+      letterSpacing: 'normal',
+      [defaultTheme.breakpoints.up('md')]: {
+        fontSize: '1.5rem',
       },
     },
     h6: {
-      fontSize: '0.75em',
-      marginBottom: '0.75em',
-      fontWeight: 700,
-      [theme.breakpoints.up('sm')]: {
-        marginBottom: '1em',
-        fontSize: '1em',
-      },
+      color: defaultTheme.palette.common.black,
+      fontFamily: defaultTheme.typography.fontFamily,
+      fontWeight: defaultTheme.typography.fontWeightMedium,
+      fontSize: '1.25rem',
+      lineHeight: 1.5,
+      letterSpacing: 'normal',
     },
-    button: {
-      fontWeight: 700,
+    subtitle1: {
+      color: defaultTheme.palette.common.black,
+      fontFamily: defaultTheme.typography.fontFamily,
+      fontWeight: defaultTheme.typography.fontWeightBold,
+      fontSize: '1.25rem',
+      lineHeight: 1.5,
+      letterSpacing: 'normal',
+    },
+    subtitle2: {
+      color: defaultTheme.palette.common.black,
+      fontFamily: defaultTheme.typography.fontFamily,
+      fontWeight: defaultTheme.typography.fontWeightBold,
+      fontSize: '1rem',
+      lineHeight: 1.25,
+      letterSpacing: 'normal',
     },
     body1: {
-      fontSize: 18,
+      color: defaultTheme.palette.common.black,
+      fontFamily: defaultTheme.typography.fontFamily,
+      fontWeight: defaultTheme.typography.fontWeightRegular,
+      fontSize: '1.125rem',
+      lineHeight: 1.75,
+      letterSpacing: 'normal',
     },
     body2: {
+      color: defaultTheme.palette.common.black,
+      fontFamily: defaultTheme.typography.fontFamily,
+      fontWeight: defaultTheme.typography.fontWeightRegular,
       fontSize: '1rem',
+      lineHeight: 1.5,
+      letterSpacing: 'normal',
+    },
+    overline: {
+      color: defaultTheme.palette.grey[400],
+      fontFamily: defaultTheme.typography.fontFamily,
+      fontWeight: defaultTheme.typography.fontWeightBold,
+      fontSize: '0.875rem',
+      lineHeight: 1.5,
+      letterSpacing: '1.5px',
+      textTransform: 'uppercase',
+    },
+    caption: {
+      color: defaultTheme.palette.grey[400],
+      fontFamily: defaultTheme.typography.fontFamily,
+      fontWeight: defaultTheme.typography.fontWeightRegular,
+      fontSize: '0.875rem',
+      lineHeight: 1.5,
+      letterSpacing: 'normal',
+    },
+    button: {
+      fontFamily: defaultTheme.typography.fontFamily,
+      fontWeight: defaultTheme.typography.fontWeightBold,
+      fontSize: '1rem',
+      lineHeight: 1.25,
+      letterSpacing: '1px',
+      textTransform: 'uppercase',
+    },
+    label1: {
+      fontFamily: defaultTheme.typography.fontFamily,
+      fontWeight: defaultTheme.typography.fontWeightMedium,
+      fontSize: '1rem',
+      lineHeight: 1.25,
+      letterSpacing: 0,
+      textTransform: 'uppercase',
+    },
+    label2: {
+      fontFamily: defaultTheme.typography.fontFamily,
+      fontWeight: defaultTheme.typography.fontWeightMedium,
+      fontSize: '0.875rem',
+      lineHeight: 1.25,
+      letterSpacing: 0,
+      textTransform: 'uppercase',
+    },
+    link: {
+      color: defaultTheme.palette.primary.main,
+      cursor: 'pointer',
+      fontFamily: defaultTheme.typography.fontFamily,
+      fontWeight: defaultTheme.typography.fontWeightBold,
+      fontSize: '1rem',
+      lineHeight: 1.25,
+      letterSpacing: 0,
     },
   },
   overrides: {
-    MuiFormControlLabel: {
-      root: {
-        alignItems: 'flex-start',
-        marginBottom: theme.spacing(1),
-      },
-      label: {
-        marginTop: theme.spacing(1),
-      },
-    },
-    MuiListItemIcon: {
-      alignItemsFlexStart: {
-        marginTop: theme.spacing(1.5),
-      },
-    },
     MuiButton: {
       root: {
-        '&.secondary': {
-          textTransform: 'none',
-          fontWeight: 400,
+        fontFamily: defaultTheme.typography.fontFamily,
+        fontSize: '1rem',
+        paddingLeft: defaultTheme.spacing(4),
+        paddingRight: defaultTheme.spacing(4),
+        paddingTop: defaultTheme.spacing(1.5),
+        paddingBottom: defaultTheme.spacing(1.5),
+        [defaultTheme.breakpoints.down('sm')]: {
+          width: '100%',
+          borderRadius: 0,
         },
       },
     },
     MuiChip: {
       root: {
-        marginRight: theme.spacing(1),
-        marginBottom: theme.spacing(1),
-        height: 35,
+        fontFamily: defaultTheme.typography.fontFamily,
+        fontSize: '1rem',
+        height: '36px',
+        letterSpacing: 0,
       },
-      label: {
-        fontSize: 16,
-        paddingLeft: theme.spacing(2.5),
-        paddingRight: theme.spacing(2.5),
+    },
+    MuiFormControlLabel: {
+      root: {
+        width: 'max-content',
       },
-      outlined: {
-        backgroundColor: 'white',
+    },
+    MuiListItem: {
+      root: {
+        paddingTop: 2,
+        paddingBottom: 2,
       },
     },
   },
 });
 
-export default customizedTheme;
+// Handle some global css overrides which exist
+// outside of MUI components.
+const GlobalCss = withStyles({
+  '@global': {
+    a: {
+      color: theme.palette.primary.main,
+      textDecoration: 'underline',
+      '&:hover': {
+        textDecoration: 'none',
+      },
+    },
+  },
+})(() => null);
+
+export { theme, GlobalCss };

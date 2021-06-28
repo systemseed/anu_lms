@@ -59,15 +59,12 @@ class ImageFileNormalizer extends ContentEntityNormalizer {
 
     // TODO: Take from settings.
     $supported_image_styles = [
-      'logo',
       'course_preview',
-      'module_preview',
       'image_with_caption',
       'image_wide_with_caption',
       'image_thumbnail_with_caption',
       'image_bullet_list_small',
       'image_bullet_list_large',
-      'anu_lms_beta_label',
     ];
 
     // Load image style entities in bulk.

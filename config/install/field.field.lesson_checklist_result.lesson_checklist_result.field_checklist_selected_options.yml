@@ -1,0 +1,96 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.lesson_checklist_result.lesson_checklist_result
+    - field.storage.lesson_checklist_result.field_checklist_selected_options
+    - paragraphs.paragraphs_type.checklist_item
+  module:
+    - entity_reference_revisions
+id: lesson_checklist_result.lesson_checklist_result.field_checklist_selected_options
+field_name: field_checklist_selected_options
+entity_type: lesson_checklist_result
+bundle: lesson_checklist_result
+label: 'Checklist selected options'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      checklist_item: checklist_item
+    target_bundles_drag_drop:
+      checklist_item:
+        enabled: true
+        weight: 24
+      course_category:
+        weight: 25
+        enabled: false
+      course_modules:
+        weight: 26
+        enabled: false
+      lesson_checklist:
+        weight: 27
+        enabled: false
+      lesson_divider:
+        weight: 28
+        enabled: false
+      lesson_embedded_video:
+        weight: 29
+        enabled: false
+      lesson_heading:
+        weight: 30
+        enabled: false
+      lesson_highlight:
+        weight: 31
+        enabled: false
+      lesson_image:
+        weight: 32
+        enabled: false
+      lesson_image_thumbnail:
+        weight: 33
+        enabled: false
+      lesson_image_wide:
+        weight: 34
+        enabled: false
+      lesson_img_list:
+        weight: 35
+        enabled: false
+      lesson_img_list_item:
+        weight: 36
+        enabled: false
+      lesson_list:
+        weight: 37
+        enabled: false
+      lesson_resource:
+        weight: 38
+        enabled: false
+      lesson_section:
+        weight: 39
+        enabled: false
+      lesson_text:
+        weight: 40
+        enabled: false
+      question_long_answer:
+        weight: 41
+        enabled: false
+      question_multi_choice:
+        weight: 42
+        enabled: false
+      question_scale:
+        weight: 43
+        enabled: false
+      question_short_answer:
+        weight: 44
+        enabled: false
+      question_single_choice:
+        weight: 45
+        enabled: false
+      single_multi_choice_item:
+        weight: 46
+        enabled: false
+field_type: entity_reference_revisions

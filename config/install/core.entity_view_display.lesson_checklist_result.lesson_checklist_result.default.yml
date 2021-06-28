@@ -1,0 +1,53 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.lesson_checklist_result.lesson_checklist_result
+    - field.field.lesson_checklist_result.lesson_checklist_result.field_checklist_paragraph
+    - field.field.lesson_checklist_result.lesson_checklist_result.field_checklist_selected_options
+  module:
+    - entity_reference_revisions
+    - user
+id: lesson_checklist_result.lesson_checklist_result.default
+targetEntityType: lesson_checklist_result
+bundle: lesson_checklist_result
+mode: default
+content:
+  created:
+    label: hidden
+    type: timestamp
+    weight: 0
+    region: content
+    settings:
+      date_format: medium
+      custom_date_format: ''
+      timezone: ''
+    third_party_settings: {  }
+  field_checklist_paragraph:
+    type: entity_reference_revisions_entity_view
+    weight: 1
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_checklist_selected_options:
+    type: entity_reference_revisions_entity_view
+    weight: 2
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  uid:
+    label: hidden
+    type: author
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  changed: true
+  langcode: true

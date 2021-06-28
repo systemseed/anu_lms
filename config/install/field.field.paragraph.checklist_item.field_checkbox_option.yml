@@ -1,0 +1,27 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_checkbox_option
+    - paragraphs.paragraphs_type.checklist_item
+  module:
+    - allowed_formats
+    - text
+third_party_settings:
+  allowed_formats:
+    minimal_html: minimal_html
+    plain_text: '0'
+    basic_html: '0'
+    full_html: '0'
+id: paragraph.checklist_item.field_checkbox_option
+field_name: field_checkbox_option
+entity_type: paragraph
+bundle: checklist_item
+label: Option
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies: {  }
+id: lesson_checklist_result
+label: 'Checklist result'
+created: true
+changed: true
+uid: true
+title: false
