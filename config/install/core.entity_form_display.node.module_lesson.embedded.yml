@@ -1,3 +1,4 @@
+uuid: 9aa14940-d344-4b5c-9d8b-74d9f9438442
 langcode: en
 status: true
 dependencies:
@@ -5,32 +6,11 @@ dependencies:
     - core.entity_form_mode.node.embedded
     - field.field.node.module_lesson.field_module_lesson_content
     - node.type.module_lesson
-  module:
-    - paragraphs
 id: node.module_lesson.embedded
 targetEntityType: node
 bundle: module_lesson
 mode: embedded
 content:
-  field_module_lesson_content:
-    type: paragraphs
-    weight: 1
-    region: content
-    settings:
-      title: section
-      title_plural: sections
-      edit_mode: closed
-      closed_mode: summary
-      autocollapse: none
-      closed_mode_threshold: 0
-      add_mode: button
-      form_display_mode: default
-      default_paragraph_type: lesson_section
-      features:
-        add_above: '0'
-        collapse_edit_all: '0'
-        duplicate: '0'
-    third_party_settings: {  }
   title:
     type: string_textfield
     weight: 0
@@ -39,16 +19,14 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  url_redirects:
-    weight: 50
-    region: content
-    settings: {  }
-    third_party_settings: {  }
 hidden:
   created: true
+  field_module_lesson_content: true
   langcode: true
   path: true
   promote: true
   status: true
   sticky: true
+  translation: true
   uid: true
+  url_redirects: true
