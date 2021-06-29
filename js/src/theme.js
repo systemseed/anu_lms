@@ -1,12 +1,15 @@
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import withStyles from '@material-ui/core/styles/withStyles';
 
+const getDirection = () => document.dir || 'ltr';
+
 // Create a default theme with colors defined, so that
 // in the actual theme we could reference to the existing
 // colors and also breakpoints.
 // See https://material-ui.com/customization/default-theme
 // to find out about all options.
 const defaultTheme = createMuiTheme({
+  direction: getDirection(),
   typography: {
     fontFamily: '"Public Sans", sans-serif',
     fontWeightRegular: 400,
