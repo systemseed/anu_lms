@@ -64,7 +64,7 @@ class Lesson {
    * @return EntityInterface
    *   Loaded Course object.
    */
-  protected function getLessonCourse($lesson) {
+  public function getLessonCourse($lesson) {
     if (empty($lesson)) {
       return NULL;
     }
