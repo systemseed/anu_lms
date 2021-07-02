@@ -9,7 +9,6 @@ const useStyles = makeStyles((theme) => ({
   borderedImage: {
     display: 'block',
     width: '100%',
-    maxHeight: 400,
     objectFit: 'cover',
     [theme.breakpoints.up('sm')]: {
       borderRadius: 8,
