@@ -1,10 +1,8 @@
 import React from 'react';
-
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-
 import LessonGrid from '@anu/components/LessonGrid';
 import QuizSubmit from '@anu/components/QuizSubmit';
 
@@ -32,6 +30,7 @@ const QuizTextAnswer = ({
   correctValue,
   multiline,
   isSubmitting,
+  isSubmitted,
   onChange,
   onSubmit,
 }) => (
@@ -48,7 +47,7 @@ const QuizTextAnswer = ({
         multiline={multiline}
         rows={3}
         rowsMax={10}
-        disabled={isSubmitting || !!correctValue}
+        disabled={isSubmitting || isSubmitted}
         inputProps={{
           maxLength: multiline ? null : 255,
         }}
@@ -60,7 +59,7 @@ const QuizTextAnswer = ({
         </TypographyTopSpaced>
       )}
 
-      {!correctValue && onSubmit && <QuizSubmit onSubmit={onSubmit} isSubmitting={isSubmitting} />}
+      {!isSubmitted && onSubmit && <QuizSubmit onSubmit={onSubmit} isSubmitting={isSubmitting} />}
     </LessonGrid>
   </StyledBox>
 );

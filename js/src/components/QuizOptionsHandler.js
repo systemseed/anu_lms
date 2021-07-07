@@ -13,6 +13,7 @@ class QuizOptionsHandler extends React.Component {
       values: bundle === 'question_single_choice' ? null : [],
       correctValue: null,
       isSubmitting: false,
+      isSubmitted: false,
     };
 
     if (props.isQuiz) {
@@ -46,7 +47,10 @@ class QuizOptionsHandler extends React.Component {
     if (response.ok) {
       const payload = await response.json();
 
-      this.setState({ correctValue: payload.correctAnswer });
+      this.setState({
+        correctValue: payload.correctAnswer,
+        isSubmitted: true,
+      });
       // MCQ has been answered, fire callback for page validation.
       onQuestionComplete(true);
     } else {
@@ -88,7 +92,7 @@ class QuizOptionsHandler extends React.Component {
 
   render() {
     const { bundle, question, options, isQuiz, correctQuizValue = null } = this.props;
-    const { values, isSubmitting, correctValue } = this.state;
+    const { values, isSubmitting, isSubmitted, correctValue } = this.state;
 
     return (
       <QuizOptions
@@ -97,7 +101,8 @@ class QuizOptionsHandler extends React.Component {
         options={options}
         value={values}
         correctValue={correctValue || correctQuizValue}
-        isSubmitting={isSubmitting}
+        isSubmitting={this.props.isSubmitting || isSubmitting}
+        isSubmitted={this.props.isSubmitted || isSubmitted}
         onChange={
           bundle === 'question_single_choice' ? this.handleRadioChange : this.handleCheckboxChange
         }

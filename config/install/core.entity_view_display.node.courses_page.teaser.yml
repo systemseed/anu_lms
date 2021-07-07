@@ -19,4 +19,3 @@ content:
     region: content
 hidden:
   field_courses_content: true
-  langcode: true

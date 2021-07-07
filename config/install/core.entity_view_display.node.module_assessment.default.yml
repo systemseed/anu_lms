@@ -2,6 +2,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.module_assessment.field_hide_correct_answers
     - field.field.node.module_assessment.field_module_assessment_items
     - node.type.module_assessment
   module:
@@ -12,6 +13,16 @@ targetEntityType: node
 bundle: module_assessment
 mode: default
 content:
+  field_hide_correct_answers:
+    weight: 104
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
+    region: content
   field_module_assessment_items:
     type: entity_reference_revisions_entity_view
     weight: 103
@@ -26,5 +37,4 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-hidden:
-  langcode: true
+hidden: {  }

@@ -2,19 +2,71 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.module_assessment.field_hide_correct_answers
     - field.field.node.module_assessment.field_module_assessment_items
     - node.type.module_assessment
   module:
+    - field_group
     - paragraphs
     - path
+third_party_settings:
+  field_group:
+    group_quiz_tabs:
+      children:
+        - group_content
+        - group_settings
+      parent_name: ''
+      weight: 1
+      format_type: tabs
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        direction: horizontal
+      label: 'Quiz tabs'
+    group_content:
+      children:
+        - field_module_assessment_items
+      parent_name: group_quiz_tabs
+      weight: 10
+      format_type: tab
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        formatter: open
+        required_fields: true
+      label: Content
+    group_settings:
+      children:
+        - field_hide_correct_answers
+      parent_name: group_quiz_tabs
+      weight: 12
+      format_type: tab
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        formatter: closed
+        required_fields: true
+      label: Settings
 id: node.module_assessment.default
 targetEntityType: node
 bundle: module_assessment
 mode: default
 content:
+  field_hide_correct_answers:
+    weight: 5
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
+    region: content
   field_module_assessment_items:
     type: paragraphs
-    weight: 3
+    weight: 2
     settings:
       title: item
       title_plural: items
@@ -31,16 +83,9 @@ content:
         duplicate: '0'
     third_party_settings: {  }
     region: content
-  langcode:
-    type: language_select
-    weight: 1
-    region: content
-    settings:
-      include_locked: true
-    third_party_settings: {  }
   path:
     type: path
-    weight: 4
+    weight: 3
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -48,7 +93,7 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 5
+    weight: 2
     region: content
     third_party_settings: {  }
   title:

@@ -147,13 +147,6 @@ content:
     third_party_settings: {  }
     type: inline_entity_form_complex
     region: content
-  langcode:
-    type: language_select
-    weight: 1
-    region: content
-    settings:
-      include_locked: true
-    third_party_settings: {  }
   path:
     type: path
     weight: 5

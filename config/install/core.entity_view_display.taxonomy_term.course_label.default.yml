@@ -26,5 +26,4 @@ content:
     third_party_settings: {  }
     type: list_default
     region: content
-hidden:
-  langcode: true
+hidden: {  }

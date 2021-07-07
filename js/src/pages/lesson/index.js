@@ -64,10 +64,9 @@ const useStyles = makeStyles((theme) => ({
 const LessonPage = ({ lesson: lessonSource, quiz, course, width }) => {
   const [isSidebarVisible, toggleSidebarVisibility] = useLocalStorage('sidebarVisibility', true);
   const classes = useStyles({ isSidebarVisible });
-  const courseSequence = ((course || {}).content || []).flatMap((module) => [
-    ...module.lessons,
-    module.quiz,
-  ]).filter(lesson => !!lesson);
+  const courseSequence = ((course || {}).content || [])
+    .flatMap((module) => [...module.lessons, module.quiz])
+    .filter((lesson) => !!lesson);
 
   const lesson = lessonSource || quiz;
   const nextLesson = courseSequence[courseSequence.findIndex(({ id }) => id === lesson.id) + 1];

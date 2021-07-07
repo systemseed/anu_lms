@@ -16,12 +16,16 @@ class ParagraphsWithQuiz extends React.Component {
       correctValues: null,
       correctValuesCount: -1,
       isSubmitting: false,
+      isSubmitted: false,
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  /**
+   * Capture form widget value change for each answer.
+   */
   handleChange(value, paragraphId) {
     this.setState((prevState) => ({
       assessmentData: {
@@ -40,29 +44,34 @@ class ParagraphsWithQuiz extends React.Component {
       correctValues: null,
     });
 
-    const token = await fetch(`${window.location.origin}/session/token`);
-    const response = await fetch(`${window.location.origin}/assessments/assessment`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-Token': await token.text(),
-      },
-      body: JSON.stringify({
-        nid: nodeId,
-        data: assessmentData,
-      }),
-    });
-
-    if (response.ok) {
-      const payload = await response.json();
-
-      this.setState({
-        correctValues: payload.correctAnswers,
-        correctValuesCount: payload.correctAnswersCount,
+    try {
+      const token = await fetch(Drupal.url('session/token'));
+      const response = await fetch(Drupal.url('assessments/assessment'), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': await token.text(),
+        },
+        body: JSON.stringify({
+          nid: nodeId,
+          data: assessmentData,
+        }),
       });
-    } else {
-      alert(Drupal.t('Quiz submission failed. Please try again.', {}, { context: 'ANU LMS' }));
-      console.error(response.status, await response.text());
+
+      if (response.ok) {
+        const payload = await response.json();
+
+        this.setState({
+          correctValues: payload.correctAnswers || null,
+          correctValuesCount: payload.correctAnswersCount,
+          isSubmitted: true,
+        });
+      } else {
+        alert(Drupal.t('Quiz submission failed. Please try again.', {}, { context: 'ANU LMS' }));
+        console.error(response.status, await response.text());
+      }
+    } catch (error) {
+      console.error(error);
     }
 
     this.setState({ isSubmitting: false });
@@ -70,7 +79,13 @@ class ParagraphsWithQuiz extends React.Component {
 
   render() {
     const { items } = this.props;
-    const { assessmentData, correctValues, correctValuesCount, isSubmitting } = this.state;
+    const {
+      assessmentData,
+      correctValues,
+      correctValuesCount,
+      isSubmitting,
+      isSubmitted,
+    } = this.state;
 
     const paragraphs = items.map((paragraph) => {
       if (paragraph.bundle in paragraphMappings) {
@@ -99,6 +114,7 @@ class ParagraphsWithQuiz extends React.Component {
               onChange={(value) => this.handleChange(value, paragraph.aqid)}
               correctQuizValue={correctValue}
               isSubmitting={isSubmitting}
+              isSubmitted={isSubmitted}
               isQuiz
             />
           </Box>
@@ -112,20 +128,20 @@ class ParagraphsWithQuiz extends React.Component {
         {paragraphs}
 
         <LessonGrid>
-          {correctValues && correctValuesCount !== -1 && (
+          {isSubmitted && correctValuesCount !== -1 && (
             <Typography variant="h5">
               {Drupal.t(
                 'You scored @amount out of @total.',
                 {
                   '@amount': correctValuesCount,
-                  '@total': Object.keys(correctValues).length,
+                  '@total': Object.keys(assessmentData).length,
                 },
                 { context: 'ANU LMS' }
               )}
             </Typography>
           )}
 
-          {!correctValues && (
+          {!isSubmitted && (
             <QuizSubmit onSubmit={this.handleSubmit} isSubmitting={isSubmitting} isQuiz />
           )}
         </LessonGrid>

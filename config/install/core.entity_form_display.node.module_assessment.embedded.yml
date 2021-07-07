@@ -3,6 +3,7 @@ status: true
 dependencies:
   config:
     - core.entity_form_mode.node.embedded
+    - field.field.node.module_assessment.field_hide_correct_answers
     - field.field.node.module_assessment.field_module_assessment_items
     - node.type.module_assessment
 id: node.module_assessment.embedded
@@ -20,8 +21,8 @@ content:
     third_party_settings: {  }
 hidden:
   created: true
+  field_hide_correct_answers: true
   field_module_assessment_items: true
-  langcode: true
   path: true
   promote: true
   status: true

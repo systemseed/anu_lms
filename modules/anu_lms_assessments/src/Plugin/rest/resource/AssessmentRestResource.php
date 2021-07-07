@@ -3,6 +3,8 @@
 namespace Drupal\anu_lms_assessments\Plugin\rest\resource;
 
 use Drupal\anu_lms_assessments\Entity\AssessmentQuestionResult;
+use Drupal\node\Entity\Node;
+use Drupal\node\NodeInterface;
 use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -48,9 +50,7 @@ class AssessmentRestResource extends ResourceBase {
 
       $assessment_result = \Drupal::entityTypeManager()
         ->getStorage('assessment_result')
-        ->create([
-          'aid' => $assessment_nid,
-        ]);
+        ->create([ 'aid' => $assessment_nid ]);
       $assessment_result->save();
 
       $correct_answers_count = 0;
@@ -130,10 +130,24 @@ class AssessmentRestResource extends ResourceBase {
       throw new BadRequestHttpException('An error occurred during request handling');
     }
 
-    return new ModifiedResourceResponse([
-      'correctAnswers' => $correct_answers,
+    /** @var NodeInterface $quiz */
+    $quiz = Node::load($assessment_nid);
+    $hide_correct_answers = FALSE; // Default behavior fallback.
+    if ($quiz->hasField('field_hide_correct_answers')) {
+      $hide_correct_answers = (bool) $quiz->get('field_hide_correct_answers')->getString();
+    }
+
+    // Add information about the correct amount of answers to the output.
+    $response = [
       'correctAnswersCount' => $correct_answers_count,
-    ], 200);
+    ];
+
+    // Return the correct answers if not set to hide them.
+    if (empty($hide_correct_answers)) {
+      $response['correctAnswers'] = $correct_answers;
+    }
+
+    return new ModifiedResourceResponse($response);
   }
 
 }

@@ -51,6 +51,7 @@ const QuizScale = ({
   value,
   correctValue,
   isSubmitting,
+  isSubmitted,
   onSubmit,
   onChange,
   defaultValue,
@@ -70,7 +71,7 @@ const QuizScale = ({
           correctValue={correctValue}
           onChange={onChange}
           valueLabelDisplay="on"
-          disabled={correctValue === null ? isSubmitting : true}
+          disabled={isSubmitted || isSubmitting}
         />
 
         {correctValue !== null && (
@@ -82,9 +83,7 @@ const QuizScale = ({
           </Box>
         )}
 
-        {correctValue === null && onSubmit && (
-          <QuizSubmit onSubmit={onSubmit} isSubmitting={isSubmitting} />
-        )}
+        {!isSubmitted && onSubmit && <QuizSubmit onSubmit={onSubmit} isSubmitting={isSubmitting} />}
       </LessonGrid>
     </StyledBox>
   );
@@ -97,6 +96,7 @@ QuizScale.propTypes = {
   defaultValue: PropTypes.number,
   correctValue: PropTypes.number,
   isSubmitting: PropTypes.bool,
+  isSubmitted: PropTypes.bool,
   onSubmit: PropTypes.func,
   onChange: PropTypes.func,
 };

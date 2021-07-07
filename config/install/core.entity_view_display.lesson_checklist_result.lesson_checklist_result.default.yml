@@ -50,4 +50,3 @@ content:
     third_party_settings: {  }
 hidden:
   changed: true
-  langcode: true

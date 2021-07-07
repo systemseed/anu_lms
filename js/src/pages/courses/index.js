@@ -13,15 +13,17 @@ const CoursesPage = ({ title, courses, sections }) => {
   // Filter out sections which have no courses in them.
   // Especially helpful when on the page there are courses
   // which may not be accessible for some users.
-  const sectionsWithCourses = sections.filter(section =>
-     courses.some(course => course.categories.some(category => category.id === section.id))
+  const sectionsWithCourses = sections.filter((section) =>
+    courses.some((course) => course.categories.some((category) => category.id === section.id))
   );
 
   // Filter out all sections (categories) apart from the selected one.
   // If no filter applied then show all sections as configured.
   let filteredSections = sectionsWithCourses;
   if (filterValue && filterValue !== 'all') {
-    filteredSections = sectionsWithCourses.filter((term) => term.id === Number.parseInt(filterValue, 10));
+    filteredSections = sectionsWithCourses.filter(
+      (term) => term.id === Number.parseInt(filterValue, 10)
+    );
   }
 
   return (

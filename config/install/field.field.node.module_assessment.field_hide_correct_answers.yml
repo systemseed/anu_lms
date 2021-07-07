@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_hide_correct_answers
+    - node.type.module_assessment
+id: node.module_assessment.field_hide_correct_answers
+field_name: field_hide_correct_answers
+entity_type: node
+bundle: module_assessment
+label: 'Hide correct answers'
+description: 'Select this option if users should not see correct answers when they submit the quiz.'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

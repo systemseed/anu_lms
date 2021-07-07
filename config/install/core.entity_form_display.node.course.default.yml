@@ -136,13 +136,6 @@ content:
       default_paragraph_type: course_modules
     third_party_settings: {  }
     region: content
-  langcode:
-    type: language_select
-    weight: 0
-    region: content
-    settings:
-      include_locked: true
-    third_party_settings: {  }
   path:
     type: path
     weight: 3

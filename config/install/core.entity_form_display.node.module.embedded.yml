@@ -65,7 +65,6 @@ content:
 hidden:
   created: true
   field_module_course: true
-  langcode: true
   path: true
   promote: true
   status: true

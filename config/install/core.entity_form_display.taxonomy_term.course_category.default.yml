@@ -18,7 +18,6 @@ content:
     third_party_settings: {  }
 hidden:
   description: true
-  langcode: true
   path: true
   status: true
   translation: true

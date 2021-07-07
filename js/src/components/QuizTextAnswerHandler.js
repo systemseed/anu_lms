@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-
 import QuizTextAnswer from '@anu/components/QuizTextAnswer';
 import PropTypes from 'prop-types';
 import * as questionsAPI from '@anu/api/questionsAPI';
 
-const ERROR_MESSAGE =
-  Drupal.t('Could not submit the response. Please, refresh the page and try again or contact the administrator.', {}, { context: 'ANU LMS' });
+const ERROR_MESSAGE = Drupal.t(
+  'Could not submit the response. Please, refresh the page and try again or contact the administrator.',
+  {},
+  { context: 'ANU LMS' }
+);
 
 const showError = (status, responseText) => {
   alert(ERROR_MESSAGE);
@@ -15,6 +17,7 @@ const showError = (status, responseText) => {
 const QuizTextAnswerHandler = (props) => {
   const defaultValue = '';
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [value, setValue] = useState(defaultValue);
   const [correctValue, setCorrectValue] = useState(defaultValue);
 
@@ -32,6 +35,7 @@ const QuizTextAnswerHandler = (props) => {
   const onSubmit = async () => {
     setIsSubmitting(true);
     const response = await questionsAPI.postQuestion(props.aqid, value);
+    setIsSubmitting(false);
 
     if (!response.ok) {
       return showError(response.status, await response.text());
@@ -39,7 +43,7 @@ const QuizTextAnswerHandler = (props) => {
 
     const payload = await response.json();
     setCorrectValue(payload.correctAnswer);
-    setIsSubmitting(false);
+    setIsSubmitted(true);
     props.onQuestionComplete();
   };
 
@@ -47,8 +51,9 @@ const QuizTextAnswerHandler = (props) => {
     <QuizTextAnswer
       question={props.question}
       value={value}
-      correctValue={correctValue || props.correctQuizValue}
-      isSubmitting={isSubmitting}
+      correctValue={props.correctQuizValue || correctValue}
+      isSubmitting={props.isSubmitting || isSubmitting}
+      isSubmitted={props.isSubmitted || isSubmitted}
       multiline={props.bundle === 'question_long_answer'}
       onChange={onChange}
       onSubmit={!props.isQuiz && onSubmit}
@@ -64,6 +69,7 @@ QuizTextAnswerHandler.propTypes = {
   defaultValue: PropTypes.number,
   correctQuizValue: PropTypes.string,
   isSubmitting: PropTypes.bool,
+  isSubmitted: PropTypes.bool,
   onSubmit: PropTypes.func,
   onChange: PropTypes.func,
   onQuestionComplete: PropTypes.func,
@@ -75,6 +81,6 @@ QuizTextAnswerHandler.defaultProps = {
   onSubmit: () => {},
   onChange: () => {},
   onQuestionComplete: () => {},
-}
+};
 
 export default QuizTextAnswerHandler;

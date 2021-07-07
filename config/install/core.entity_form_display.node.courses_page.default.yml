@@ -37,13 +37,6 @@ content:
     third_party_settings: {  }
     type: paragraphs
     region: content
-  langcode:
-    type: language_select
-    weight: 1
-    region: content
-    settings:
-      include_locked: true
-    third_party_settings: {  }
   path:
     type: path
     weight: 5

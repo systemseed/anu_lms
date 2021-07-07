@@ -14,6 +14,7 @@ const showError = (status, responseText) => {
 const QuizScaleAdapter = (props) => {
   const defaultValue = Math.round((props.scale.from + props.scale.to) / 2);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [value, setValue] = useState(defaultValue);
   const [correctValue, setCorrectValue] = useState(null);
 
@@ -33,6 +34,7 @@ const QuizScaleAdapter = (props) => {
 
     const payload = await response.json();
     setCorrectValue(payload.correctAnswer);
+    setIsSubmitted(true);
     props.onQuestionComplete();
   };
 
@@ -47,7 +49,8 @@ const QuizScaleAdapter = (props) => {
       scale={props.scale}
       value={value}
       correctValue={props.correctQuizValue || correctValue}
-      isSubmitting={isSubmitting}
+      isSubmitting={props.isSubmitting || isSubmitting}
+      isSubmitted={props.isSubmitted || isSubmitted}
       onChange={onChange}
       onSubmit={props.isQuiz ? null : onSubmit}
     />
@@ -62,6 +65,7 @@ QuizScaleAdapter.propTypes = {
   defaultValue: PropTypes.number,
   correctQuizValue: PropTypes.number,
   isSubmitting: PropTypes.bool,
+  isSubmitted: PropTypes.bool,
   onSubmit: PropTypes.func,
   onChange: PropTypes.func,
   onQuestionComplete: PropTypes.func,

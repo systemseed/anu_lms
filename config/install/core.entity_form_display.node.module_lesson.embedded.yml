@@ -21,7 +21,6 @@ content:
 hidden:
   created: true
   field_module_lesson_content: true
-  langcode: true
   path: true
   promote: true
   status: true

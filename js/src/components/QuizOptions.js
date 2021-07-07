@@ -25,6 +25,7 @@ const QuizOptions = ({
   value,
   correctValue,
   isSubmitting,
+  isSubmitted,
   onChange,
   onSubmit,
 }) => {
@@ -43,7 +44,7 @@ const QuizOptions = ({
               <FormControlLabel
                 key={option.id}
                 label={option.value}
-                disabled={correctValue === null ? isSubmitting : true}
+                disabled={isSubmitted || isSubmitting}
                 control={
                   <CheckboxWithValidation
                     color="primary"
@@ -64,7 +65,7 @@ const QuizOptions = ({
                     key={option.id}
                     label={option.value}
                     value={option.id}
-                    disabled={correctValue === null ? isSubmitting : true}
+                    disabled={isSubmitted || isSubmitting}
                     control={
                       <RadioWithValidation
                         value={option.id}
@@ -80,9 +81,7 @@ const QuizOptions = ({
           )}
         </FormGroup>
 
-        {!correctValue && onSubmit && (
-          <QuizSubmit onSubmit={onSubmit} isSubmitting={isSubmitting} />
-        )}
+        {!isSubmitted && onSubmit && <QuizSubmit onSubmit={onSubmit} isSubmitting={isSubmitting} />}
       </LessonGrid>
     </StyledBox>
   );
