@@ -61,9 +61,15 @@ const transformLessonPage = ({ data }) => {
   const quiz = data && data.module_assessment ? transformQuiz(data.module_assessment) : null;
   const course = data && data.course ? transformCourse(data.course) : null;
 
+  if (!!data) {
+    quiz.correctValuesCount = data.correct_answers
+  }
+
+
   const quizSubmission = (data && data.results) || null;
   if (quiz && quizSubmission) {
     quiz.canSubmit = false;
+    quiz.isSubmitted = true
     quiz.questions = quiz.questions.map(question => {
       if (question.aqid && question.aqid in quizSubmission) {
         question.submittedAnswer = quizSubmission[question.aqid];

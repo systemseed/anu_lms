@@ -14,9 +14,9 @@ class ParagraphsWithQuiz extends React.Component {
     this.state = {
       assessmentData: {},
       correctValues: null,
-      correctValuesCount: -1,
+      correctValuesCount: !isNaN(props.correctValuesCount) ? props.correctValuesCount : -1,
       isSubmitting: false,
-      isSubmitted: false,
+      isSubmitted: !!props.isSubmitted,
     };
 
     this.handleChange = this.handleChange.bind(this);

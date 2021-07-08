@@ -18,7 +18,9 @@ const ContentQuiz = ({ quiz }) => (
     <Box my={3}>
       <ParagraphsWithQuiz
         items={quiz.questions}
+        correctValuesCount={quiz.correctValuesCount}
         canSubmit={quiz.canSubmit}
+        isSubmitted={quiz.isSubmitted}
         nodeId={quiz.id}
       />
     </Box>

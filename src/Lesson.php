@@ -78,8 +78,9 @@ class Lesson {
         $answers = \Drupal::entityTypeManager()
           ->getStorage('assessment_question_result')
           ->loadMultiple($submitted_answers);
-        $data['results'] = [];
         foreach ($answers as $answer) {
+          $data['results'] = [];
+          $data['correct_answers'] = 0;
 
           $response = NULL;
           if ($answer->bundle() == 'short_answer' && $answer->hasField('field_question_response')) {
@@ -103,6 +104,10 @@ class Lesson {
           if (!empty($response)) {
             $question_id = (int)$answer->get('aqid')->getString();
             $data['results'][$question_id] = $response;
+          }
+          $result = (int) $answer->get('is_correct')->getString();
+          if ($this->isCorrectAnswer($result)) {
+            $data['correct_answers'] = $data['correct_answers']++;
           }
         }
       }
@@ -147,5 +152,9 @@ class Lesson {
       ->execute();
 
     return !empty($course) ? $this->nodeStorage->load(reset($course)) : NULL;
+  }
+
+  protected function isCorrectAnswer($answer){
+
   }
 }
