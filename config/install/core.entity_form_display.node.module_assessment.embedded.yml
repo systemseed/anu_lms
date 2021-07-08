@@ -5,6 +5,7 @@ dependencies:
     - core.entity_form_mode.node.embedded
     - field.field.node.module_assessment.field_hide_correct_answers
     - field.field.node.module_assessment.field_module_assessment_items
+    - field.field.node.module_assessment.field_no_multiple_submissions
     - node.type.module_assessment
 id: node.module_assessment.embedded
 targetEntityType: node
@@ -23,6 +24,7 @@ hidden:
   created: true
   field_hide_correct_answers: true
   field_module_assessment_items: true
+  field_no_multiple_submissions: true
   path: true
   promote: true
   status: true

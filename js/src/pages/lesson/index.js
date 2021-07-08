@@ -7,14 +7,16 @@ import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
 import LessonHeader from '@anu/pages/lesson/Header';
-import LessonContent from '@anu/pages/lesson/Content';
 import LessonSidebar from '@anu/pages/lesson/Sidebar';
 import LessonSidebarHide from '@anu/pages/lesson/SidebarHide';
 import LessonNavigationMobile from '@anu/pages/lesson/NavigationMobile';
+import ContentQuiz from "@anu/pages/lesson/ContentQuiz";
+import ContentLesson from "@anu/pages/lesson/ContentLesson";
 
 import useLocalStorage from '@anu/hooks/useLocalStorage';
 import { coursePropTypes } from '@anu/utilities/transform.course';
-import { lessonPropTypes } from '@anu/utilities/transform.lesson';
+import { lessonPropTypes, quizPropTypes } from '@anu/utilities/transform.lesson';
+
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -61,27 +63,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LessonPage = ({ lesson: lessonSource, quiz, course, width }) => {
+const LessonPage = ({ lesson, quiz, course, width }) => {
   const [isSidebarVisible, toggleSidebarVisibility] = useLocalStorage('sidebarVisibility', true);
   const classes = useStyles({ isSidebarVisible });
   const courseSequence = ((course || {}).content || [])
     .flatMap((module) => [...module.lessons, module.quiz])
     .filter((lesson) => !!lesson);
 
-  const lesson = lessonSource || quiz;
-  const nextLesson = courseSequence[courseSequence.findIndex(({ id }) => id === lesson.id) + 1];
+  const content = lesson || quiz;
+  const nextLesson = courseSequence[courseSequence.findIndex(({ id }) => id === content.id) + 1];
 
   return (
     <Box className={classes.wrapper}>
       {/* Navigation drawer visible only on mobile */}
       <Hidden mdUp>
-        <LessonNavigationMobile lesson={lesson || quiz} course={course} />
+        <LessonNavigationMobile lesson={content} course={course} />
       </Hidden>
 
       {/* Header of the lesson page  */}
       {course && (
         <Hidden smDown>
-          <LessonHeader lesson={lesson || quiz} course={course} />
+          <LessonHeader lesson={content} course={course} />
         </Hidden>
       )}
 
@@ -98,18 +100,21 @@ const LessonPage = ({ lesson: lessonSource, quiz, course, width }) => {
           {/* Left sidebar visible on tablet + desktop devices only */}
           <Hidden smDown>
             <Box className={classes.sidebar}>
-              <LessonSidebar course={course} lesson={lesson || quiz} />
+              <LessonSidebar course={course} lesson={content} />
             </Box>
           </Hidden>
 
           <Box className={isWidthUp('md', width) ? classes.contentWrapper : ''}>
-            <LessonContent
-              title={lesson.title}
-              sections={lesson.sections || quiz.questions}
-              isQuiz={Boolean(quiz)}
+            {quiz &&
+            <ContentQuiz quiz={quiz} />
+            }
+
+            {lesson &&
+            <ContentLesson
+              lesson={lesson}
               nextLesson={nextLesson}
-              nodeId={lesson.id}
             />
+            }
           </Box>
         </Box>
       </Box>
@@ -119,7 +124,7 @@ const LessonPage = ({ lesson: lessonSource, quiz, course, width }) => {
 
 LessonPage.propTypes = {
   lesson: lessonPropTypes,
-  quiz: lessonPropTypes,
+  quiz: quizPropTypes,
   course: coursePropTypes,
   // Coming from MUI withWidth() HOC.
   width: PropTypes.string,

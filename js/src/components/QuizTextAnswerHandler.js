@@ -50,10 +50,10 @@ const QuizTextAnswerHandler = (props) => {
   return (
     <QuizTextAnswer
       question={props.question}
-      value={value}
+      value={props.submittedAnswer || value}
       correctValue={props.correctQuizValue || correctValue}
       isSubmitting={props.isSubmitting || isSubmitting}
-      isSubmitted={props.isSubmitted || isSubmitted}
+      isSubmitted={!props.canSubmit || props.isSubmitted || isSubmitted}
       multiline={props.bundle === 'question_long_answer'}
       onChange={onChange}
       onSubmit={!props.isQuiz && onSubmit}
@@ -62,7 +62,7 @@ const QuizTextAnswerHandler = (props) => {
 };
 
 QuizTextAnswerHandler.propTypes = {
-  aqid: PropTypes.string,
+  aqid: PropTypes.number,
   question: PropTypes.string,
   scale: PropTypes.object,
   value: PropTypes.string,
@@ -75,12 +75,14 @@ QuizTextAnswerHandler.propTypes = {
   onQuestionComplete: PropTypes.func,
   isQuiz: PropTypes.bool,
   bundle: PropTypes.string,
+  submittedAnswer: PropTypes.string,
 };
 
 QuizTextAnswerHandler.defaultProps = {
   onSubmit: () => {},
   onChange: () => {},
   onQuestionComplete: () => {},
+  submittedAnswer: '',
 };
 
 export default QuizTextAnswerHandler;

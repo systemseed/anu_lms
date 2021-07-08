@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_no_multiple_submissions
+    - node.type.module_assessment
+id: node.module_assessment.field_no_multiple_submissions
+field_name: field_no_multiple_submissions
+entity_type: node
+bundle: module_assessment
+label: 'Prevent multiple submissions'
+description: 'Select to prevent users from submitting the quiz more than once.'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

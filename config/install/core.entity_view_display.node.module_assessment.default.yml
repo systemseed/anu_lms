@@ -4,6 +4,7 @@ dependencies:
   config:
     - field.field.node.module_assessment.field_hide_correct_answers
     - field.field.node.module_assessment.field_module_assessment_items
+    - field.field.node.module_assessment.field_no_multiple_submissions
     - node.type.module_assessment
   module:
     - entity_reference_revisions
@@ -31,6 +32,16 @@ content:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    region: content
+  field_no_multiple_submissions:
+    weight: 105
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
     region: content
   links:
     weight: 100

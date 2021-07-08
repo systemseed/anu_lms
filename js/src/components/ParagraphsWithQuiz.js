@@ -78,7 +78,7 @@ class ParagraphsWithQuiz extends React.Component {
   }
 
   render() {
-    const { items } = this.props;
+    const { items, canSubmit } = this.props;
     const {
       assessmentData,
       correctValues,
@@ -115,6 +115,7 @@ class ParagraphsWithQuiz extends React.Component {
               correctQuizValue={correctValue}
               isSubmitting={isSubmitting}
               isSubmitted={isSubmitted}
+              canSubmit={canSubmit}
               isQuiz
             />
           </Box>
@@ -141,7 +142,7 @@ class ParagraphsWithQuiz extends React.Component {
             </Typography>
           )}
 
-          {!isSubmitted && (
+          {canSubmit && !isSubmitted && (
             <QuizSubmit onSubmit={this.handleSubmit} isSubmitting={isSubmitting} isQuiz />
           )}
         </LessonGrid>

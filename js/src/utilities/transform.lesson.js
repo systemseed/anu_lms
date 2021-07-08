@@ -53,17 +53,32 @@ const transformQuiz = (node) => {
 };
 
 /**
- * Transform lesson page content from Drupal backend into frontend-friendly object.
+ * Transform lesson page content from Drupal backend into frontend-friendly
+ * object.
  */
 const transformLessonPage = ({ data }) => {
-  const lesson = (data && data.module_lesson) || {};
-  const quiz = (data && data.module_assessment) || {};
-  const course = (data && data.course) || {};
+  const lesson = data && data.module_lesson ? transformLesson(data.module_lesson) : null;
+  const quiz = data && data.module_assessment ? transformQuiz(data.module_assessment) : null;
+  const course = data && data.course ? transformCourse(data.course) : null;
+
+  const quizSubmission = (data && data.results) || null;
+  if (quiz && quizSubmission) {
+    quiz.canSubmit = false;
+    quiz.questions = quiz.questions.map(question => {
+      if (question.aqid && question.aqid in quizSubmission) {
+        question.submittedAnswer = quizSubmission[question.aqid];
+      }
+      return question;
+    })
+  }
+  else {
+    quiz.canSubmit = true;
+  }
 
   return {
-    lesson: transformLesson(lesson),
-    quiz: transformQuiz(quiz),
-    course: transformCourse(course),
+    lesson,
+    quiz,
+    course,
   };
 };
 
@@ -84,10 +99,26 @@ const lessonPropTypes = PropTypes.shape({
   ),
 });
 
+/**
+ * Define expected prop types for quiz.
+ */
+const quizPropTypes = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+  question: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      bundle: PropTypes.string.isRequired,
+    })
+  ),
+});
+
 export {
   transformChecklistResults,
   transformLesson,
   transformQuiz,
   transformLessonPage,
   lessonPropTypes,
+  quizPropTypes,
 };

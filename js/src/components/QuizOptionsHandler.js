@@ -91,7 +91,7 @@ class QuizOptionsHandler extends React.Component {
   }
 
   render() {
-    const { bundle, question, options, isQuiz, correctQuizValue = null } = this.props;
+    const { bundle, question, options, isQuiz, submittedAnswer, correctQuizValue = null } = this.props;
     const { values, isSubmitting, isSubmitted, correctValue } = this.state;
 
     return (
@@ -99,10 +99,10 @@ class QuizOptionsHandler extends React.Component {
         multipleOptions={bundle !== 'question_single_choice'}
         question={question}
         options={options}
-        value={values}
+        value={submittedAnswer || values}
         correctValue={correctValue || correctQuizValue}
         isSubmitting={this.props.isSubmitting || isSubmitting}
-        isSubmitted={this.props.isSubmitted || isSubmitted}
+        isSubmitted={!this.props.canSubmit || this.props.isSubmitted || isSubmitted}
         onChange={
           bundle === 'question_single_choice' ? this.handleRadioChange : this.handleCheckboxChange
         }

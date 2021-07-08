@@ -146,7 +146,7 @@ class AnulmsNodeViewController extends NodeViewController {
           return new RedirectResponse($lesson->toUrl()->toString());
         }
         return [
-          '#markup' => $this->t('There no lessons yet in this course yet.'),
+          '#markup' => $this->t('There are no lessons in this course yet.'),
         ];
 
       default:

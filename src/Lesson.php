@@ -2,8 +2,11 @@
 
 namespace Drupal\anu_lms;
 
+use Drupal\anu_lms_assessments\Entity\AssessmentQuestionResult;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\entity_reference_revisions\EntityReferenceRevisionsFieldItemList;
+use Drupal\node\NodeInterface;
 
 /**
  * Lesson service.
@@ -46,13 +49,66 @@ class Lesson {
    * @return array
    *   An array containing current node and referenced course.
    */
-  public function getLessonPageData(EntityInterface $node) {
+  public function getLessonPageData(NodeInterface $node) {
     $lesson_course = $this->getLessonCourse($node);
 
-    return [
+    $data = [
       $node->bundle() => $this->normalizer->normalizeEntity($node, ['max_depth' => 4]),
       'course' => !empty($lesson_course) ? $this->normalizer->normalizeEntity($lesson_course, ['max_depth' => 2]) : NULL,
     ];
+
+    if ($node->bundle() === 'module_assessment' && $node->hasField('field_no_multiple_submissions')) {
+      $prevent_multiple_submissions = $node->get('field_no_multiple_submissions')->getString();
+      if (!empty($prevent_multiple_submissions)) {
+
+        $submitted_quiz = \Drupal::entityQuery('assessment_result')
+          ->condition('user_id', \Drupal::currentUser()->id())
+          ->condition('aid', $node->id())
+          ->sort('created', 'DESC')
+          ->range(0, 1)
+          ->execute();
+
+        $aid = reset($submitted_quiz);
+
+        $submitted_answers = \Drupal::entityQuery('assessment_question_result')
+          ->condition('arid', $aid)
+          ->execute();
+
+        /** @var AssessmentQuestionResult[] $answers */
+        $answers = \Drupal::entityTypeManager()
+          ->getStorage('assessment_question_result')
+          ->loadMultiple($submitted_answers);
+        $data['results'] = [];
+        foreach ($answers as $answer) {
+
+          $response = NULL;
+          if ($answer->bundle() == 'short_answer' && $answer->hasField('field_question_response')) {
+            $response = $answer->get('field_question_response')->getString();
+          } elseif ($answer->bundle() == 'long_answer' && $answer->hasField('field_question_response_long')) {
+            $response = $answer->get('field_question_response_long')->getString();
+          } elseif ($answer->bundle() == 'scale') {
+            $response = (int)$answer->get('field_question_response_scale')->getString();
+          } elseif (($answer->bundle() == 'multiple_choice' || $answer->bundle() == 'single_choice') && $answer->hasField('field_single_multi_choice')) {
+            /** @var EntityReferenceRevisionsFieldItemList[] $field_items */
+            $field_items = $answer->get('field_single_multi_choice');
+            foreach ($field_items as $value) {
+              $response[] = $value->getValue()['target_id'];
+            }
+
+            if (!empty($response) && $answer->bundle() == 'single_choice') {
+              $response = reset($response);
+            }
+          }
+
+          if (!empty($response)) {
+            $question_id = (int)$answer->get('aqid')->getString();
+            $data['results'][$question_id] = $response;
+          }
+        }
+      }
+    }
+
+    return $data;
   }
 
   /**
