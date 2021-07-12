@@ -20,7 +20,6 @@ class ParagraphsWithQuiz extends React.Component {
       isSubmitted: !!props.isSubmitted,
       openDialog: false,
       readyToSubmit: !props.isSingleSubmission,
-      isSingleSubmission: props.isSingleSubmission
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -107,7 +106,7 @@ class ParagraphsWithQuiz extends React.Component {
   }
 
   render() {
-    const { items, canSubmit, isSingleSubmission } = this.props;
+    const { items, isSingleSubmission } = this.props;
     const {
       assessmentData,
       correctValues,
@@ -116,6 +115,8 @@ class ParagraphsWithQuiz extends React.Component {
       isSubmitted,
       openDialog
     } = this.state;
+
+    const canSubmit = !isSubmitted && !isSingleSubmission;
 
     const paragraphs = items.map((paragraph) => {
       if (paragraph.bundle in paragraphMappings) {
@@ -176,7 +177,7 @@ class ParagraphsWithQuiz extends React.Component {
             <QuizAlert open={openDialog} handleClose={this.handleSubmissionConfirmation} />
           )}
 
-          {canSubmit && !isSubmitted && (
+          {canSubmit && (
             <QuizSubmit onSubmit={this.checkSubmission} isSubmitting={isSubmitting} isQuiz />
           )}
         </LessonGrid>

@@ -8,33 +8,22 @@ import PropTypes from "prop-types";
  */
 const transformQuiz = (data) => {
   const quiz = transformQuizQuestions(data.module_assessment)
-  addCorrectValuesCount(quiz, data);
   addSubmissionData(quiz, data);
   return quiz;
 }
 
-
 /**
- * Adds the number of correct responses if quiz already submitted
- * defaults to -1 if not
- */
-const addCorrectValuesCount = (quiz, data) => {
-  quiz.correctValuesCount = !isNaN(data.correct_answers) ? data.correct_answers : -1
-}
-
-
-/**
- * Adds previously submitted answers if available
+ * Adds previously submitted answers/scores if available
  */
 const addSubmissionData = (quiz, data) => {
   if (data.results) {
-    quiz.canSubmit = false;
     quiz.isSubmitted = true
     quiz.questions = quiz.questions.map(addSubmittedAnswer(data.results))
   }
   else {
-    quiz.canSubmit = true;
+    quiz.isSubmitted = false;
   }
+  quiz.correctValuesCount = !isNaN(data.correct_answers) ? data.correct_answers : -1
 }
 
 /**
@@ -77,15 +66,14 @@ const quizPropTypes = PropTypes.shape({
   title: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
   isSingleSubmission: PropTypes.bool.isRequired,
+  isSubmitted: PropTypes.bool.isRequired,
+  correctValuesCount: PropTypes.number.isRequired,
   question: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       bundle: PropTypes.string.isRequired,
     })
   ),
-  correctValuesCount: PropTypes.number,
-  canSubmit: PropTypes.bool,
-  isSubmitted: PropTypes.bool,
 });
 
 export {

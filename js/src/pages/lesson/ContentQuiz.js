@@ -19,7 +19,6 @@ const ContentQuiz = ({ quiz }) => (
       <ParagraphsWithQuiz
         items={quiz.questions}
         correctValuesCount={quiz.correctValuesCount}
-        canSubmit={quiz.canSubmit}
         isSubmitted={quiz.isSubmitted}
         isSingleSubmission={quiz.isSingleSubmission}
         nodeId={quiz.id}
