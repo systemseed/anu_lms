@@ -56,6 +56,7 @@ const transformParagraph = (paragraph) => {
         id: getNumberValue(paragraph, 'id'),
         title: getTextValue(paragraph, 'field_lesson_highlight_heading'),
         text: getTextValue(paragraph, 'field_lesson_highlight_text'),
+        color: getTextValue(paragraph, 'field_lesson_highlight_color'),
       };
 
     case 'lesson_image':

@@ -21,11 +21,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TextHighlighted = ({ title, text }) => {
+const TextHighlighted = ({ title, text, color }) => {
   const classes = useStyles();
 
   return (
-    <Highlighted>
+    <Highlighted color={color === '' ? 'yellow' : color}>
       <LessonGrid>
         {title && (
           <Box mb={2}>
@@ -48,10 +48,12 @@ const TextHighlighted = ({ title, text }) => {
 TextHighlighted.propTypes = {
   title: PropTypes.string,
   text: PropTypes.string.isRequired,
+  color: PropTypes.string,
 };
 
 TextHighlighted.defaultProps = {
   title: null,
+  color: '',
 };
 
 export default TextHighlighted;
