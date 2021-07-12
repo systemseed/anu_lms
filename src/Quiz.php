@@ -15,7 +15,7 @@ class Quiz extends Lesson
   const FIELD_QUESTION_RESPONSE = 'field_question_response';
 
   /**
-   * Returns normalized data for Lesson page.
+   * Returns normalized data for Quiz page.
    *
    * @param EntityInterface $node
    *   Lesson node.
