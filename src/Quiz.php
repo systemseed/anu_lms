@@ -5,13 +5,29 @@ namespace Drupal\anu_lms;
 
 
 use Drupal\anu_lms_assessments\Entity\AssessmentQuestionResult;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\entity_reference_revisions\EntityReferenceRevisionsFieldItemList;
 use Drupal\node\NodeInterface;
 
-class Quiz
+class Quiz extends Lesson
 {
   const FIELD_NO_MULTIPLE_SUBMISSIONS = 'field_no_multiple_submissions';
   const FIELD_QUESTION_RESPONSE = 'field_question_response';
+
+  /**
+   * Returns normalized data for Lesson page.
+   *
+   * @param EntityInterface $node
+   *   Lesson node.
+   *
+   * @return array
+   *   An array containing current node and referenced course.
+   */
+  public function getPageData(NodeInterface|EntityInterface $node)
+  {
+    $data = parent::getPageData($node);
+    return $this->_anu_lms_get_quiz_submission_data($node, $data);
+  }
 
   /**
    * Returns data for Quiz submissions.
@@ -22,7 +38,8 @@ class Quiz
    * @param array $data
    *   Data to be returned
    */
-  public function getQuizSubmissionData(NodeInterface $node, array &$data){
+  protected function _anu_lms_get_quiz_submission_data(NodeInterface $node, array &$data)
+  {
     if ($node->hasField(self::FIELD_NO_MULTIPLE_SUBMISSIONS)) {
       if (!empty($node->get(self::FIELD_NO_MULTIPLE_SUBMISSIONS)->getString())) {
         $results = [];
@@ -34,10 +51,10 @@ class Quiz
           $response = NULL;
           if ($answer->bundle() == 'short_answer' && $answer->hasField(self::FIELD_QUESTION_RESPONSE)) {
             $response = $answer->get(self::FIELD_QUESTION_RESPONSE)->getString();
-          } elseif ($answer->bundle() == 'long_answer' && $answer->hasField(self::FIELD_QUESTION_RESPONSE.'_long')) {
-            $response = $answer->get(self::FIELD_QUESTION_RESPONSE.'_long')->getString();
+          } elseif ($answer->bundle() == 'long_answer' && $answer->hasField(self::FIELD_QUESTION_RESPONSE . '_long')) {
+            $response = $answer->get(self::FIELD_QUESTION_RESPONSE . '_long')->getString();
           } elseif ($answer->bundle() == 'scale') {
-            $response = (int)$answer->get(self::FIELD_QUESTION_RESPONSE.'_scale')->getString();
+            $response = (int)$answer->get(self::FIELD_QUESTION_RESPONSE . '_scale')->getString();
           } elseif (($answer->bundle() == 'multiple_choice' || $answer->bundle() == 'single_choice') && $answer->hasField('field_single_multi_choice')) {
             /** @var EntityReferenceRevisionsFieldItemList[] $field_items */
             $field_items = $answer->get('field_single_multi_choice');
@@ -65,6 +82,7 @@ class Quiz
         }
       }
     }
+    return $data;
   }
 
   /**

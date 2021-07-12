@@ -137,7 +137,7 @@ class AnulmsNodeViewController extends NodeViewController {
       case 'module_lesson':
       case 'module_assessment':
         // Get data for viewed lesson or quiz.
-        $content_data = $this->lesson->getLessonPageData($node);
+        $content_data = $this->lesson->getPageData($node);
         break;
 
       case 'course':

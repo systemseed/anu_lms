@@ -27,27 +27,17 @@ class Lesson
   protected $normalizer;
 
   /**
-   * The quiz service.
-   *
-   * @var \Drupal\anu_lms\Quiz
-   */
-  protected $quiz;
-
-  /**
    * Constructs service.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
    * @param \Drupal\anu_lms\Normalizer $normalizer
    *   The normalizer.
-   * @param \Drupal\anu_lms\Quiz $quiz
-   *   The quiz.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, Normalizer $normalizer, Quiz $quiz)
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, Normalizer $normalizer)
   {
     $this->nodeStorage = $entity_type_manager->getStorage('node');
     $this->normalizer = $normalizer;
-    $this->quiz = $quiz;
   }
 
   /**
@@ -59,7 +49,7 @@ class Lesson
    * @return array
    *   An array containing current node and referenced course.
    */
-  public function getLessonPageData(NodeInterface $node)
+  public function getPageData(NodeInterface $node)
   {
     $lesson_course = $this->getLessonCourse($node);
 
@@ -67,10 +57,6 @@ class Lesson
       $node->bundle() => $this->normalizer->normalizeEntity($node, ['max_depth' => 4]),
       'course' => !empty($lesson_course) ? $this->normalizer->normalizeEntity($lesson_course, ['max_depth' => 2]) : NULL,
     ];
-
-    if ($node->bundle() === 'module_assessment') {
-      $this->quiz->getQuizSubmissionData($node, $data);
-    }
 
     return $data;
   }
