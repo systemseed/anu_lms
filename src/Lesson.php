@@ -11,7 +11,8 @@ use Drupal\node\NodeInterface;
 /**
  * Lesson service.
  */
-class Lesson {
+class Lesson
+{
 
   /**
    * The node storage.
@@ -35,7 +36,8 @@ class Lesson {
    * @param \Drupal\anu_lms\Normalizer $normalizer
    *   The normalizer.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, Normalizer $normalizer) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, Normalizer $normalizer)
+  {
     $this->nodeStorage = $entity_type_manager->getStorage('node');
     $this->normalizer = $normalizer;
   }
@@ -49,7 +51,8 @@ class Lesson {
    * @return array
    *   An array containing current node and referenced course.
    */
-  public function getLessonPageData(NodeInterface $node) {
+  public function getLessonPageData(NodeInterface $node)
+  {
     $lesson_course = $this->getLessonCourse($node);
 
     $data = [
@@ -78,9 +81,9 @@ class Lesson {
         $answers = \Drupal::entityTypeManager()
           ->getStorage('assessment_question_result')
           ->loadMultiple($submitted_answers);
+        $results = [];
+        $correct_answers = 0;
         foreach ($answers as $answer) {
-          $data['results'] = [];
-          $data['correct_answers'] = 0;
 
           $response = NULL;
           if ($answer->bundle() == 'short_answer' && $answer->hasField('field_question_response')) {
@@ -101,14 +104,19 @@ class Lesson {
             }
           }
 
+
           if (!empty($response)) {
             $question_id = (int)$answer->get('aqid')->getString();
-            $data['results'][$question_id] = $response;
+            $results[$question_id] = $response;
           }
-          $result = (int) $answer->get('is_correct')->getString();
+          $result = (int)$answer->get('is_correct')->getString();
           if ($this->isCorrectAnswer($result)) {
-            $data['correct_answers'] = $data['correct_answers']++;
+            $correct_answers++;
           }
+        }
+        if (!empty($results)) {
+          $data['results'] = $results;
+          $data['correct_answers'] = $correct_answers;
         }
       }
     }
@@ -125,7 +133,8 @@ class Lesson {
    * @return EntityInterface
    *   Loaded Course object.
    */
-  public function getLessonCourse($lesson) {
+  public function getLessonCourse($lesson)
+  {
     if (empty($lesson)) {
       return NULL;
     }
@@ -154,7 +163,8 @@ class Lesson {
     return !empty($course) ? $this->nodeStorage->load(reset($course)) : NULL;
   }
 
-  protected function isCorrectAnswer($answer){
-   return !($answer == AssessmentQuestionResult::RESULT_INCORRECT);
+  protected function isCorrectAnswer($answer)
+  {
+    return !($answer == AssessmentQuestionResult::RESULT_INCORRECT);
   }
 }
