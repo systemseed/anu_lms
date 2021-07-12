@@ -21,15 +21,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TextHighlighted = ({ title, text, color }) => {
+const ParagraphHighlightFullWidth = ({ title, text, color }) => {
   const classes = useStyles();
+  console.log('color: ', color);
 
   return (
-    <Highlighted color={color === '' ? 'yellow' : color}>
+    <Highlighted color={color}>
       <LessonGrid>
         {title && (
           <Box mb={2}>
-            <Typography variant="subtitle1">{title}</Typography>
+            <Typography color="subtitle1">{title}</Typography>
           </Box>
         )}
 
@@ -45,15 +46,14 @@ const TextHighlighted = ({ title, text, color }) => {
   );
 };
 
-TextHighlighted.propTypes = {
+ParagraphHighlightFullWidth.propTypes = {
   title: PropTypes.string,
   text: PropTypes.string.isRequired,
   color: PropTypes.string,
 };
 
-TextHighlighted.defaultProps = {
+ParagraphHighlightFullWidth.defaultProps = {
   title: null,
-  color: '',
 };
 
-export default TextHighlighted;
+export default ParagraphHighlightFullWidth;
