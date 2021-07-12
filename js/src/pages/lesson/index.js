@@ -15,7 +15,8 @@ import ContentLesson from "@anu/pages/lesson/ContentLesson";
 
 import useLocalStorage from '@anu/hooks/useLocalStorage';
 import { coursePropTypes } from '@anu/utilities/transform.course';
-import { lessonPropTypes, quizPropTypes } from '@anu/utilities/transform.lesson';
+import { lessonPropTypes } from '@anu/utilities/transform.lesson';
+import {quizPropTypes} from "@anu/utilities/transform.quiz";
 
 
 const useStyles = makeStyles((theme) => ({

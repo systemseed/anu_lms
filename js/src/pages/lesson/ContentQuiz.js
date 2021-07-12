@@ -3,7 +3,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import LessonGrid from '@anu/components/LessonGrid';
 import ParagraphsWithQuiz from '@anu/components/ParagraphsWithQuiz';
-import { quizPropTypes } from '@anu/utilities/transform.lesson';
+import { quizPropTypes } from '@anu/utilities/transform.quiz';
 
 const ContentQuiz = ({ quiz }) => (
   <Box mt={[2, 2, 0]}>
