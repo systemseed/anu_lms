@@ -5,6 +5,7 @@ import LessonGrid from '@anu/components/LessonGrid';
 import QuizSubmit from '@anu/components/QuizSubmit';
 import paragraphMappings from '@anu/utilities/paragraphMappings';
 import Box from '@material-ui/core/Box';
+import QuizAlert from "@anu/components/QuizAlert";
 
 // TODO - should be a pure function component with hooks.
 class ParagraphsWithQuiz extends React.Component {
@@ -17,10 +18,15 @@ class ParagraphsWithQuiz extends React.Component {
       correctValuesCount: !isNaN(props.correctValuesCount) ? props.correctValuesCount : -1,
       isSubmitting: false,
       isSubmitted: !!props.isSubmitted,
+      openDialog: false,
+      readyToSubmit: !props.isSingleSubmission,
+      isSingleSubmission: props.isSingleSubmission
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSubmissionConfirmation = this.handleSubmissionConfirmation.bind(this);
+    this.checkSubmission = this.checkSubmission.bind(this);
   }
 
   /**
@@ -35,7 +41,30 @@ class ParagraphsWithQuiz extends React.Component {
     }));
   }
 
+  handleSubmissionConfirmation(value) {
+    this.setState((prevState) => ({
+      readyToSubmit: value,
+      openDialog: false,
+    }),
+      this.handleSubmit);
+  }
+
+  checkSubmission() {
+    if (this.state.isSingleSubmission) {
+      this.setState({
+        openDialog: true,
+      });
+    } else {
+      this.handleSubmit();
+    }
+  }
+
   async handleSubmit() {
+
+    if (this.state.isSingleSubmission && !this.state.readyToSubmit) {
+      return
+    }
+
     const { nodeId } = this.props;
     const { assessmentData } = this.state;
 
@@ -78,13 +107,14 @@ class ParagraphsWithQuiz extends React.Component {
   }
 
   render() {
-    const { items, canSubmit } = this.props;
+    const { items, canSubmit, isSingleSubmission } = this.props;
     const {
       assessmentData,
       correctValues,
       correctValuesCount,
       isSubmitting,
       isSubmitted,
+      openDialog
     } = this.state;
 
     const paragraphs = items.map((paragraph) => {
@@ -142,8 +172,12 @@ class ParagraphsWithQuiz extends React.Component {
             </Typography>
           )}
 
+          {isSingleSubmission && (
+            <QuizAlert open={openDialog} handleClose={this.handleSubmissionConfirmation} />
+          )}
+
           {canSubmit && !isSubmitted && (
-            <QuizSubmit onSubmit={this.handleSubmit} isSubmitting={isSubmitting} isQuiz />
+            <QuizSubmit onSubmit={this.checkSubmission} isSubmitting={isSubmitting} isQuiz />
           )}
         </LessonGrid>
       </>

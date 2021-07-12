@@ -155,6 +155,6 @@ class Lesson {
   }
 
   protected function isCorrectAnswer($answer){
-
+   return !($answer == AssessmentQuestionResult::RESULT_INCORRECT);
   }
 }

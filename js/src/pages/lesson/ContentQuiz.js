@@ -21,6 +21,7 @@ const ContentQuiz = ({ quiz }) => (
         correctValuesCount={quiz.correctValuesCount}
         canSubmit={quiz.canSubmit}
         isSubmitted={quiz.isSubmitted}
+        isSingleSubmission={quiz.isSingleSubmission}
         nodeId={quiz.id}
       />
     </Box>
