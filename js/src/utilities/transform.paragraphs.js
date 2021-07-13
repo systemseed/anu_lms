@@ -60,6 +60,14 @@ const transformParagraph = (paragraph) => {
         color: getTextValueOrUndefined(paragraph, 'field_lesson_highlight_color'),
       };
 
+    case 'lesson_highlight_marker':
+      return {
+        bundle,
+        id: getNumberValue(paragraph, 'id'),
+        text: getTextValue(paragraph, 'field_highlight_marker_text'),
+        color: getTextValueOrUndefined(paragraph, 'field_lesson_highlight_color'),
+      };
+
     case 'lesson_image':
       return {
         bundle,

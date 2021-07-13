@@ -77,7 +77,6 @@ ParagraphHighlightFullWidth.propTypes = {
 };
 
 ParagraphHighlightFullWidth.defaultProps = {
-  title: null,
   color: 'yellow',
 };
 
