@@ -2,17 +2,26 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.lesson_img_list.field_lesson_highlight_color
     - field.field.paragraph.lesson_img_list.field_lesson_img_list_heading
     - field.field.paragraph.lesson_img_list.field_lesson_img_list_highlight
     - field.field.paragraph.lesson_img_list.field_lesson_img_list_items
     - paragraphs.paragraphs_type.lesson_img_list
   module:
     - entity_reference_revisions
+    - options
 id: paragraph.lesson_img_list.default
 targetEntityType: paragraph
 bundle: lesson_img_list
 mode: default
 content:
+  field_lesson_highlight_color:
+    weight: 3
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: list_default
+    region: content
   field_lesson_img_list_heading:
     weight: 0
     label: hidden

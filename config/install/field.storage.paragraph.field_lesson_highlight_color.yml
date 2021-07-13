@@ -16,10 +16,16 @@ settings:
     -
       value: blue
       label: Blue
+    -
+      value: purple
+      label: Purple
+    -
+      value: green
+      label: Green
   allowed_values_function: ''
 module: options
 locked: false
-cardinality: 2
+cardinality: 1
 translatable: true
 indexes: {  }
 persist_with_no_fields: false
