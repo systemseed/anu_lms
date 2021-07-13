@@ -52,13 +52,11 @@ class ParagraphsWithQuiz extends React.Component {
   }
 
   checkSubmission() {
-    console.log('Running the function');
     if (this.state.isSingleSubmission) {
       this.setState({
         openDialog: true,
       });
     } else {
-      console.log('Not opening dialog');
       this.handleSubmit();
     }
   }

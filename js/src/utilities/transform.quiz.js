@@ -45,7 +45,6 @@ const addSubmittedAnswer = (quizSubmission) => {
  */
 const transformQuizQuestions = (node) => {
   if (!fields.getNumberValue(node, 'nid')) {
-    console.log("can't find nID");
     return null;
   }
 
