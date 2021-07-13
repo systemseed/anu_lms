@@ -36,6 +36,7 @@ class Quiz extends Lesson {
    */
   protected function anuLmsGetQuizSubmissionData(EntityInterface $node, array &$data) {
     if ($node->hasField(self::FIELD_NO_MULTIPLE_SUBMISSIONS)) {
+      $data['field'] = $node->get(self::FIELD_NO_MULTIPLE_SUBMISSIONS)->getString();
       if (!empty($node->get(self::FIELD_NO_MULTIPLE_SUBMISSIONS)->getString())) {
         $results = [];
         $correct_answers = 0;
@@ -105,7 +106,7 @@ class Quiz extends Lesson {
    * @return \Drupal\anu_lms_assessments\Entity\AssessmentQuestionResult[]
    *   The submitted answers.
    */
-  protected function anuLmsLoadSubmittedAnswers(NodeInterface $node): array {
+  protected function anuLmsLoadSubmittedAnswers(EntityInterface $node): array {
     $last_submitted_quiz = \Drupal::entityQuery('assessment_result')
       ->condition('user_id', \Drupal::currentUser()->id())
       ->condition('aid', $node->id())
