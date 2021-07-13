@@ -1,42 +1,41 @@
-import * as fields from "@anu/utilities/fields";
-import {transformParagraph} from "@anu/utilities/transform.paragraphs";
-import PropTypes from "prop-types";
+import * as fields from '@anu/utilities/fields';
+import { transformParagraph } from '@anu/utilities/transform.paragraphs';
+import PropTypes from 'prop-types';
 
 /**
  * Transforms quiz content from backend API into quiz
  * object.
  */
 const transformQuiz = (data) => {
-  const quiz = transformQuizQuestions(data.module_assessment)
+  const quiz = transformQuizQuestions(data.module_assessment);
   addSubmissionData(quiz, data);
   return quiz;
-}
+};
 
 /**
  * Adds previously submitted answers/scores if available
  */
 const addSubmissionData = (quiz, data) => {
   if (data.results) {
-    quiz.isSubmitted = true
-    quiz.questions = quiz.questions.map(addSubmittedAnswer(data.results))
-  }
-  else {
+    quiz.isSubmitted = true;
+    quiz.questions = quiz.questions.map(addSubmittedAnswer(data.results));
+  } else {
     quiz.isSubmitted = false;
   }
-  quiz.correctValuesCount = !isNaN(data.correct_answers) ? data.correct_answers : -1
-}
+  quiz.correctValuesCount = !isNaN(data.correct_answers) ? data.correct_answers : -1;
+};
 
 /**
  * Adds a submitted answer to a question
  */
 const addSubmittedAnswer = (quizSubmission) => {
-  return question => {
+  return (question) => {
     if (question.aqid && question.aqid in quizSubmission) {
       question.submittedAnswer = quizSubmission[question.aqid];
     }
     return question;
   };
-}
+};
 
 /**
  * Transform quiz content from Drupal backend into frontend-friendly
@@ -76,7 +75,4 @@ const quizPropTypes = PropTypes.shape({
   ),
 });
 
-export {
-  transformQuiz,
-  quizPropTypes
-}
+export { transformQuiz, quizPropTypes };

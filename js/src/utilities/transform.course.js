@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import * as fields from '@anu/utilities/fields';
 import { transformLesson } from '@anu/utilities/transform.lesson';
-import {transformQuiz} from "@anu/utilities/transform.quiz";
+import { transformQuiz } from '@anu/utilities/transform.quiz';
 import {
   transformCourseCategory,
   courseCategoryPropTypes,

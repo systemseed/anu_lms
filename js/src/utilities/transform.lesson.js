@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import * as fields from '@anu/utilities/fields';
 import { transformCourse } from '@anu/utilities/transform.course';
 import { transformParagraph } from '@anu/utilities/transform.paragraphs';
-import {transformQuiz} from "@anu/utilities/transform.quiz";
+import { transformQuiz } from '@anu/utilities/transform.quiz';
 
 /**
  * Transform checklist result data from Drupal backend
@@ -67,9 +67,4 @@ const lessonPropTypes = PropTypes.shape({
   ),
 });
 
-export {
-  transformChecklistResults,
-  transformLesson,
-  transformLessonPage,
-  lessonPropTypes,
-};
+export { transformChecklistResults, transformLesson, transformLessonPage, lessonPropTypes };

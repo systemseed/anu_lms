@@ -82,6 +82,6 @@ ContentLesson.propTypes = {
 
 ContentLesson.defaultProps = {
   nextLesson: null,
-}
+};
 
 export default ContentLesson;

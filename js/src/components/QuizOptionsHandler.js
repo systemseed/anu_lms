@@ -91,7 +91,14 @@ class QuizOptionsHandler extends React.Component {
   }
 
   render() {
-    const { bundle, question, options, isQuiz, submittedAnswer, correctQuizValue = null } = this.props;
+    const {
+      bundle,
+      question,
+      options,
+      isQuiz,
+      submittedAnswer,
+      correctQuizValue = null,
+    } = this.props;
     const { values, isSubmitting, isSubmitted, correctValue } = this.state;
 
     return (

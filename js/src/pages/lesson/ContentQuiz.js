@@ -28,7 +28,7 @@ const ContentQuiz = ({ quiz }) => (
 );
 
 ContentQuiz.propTypes = {
-  quiz: quizPropTypes
+  quiz: quizPropTypes,
 };
 
 export default ContentQuiz;

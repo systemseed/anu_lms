@@ -10,14 +10,13 @@ import LessonHeader from '@anu/pages/lesson/Header';
 import LessonSidebar from '@anu/pages/lesson/Sidebar';
 import LessonSidebarHide from '@anu/pages/lesson/SidebarHide';
 import LessonNavigationMobile from '@anu/pages/lesson/NavigationMobile';
-import ContentQuiz from "@anu/pages/lesson/ContentQuiz";
-import ContentLesson from "@anu/pages/lesson/ContentLesson";
+import ContentQuiz from '@anu/pages/lesson/ContentQuiz';
+import ContentLesson from '@anu/pages/lesson/ContentLesson';
 
 import useLocalStorage from '@anu/hooks/useLocalStorage';
 import { coursePropTypes } from '@anu/utilities/transform.course';
 import { lessonPropTypes } from '@anu/utilities/transform.lesson';
-import {quizPropTypes} from "@anu/utilities/transform.quiz";
-
+import { quizPropTypes } from '@anu/utilities/transform.quiz';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -106,16 +105,9 @@ const LessonPage = ({ lesson, quiz, course, width }) => {
           </Hidden>
 
           <Box className={isWidthUp('md', width) ? classes.contentWrapper : ''}>
-            {quiz &&
-            <ContentQuiz quiz={quiz} />
-            }
+            {quiz && <ContentQuiz quiz={quiz} />}
 
-            {lesson &&
-            <ContentLesson
-              lesson={lesson}
-              nextLesson={nextLesson}
-            />
-            }
+            {lesson && <ContentLesson lesson={lesson} nextLesson={nextLesson} />}
           </Box>
         </Box>
       </Box>

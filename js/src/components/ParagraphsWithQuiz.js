@@ -5,7 +5,7 @@ import LessonGrid from '@anu/components/LessonGrid';
 import QuizSubmit from '@anu/components/QuizSubmit';
 import paragraphMappings from '@anu/utilities/paragraphMappings';
 import Box from '@material-ui/core/Box';
-import QuizAlert from "@anu/components/QuizAlert";
+import QuizAlert from '@anu/components/QuizAlert';
 
 // TODO - should be a pure function component with hooks.
 class ParagraphsWithQuiz extends React.Component {
@@ -41,11 +41,13 @@ class ParagraphsWithQuiz extends React.Component {
   }
 
   handleSubmissionConfirmation(value) {
-    this.setState((prevState) => ({
-      readyToSubmit: value,
-      openDialog: false,
-    }),
-      this.handleSubmit);
+    this.setState(
+      (prevState) => ({
+        readyToSubmit: value,
+        openDialog: false,
+      }),
+      this.handleSubmit
+    );
   }
 
   checkSubmission() {
@@ -59,9 +61,8 @@ class ParagraphsWithQuiz extends React.Component {
   }
 
   async handleSubmit() {
-
     if (this.state.isSingleSubmission && !this.state.readyToSubmit) {
-      return
+      return;
     }
 
     const { nodeId } = this.props;
@@ -113,7 +114,7 @@ class ParagraphsWithQuiz extends React.Component {
       correctValuesCount,
       isSubmitting,
       isSubmitted,
-      openDialog
+      openDialog,
     } = this.state;
 
     const canSubmit = !isSubmitted && !isSingleSubmission;
