@@ -40,8 +40,8 @@ const transformLesson = (node) => {
  */
 const transformLessonPage = ({ data }) => {
   const lesson = data && data.module_lesson ? transformLesson(data.module_lesson) : null;
-  const quiz = data && data.module_assessment ? transformQuiz(data) : null;
-  const course = data && data.course ? transformCourse(data.course) : null;
+  const quiz = data && data.module_assessment ? transformQuiz(data.module_assessment, data) : null;
+  const course = data && data.course ? transformCourse(data.course, data) : null;
 
   return {
     lesson,

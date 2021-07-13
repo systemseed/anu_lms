@@ -11,7 +11,7 @@ import {
  * Transform course node from Drupal backend
  * into frontend-friendly object.
  */
-const transformCourse = (node) => {
+const transformCourse = (node, data) => {
   // Make sure the course node data exists.
   if (!fields.getNumberValue(node, 'nid')) {
     return null;
@@ -35,7 +35,7 @@ const transformCourse = (node) => {
         .getArrayValue(module, 'field_module_lessons')
         .map((lesson) => transformLesson(lesson))
         .filter((lesson) => !!lesson),
-      quiz: transformQuiz(fields.getArrayValue(module, 'field_module_assessment')[0]),
+      quiz: transformQuiz(fields.getArrayValue(module, 'field_module_assessment')[0], data),
     })),
   };
 };

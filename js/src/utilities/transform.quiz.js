@@ -6,9 +6,11 @@ import PropTypes from 'prop-types';
  * Transforms quiz content from backend API into quiz
  * object.
  */
-const transformQuiz = (data) => {
-  const quiz = transformQuizQuestions(data.module_assessment);
-  addSubmissionData(quiz, data);
+const transformQuiz = (module_data, data) => {
+  const quiz = transformQuizQuestions(module_data);
+  if (quiz) {
+    addSubmissionData(quiz, data);
+  }
   return quiz;
 };
 
@@ -43,6 +45,7 @@ const addSubmittedAnswer = (quizSubmission) => {
  */
 const transformQuizQuestions = (node) => {
   if (!fields.getNumberValue(node, 'nid')) {
+    console.log("can't find nID");
     return null;
   }
 

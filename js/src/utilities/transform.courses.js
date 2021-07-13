@@ -7,7 +7,7 @@ const transformCoursesPage = ({ data }) => {
 
   return {
     title: fields.getTextValue(node, 'title'),
-    courses: fields.getArrayValue(data, 'courses').map((item) => transformCourse(item)),
+    courses: fields.getArrayValue(data, 'courses').map((item) => transformCourse(item, [])),
     sections: fields
       .getArrayValue(node, 'field_courses_content')
       .flatMap((section) =>
