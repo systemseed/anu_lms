@@ -21,7 +21,6 @@ export default {
   lesson_heading: Heading,
   lesson_highlight: ParagraphHighlightFullWidth,
   lesson_highlight_marker: ParagraphHighlightFullWidth,
-  lesson_highlight_icon: ParagraphHighlightFullWidth,
   lesson_image: ImageWithCaption,
   lesson_image_bullet_list: ImageBulletList,
   lesson_image_thumbnail: ImageWithCaptionThumbnail,

@@ -4,10 +4,9 @@ import { withStyles } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 
-const StyledBox = withStyles((theme) => ({
+const StyledBox = withStyles(() => ({
   root: {
     display: 'flex',
-    marginTop: ({ size }) => (parseInt(size, 10) === 50 ? theme.spacing(3) : 0),
   },
 }))(Box);
 

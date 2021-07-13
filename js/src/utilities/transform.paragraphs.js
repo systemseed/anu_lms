@@ -74,7 +74,7 @@ const transformParagraph = (paragraph) => {
         bundle,
         id: getNumberValue(paragraph, 'id'),
         title: getTextValue(paragraph, 'field_content_heading'),
-        isHighlight: getBooleanValue(paragraph, 'field_is_highlight'),
+        color: getTextValueOrUndefined(paragraph, 'field_lesson_highlight_color'),
         items: getArrayValue(paragraph, 'field_items').map((item) => {
           let size = getTextValue(item, 'field_size');
 
@@ -102,7 +102,7 @@ const transformParagraph = (paragraph) => {
         bundle,
         id: getNumberValue(paragraph, 'id'),
         title: getTextValue(paragraph, 'field_lesson_img_list_heading'),
-        isHighlight: getBooleanValue(paragraph, 'field_lesson_img_list_highlight'),
+        color: getTextValueOrUndefined(paragraph, 'field_lesson_highlight_color'),
         items: getArrayValue(paragraph, 'field_lesson_img_list_items').map((item) => {
           let size = getTextValue(item, 'field_lesson_img_list_item_size');
 
