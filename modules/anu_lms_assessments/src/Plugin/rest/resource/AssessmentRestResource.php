@@ -4,7 +4,6 @@ namespace Drupal\anu_lms_assessments\Plugin\rest\resource;
 
 use Drupal\anu_lms_assessments\Entity\AssessmentQuestionResult;
 use Drupal\node\Entity\Node;
-use Drupal\node\NodeInterface;
 use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -40,7 +39,9 @@ class AssessmentRestResource extends ResourceBase {
     return $instance;
   }
 
-  // TODO: Refactor and merge the logic with QuestionRestResource.
+  /**
+   * TODO: Refactor and merge the logic with QuestionRestResource.
+   */
   public function post($payload) {
     try {
       $correct_answers = [];
@@ -50,7 +51,7 @@ class AssessmentRestResource extends ResourceBase {
 
       $assessment_result = \Drupal::entityTypeManager()
         ->getStorage('assessment_result')
-        ->create([ 'aid' => $assessment_nid ]);
+        ->create(['aid' => $assessment_nid]);
       $assessment_result->save();
 
       $correct_answers_count = 0;
@@ -85,8 +86,8 @@ class AssessmentRestResource extends ResourceBase {
           $correct_answers_count++;
         }
         elseif ($question->bundle() === 'scale') {
-          $correct_answers[$question_id] = (int)$question->field_scale_correct->getString();
-          $value = (int)$answer;
+          $correct_answers[$question_id] = (int) $question->field_scale_correct->getString();
+          $value = (int) $answer;
           $question_result->set('field_question_response_scale', $value);
           $is_correct = $correct_answers[$question_id] === $value ? AssessmentQuestionResult::RESULT_CORRECT : AssessmentQuestionResult::RESULT_INCORRECT;
           $question_result->set('is_correct', $is_correct);
@@ -96,12 +97,12 @@ class AssessmentRestResource extends ResourceBase {
         }
         elseif ($question->bundle() === 'multiple_choice' || $question->bundle() === 'single_choice') {
           $options = $question->field_options->referencedEntities();
-          $responses = (array)$answer;
+          $responses = (array) $answer;
           $correct_answers[$question_id] = [];
           foreach ($options as $option) {
             $is_correct = !!$option->field_single_multi_choice_right->getString();
             if ($is_correct) {
-              $correct_answers[$question_id][] = (int)$option->id();
+              $correct_answers[$question_id][] = (int) $option->id();
             }
           }
 
@@ -109,8 +110,10 @@ class AssessmentRestResource extends ResourceBase {
             ->getStorage('paragraph')
             ->loadMultiple($responses);
           foreach ($response_entities as $response_entity) {
-            // Setting flag for workaround for preventing re saving paragraph and changing parent_id.
-            // Implementation made as patch for entity_reference_revisions module.
+            // Setting flag for workaround for preventing re-saving
+            // paragraph and changing parent_id.
+            // Implementation made as patch
+            // for entity_reference_revisions module.
             $response_entity->dontSave = TRUE;
           }
           $question_result->set('field_single_multi_choice', $response_entities);
@@ -125,14 +128,16 @@ class AssessmentRestResource extends ResourceBase {
 
         $question_result->save();
       }
-    } catch (\Throwable $exception) {
+    }
+    catch (\Throwable $exception) {
       $this->logger->error($exception->getMessage() . ' Trace: ' . $exception->getTraceAsString());
       throw new BadRequestHttpException('An error occurred during request handling');
     }
 
-    /** @var NodeInterface $quiz */
+    /** @var \Drupal\node\Entity\NodeInterface $quiz */
     $quiz = Node::load($assessment_nid);
-    $hide_correct_answers = FALSE; // Default behavior fallback.
+    // Default behavior fallback.
+    $hide_correct_answers = FALSE;
     if ($quiz->hasField('field_hide_correct_answers')) {
       $hide_correct_answers = (bool) $quiz->get('field_hide_correct_answers')->getString();
     }

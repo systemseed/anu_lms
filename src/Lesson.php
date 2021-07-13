@@ -4,13 +4,11 @@ namespace Drupal\anu_lms;
 
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\node\NodeInterface;
 
 /**
  * Lesson service.
  */
-class Lesson
-{
+class Lesson {
 
   /**
    * The node storage.
@@ -34,8 +32,7 @@ class Lesson
    * @param \Drupal\anu_lms\Normalizer $normalizer
    *   The normalizer.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, Normalizer $normalizer)
-  {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, Normalizer $normalizer) {
     $this->nodeStorage = $entity_type_manager->getStorage('node');
     $this->normalizer = $normalizer;
   }
@@ -43,14 +40,13 @@ class Lesson
   /**
    * Returns normalized data for Lesson page.
    *
-   * @param EntityInterface $node
+   * @param \Drupal\Core\Entity\EntityInterface $node
    *   Lesson node.
    *
    * @return array
    *   An array containing current node and referenced course.
    */
-  public function getPageData(NodeInterface $node)
-  {
+  public function getPageData(EntityInterface $node) {
     $lesson_course = $this->getLessonCourse($node);
 
     $data = [
@@ -64,14 +60,13 @@ class Lesson
   /**
    * Returns Course entity for given lesson.
    *
-   * @param EntityInterface $lesson
+   * @param \Drupal\Core\Entity\EntityInterface $lesson
    *   Lesson object.
    *
-   * @return EntityInterface
+   * @return \Drupal\Core\Entity\EntityInterface
    *   Loaded Course object.
    */
-  public function getLessonCourse($lesson)
-  {
+  public function getLessonCourse(EntityInterface $lesson) {
     if (empty($lesson)) {
       return NULL;
     }
@@ -99,4 +94,5 @@ class Lesson
 
     return !empty($course) ? $this->nodeStorage->load(reset($course)) : NULL;
   }
+
 }
