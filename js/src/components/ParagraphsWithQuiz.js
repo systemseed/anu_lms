@@ -117,7 +117,7 @@ class ParagraphsWithQuiz extends React.Component {
       openDialog,
     } = this.state;
 
-    const canSubmit = !isSubmitted && !isSingleSubmission;
+    const canSubmit = !isSubmitted;
 
     const paragraphs = items.map((paragraph) => {
       if (paragraph.bundle in paragraphMappings) {
