@@ -14,7 +14,7 @@ const useBodyStyles = makeStyles((theme) => ({
     paddingRight: '5px',
     fontWeight: theme.typography.fontWeightMedium,
     fontSize: '1.5rem',
-    lineHeight: '2.2rem',
+    lineHeight: '2.3rem',
     backgroundColor: (props) => theme.palette.paragraphHighlight[props.color],
   },
 }));
