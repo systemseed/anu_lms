@@ -5,8 +5,8 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import LessonGrid from '@anu/components/LessonGrid';
 
-const useHighlightStyles = makeStyles((theme) => ({
-  root: {
+const useStyles = makeStyles((theme) => ({
+  container: {
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
     backgroundColor: (props) => theme.palette.paragraphHighlight[props.color],
@@ -15,16 +15,10 @@ const useHighlightStyles = makeStyles((theme) => ({
       paddingBottom: theme.spacing(6),
     },
   },
-}));
-
-const useHeadingStyles = makeStyles((theme) => ({
   heading: {
     fontWeight: theme.typography.fontWeightBold,
     fontSize: '1.25rem',
   },
-}));
-
-const useBodyStyles = makeStyles((theme) => ({
   text: {
     fontWeight: theme.typography.fontWeightMedium,
     fontSize: '1rem',
@@ -45,23 +39,21 @@ const useBodyStyles = makeStyles((theme) => ({
 }));
 
 const ParagraphHighlightFullWidth = ({ title, text, color }) => {
-  const highlightClasses = useHighlightStyles({ color: color });
-  const headingClasses = useHeadingStyles();
-  const bodyClasses = useBodyStyles();
+  const classes = useStyles({ color: color });
 
   return (
-    <Box className={highlightClasses.root}>
+    <Box className={classes.container}>
       <LessonGrid>
         {title && (
           <Box mb={2}>
-            <Typography className={headingClasses.heading}>{title}</Typography>
+            <Typography className={classes.heading}>{title}</Typography>
           </Box>
         )}
 
         {text && (
           <Typography
             component="div"
-            className={bodyClasses.text}
+            className={classes.text}
             dangerouslySetInnerHTML={{ __html: text }}
           />
         )}

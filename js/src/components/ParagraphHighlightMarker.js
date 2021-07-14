@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import LessonGrid from '@anu/components/LessonGrid';
 import Box from '@material-ui/core/Box';
 
-const useBodyStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => ({
   text: {
     boxDecorationBreak: 'clone',
     paddingTop: '2px',
@@ -17,21 +17,18 @@ const useBodyStyles = makeStyles((theme) => ({
     lineHeight: '2.3rem',
     backgroundColor: (props) => theme.palette.paragraphHighlight[props.color],
   },
-}));
-const useContainerStyles = makeStyles(() => ({
-  root: {
+  container: {
     maxWidth: '67%',
   },
 }));
 
 const ParagraphHighlightMarker = ({ text, color }) => {
-  const bodyClasses = useBodyStyles({ color: color });
-  const containerClasses = useContainerStyles();
+  const classes = useStyles({ color: color });
 
   return (
     <LessonGrid>
-      <Box className={containerClasses.root}>
-        <Typography component="marker" className={bodyClasses.text}>
+      <Box className={classes.container}>
+        <Typography component="marker" className={classes.text}>
           {text}
         </Typography>
       </Box>
