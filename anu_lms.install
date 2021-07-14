@@ -100,12 +100,4 @@ function anu_lms_update_8002() {
       }
     }
   }
-
-  /* @var $entityFieldManager Drupal\Core\Entity\EntityFieldManager */
-  $entityFieldManager = Drupal::service('entity_field.manager');
-  $fields = $entityFieldManager->getFieldDefinitions('paragraph', 'lesson_img_list');
-
-  if (isset($fields['field_lesson_img_list_highlight'])) {
-    $fields['field_lesson_img_list_highlight']->delete();
-  }
 }
