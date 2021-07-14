@@ -4,6 +4,7 @@ namespace Drupal\anu_lms\Controller;
 
 use Drupal\anu_lms\Course;
 use Drupal\anu_lms\Lesson;
+use Drupal\anu_lms\Quiz;
 use Drupal\anu_lms\Settings;
 use Drupal\anu_lms\Normalizer;
 use Drupal\anu_lms\CoursesPage;
@@ -66,6 +67,13 @@ class AnulmsNodeViewController extends NodeViewController {
   protected $lesson;
 
   /**
+   * The Quiz service.
+   *
+   * @var \Drupal\anu_lms\Quiz
+   */
+  protected $quiz;
+
+  /**
    * Creates an NodeViewController object.
    *
    * @param \Drupal\anu_lms\Settings $anulmsSettings
@@ -76,6 +84,8 @@ class AnulmsNodeViewController extends NodeViewController {
    *   The normalizer.
    * @param \Drupal\anu_lms\Lesson $lesson
    *   The Lesson service.
+   * @param \Drupal\anu_lms\Quiz $quiz
+   *   The Quiz service.
    * @param \Drupal\anu_lms\CoursesPage $coursesPage
    *   The Courses page service.
    * @param \Drupal\Core\Render\RendererInterface $renderer
@@ -88,7 +98,7 @@ class AnulmsNodeViewController extends NodeViewController {
    * @param \Symfony\Component\Serializer\Serializer $serializer
    *   The serializer.
    */
-  public function __construct(Settings $anulmsSettings, EntityTypeManagerInterface $entity_type_manager, Normalizer $normalizer, CoursesPage $coursesPage, Course $course, Lesson $lesson, RendererInterface $renderer, AccountInterface $current_user = NULL, EntityRepositoryInterface $entity_repository = NULL, Serializer $serializer = NULL) {
+  public function __construct(Settings $anulmsSettings, EntityTypeManagerInterface $entity_type_manager, Normalizer $normalizer, CoursesPage $coursesPage, Course $course, Lesson $lesson, Quiz $quiz, RendererInterface $renderer, AccountInterface $current_user = NULL, EntityRepositoryInterface $entity_repository = NULL, Serializer $serializer = NULL) {
     parent::__construct($entity_type_manager, $renderer, $current_user, $entity_repository);
     $this->anulmsSettings = $anulmsSettings;
     $this->serializer = $serializer;
@@ -96,6 +106,7 @@ class AnulmsNodeViewController extends NodeViewController {
     $this->coursesPage = $coursesPage;
     $this->course = $course;
     $this->lesson = $lesson;
+    $this->quiz = $quiz;
   }
 
   /**
@@ -109,6 +120,7 @@ class AnulmsNodeViewController extends NodeViewController {
       $container->get('anu_lms.courses_page'),
       $container->get('anu_lms.course'),
       $container->get('anu_lms.lesson'),
+      $container->get('anu_lms.quiz'),
       $container->get('renderer'),
       $container->get('current_user'),
       $container->get('entity.repository'),
@@ -135,9 +147,12 @@ class AnulmsNodeViewController extends NodeViewController {
         break;
 
       case 'module_lesson':
+        // Get data for viewed lesson.
+        $content_data = $this->lesson->getPageData($node);
+        break;
       case 'module_assessment':
-        // Get data for viewed lesson or quiz.
-        $content_data = $this->lesson->getLessonPageData($node);
+        // Get data for viewed quiz.
+        $content_data = $this->quiz->getPageData($node);
         break;
 
       case 'course':
@@ -146,7 +161,7 @@ class AnulmsNodeViewController extends NodeViewController {
           return new RedirectResponse($lesson->toUrl()->toString());
         }
         return [
-          '#markup' => $this->t('There no lessons yet in this course yet.'),
+          '#markup' => $this->t('There are no lessons in this course yet.'),
         ];
 
       default:

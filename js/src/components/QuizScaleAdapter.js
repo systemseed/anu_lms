@@ -47,7 +47,7 @@ const QuizScaleAdapter = (props) => {
     <QuizScale
       question={props.question}
       scale={props.scale}
-      value={value}
+      value={props.submittedAnswer || value}
       correctValue={props.correctQuizValue || correctValue}
       isSubmitting={props.isSubmitting || isSubmitting}
       isSubmitted={props.isSubmitted || isSubmitted}
@@ -58,7 +58,7 @@ const QuizScaleAdapter = (props) => {
 };
 
 QuizScaleAdapter.propTypes = {
-  aqid: PropTypes.string,
+  aqid: PropTypes.number,
   question: PropTypes.string,
   scale: PropTypes.object,
   value: PropTypes.number,
@@ -70,12 +70,14 @@ QuizScaleAdapter.propTypes = {
   onChange: PropTypes.func,
   onQuestionComplete: PropTypes.func,
   isQuiz: PropTypes.bool,
+  submittedAnswer: PropTypes.number,
 };
 
 QuizScaleAdapter.defaultProps = {
   onSubmit: () => {},
   onChange: () => {},
   onQuestionComplete: () => {},
+  submittedAnswer: null,
 };
 
 export default QuizScaleAdapter;

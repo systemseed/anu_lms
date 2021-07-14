@@ -16,3 +16,7 @@
 * Bullet items don’t include html support
 * Create a style guide
 * Documentation
+
+
+### To discuss
+* Potential issue with display of quiz scoring after the amount of quiz questions has changed (You scored X out of Y).

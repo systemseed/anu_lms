@@ -4,6 +4,7 @@ dependencies:
   config:
     - field.field.node.module_assessment.field_hide_correct_answers
     - field.field.node.module_assessment.field_module_assessment_items
+    - field.field.node.module_assessment.field_no_multiple_submissions
     - node.type.module_assessment
   module:
     - field_group
@@ -40,6 +41,7 @@ third_party_settings:
       label: Content
     group_settings:
       children:
+        - field_no_multiple_submissions
         - field_hide_correct_answers
       parent_name: group_quiz_tabs
       weight: 12
@@ -58,7 +60,7 @@ bundle: module_assessment
 mode: default
 content:
   field_hide_correct_answers:
-    weight: 5
+    weight: 52
     settings:
       display_label: true
     third_party_settings: {  }
@@ -82,6 +84,13 @@ content:
         collapse_edit_all: '0'
         duplicate: '0'
     third_party_settings: {  }
+    region: content
+  field_no_multiple_submissions:
+    weight: 51
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
     region: content
   path:
     type: path

@@ -186,7 +186,7 @@ const transformParagraph = (paragraph) => {
       return {
         bundle,
         id: getNumberValue(paragraph, 'id'),
-        aqid: getTextValue(question, 'id'),
+        aqid: getNumberValue(question, 'id'),
         question: getTextValue(question, 'name'),
         correctAnswer: getTextValue(question, 'field_correct_answer'),
       };
@@ -196,7 +196,7 @@ const transformParagraph = (paragraph) => {
       return {
         bundle,
         id: getNumberValue(paragraph, 'id'),
-        aqid: getTextValue(question, 'id'),
+        aqid: getNumberValue(question, 'id'),
         question: getTextValue(question, 'name'),
         correctAnswer: getTextValue(question, 'field_correct_answer_long'),
       };
@@ -206,7 +206,7 @@ const transformParagraph = (paragraph) => {
       return {
         bundle,
         id: getNumberValue(paragraph, 'id'),
-        aqid: getTextValue(question, 'id'),
+        aqid: getNumberValue(question, 'id'),
         question: getTextValue(question, 'name'),
         scale: getObjectValue(question, 'field_scale'),
         correctAnswer: getNumberValue(question, 'field_scale_correct'),
@@ -219,7 +219,7 @@ const transformParagraph = (paragraph) => {
       return {
         bundle,
         id: getNumberValue(paragraph, 'id'),
-        aqid: getTextValue(question, 'id'),
+        aqid: getNumberValue(question, 'id'),
         question: getTextValue(question, 'name'),
         options: getArrayValue(question, 'field_options')
           .map((option) => ({

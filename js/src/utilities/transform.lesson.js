@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import * as fields from '@anu/utilities/fields';
 import { transformCourse } from '@anu/utilities/transform.course';
 import { transformParagraph } from '@anu/utilities/transform.paragraphs';
+import { transformQuiz } from '@anu/utilities/transform.quiz';
 
 /**
  * Transform checklist result data from Drupal backend
@@ -34,36 +35,18 @@ const transformLesson = (node) => {
 };
 
 /**
- * Transform quiz node from Drupal backend
- * into frontend-friendly object.
- */
-const transformQuiz = (node) => {
-  if (!fields.getNumberValue(node, 'nid')) {
-    return null;
-  }
-
-  return {
-    id: fields.getNumberValue(node, 'nid'),
-    title: fields.getTextValue(node, 'title'),
-    url: fields.getNodeUrl(node),
-    questions: fields
-      .getArrayValue(node, 'field_module_assessment_items')
-      .map((paragraph) => transformParagraph(paragraph)),
-  };
-};
-
-/**
- * Transform lesson page content from Drupal backend into frontend-friendly object.
+ * Transform lesson page content from Drupal backend into frontend-friendly
+ * object.
  */
 const transformLessonPage = ({ data }) => {
-  const lesson = (data && data.module_lesson) || {};
-  const quiz = (data && data.module_assessment) || {};
-  const course = (data && data.course) || {};
+  const lesson = data && data.module_lesson ? transformLesson(data.module_lesson) : null;
+  const quiz = data && data.module_assessment ? transformQuiz(data.module_assessment, data) : null;
+  const course = data && data.course ? transformCourse(data.course, data) : null;
 
   return {
-    lesson: transformLesson(lesson),
-    quiz: transformQuiz(quiz),
-    course: transformCourse(course),
+    lesson,
+    quiz,
+    course,
   };
 };
 
@@ -84,10 +67,4 @@ const lessonPropTypes = PropTypes.shape({
   ),
 });
 
-export {
-  transformChecklistResults,
-  transformLesson,
-  transformQuiz,
-  transformLessonPage,
-  lessonPropTypes,
-};
+export { transformChecklistResults, transformLesson, transformLessonPage, lessonPropTypes };

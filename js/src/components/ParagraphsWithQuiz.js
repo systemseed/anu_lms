@@ -5,6 +5,7 @@ import LessonGrid from '@anu/components/LessonGrid';
 import QuizSubmit from '@anu/components/QuizSubmit';
 import paragraphMappings from '@anu/utilities/paragraphMappings';
 import Box from '@material-ui/core/Box';
+import QuizAlert from '@anu/components/QuizAlert';
 
 // TODO - should be a pure function component with hooks.
 class ParagraphsWithQuiz extends React.Component {
@@ -14,13 +15,18 @@ class ParagraphsWithQuiz extends React.Component {
     this.state = {
       assessmentData: {},
       correctValues: null,
-      correctValuesCount: -1,
+      correctValuesCount: !isNaN(props.correctValuesCount) ? props.correctValuesCount : -1,
       isSubmitting: false,
-      isSubmitted: false,
+      isSubmitted: !!props.isSubmitted,
+      openDialog: false,
+      readyToSubmit: !props.isSingleSubmission,
+      isSingleSubmission: props.isSingleSubmission,
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSubmissionConfirmation = this.handleSubmissionConfirmation.bind(this);
+    this.checkSubmission = this.checkSubmission.bind(this);
   }
 
   /**
@@ -35,7 +41,31 @@ class ParagraphsWithQuiz extends React.Component {
     }));
   }
 
+  handleSubmissionConfirmation(value) {
+    this.setState(
+      (prevState) => ({
+        readyToSubmit: value,
+        openDialog: false,
+      }),
+      this.handleSubmit
+    );
+  }
+
+  checkSubmission() {
+    if (this.state.isSingleSubmission) {
+      this.setState({
+        openDialog: true,
+      });
+    } else {
+      this.handleSubmit();
+    }
+  }
+
   async handleSubmit() {
+    if (this.state.isSingleSubmission && !this.state.readyToSubmit) {
+      return;
+    }
+
     const { nodeId } = this.props;
     const { assessmentData } = this.state;
 
@@ -78,14 +108,17 @@ class ParagraphsWithQuiz extends React.Component {
   }
 
   render() {
-    const { items } = this.props;
+    const { items, isSingleSubmission } = this.props;
     const {
       assessmentData,
       correctValues,
       correctValuesCount,
       isSubmitting,
       isSubmitted,
+      openDialog,
     } = this.state;
+
+    const canSubmit = !isSubmitted;
 
     const paragraphs = items.map((paragraph) => {
       if (paragraph.bundle in paragraphMappings) {
@@ -115,6 +148,7 @@ class ParagraphsWithQuiz extends React.Component {
               correctQuizValue={correctValue}
               isSubmitting={isSubmitting}
               isSubmitted={isSubmitted}
+              canSubmit={canSubmit}
               isQuiz
             />
           </Box>
@@ -141,8 +175,12 @@ class ParagraphsWithQuiz extends React.Component {
             </Typography>
           )}
 
-          {!isSubmitted && (
-            <QuizSubmit onSubmit={this.handleSubmit} isSubmitting={isSubmitting} isQuiz />
+          {isSingleSubmission && (
+            <QuizAlert open={openDialog} handleClose={this.handleSubmissionConfirmation} />
+          )}
+
+          {canSubmit && (
+            <QuizSubmit onSubmit={this.checkSubmission} isSubmitting={isSubmitting} isQuiz />
           )}
         </LessonGrid>
       </>

@@ -40,31 +40,33 @@ class Lesson {
   /**
    * Returns normalized data for Lesson page.
    *
-   * @param EntityInterface $node
+   * @param \Drupal\Core\Entity\EntityInterface $node
    *   Lesson node.
    *
    * @return array
    *   An array containing current node and referenced course.
    */
-  public function getLessonPageData(EntityInterface $node) {
+  public function getPageData(EntityInterface $node) {
     $lesson_course = $this->getLessonCourse($node);
 
-    return [
+    $data = [
       $node->bundle() => $this->normalizer->normalizeEntity($node, ['max_depth' => 4]),
       'course' => !empty($lesson_course) ? $this->normalizer->normalizeEntity($lesson_course, ['max_depth' => 2]) : NULL,
     ];
+
+    return $data;
   }
 
   /**
    * Returns Course entity for given lesson.
    *
-   * @param EntityInterface $lesson
+   * @param \Drupal\Core\Entity\EntityInterface $lesson
    *   Lesson object.
    *
-   * @return EntityInterface
+   * @return \Drupal\Core\Entity\EntityInterface
    *   Loaded Course object.
    */
-  public function getLessonCourse($lesson) {
+  public function getLessonCourse(EntityInterface $lesson) {
     if (empty($lesson)) {
       return NULL;
     }
@@ -92,4 +94,5 @@ class Lesson {
 
     return !empty($course) ? $this->nodeStorage->load(reset($course)) : NULL;
   }
+
 }
