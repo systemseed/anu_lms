@@ -28,4 +28,3 @@ content:
     third_party_settings: {  }
 hidden:
   field_correct_answer: true
-  langcode: true

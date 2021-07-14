@@ -22,4 +22,3 @@ content:
 hidden:
   field_scale: true
   field_scale_correct: true
-  langcode: true

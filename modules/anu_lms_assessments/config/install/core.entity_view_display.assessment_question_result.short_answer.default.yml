@@ -54,4 +54,3 @@ content:
     third_party_settings: {  }
 hidden:
   arid: true
-  langcode: true
