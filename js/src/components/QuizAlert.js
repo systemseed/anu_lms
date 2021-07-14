@@ -19,15 +19,15 @@ const QuizAlert = ({ open, handleClose }) => {
       <DialogTitle id="alert-dialog-title">{'Submit answers?'}</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          You can only take a quiz once. Do you want to submit your answers?
+          You can only take a quiz once. Do you want to submit your answers now?
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => handleClose(true)} color="primary">
-          Submit
-        </Button>
         <Button onClick={() => handleClose(false)} color="primary" autoFocus>
           Cancel
+        </Button>
+        <Button onClick={() => handleClose(true)} color="primary">
+          Submit
         </Button>
       </DialogActions>
     </Dialog>
