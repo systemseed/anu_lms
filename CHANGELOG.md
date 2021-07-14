@@ -12,7 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.1.0] - 2021-07-14
 ### Added
  - Changelog for documenting features
- - New section 'Settings' for Quizzes for configuring quiz settings
+ - New section 'Settings' for Quizzes for configuring quiz settings. Available to any user with the permission to add or edit
+   quiz content.
  - New quiz setting 'Hide correct answers' which will hide the display of correct answers to users
    when they submit a quiz. Default value is disabled.
  - New quiz setting 'Make single submission' which will only allow one user submission per quiz. On clicking
