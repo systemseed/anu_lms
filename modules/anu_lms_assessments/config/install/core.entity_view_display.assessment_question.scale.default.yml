@@ -41,5 +41,4 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-hidden:
-  langcode: true
+hidden: {  }

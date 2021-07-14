@@ -25,6 +25,5 @@ hidden:
   aqid: true
   arid: true
   is_correct: true
-  langcode: true
   name: true
   user_id: true
