@@ -53,7 +53,7 @@ const QuizTextAnswerHandler = (props) => {
       value={props.submittedAnswer || value}
       correctValue={props.correctQuizValue || correctValue}
       isSubmitting={props.isSubmitting || isSubmitting}
-      isSubmitted={!props.canSubmit || props.isSubmitted || isSubmitted}
+      isSubmitted={props.isSubmitted || isSubmitted}
       multiline={props.bundle === 'question_long_answer'}
       onChange={onChange}
       onSubmit={!props.isQuiz && onSubmit}

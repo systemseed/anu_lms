@@ -109,7 +109,7 @@ class QuizOptionsHandler extends React.Component {
         value={submittedAnswer || values}
         correctValue={correctValue || correctQuizValue}
         isSubmitting={this.props.isSubmitting || isSubmitting}
-        isSubmitted={!this.props.canSubmit || this.props.isSubmitted || isSubmitted}
+        isSubmitted={this.props.isSubmitted || isSubmitted}
         onChange={
           bundle === 'question_single_choice' ? this.handleRadioChange : this.handleCheckboxChange
         }

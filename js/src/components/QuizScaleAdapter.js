@@ -50,7 +50,7 @@ const QuizScaleAdapter = (props) => {
       value={props.submittedAnswer || value}
       correctValue={props.correctQuizValue || correctValue}
       isSubmitting={props.isSubmitting || isSubmitting}
-      isSubmitted={!props.canSubmit || props.isSubmitted || isSubmitted}
+      isSubmitted={props.isSubmitted || isSubmitted}
       onChange={onChange}
       onSubmit={props.isQuiz ? null : onSubmit}
     />
