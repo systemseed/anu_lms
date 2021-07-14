@@ -23,7 +23,7 @@ class Quiz extends Lesson {
    */
   public function getPageData(EntityInterface $node) {
     $data = parent::getPageData($node);
-    return $this->anuLmsGetQuizSubmissionData($node, $data);
+    return $this->getQuizSubmissionData($node, $data);
   }
 
   /**
@@ -34,13 +34,13 @@ class Quiz extends Lesson {
    * @param array $data
    *   Data to be returned.
    */
-  protected function anuLmsGetQuizSubmissionData(EntityInterface $node, array &$data) {
+  protected function getQuizSubmissionData(EntityInterface $node, array $data) {
     if ($node->hasField(self::FIELD_NO_MULTIPLE_SUBMISSIONS)) {
       $data['field'] = $node->get(self::FIELD_NO_MULTIPLE_SUBMISSIONS)->getString();
       if (!empty($node->get(self::FIELD_NO_MULTIPLE_SUBMISSIONS)->getString())) {
         $results = [];
         $correct_answers = 0;
-        $answers = $this->anuLmsLoadSubmittedAnswers($node);
+        $answers = $this->loadSubmittedAnswers($node);
 
         foreach ($answers as $answer) {
 
@@ -71,7 +71,7 @@ class Quiz extends Lesson {
             $results[$question_id] = $response;
           }
           $result = (int) $answer->get('is_correct')->getString();
-          if ($this->anuLmsIsCorrectAnswer($result)) {
+          if ($this->isCorrectAnswer($result)) {
             $correct_answers++;
           }
         }
@@ -93,20 +93,20 @@ class Quiz extends Lesson {
    * @return bool
    *   Returns true if the result a correct answer.
    */
-  protected function anuLmsIsCorrectAnswer($answer) {
+  protected function isCorrectAnswer($answer) {
     return !($answer == AssessmentQuestionResult::RESULT_INCORRECT);
   }
 
   /**
    * Loads the answers for the last submitted quiz.
    *
-   * @param \Drupal\node\NodeInterface $node
+   * @param \Drupal\Core\Entity\EntityInterface $node
    *   The quiz to load answers for.
    *
    * @return \Drupal\anu_lms_assessments\Entity\AssessmentQuestionResult[]
    *   The submitted answers.
    */
-  protected function anuLmsLoadSubmittedAnswers(EntityInterface $node): array {
+  protected function loadSubmittedAnswers(EntityInterface $node): array {
     $last_submitted_quiz = \Drupal::entityQuery('assessment_result')
       ->condition('user_id', \Drupal::currentUser()->id())
       ->condition('aid', $node->id())
