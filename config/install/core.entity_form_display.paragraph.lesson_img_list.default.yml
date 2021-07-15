@@ -15,25 +15,18 @@ bundle: lesson_img_list
 mode: default
 content:
   field_lesson_highlight_color:
-    weight: 11
+    weight: 0
     settings: {  }
     third_party_settings: {  }
     type: options_select
     region: content
   field_lesson_img_list_heading:
-    weight: 0
+    weight: 1
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
-    region: content
-  field_lesson_img_list_highlight:
-    weight: 1
-    settings:
-      display_label: true
-    third_party_settings: {  }
-    type: boolean_checkbox
     region: content
   field_lesson_img_list_items:
     type: paragraphs
@@ -54,10 +47,11 @@ content:
     third_party_settings: {  }
     region: content
   translation:
-    weight: 10
+    weight: 3
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
 hidden:
   created: true
+  field_lesson_img_list_highlight: true
   status: true

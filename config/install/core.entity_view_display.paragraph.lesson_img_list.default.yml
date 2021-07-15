@@ -16,7 +16,7 @@ bundle: lesson_img_list
 mode: default
 content:
   field_lesson_highlight_color:
-    weight: 3
+    weight: 1
     label: above
     settings: {  }
     third_party_settings: {  }
@@ -31,18 +31,18 @@ content:
     type: string
     region: content
   field_lesson_img_list_highlight:
-    weight: 1
-    label: hidden
+    type: boolean
+    weight: 2
+    region: content
+    label: above
     settings:
       format: default
       format_custom_false: ''
       format_custom_true: ''
     third_party_settings: {  }
-    type: boolean
-    region: content
   field_lesson_img_list_items:
     type: entity_reference_revisions_entity_view
-    weight: 2
+    weight: 3
     label: hidden
     settings:
       view_mode: default
