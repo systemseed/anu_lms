@@ -13,10 +13,10 @@ content:
   field_highlight_marker_text:
     weight: 12
     settings:
-      size: 60
+      rows: 5
       placeholder: ''
     third_party_settings: {  }
-    type: string_textfield
+    type: string_textarea
     region: content
   field_lesson_highlight_color:
     weight: 11
