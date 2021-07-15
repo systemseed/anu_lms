@@ -5,9 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+ - Fixed Course nested content clean up on deletion
+ - Fixed Course redirecting for translated lesson
 
+### Changed
  - Improve 'Hide correct answers' functionality to answers are not returned at all to front end on submission
  - Improve 'Make single submission' functionality to not allow submission in different browser window
+
+### Added 
  - Add multiple highlight paragraph types: full width, with icon, marker – with four colors each
 
 ## [2.0.0] - 2021-07-14
