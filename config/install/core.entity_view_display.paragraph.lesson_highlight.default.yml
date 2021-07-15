@@ -2,16 +2,25 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.lesson_highlight.field_lesson_highlight_color
     - field.field.paragraph.lesson_highlight.field_lesson_highlight_heading
     - field.field.paragraph.lesson_highlight.field_lesson_highlight_text
     - paragraphs.paragraphs_type.lesson_highlight
   module:
+    - options
     - text
 id: paragraph.lesson_highlight.default
 targetEntityType: paragraph
 bundle: lesson_highlight
 mode: default
 content:
+  field_lesson_highlight_color:
+    weight: 2
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: list_default
+    region: content
   field_lesson_highlight_heading:
     weight: 0
     label: above

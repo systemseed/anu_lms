@@ -54,6 +54,12 @@ const defaultTheme = createMuiTheme({
       main: '#9f2621',
       contrastText: '#ffffff',
     },
+    paragraphHighlight: {
+      blue: '#d0e3ff',
+      yellow: '#faeabf',
+      green: '#daf0e5',
+      purple: '#f4e3ff',
+    },
   },
 });
 

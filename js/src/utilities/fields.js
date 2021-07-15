@@ -54,6 +54,18 @@ const getTextValue = (entity, fieldName) => {
 };
 
 /**
+ * Get filtered / plain text value from the field
+ */
+const getTextValueOrUndefined = (entity, fieldName) => {
+  const field = getTextValue(entity, fieldName);
+
+  if (field === '') {
+    return;
+  }
+  return field;
+};
+
+/**
  * Get text value from the field as usual and return it as number.
  */
 const getNumberValue = (entity, fieldName) => {
@@ -197,6 +209,7 @@ export {
   getObjectValue,
   getArrayValue,
   getTextValue,
+  getTextValueOrUndefined,
   getNumberValue,
   getBooleanValue,
   getImageURL,

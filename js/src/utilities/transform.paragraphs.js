@@ -2,6 +2,7 @@ import {
   getObjectValue,
   getArrayValue,
   getTextValue,
+  getTextValueOrUndefined,
   getNumberValue,
   getImage,
   getBooleanValue,
@@ -56,6 +57,15 @@ const transformParagraph = (paragraph) => {
         id: getNumberValue(paragraph, 'id'),
         title: getTextValue(paragraph, 'field_lesson_highlight_heading'),
         text: getTextValue(paragraph, 'field_lesson_highlight_text'),
+        color: getTextValueOrUndefined(paragraph, 'field_lesson_highlight_color'),
+      };
+
+    case 'lesson_highlight_marker':
+      return {
+        bundle,
+        id: getNumberValue(paragraph, 'id'),
+        text: getTextValue(paragraph, 'field_highlight_marker_text'),
+        color: getTextValueOrUndefined(paragraph, 'field_lesson_highlight_color'),
       };
 
     case 'lesson_image':
@@ -72,7 +82,7 @@ const transformParagraph = (paragraph) => {
         bundle,
         id: getNumberValue(paragraph, 'id'),
         title: getTextValue(paragraph, 'field_content_heading'),
-        isHighlight: getBooleanValue(paragraph, 'field_is_highlight'),
+        color: getTextValueOrUndefined(paragraph, 'field_lesson_highlight_color'),
         items: getArrayValue(paragraph, 'field_items').map((item) => {
           let size = getTextValue(item, 'field_size');
 
@@ -100,7 +110,7 @@ const transformParagraph = (paragraph) => {
         bundle,
         id: getNumberValue(paragraph, 'id'),
         title: getTextValue(paragraph, 'field_lesson_img_list_heading'),
-        isHighlight: getBooleanValue(paragraph, 'field_lesson_img_list_highlight'),
+        color: getTextValueOrUndefined(paragraph, 'field_lesson_highlight_color'),
         items: getArrayValue(paragraph, 'field_lesson_img_list_items').map((item) => {
           let size = getTextValue(item, 'field_lesson_img_list_item_size');
 

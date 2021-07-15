@@ -11,15 +11,17 @@ import QuizOptionsHandler from '@anu/components/QuizOptionsHandler';
 import QuizTextAnswerHandler from '@anu/components/QuizTextAnswerHandler';
 import Resource from '@anu/components/Resource';
 import Text from '@anu/components/Text';
-import TextHighlighted from '@anu/components/TextHighlighted';
+import ParagraphHighlightFullWidth from '@anu/components/ParagraphHighlightFullWidth';
 import QuizScaleAdapter from '@anu/components/QuizScaleAdapter';
+import ParagraphHighlightMarker from '@anu/components/ParagraphHighlightMarker';
 
 export default {
   lesson_checklist: Checklist,
   lesson_divider: Divider,
   lesson_embedded_video: EmbeddedVideo,
   lesson_heading: Heading,
-  lesson_highlight: TextHighlighted,
+  lesson_highlight: ParagraphHighlightFullWidth,
+  lesson_highlight_marker: ParagraphHighlightMarker,
   lesson_image: ImageWithCaption,
   lesson_image_bullet_list: ImageBulletList,
   lesson_image_thumbnail: ImageWithCaptionThumbnail,

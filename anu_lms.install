@@ -5,6 +5,11 @@
  * Update hooks for the module.
  */
 
+use Drupal\Core\Field\FieldDefinitionInterface;
+use Drupal\Core\Field\FieldItemList;
+use Drupal\Core\Field\FieldItemListInterface;
+use Drupal\entity_reference_revisions\EntityReferenceRevisionsFieldItemList;
+use Drupal\entity_reference_revisions\Plugin\Field\FieldType\EntityReferenceRevisionsItem;
 use Drupal\node\Entity\Node;
 use Drupal\node\NodeInterface;
 use Drupal\paragraphs\Entity\Paragraph;
@@ -54,15 +59,45 @@ function anu_lms_update_8001() {
         $paragraph->save();
 
         $current = $course->get('field_course_module')->getValue();
-        $current[] = array(
+        $current[] = [
           'target_id' => $paragraph->id(),
           'target_revision_id' => $paragraph->getRevisionId(),
-        );
+        ];
 
         $course->set('field_course_module', $current);
       }
 
       $course->save();
+    }
+  }
+}
+
+/**
+ * Migrate is_highlight boolean field on image bullet list paragraphs to
+ * default color
+ */
+function anu_lms_update_8002() {
+  /** @var NodeInterface[] $lessons */
+  $lessons = Drupal::entityTypeManager()->getStorage('node')
+    ->loadByProperties(['type' => 'module_lesson']);
+  foreach ($lessons as $lesson) {
+    /** @var EntityReferenceRevisionsItem[] $sections */
+    $sections = $lesson->get('field_module_lesson_content')
+      ->referencedEntities();
+    foreach ($sections as $section) {
+      /** @var Paragraph $contents */
+      $contents = $section->get('field_lesson_section_content')
+        ->referencedEntities();
+      foreach ($contents as $content) {
+        if ($content->getType() == 'lesson_img_list') {
+          /** @var FieldItemList $highlight_field */
+          $highlight_field = $content->get('field_lesson_img_list_highlight');
+          if ($highlight_field->getString() == "1") {
+            $content->set('field_lesson_highlight_color', 'yellow');
+            $content->save();
+          }
+        }
+      }
     }
   }
 }

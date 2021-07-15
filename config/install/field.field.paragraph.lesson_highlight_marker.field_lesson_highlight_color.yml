@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_lesson_highlight_color
+    - paragraphs.paragraphs_type.lesson_highlight_marker
+  module:
+    - options
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: paragraph.lesson_highlight_marker.field_lesson_highlight_color
+field_name: field_lesson_highlight_color
+entity_type: paragraph
+bundle: lesson_highlight_marker
+label: Color
+description: ''
+required: true
+translatable: true
+default_value:
+  -
+    value: yellow
+default_value_callback: ''
+settings: {  }
+field_type: list_string

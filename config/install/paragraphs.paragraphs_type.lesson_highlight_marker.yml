@@ -1,8 +1,8 @@
 langcode: en
 status: true
 dependencies: {  }
-id: lesson_highlight
-label: 'Lesson: Highlight (full width)'
+id: lesson_highlight_marker
+label: 'Lesson: Highlight (marker)'
 icon_uuid: null
 icon_default: null
 description: ''

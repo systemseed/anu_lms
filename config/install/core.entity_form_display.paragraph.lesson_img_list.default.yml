@@ -2,6 +2,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.lesson_img_list.field_lesson_highlight_color
     - field.field.paragraph.lesson_img_list.field_lesson_img_list_heading
     - field.field.paragraph.lesson_img_list.field_lesson_img_list_highlight
     - field.field.paragraph.lesson_img_list.field_lesson_img_list_items
@@ -13,20 +14,19 @@ targetEntityType: paragraph
 bundle: lesson_img_list
 mode: default
 content:
-  field_lesson_img_list_heading:
+  field_lesson_highlight_color:
     weight: 0
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+  field_lesson_img_list_heading:
+    weight: 1
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
-    region: content
-  field_lesson_img_list_highlight:
-    weight: 1
-    settings:
-      display_label: true
-    third_party_settings: {  }
-    type: boolean_checkbox
     region: content
   field_lesson_img_list_items:
     type: paragraphs
@@ -46,6 +46,12 @@ content:
         duplicate: duplicate
     third_party_settings: {  }
     region: content
+  translation:
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
 hidden:
   created: true
+  field_lesson_img_list_highlight: true
   status: true
