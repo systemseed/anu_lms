@@ -4,11 +4,6 @@ dependencies:
   config:
     - field.storage.paragraph.field_highlight_marker_text
     - paragraphs.paragraphs_type.lesson_highlight_marker
-  module:
-    - tmgmt_content
-third_party_settings:
-  tmgmt_content:
-    excluded: false
 id: paragraph.lesson_highlight_marker.field_highlight_marker_text
 field_name: field_highlight_marker_text
 entity_type: paragraph

@@ -24,10 +24,6 @@ dependencies:
     - paragraphs.paragraphs_type.question_single_choice
   module:
     - entity_reference_revisions
-    - tmgmt_content
-third_party_settings:
-  tmgmt_content:
-    excluded: false
 id: paragraph.lesson_section.field_lesson_section_content
 field_name: field_lesson_section_content
 entity_type: paragraph
