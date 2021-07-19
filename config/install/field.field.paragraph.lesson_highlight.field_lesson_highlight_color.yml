@@ -6,10 +6,6 @@ dependencies:
     - paragraphs.paragraphs_type.lesson_highlight
   module:
     - options
-    - tmgmt_content
-third_party_settings:
-  tmgmt_content:
-    excluded: false
 id: paragraph.lesson_highlight.field_lesson_highlight_color
 field_name: field_lesson_highlight_color
 entity_type: paragraph
