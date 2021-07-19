@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  - Improve 'Make single submission' functionality to not allow submission in different browser window
  - Add multiple highlight paragraph types: full width, with icon, marker – with four colors each
 
+## [2.1.0] - 2021-07-19
+### Added
+ - Navigation button for end of module quizzes to move to the next module if it exists.
+
 ## [2.0.0] - 2021-07-14
 ### Added
  - Changelog for documenting features
