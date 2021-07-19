@@ -96,6 +96,7 @@ class ParagraphsWithQuiz extends React.Component {
           correctValuesCount: payload.correctAnswersCount,
           isSubmitted: true,
         });
+        this.props.submitQuiz(true);
       } else {
         alert(Drupal.t('Quiz submission failed. Please try again.', {}, { context: 'ANU LMS' }));
         console.error(response.status, await response.text());
