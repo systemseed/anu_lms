@@ -7,7 +7,7 @@ import { quizPropTypes } from '@anu/utilities/transform.quiz';
 import ContentNavigation from '@anu/components/ContentNavigation';
 
 const ContentQuiz = ({ quiz, nextLesson }) => {
-  const [isSubmitted, submitQuiz] = useState(quiz.isSubmitted);
+  const [isSubmitted, submitQuiz] = useState(!!quiz.isSubmitted);
   return (
     <Box mt={[2, 2, 0]}>
       <LessonGrid>
