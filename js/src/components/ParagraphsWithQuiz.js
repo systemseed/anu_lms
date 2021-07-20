@@ -17,7 +17,6 @@ class ParagraphsWithQuiz extends React.Component {
       correctValues: null,
       correctValuesCount: !isNaN(props.correctValuesCount) ? props.correctValuesCount : -1,
       isSubmitting: false,
-      isSubmitted: !!props.isSubmitted,
       openDialog: false,
       readyToSubmit: !props.isSingleSubmission,
       isSingleSubmission: props.isSingleSubmission,
@@ -94,8 +93,8 @@ class ParagraphsWithQuiz extends React.Component {
         this.setState({
           correctValues: payload.correctAnswers || null,
           correctValuesCount: payload.correctAnswersCount,
-          isSubmitted: true,
         });
+        this.props.submitQuiz(true);
       } else {
         alert(Drupal.t('Quiz submission failed. Please try again.', {}, { context: 'ANU LMS' }));
         console.error(response.status, await response.text());
@@ -108,13 +107,12 @@ class ParagraphsWithQuiz extends React.Component {
   }
 
   render() {
-    const { items, isSingleSubmission } = this.props;
+    const { items, isSingleSubmission, isSubmitted } = this.props;
     const {
       assessmentData,
       correctValues,
       correctValuesCount,
       isSubmitting,
-      isSubmitted,
       openDialog,
     } = this.state;
 
