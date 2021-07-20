@@ -28,12 +28,15 @@ const ContentQuiz = ({ quiz, nextLesson }) => {
           submitQuiz={submitQuiz}
         />
       </Box>
-      <ContentNavigation
-        sections={[]}
-        nextLesson={nextLesson}
-        currentIndex={0}
-        isEnabled={isSubmitted}
-      />
+      {isSubmitted && (
+        <ContentNavigation
+          isIntro={false}
+          sections={[]}
+          nextLesson={nextLesson}
+          currentIndex={0}
+          isEnabled={isSubmitted}
+        />
+      )}
     </Box>
   );
 };
