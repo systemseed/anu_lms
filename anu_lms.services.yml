@@ -20,11 +20,11 @@ services:
   # Helper service for Lesson / Quiz content types.
   anu_lms.lesson:
     class: Drupal\anu_lms\Lesson
-    arguments: [ '@entity_type.manager', '@anu_lms.normalizer' ]
+    arguments: [ '@entity_type.manager', '@anu_lms.normalizer', '@anu_lms.courses_page']
   # Helper service for Quiz content types.
   anu_lms.quiz:
     class: Drupal\anu_lms\Quiz
-    arguments: [ '@entity_type.manager', '@anu_lms.normalizer' ]
+    arguments: [ '@entity_type.manager', '@anu_lms.normalizer', '@anu_lms.courses_page' ]
 
   # Normalizers for better output by REST Entity Recursive module.
   anu_lms.normalizer:

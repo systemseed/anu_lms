@@ -1,5 +1,9 @@
-import { transformCourse } from '@anu/utilities/transform.course';
-import { transformCourseCategory } from '@anu/utilities/transform.courseCategory';
+import PropTypes from 'prop-types';
+import { transformCourse, coursePropTypes } from '@anu/utilities/transform.course';
+import {
+  transformCourseCategory,
+  courseCategoryPropTypes,
+} from '@anu/utilities/transform.courseCategory';
 import * as fields from '@anu/utilities/fields';
 
 const transformCoursesPage = ({ data }) => {
@@ -7,7 +11,8 @@ const transformCoursesPage = ({ data }) => {
 
   return {
     title: fields.getTextValue(node, 'title'),
-    courses: fields.getArrayValue(data, 'courses').map((item) => transformCourse(item, [])),
+    url: fields.getNodeUrl(node),
+    courses: fields.getArrayValue(data, 'courses').map((item) => transformCourse(item, data)),
     sections: fields
       .getArrayValue(node, 'field_courses_content')
       .flatMap((section) =>
@@ -18,4 +23,14 @@ const transformCoursesPage = ({ data }) => {
   };
 };
 
-export { transformCoursesPage };
+/**
+ * Define expected prop types for courses page.
+ */
+const coursesPagePropTypes = PropTypes.shape({
+  title: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+  courses: PropTypes.arrayOf(coursePropTypes),
+  sections: PropTypes.arrayOf(courseCategoryPropTypes),
+});
+
+export { transformCoursesPage, coursesPagePropTypes };

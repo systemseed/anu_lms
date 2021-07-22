@@ -6,8 +6,10 @@ import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import DownloadCourse from '@anu/components/DownloadCourse';
 import CoursesSectionEmpty from '@anu/pages/courses/SectionEmpty';
 import { coursePropTypes } from '@anu/utilities/transform.course';
 
@@ -19,6 +21,8 @@ const useStyles = makeStyles((theme) => ({
   card: {
     border: '1px solid ' + theme.palette.grey[300],
     height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
   },
 }));
 
@@ -38,7 +42,7 @@ const CoursesSection = ({ courses }) => {
               disabled={!course.url}
               component="a"
               href={course.url}
-              style={{ height: '100%' }}
+              style={{ flexGrow: 1 }}
             >
               {course.image && course.image.url && (
                 <CardMedia
@@ -69,6 +73,10 @@ const CoursesSection = ({ courses }) => {
                 </Box>
               </CardContent>
             </CardActionArea>
+
+            <CardActions>
+              <DownloadCourse course={course} />
+            </CardActions>
           </Card>
         </Grid>
       ))}

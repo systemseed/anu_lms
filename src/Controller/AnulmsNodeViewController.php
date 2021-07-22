@@ -178,10 +178,6 @@ class AnulmsNodeViewController extends NodeViewController {
     // Attaches general site settings.
     $data['settings'] = $this->anulmsSettings->getSettings();
 
-    if (\Drupal::moduleHandler()->moduleExists('pwa')) {
-      $data['pwa'] = $this->anulmsSettings->getPwaSettings();
-    }
-
     // You can use `jQuery('#application').data('application')` in console for debug.
     $build['application'] = [
       '#type' => 'html_tag',
@@ -201,6 +197,11 @@ class AnulmsNodeViewController extends NodeViewController {
       $build['#attached'] = [
         'library' => ['anu_lms/lesson'],
       ];
+    }
+
+    // Attach PWA cache version.
+    if (\Drupal::moduleHandler()->moduleExists('pwa')) {
+      $build['#attached']['drupalSettings']['pwa_settings'] = $this->anulmsSettings->getPwaSettings();
     }
 
     // Disable cache for this page. @todo can be improved using cache tags.

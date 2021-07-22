@@ -74,15 +74,33 @@ class CoursesPage {
     $courses = $this->getCoursesByCategories($project_category_ids);
     $normalized_courses = [];
     foreach ($courses as $course) {
-      $normalized_course = $this->normalizer->normalizeEntity($course, ['max_depth' => 1]);
+      $normalized_course = $this->normalizer->normalizeEntity($course, ['max_depth' => 3]);
       if (!empty($normalized_course)) {
         $normalized_courses[] = $normalized_course;
       }
     }
 
+    // Get list of Courses pages for every Course.
+    $courses_pages_by_course = [];
+    foreach ($courses as $course) {
+      $courses_pages = $this->getCoursesPagesByCourse($course);
+      $normalized_courses_pages = [];
+      foreach ($courses_pages as $courses_page) {
+        $normalized_courses_pages[] = [
+          'courses_page' =>  $this->normalizer->normalizeEntity($courses_page, ['max_depth' => 1])
+        ];
+      }
+
+      $courses_pages_by_course[] = [
+        'course_id' => $course->id(),
+        'courses_pages' => $normalized_courses_pages,
+      ];
+    }
+
     return [
       $node->bundle() => $this->normalizer->normalizeEntity($node, ['max_depth' => 3]),
       'courses' => $normalized_courses,
+      'courses_pages_by_course' => $courses_pages_by_course,
     ];
   }
 
@@ -107,5 +125,50 @@ class CoursesPage {
       ->execute();
 
     return !empty($courses) ? Node::loadMultiple($courses) : [];
+  }
+
+  /**
+   * Returns list of Courses page entities by given Course.
+   *
+   * @param EntityInterface $course
+   *   Course entity.
+   *
+   * @return array|EntityInterface[]
+   *   An array of Courses page entities.
+   */
+  public function getCoursesPagesByCourse(EntityInterface $course) {
+    if (empty($course)) {
+      return [];
+    }
+
+    // Gathering course categories targets.
+    $categories_targets = $course->get('field_course_category')->getValue();
+
+    // Transform categories targets to IDs.
+    if (!empty($categories_targets)) {
+      $category_ids = [];
+      foreach ($categories_targets as $target) {
+        $category_ids[] = $target['target_id'];
+      }
+    }
+
+    // Gathering courses page's categories parargaphs.
+    $courses_page_categories = \Drupal::entityQuery('paragraph')
+      ->condition('type', 'course_category')
+      ->condition('field_course_category', $category_ids, 'IN')
+      ->execute();
+
+    if (empty($courses_page_categories)) {
+      return [];
+    }
+
+    // Gathering courses page IDs.
+    $courses_page_categories = array_values($courses_page_categories);
+    $courses_page_ids = \Drupal::entityQuery('node')
+      ->condition('type', 'courses_page')
+      ->condition('field_courses_content', $courses_page_categories, 'IN')
+      ->execute();
+
+    return !empty($courses_page_ids) ? Node::loadMultiple($courses_page_ids) : [];
   }
 }

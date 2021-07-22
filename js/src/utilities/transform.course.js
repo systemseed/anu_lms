@@ -6,6 +6,7 @@ import {
   transformCourseCategory,
   courseCategoryPropTypes,
 } from '@anu/utilities/transform.courseCategory';
+import { transformCoursesPage, coursesPagePropTypes } from '@anu/utilities/transform.courses';
 
 /**
  * Transform course node from Drupal backend
@@ -17,8 +18,19 @@ const transformCourse = (node, data) => {
     return null;
   }
 
+  // Prepare courses pages for current course.
+  const courseId = fields.getNumberValue(node, 'nid');
+  let coursesPages = [];
+  if (data.courses_pages_by_course) {
+    data.courses_pages_by_course.map((set) => {
+      if (set.course_id == courseId) {
+        coursesPages = set.courses_pages;
+      }
+    });
+  }
+
   return {
-    id: fields.getNumberValue(node, 'nid'),
+    id: courseId,
     title: fields.getTextValue(node, 'title'),
     description: fields.getTextValue(node, 'field_course_description'),
     url: fields.getNodeUrl(node),
@@ -37,6 +49,7 @@ const transformCourse = (node, data) => {
         .filter((lesson) => !!lesson),
       quiz: transformQuiz(fields.getArrayValue(module, 'field_module_assessment')[0], data),
     })),
+    courses_pages: coursesPages.map((coursesPage) => transformCoursesPage({ data: coursesPage })),
   };
 };
 
@@ -62,6 +75,7 @@ const coursePropTypes = PropTypes.shape({
     })
   ),
   labels: PropTypes.arrayOf(PropTypes.string),
+  courses_pages: PropTypes.arrayOf(PropTypes.shape({})),
 });
 
 export { transformCourse, coursePropTypes };
