@@ -38,20 +38,12 @@ function anu_lms_node_delete(NodeInterface $node) {
     $modules = $node->get('field_course_module')->referencedEntities();
 
     if (!empty($modules)) {
-      // Collect target IDs of referenced lessons and quizes.
-      $targets = [];
+      // Collect IDs of referenced lessons and quizes.
+      $nids = [];
       foreach ($modules as $module) {
-        $targets = array_merge($targets, $module->get('field_module_lessons')->getValue());
-        $targets = array_merge($targets, $module->get('field_module_assessment')->getValue());
+        $nids = array_merge($nids, array_column($module->get('field_module_lessons')->getValue(), 'target_id'));
+        $nids = array_merge($nids, array_column($module->get('field_module_assessment')->getValue(), 'target_id'));
       }
-    }
-  }
-
-  // Transform targets to IDs.
-  if (!empty($targets)) {
-    $nids = [];
-    foreach ($targets as $target) {
-      $nids[] = $target['target_id'];
     }
   }
 
