@@ -6,7 +6,7 @@ import {
   transformCourseCategory,
   courseCategoryPropTypes,
 } from '@anu/utilities/transform.courseCategory';
-import { transformCoursesPage, coursesPagePropTypes } from '@anu/utilities/transform.courses';
+import { transformCoursesPage } from '@anu/utilities/transform.courses';
 
 /**
  * Transform course node from Drupal backend

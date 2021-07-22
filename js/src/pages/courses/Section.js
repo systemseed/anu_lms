@@ -12,6 +12,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import DownloadCourse from '@anu/components/DownloadCourse';
 import CoursesSectionEmpty from '@anu/pages/courses/SectionEmpty';
 import { coursePropTypes } from '@anu/utilities/transform.course';
+import { getPwaSettings } from '@anu/utilities/settings';
 
 const useStyles = makeStyles((theme) => ({
   media: {
@@ -74,9 +75,11 @@ const CoursesSection = ({ courses }) => {
               </CardContent>
             </CardActionArea>
 
-            <CardActions>
-              <DownloadCourse course={course} />
-            </CardActions>
+            {course && getPwaSettings() && (
+              <CardActions>
+                <DownloadCourse course={course} />
+              </CardActions>
+            )}
           </Card>
         </Grid>
       ))}

@@ -1,21 +1,24 @@
 import React from 'react';
-import { Box, Button, withStyles } from '@material-ui/core';
+import { Button, withStyles } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import SyncIcon from '@material-ui/icons/Sync';
-
+import SnackAlert from '@anu/components/SnackAlert';
 import { transformLessonPage } from '@anu/utilities/transform.lesson';
+import { getPwaSettings } from '@anu/utilities/settings';
 
 import 'regenerator-runtime/runtime';
 
-const getPwaSettings = () => (drupalSettings && drupalSettings.pwa_settings) || null;
-
-const ResultMessage = withStyles((theme) => ({
+const StyledButton = withStyles((theme) => ({
   root: {
-    fontSize: '0.8rem',
-    marginTop: theme.spacing(1),
-    color: '#ffab00',
+    width: 'max-content',
+    margin: theme.spacing(1),
+    background: '#f6f7f8',
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(3),
+    textTransform: 'none',
+    fontWeight: 'normal',
   },
-}))(Box);
+}))(Button);
 
 class DownloadCourse extends React.Component {
   constructor(props) {
@@ -178,36 +181,46 @@ class DownloadCourse extends React.Component {
   render() {
     const { loading, result } = this.state;
 
+    // Handling values needs to be done for both conditions
+    // for preventing glitches on alert closing.
+    let message = '';
+    let severity = 'success';
+    if (result === 'success') {
+      message = Drupal.t('Successfully downloaded to your device!', {}, { context: 'ANU LMS' });
+      severity = 'success';
+    } else if (result === 'error') {
+      message = Drupal.t(
+        'Could not download the course. Please contact site administrator.',
+        {},
+        { context: 'ANU LMS' }
+      );
+      severity = 'warning';
+    }
+
     return (
       <>
-        <Button
-          variant="outlined"
-          color="primary"
+        <StyledButton
+          variant="contained"
+          color="default"
           startIcon={<SyncIcon />}
           onClick={this.handleDownload}
           disabled={loading}
-          style={{ width: 'max-content', margin: 8 }}
+          disableElevation
         >
           {Drupal.t('Make available offline', {}, { context: 'ANU LMS' })}
 
           {loading && <CircularProgress size={24} style={{ position: 'absolute' }} />}
-        </Button>
+        </StyledButton>
 
-        {result && result === 'success' && (
-          <ResultMessage>
-            {Drupal.t('Successfully downloaded to your device!', {}, { context: 'ANU LMS' })}
-          </ResultMessage>
-        )}
-
-        {result && result === 'error' && (
-          <ResultMessage>
-            {Drupal.t(
-              'Could not download the course. Please contact site administrator.',
-              {},
-              { context: 'ANU LMS' }
-            )}
-          </ResultMessage>
-        )}
+        <SnackAlert
+          show={result != null}
+          message={message}
+          onClose={() => this.setState({ result: null })}
+          severity={severity}
+          variant="filled"
+          spaced
+          duration={5000}
+        />
       </>
     );
   }
