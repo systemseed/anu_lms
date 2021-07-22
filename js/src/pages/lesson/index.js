@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'nowrap',
     flexGrow: 1,
     overflow: 'hidden',
+    paddingBottom: theme.spacing(8),
   },
   sidebar: ({ isSidebarVisible }) => ({
     position: 'absolute',
@@ -105,7 +106,7 @@ const LessonPage = ({ lesson, quiz, course, width }) => {
           </Hidden>
 
           <Box className={isWidthUp('md', width) ? classes.contentWrapper : ''}>
-            {quiz && <ContentQuiz quiz={quiz} />}
+            {quiz && <ContentQuiz quiz={quiz} nextLesson={nextLesson} />}
 
             {lesson && <ContentLesson lesson={lesson} nextLesson={nextLesson} />}
           </Box>
