@@ -141,15 +141,11 @@ class CoursesPage {
       return [];
     }
 
-    // Gathering course categories targets.
-    $categories_targets = $course->get('field_course_category')->getValue();
+    // Gathering course categories.
+    $category_ids = array_column($course->get('field_course_category')->getValue(), 'target_id');
 
-    // Transform categories targets to IDs.
-    if (!empty($categories_targets)) {
-      $category_ids = [];
-      foreach ($categories_targets as $target) {
-        $category_ids[] = $target['target_id'];
-      }
+    if (empty($category_ids)) {
+      return [];
     }
 
     // Gathering courses page's categories parargaphs.
