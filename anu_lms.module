@@ -32,32 +32,23 @@ function anu_lms_form_node_module_delete_form_alter(&$form) {
  */
 function anu_lms_node_delete(NodeInterface $node) {
   // Collects leftover contents IDs.
-  switch ($node->getType()) {
-    case 'course':
-      $nids = \Drupal::entityQuery('node')
-        ->condition('type', 'module')
-        ->condition('field_module_course.target_id', $node->id())
-        ->execute();
-      break;
+  if ($node->getType() == 'course') {
 
-    case 'module':
-      $lessons_nids = \Drupal::entityQuery('node')
-        ->condition('type', 'module_lesson')
-        ->condition('field_module_lesson_module.target_id', $node->id())
-        ->execute();
+    // Collect module paragraphs IDs.
+    $modules = $node->get('field_course_module')->referencedEntities();
 
-      $quizzes_nids = \Drupal::entityQuery('node')
-        ->condition('type', 'module_assessment')
-        ->condition('field_module_assessment_module.target_id', $node->id())
-        ->execute();
-
-      $nids = array_merge($lessons_nids, $quizzes_nids);
-      break;
+    if (!empty($modules)) {
+      // Collect IDs of referenced lessons and quizes.
+      $nids = [];
+      foreach ($modules as $module) {
+        $nids = array_merge($nids, array_column($module->get('field_module_lessons')->getValue(), 'target_id'));
+        $nids = array_merge($nids, array_column($module->get('field_module_assessment')->getValue(), 'target_id'));
+      }
+    }
   }
 
   if (!empty($nids)) {
     // Deletes nodes by chunks.
-    $nids = array_values($nids);
     $storage = \Drupal::entityTypeManager()->getStorage('node');
     foreach (array_chunk($nids, 50) as $chunk) {
       $nodes = $storage->loadMultiple($chunk);
