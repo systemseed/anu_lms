@@ -35,36 +35,38 @@ function anu_lms_update_8001() {
         /** @var NodeInterface $module */
         $module = Node::load($modules_reference->target_id);
 
-        /** @var EntityReferenceItem[] $lessons_references */
-        $lessons_references = $module->get('field_module_lessons');
-        foreach ($lessons_references as $lessons_reference) {
-          $lesson_nids[] = $lessons_reference->target_id;
-        }
+        if (!empty($module)) {
+          /** @var EntityReferenceItem[] $lessons_references */
+          $lessons_references = $module->get('field_module_lessons');
+          foreach ($lessons_references as $lessons_reference) {
+            $lesson_nids[] = $lessons_reference->target_id;
+          }
 
-        /** @var EntityReferenceItem $quiz_references */
-        $quiz_references = $module->get('field_module_assessment');
-        foreach ($quiz_references as $quiz_reference) {
-          $quiz_nid = $quiz_reference->target_id;
-        }
+          /** @var EntityReferenceItem $quiz_references */
+          $quiz_references = $module->get('field_module_assessment');
+          foreach ($quiz_references as $quiz_reference) {
+            $quiz_nid = $quiz_reference->target_id;
+          }
 
-        /** @var ParagraphInterface $paragraph */
-        $paragraph = Paragraph::create(['type' => 'course_modules']);
-        $paragraph->set('field_module_title', $module->label());
-        foreach ($lesson_nids as $nid) {
-          $paragraph->field_module_lessons[] = $nid;
-        }
-        if (!empty($quiz_nid)) {
-          $paragraph->field_module_assessment = $quiz_nid;
-        }
-        $paragraph->save();
+          /** @var ParagraphInterface $paragraph */
+          $paragraph = Paragraph::create(['type' => 'course_modules']);
+          $paragraph->set('field_module_title', $module->label());
+          foreach ($lesson_nids as $nid) {
+            $paragraph->field_module_lessons[] = $nid;
+          }
+          if (!empty($quiz_nid)) {
+            $paragraph->field_module_assessment = $quiz_nid;
+          }
+          $paragraph->save();
 
-        $current = $course->get('field_course_module')->getValue();
-        $current[] = [
-          'target_id' => $paragraph->id(),
-          'target_revision_id' => $paragraph->getRevisionId(),
-        ];
+          $current = $course->get('field_course_module')->getValue();
+          $current[] = [
+            'target_id' => $paragraph->id(),
+            'target_revision_id' => $paragraph->getRevisionId(),
+          ];
 
-        $course->set('field_course_module', $current);
+          $course->set('field_course_module', $current);
+        }
       }
 
       $course->save();
