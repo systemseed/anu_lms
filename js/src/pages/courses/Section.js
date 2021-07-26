@@ -40,9 +40,9 @@ const CoursesSection = ({ courses }) => {
         <Grid item xs={12} sm={6} md={4} key={course.id}>
           <Card elevation={0} className={classes.card}>
             <CardActionArea
-              disabled={!course.url}
+              disabled={!course.first_lesson_url}
               component="a"
-              href={course.url}
+              href={course.first_lesson_url}
               style={{ flexGrow: 1 }}
             >
               {course.image && course.image.url && (

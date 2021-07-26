@@ -4,6 +4,7 @@ namespace Drupal\anu_lms;
 
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\node\Entity\Node;
 
 /**
@@ -26,11 +27,25 @@ class CoursesPage {
   protected $taxonomyStorage;
 
   /**
+   * The language manager.
+   *
+   * @var \Drupal\Core\Language\LanguageManagerInterface
+   */
+  protected $languageManager;  
+
+  /**
    * The normalizer.
    *
    * @var \Drupal\anu_lms\Normalizer
    */
   protected $normalizer;
+
+  /**
+   * The course page service.
+   *
+   * @var \Drupal\anu_lms\Course
+   */
+  protected $course;
 
   /**
    * Constructs service.
@@ -39,11 +54,17 @@ class CoursesPage {
    *   The entity type manager.
    * @param \Drupal\anu_lms\Normalizer $normalizer
    *   The normalizer.
+   * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
+   *   The language manager.
+   * @param \Drupal\anu_lms\Course $course
+   *   The Course service.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, Normalizer $normalizer) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, LanguageManagerInterface $language_manager, Normalizer $normalizer, Course $course) {
     $this->nodeStorage = $entity_type_manager->getStorage('node');
     $this->taxonomyStorage = $entity_type_manager->getStorage('taxonomy_term');
+    $this->languageManager = $language_manager;
     $this->normalizer = $normalizer;
+    $this->course = $course;
   }
 
   /**
@@ -97,10 +118,24 @@ class CoursesPage {
       ];
     }
 
+    // Get first accessible Lesson URL.
+    $first_lesson_url_by_course = [];
+    $current_language = $this->languageManager->getCurrentLanguage();
+    foreach ($courses as $course) {
+      $lesson = $this->course->getFirstAccessibleLesson($course);
+      if (!empty($lesson)) {
+        $first_lesson_url_by_course[] = [
+          'course_id' => $course->id(),
+          'first_lesson_url' => $lesson->toUrl('canonical', ['language' => $current_language])->toString(),
+        ];
+      }
+    }
+
     return [
       $node->bundle() => $this->normalizer->normalizeEntity($node, ['max_depth' => 3]),
       'courses' => $normalized_courses,
       'courses_pages_by_course' => $courses_pages_by_course,
+      'first_lesson_url_by_course' => $first_lesson_url_by_course,
     ];
   }
 

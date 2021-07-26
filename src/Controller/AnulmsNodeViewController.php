@@ -82,12 +82,14 @@ class AnulmsNodeViewController extends NodeViewController {
    *   The entity type manager.
    * @param \Drupal\anu_lms\Normalizer $normalizer
    *   The normalizer.
+   * @param \Drupal\anu_lms\CoursesPage $coursesPage
+   *   The Courses page service.
+   * @param \Drupal\anu_lms\Course $course
+   *   The Course service.
    * @param \Drupal\anu_lms\Lesson $lesson
    *   The Lesson service.
    * @param \Drupal\anu_lms\Quiz $quiz
    *   The Quiz service.
-   * @param \Drupal\anu_lms\CoursesPage $coursesPage
-   *   The Courses page service.
    * @param \Drupal\Core\Render\RendererInterface $renderer
    *   The renderer service.
    * @param \Drupal\Core\Session\AccountInterface $current_user

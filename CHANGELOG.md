@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  - Adds offline mode support for using with Progressive Web App module
  - Adds ability to translate strings for quiz submit buttons and info message
  - Improve data migration script for update from 1.x
+ - Improve Course card on Courses page to lead directly to first lesson
 
 ## [2.1.0] - 2021-07-19
 ### Added

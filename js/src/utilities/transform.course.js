@@ -18,13 +18,23 @@ const transformCourse = (node, data) => {
     return null;
   }
 
-  // Prepare courses pages for current course.
   const courseId = fields.getNumberValue(node, 'nid');
+  // Prepare courses pages for current course.
   let coursesPages = [];
   if (data.courses_pages_by_course) {
     data.courses_pages_by_course.map((set) => {
       if (set.course_id == courseId) {
         coursesPages = set.courses_pages;
+      }
+    });
+  }
+
+  // Prepare first lesson url for current course.
+  let firstLessonUrl = '';
+  if (data.first_lesson_url_by_course) {
+    data.first_lesson_url_by_course.map((set) => {
+      if (set.course_id == courseId) {
+        firstLessonUrl = set.first_lesson_url;
       }
     });
   }
@@ -50,6 +60,7 @@ const transformCourse = (node, data) => {
       quiz: transformQuiz(fields.getArrayValue(module, 'field_module_assessment')[0], data),
     })),
     courses_pages: coursesPages.map((coursesPage) => transformCoursesPage({ data: coursesPage })),
+    first_lesson_url: firstLessonUrl,
   };
 };
 
@@ -76,6 +87,7 @@ const coursePropTypes = PropTypes.shape({
   ),
   labels: PropTypes.arrayOf(PropTypes.string),
   courses_pages: PropTypes.arrayOf(PropTypes.shape({})),
+  first_lesson_url: PropTypes.string,
 });
 
 export { transformCourse, coursePropTypes };
