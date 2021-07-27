@@ -90,7 +90,6 @@ class Normalizer {
       $normalized_entity = $this->serializer->normalize($entity, 'json_recursive', $context);
     }
 
-
     return $normalized_entity;
   }
 
