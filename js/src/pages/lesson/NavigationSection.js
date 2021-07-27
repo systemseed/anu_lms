@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import Accordion from '@material-ui/core/Accordion';
+import LockIcon from '@material-ui/icons/Lock';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -34,13 +35,13 @@ const useStyles = makeStyles((theme) => ({
         : '1px solid ' + theme.palette.grey[300],
     },
   }),
-  accordionSummaryRoot: {
+  accordionSummaryRoot: ({ isRestricted }) => ({
     flexDirection: 'row-reverse',
-    background: theme.palette.grey[200],
-    transition: '.3s background-color',
+    background: isRestricted ? theme.palette.restricted.background : theme.palette.grey[200],
+    transition: isRestricted ? '' : '.3s background-color',
     '&.Mui-expanded': {
       minHeight: theme.spacing(6),
-      background: theme.palette.common.white,
+      background: isRestricted ? theme.palette.restricted.background : theme.palette.common.white,
     },
     '&:hover .MuiTypography-root': {
       color: theme.palette.primary.main,
@@ -48,9 +49,11 @@ const useStyles = makeStyles((theme) => ({
     '&:hover .MuiSvgIcon-root path': {
       fill: theme.palette.primary.main,
     },
-  },
+  }),
   accordionSummaryContent: {
+    color: theme.palette.restricted.font,
     margin: theme.spacing(2, 0),
+    alignItems: 'center',
     '&.Mui-expanded': {
       margin: theme.spacing(2, 0, 1),
     },
@@ -61,16 +64,28 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     color: theme.palette.common.black,
   },
-  accordionDetailsRoot: {
+  accordionDetailsRoot: ({ isRestricted }) => ({
     display: 'block',
     padding: theme.spacing(0, 0, 0, 5.5),
+    color: isRestricted ? theme.palette.restricted.background : theme.palette.black,
+    background: isRestricted ? theme.palette.restricted.background : theme.palette.common.white,
+  }),
+  moduleTitle: ({ isRestricted }) => ({
+    color: isRestricted ? theme.palette.restricted.font : theme.palette.black,
+  }),
+  icon: {
+    marginLeft: 'auto',
+    color: theme.palette.restricted.font,
+    width: theme.spacing(3),
+    height: theme.spacing(3),
   },
 }));
 
 const LessonNavigationSection = ({ module, lessons, currentLesson, quiz }) => {
   const content = quiz ? [...lessons, quiz] : lessons;
   const hasCurrentContent = content.filter((lesson) => lesson.id === currentLesson.id).length > 0;
-  const classes = useStyles({ hasCurrentContent });
+  const isRestricted = content.find((lesson) => lesson !== undefined).isRestricted;
+  const classes = useStyles({ hasCurrentContent, isRestricted });
 
   return (
     <Accordion
@@ -86,7 +101,16 @@ const LessonNavigationSection = ({ module, lessons, currentLesson, quiz }) => {
           expandIcon: classes.accordionSummaryExpandIcon,
         }}
       >
-        <Typography variant="body1">{module}</Typography>
+        <Typography variant="body1" className={classes.moduleTitle}>
+          {module}
+        </Typography>
+        {isRestricted && (
+          <LockIcon
+            classes={{
+              root: classes.icon,
+            }}
+          ></LockIcon>
+        )}
       </AccordionSummary>
 
       <AccordionDetails classes={{ root: classes.accordionDetailsRoot }}>

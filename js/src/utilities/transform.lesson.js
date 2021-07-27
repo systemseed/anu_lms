@@ -20,10 +20,15 @@ const transformLesson = (node) => {
     return null;
   }
 
+  console.log(fields.getTextValue(node, 'title'));
+  console.log(fields.getBooleanValue(node, 'is_completed'));
+
   return {
     id: fields.getNumberValue(node, 'nid'),
     title: fields.getTextValue(node, 'title'),
     url: fields.getNodeUrl(node),
+    isCompleted: fields.getBooleanValue(node, 'is_completed'),
+    isRestricted: fields.getBooleanValue(node, 'is_restricted'),
     sections: fields
       .getArrayValue(node, 'field_module_lesson_content')
       .map((content) =>

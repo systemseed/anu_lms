@@ -54,6 +54,10 @@ class Lesson {
       'course' => !empty($lesson_course) ? $this->normalizer->normalizeEntity($lesson_course, ['max_depth' => 2]) : NULL,
     ];
 
+    if ($data[$node->bundle()]['path'] == 'http://anu.localhost/node/7') {
+      $data[$node->bundle()]['is_completed'] = [0 => ['value' => true]];
+    }
+
     return $data;
   }
 
