@@ -20,9 +20,6 @@ const transformLesson = (node) => {
     return null;
   }
 
-  console.log(fields.getTextValue(node, 'title'));
-  console.log(fields.getBooleanValue(node, 'is_completed'));
-
   return {
     id: fields.getNumberValue(node, 'nid'),
     title: fields.getTextValue(node, 'title'),
