@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import Accordion from '@material-ui/core/Accordion';
 import LockIcon from '@material-ui/icons/Lock';
+import CheckIcon from '@material-ui/icons/Check';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -73,17 +74,18 @@ const useStyles = makeStyles((theme) => ({
   moduleTitle: ({ isRestricted }) => ({
     color: isRestricted ? theme.palette.restricted.font : theme.palette.black,
   }),
-  icon: {
+  icon: ({ isRestricted }) => ({
     marginLeft: 'auto',
-    color: theme.palette.restricted.font,
+    color: isRestricted ? theme.palette.restricted.font : theme.palette.success.main,
     width: theme.spacing(3),
     height: theme.spacing(3),
-  },
+  }),
 }));
 
 const LessonNavigationSection = ({ module, lessons, currentLesson, quiz }) => {
   const content = quiz ? [...lessons, quiz] : lessons;
   const hasCurrentContent = content.filter((lesson) => lesson.id === currentLesson.id).length > 0;
+  const isCompleted = content.filter((lesson) => lesson.isCompleted).length === content.length;
   const isRestricted = content.find((lesson) => lesson !== undefined).isRestricted;
   const classes = useStyles({ hasCurrentContent, isRestricted });
 
@@ -109,7 +111,14 @@ const LessonNavigationSection = ({ module, lessons, currentLesson, quiz }) => {
             classes={{
               root: classes.icon,
             }}
-          ></LockIcon>
+          />
+        )}
+        {isCompleted && (
+          <CheckIcon
+            classes={{
+              root: classes.icon,
+            }}
+          />
         )}
       </AccordionSummary>
 
