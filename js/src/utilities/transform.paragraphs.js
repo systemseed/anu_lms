@@ -184,6 +184,15 @@ const transformParagraph = (paragraph) => {
       };
     }
 
+    case 'lesson_table':
+      return {
+        bundle,
+        id: getNumberValue(paragraph, 'id'),
+        caption: getTextValue(paragraph, 'field_lesson_table_caption'),
+        sticky: getBooleanValue(paragraph, 'field_lesson_table_sticky'),
+        value: getTextValue(paragraph, 'field_lesson_table_content'),
+      };
+
     case 'lesson_text':
       return {
         bundle,

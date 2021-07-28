@@ -14,6 +14,7 @@ import Text from '@anu/components/Text';
 import ParagraphHighlightFullWidth from '@anu/components/ParagraphHighlightFullWidth';
 import QuizScaleAdapter from '@anu/components/QuizScaleAdapter';
 import ParagraphHighlightMarker from '@anu/components/ParagraphHighlightMarker';
+import Table from '@anu/components/Table';
 
 export default {
   lesson_checklist: Checklist,
@@ -29,6 +30,7 @@ export default {
   lesson_img_list: ImageBulletList,
   lesson_list: List,
   lesson_resource: Resource,
+  lesson_table: Table,
   lesson_text: Text,
   question_long_answer: QuizTextAnswerHandler,
   question_multi_choice: QuizOptionsHandler,
