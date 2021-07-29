@@ -89,8 +89,9 @@ const useStyles = makeStyles((theme) => ({
 const LessonNavigationSection = ({ module, lessons, currentLesson, quiz }) => {
   const content = quiz ? [...lessons, quiz] : lessons;
   const hasCurrentContent = content.filter((lesson) => lesson.id === currentLesson.id).length > 0;
-  const isCompleted = content.filter((lesson) => lesson.isCompleted).length === content.length;
-  const isRestricted = content.find((lesson) => lesson !== undefined).isRestricted;
+  const isCompleted = content.filter((lesson) => lesson.isCompleted).length === content.length && content.length > 0;
+  const firstLesson = content.find((lesson) => lesson !== undefined);
+  const isRestricted = firstLesson ? firstLesson.isRestricted : false;
   const classes = useStyles({ hasCurrentContent, isRestricted });
 
   return (
