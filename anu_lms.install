@@ -5,16 +5,51 @@
  * Update hooks for the module.
  */
 
-use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemList;
-use Drupal\Core\Field\FieldItemListInterface;
-use Drupal\entity_reference_revisions\EntityReferenceRevisionsFieldItemList;
 use Drupal\entity_reference_revisions\Plugin\Field\FieldType\EntityReferenceRevisionsItem;
 use Drupal\node\Entity\Node;
 use Drupal\node\NodeInterface;
 use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\Core\Field\Plugin\Field\FieldType\EntityReferenceItem;
+
+function anu_lms_schema() {
+  $schema['anu_lms_progress'] = [
+    'description' => 'Stores user progress across ANU LMS content.',
+    'fields' => [
+      'uid' => [
+        'description' => 'The {users}.id this record affects.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'nid' => [
+        'description' => 'The {node}.nid completed by the {users}.id.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+    ],
+    'primary key' => ['uid', 'nid'],
+    'indexes' => [
+      'uid' => ['uid'],
+    ],
+    // For documentation purposes only; foreign keys are not created in the
+    // database.
+    'foreign keys' => [
+      'data_user' => [
+        'table' => 'users',
+        'columns' => [
+          'uid' => 'uid',
+        ],
+      ],
+    ],
+  ];
+
+  return $schema;
+}
 
 /**
  * Migrate modules content from nodes to paragraphs.
@@ -100,4 +135,12 @@ function anu_lms_update_8002() {
       }
     }
   }
+}
+
+/**
+ * Create a new table for storing user progress.
+ */
+function anu_lms_update_8220() {
+  $schema = anu_lms_schema();
+  \Drupal::database()->schema()->createTable('anu_lms_progress', $schema['anu_lms_progress']);
 }
