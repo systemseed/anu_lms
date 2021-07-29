@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import Accordion from '@material-ui/core/Accordion';
+import LockIcon from '@material-ui/icons/Lock';
+import CheckIcon from '@material-ui/icons/Check';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -34,13 +36,17 @@ const useStyles = makeStyles((theme) => ({
         : '1px solid ' + theme.palette.grey[300],
     },
   }),
-  accordionSummaryRoot: {
+  accordionSummaryRoot: ({ isRestricted }) => ({
     flexDirection: 'row-reverse',
     background: theme.palette.grey[200],
-    transition: '.3s background-color',
+    transition: isRestricted ? '' : '.3s background-color',
+    // Border is needed to compensate border-right appearing
+    // when accordion is being open, to prevent icons jumping.
+    borderRight: '1px solid transparent',
     '&.Mui-expanded': {
       minHeight: theme.spacing(6),
-      background: theme.palette.common.white,
+      background: isRestricted ? theme.palette.grey[200] : theme.palette.common.white,
+      borderRight: 'none',
     },
     '&:hover .MuiTypography-root': {
       color: theme.palette.primary.main,
@@ -48,9 +54,11 @@ const useStyles = makeStyles((theme) => ({
     '&:hover .MuiSvgIcon-root path': {
       fill: theme.palette.primary.main,
     },
-  },
+  }),
   accordionSummaryContent: {
+    color: theme.palette.grey[400],
     margin: theme.spacing(2, 0),
+    alignItems: 'center',
     '&.Mui-expanded': {
       margin: theme.spacing(2, 0, 1),
     },
@@ -61,16 +69,30 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     color: theme.palette.common.black,
   },
-  accordionDetailsRoot: {
+  accordionDetailsRoot: ({ isRestricted }) => ({
     display: 'block',
     padding: theme.spacing(0, 0, 0, 5.5),
-  },
+    color: theme.palette.black,
+    background: isRestricted ? theme.palette.grey[200] : theme.palette.common.white,
+  }),
+  moduleTitle: ({ isRestricted }) => ({
+    color: isRestricted ? theme.palette.grey[400] : theme.palette.black,
+  }),
+  icon: ({ isRestricted }) => ({
+    marginLeft: 'auto',
+    color: isRestricted ? theme.palette.grey[400] : theme.palette.success.main,
+    width: theme.spacing(2),
+    height: theme.spacing(2),
+  }),
 }));
 
 const LessonNavigationSection = ({ module, lessons, currentLesson, quiz }) => {
   const content = quiz ? [...lessons, quiz] : lessons;
   const hasCurrentContent = content.filter((lesson) => lesson.id === currentLesson.id).length > 0;
-  const classes = useStyles({ hasCurrentContent });
+  const isCompleted = content.filter((lesson) => lesson.isCompleted).length === content.length && content.length > 0;
+  const firstLesson = content.find((lesson) => lesson !== undefined);
+  const isRestricted = firstLesson ? firstLesson.isRestricted : false;
+  const classes = useStyles({ hasCurrentContent, isRestricted });
 
   return (
     <Accordion
@@ -86,11 +108,19 @@ const LessonNavigationSection = ({ module, lessons, currentLesson, quiz }) => {
           expandIcon: classes.accordionSummaryExpandIcon,
         }}
       >
-        <Typography variant="body1">{module}</Typography>
+        <Typography variant="body1" className={classes.moduleTitle}>
+          {module}
+        </Typography>
+        {isRestricted && <LockIcon classes={{ root: classes.icon }} />}
+        {isCompleted && <CheckIcon classes={{ root: classes.icon }} />}
       </AccordionSummary>
 
       <AccordionDetails classes={{ root: classes.accordionDetailsRoot }}>
-        <LessonNavigationItems lessons={content} currentLesson={currentLesson} />
+        <LessonNavigationItems
+          lessons={content}
+          currentLesson={currentLesson}
+          isSectionRestricted={isRestricted}
+        />
       </AccordionDetails>
     </Accordion>
   );

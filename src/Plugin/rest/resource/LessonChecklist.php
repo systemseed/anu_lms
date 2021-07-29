@@ -168,7 +168,7 @@ class LessonChecklist extends ResourceBase {
       '#cache' => [
         'tags' => [
           'lesson_checklist_result:' . $checklist_paragraph_id,
-        ]
+        ],
       ],
     ];
     return (new ResourceResponse($result))->addCacheableDependency($build);

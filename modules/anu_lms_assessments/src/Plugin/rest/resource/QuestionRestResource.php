@@ -22,33 +22,30 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 class QuestionRestResource extends ResourceBase {
 
   /**
-   * A current user instance.
-   *
-   * @var \Drupal\Core\Session\AccountProxyInterface
-   */
-  protected $currentUser;
-
-  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    $instance = parent::create($container, $configuration, $plugin_id, $plugin_definition);
-    $instance->logger = $container->get('logger.factory')->get('assessments');
-    $instance->currentUser = $container->get('current_user');
-    return $instance;
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->getParameter('serializer.formats'),
+      $container->get('logger.factory')->get('anu_lms_assessments'),
+    );
   }
 
-  // TODO: Refactor and merge the logic with AssessmentRestResource.
-    public function post(array $payload) {
+  /**
+   * TODO: Refactor and merge the logic with AssessmentRestResource.
+   */
+  public function post(array $payload) {
     try {
       // TODO: Permissions.
       // TODO: Validation.
-
       /*   // You must to implement the logic of your REST Resource here.
-         // Use current user after pass authentication to validate access.
-         if (!$this->currentUser->hasPermission('access content')) {
-             throw new AccessDeniedHttpException();
-         }*/
+      // Use current user after pass authentication to validate access.
+      if (!$this->currentUser->hasPermission('access content')) {
+      throw new AccessDeniedHttpException();
+      }*/
 
       $questionId = $payload['questionId'];
       $value = $payload['value'];
@@ -113,14 +110,15 @@ class QuestionRestResource extends ResourceBase {
       }
 
       $question_result->save();
-    } catch (\Throwable $exception) {
+    }
+    catch (\Throwable $exception) {
       $this->logger->error($exception->getMessage() . ' Trace: ' . $exception->getTraceAsString());
       throw new BadRequestHttpException('An error occurred during request handling');
     }
 
-      return new ModifiedResourceResponse([
-        'correctAnswer' => $correct_answer,
-      ], 200);
-    }
+    return new ModifiedResourceResponse([
+      'correctAnswer' => $correct_answer,
+    ], 200);
+  }
 
 }

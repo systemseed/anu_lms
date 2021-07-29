@@ -1,4 +1,9 @@
 services:
+  # Generic ANU LMS logger.
+  logger.channel.anu_lms:
+    parent: logger.channel_base
+    arguments: [ 'anu_lms' ]
+
   # Route subscriber to overwrite node display for ANU LMS content types.
   anu_lms.route_subscriber:
     class: Drupal\anu_lms\Routing\RouteSubscriber
@@ -9,22 +14,26 @@ services:
   anu_lms.settings:
     class: Drupal\anu_lms\Settings
     arguments: [ '@entity.repository', '@serializer', '@language_manager', '@path.matcher' ]
+
   # Helper service for Courses Page content type.
   anu_lms.courses_page:
     class: Drupal\anu_lms\CoursesPage
     arguments: [ '@entity_type.manager', '@anu_lms.normalizer' ]
+
   # Helper service for Course content type.
   anu_lms.course:
     class: Drupal\anu_lms\Course
     arguments: [ '@entity_type.manager' ]
+
   # Helper service for Lesson / Quiz content types.
   anu_lms.lesson:
     class: Drupal\anu_lms\Lesson
-    arguments: [ '@entity_type.manager', '@anu_lms.normalizer' ]
+    arguments: [ '@entity_type.manager', '@database', '@current_user', '@anu_lms.normalizer', '@anu_lms.course', '@logger.channel.anu_lms' ]
+
   # Helper service for Quiz content types.
   anu_lms.quiz:
     class: Drupal\anu_lms\Quiz
-    arguments: [ '@entity_type.manager', '@anu_lms.normalizer' ]
+    arguments: [ '@entity_type.manager', '@database', '@current_user', '@anu_lms.normalizer', '@anu_lms.course', '@logger.channel.anu_lms' ]
 
   # Normalizers for better output by REST Entity Recursive module.
   anu_lms.normalizer:

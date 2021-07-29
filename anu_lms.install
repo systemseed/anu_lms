@@ -5,49 +5,82 @@
  * Update hooks for the module.
  */
 
-use Drupal\Core\Field\FieldDefinitionInterface;
-use Drupal\Core\Field\FieldItemList;
-use Drupal\Core\Field\FieldItemListInterface;
-use Drupal\entity_reference_revisions\EntityReferenceRevisionsFieldItemList;
-use Drupal\entity_reference_revisions\Plugin\Field\FieldType\EntityReferenceRevisionsItem;
 use Drupal\node\Entity\Node;
-use Drupal\node\NodeInterface;
 use Drupal\paragraphs\Entity\Paragraph;
-use Drupal\paragraphs\ParagraphInterface;
-use Drupal\Core\Field\Plugin\Field\FieldType\EntityReferenceItem;
+
+/**
+ * Implements hook_schema().
+ */
+function anu_lms_schema() {
+  $schema['anu_lms_progress'] = [
+    'description' => 'Stores user progress across ANU LMS content.',
+    'fields' => [
+      'uid' => [
+        'description' => 'The {users}.id this record affects.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'nid' => [
+        'description' => 'The {node}.nid completed by the {users}.id.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+    ],
+    'primary key' => ['uid', 'nid'],
+    'indexes' => [
+      'uid' => ['uid'],
+    ],
+    // For documentation purposes only; foreign keys are not created in the
+    // database.
+    'foreign keys' => [
+      'data_user' => [
+        'table' => 'users',
+        'columns' => [
+          'uid' => 'uid',
+        ],
+      ],
+    ],
+  ];
+
+  return $schema;
+}
 
 /**
  * Migrate modules content from nodes to paragraphs.
  */
 function anu_lms_update_8001() {
-  /** @var NodeInterface[] $courses */
+  /** @var \Drupal\node\Entity\NodeInterface[] $courses */
   $courses = \Drupal::entityTypeManager()->getStorage('node')
     ->loadByProperties(['type' => 'course']);
 
   foreach ($courses as $course) {
-    /** @var EntityReferenceItem[] $modules */
+    /** @var \Drupal\Core\Field\Plugin\Field\FieldType\EntityReferenceItem[] $modules */
     $modules_references = $course->get('field_course_modules');
     if (!empty($modules_references)) {
       foreach ($modules_references as $modules_reference) {
         $lesson_nids = [];
         $quiz_nid = FALSE;
 
-        /** @var NodeInterface $module */
+        /** @var \Drupal\node\Entity\NodeInterface $module */
         $module = Node::load($modules_reference->target_id);
 
-        /** @var EntityReferenceItem[] $lessons_references */
+        /** @var \Drupal\Core\Field\Plugin\Field\FieldType\EntityReferenceItem[] $lessons_references */
         $lessons_references = $module->get('field_module_lessons');
         foreach ($lessons_references as $lessons_reference) {
           $lesson_nids[] = $lessons_reference->target_id;
         }
 
-        /** @var EntityReferenceItem $quiz_references */
+        /** @var \Drupal\Core\Field\Plugin\Field\FieldType\EntityReferenceItem $quiz_references */
         $quiz_references = $module->get('field_module_assessment');
         foreach ($quiz_references as $quiz_reference) {
           $quiz_nid = $quiz_reference->target_id;
         }
 
-        /** @var ParagraphInterface $paragraph */
+        /** @var \Drupal\paragraphs\Entity\ParagraphInterface $paragraph */
         $paragraph = Paragraph::create(['type' => 'course_modules']);
         $paragraph->set('field_module_title', $module->label());
         foreach ($lesson_nids as $nid) {
@@ -74,23 +107,23 @@ function anu_lms_update_8001() {
 
 /**
  * Migrate is_highlight boolean field on image bullet list paragraphs to
- * default color
+ * default color.
  */
 function anu_lms_update_8002() {
-  /** @var NodeInterface[] $lessons */
+  /** @var \Drupal\node\Entity\NodeInterface[] $lessons */
   $lessons = Drupal::entityTypeManager()->getStorage('node')
     ->loadByProperties(['type' => 'module_lesson']);
   foreach ($lessons as $lesson) {
-    /** @var EntityReferenceRevisionsItem[] $sections */
+    /** @var \Drupal\entity_reference_revisions\Plugin\Field\FieldType\EntityReferenceRevisionsItem[] $sections */
     $sections = $lesson->get('field_module_lesson_content')
       ->referencedEntities();
     foreach ($sections as $section) {
-      /** @var Paragraph $contents */
+      /** @var \Drupal\paragraphs\Entity\Paragraph $contents */
       $contents = $section->get('field_lesson_section_content')
         ->referencedEntities();
       foreach ($contents as $content) {
         if ($content->getType() == 'lesson_img_list') {
-          /** @var FieldItemList $highlight_field */
+          /** @var \Drupal\Core\Field\FieldItemList $highlight_field */
           $highlight_field = $content->get('field_lesson_img_list_highlight');
           if ($highlight_field->getString() == "1") {
             $content->set('field_lesson_highlight_color', 'yellow');
@@ -100,4 +133,12 @@ function anu_lms_update_8002() {
       }
     }
   }
+}
+
+/**
+ * Create a new table for storing user progress.
+ */
+function anu_lms_update_8220() {
+  $schema = anu_lms_schema();
+  \Drupal::database()->schema()->createTable('anu_lms_progress', $schema['anu_lms_progress']);
 }
