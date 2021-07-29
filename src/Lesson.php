@@ -59,18 +59,20 @@ class Lesson {
   public function getPageData(EntityInterface $node) {
     $lesson_course = $this->getLessonCourse($node);
 
-    $courses_pages = $this->coursesPage->getCoursesPagesByCourse($lesson_course);
     $normalized_courses_pages = [];
-    foreach ($courses_pages as $courses_page) {
-      $normalized_courses_pages[] = [
-        'courses_page' => $this->normalizer->normalizeEntity($courses_page, ['max_depth' => 1])
-      ];
+    if (!empty($lesson_course)) {
+      $courses_pages = $this->coursesPage->getCoursesPagesByCourse($lesson_course);
+      foreach ($courses_pages as $courses_page) {
+        $normalized_courses_pages[] = [
+          'courses_page' => $this->normalizer->normalizeEntity($courses_page, ['max_depth' => 1])
+        ];
+      }
     }
 
     $data = [
       $node->bundle() => $this->normalizer->normalizeEntity($node, ['max_depth' => 4]),
       'course' => !empty($lesson_course) ? $this->normalizer->normalizeEntity($lesson_course, ['max_depth' => 2]) : NULL,
-      'courses_pages_by_course' => [
+      'courses_pages_by_course' => empty($lesson_course) ? [] : [
         [
           'course_id' => $lesson_course->id(),
           'courses_pages' => $normalized_courses_pages,
