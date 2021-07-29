@@ -49,7 +49,7 @@ class CoursesPage {
   /**
    * Returns normalized Courses page data.
    *
-   * @param EntityInterface $node
+   * @param \Drupal\Core\Entity\EntityInterface $node
    *   Courses page node.
    *
    * @return array
@@ -108,4 +108,5 @@ class CoursesPage {
 
     return !empty($courses) ? Node::loadMultiple($courses) : [];
   }
+
 }

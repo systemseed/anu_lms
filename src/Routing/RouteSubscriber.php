@@ -23,4 +23,5 @@ class RouteSubscriber extends RouteSubscriberBase {
       $route->setDefault('_controller', '\Drupal\anu_lms\Controller\AnulmsNodeViewController::view');
     }
   }
+
 }

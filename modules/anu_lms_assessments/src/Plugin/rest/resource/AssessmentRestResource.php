@@ -2,10 +2,12 @@
 
 namespace Drupal\anu_lms_assessments\Plugin\rest\resource;
 
+use Drupal\anu_lms\Quiz;
 use Drupal\anu_lms_assessments\Entity\AssessmentQuestionResult;
 use Drupal\node\Entity\Node;
 use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -23,20 +25,32 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 class AssessmentRestResource extends ResourceBase {
 
   /**
-   * A current user instance.
+   * Quiz handler.
    *
-   * @var \Drupal\Core\Session\AccountProxyInterface
+   * @var \Drupal\anu_lms\Quiz
    */
-  protected $currentUser;
+  protected $quiz;
+
+  /**
+   *
+   */
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger, Quiz $quiz) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
+    $this->quiz = $quiz;
+  }
 
   /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    $instance = parent::create($container, $configuration, $plugin_id, $plugin_definition);
-    $instance->logger = $container->get('logger.factory')->get('assessments');
-    $instance->currentUser = $container->get('current_user');
-    return $instance;
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->getParameter('serializer.formats'),
+      $container->get('logger.factory')->get('anu_lms_assessments'),
+      $container->get('anu_lms.quiz'),
+    );
   }
 
   /**
@@ -134,13 +148,16 @@ class AssessmentRestResource extends ResourceBase {
       throw new BadRequestHttpException('An error occurred during request handling');
     }
 
-    /** @var \Drupal\node\Entity\NodeInterface $quiz */
+    /** @var \Drupal\node\NodeInterface $quiz */
     $quiz = Node::load($assessment_nid);
     // Default behavior fallback.
     $hide_correct_answers = FALSE;
     if ($quiz->hasField('field_hide_correct_answers')) {
       $hide_correct_answers = (bool) $quiz->get('field_hide_correct_answers')->getString();
     }
+
+    // Mark the current quiz as completed for the current user.
+    $this->quiz->setCompleted($quiz);
 
     // Add information about the correct amount of answers to the output.
     $response = [

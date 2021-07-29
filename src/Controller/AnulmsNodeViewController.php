@@ -14,12 +14,16 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Session\AccountInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Serializer\Serializer;
 use Drupal\node\Controller\NodeViewController;
 use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Overrides default node view controller for ANU LMS content types.
+ */
 class AnulmsNodeViewController extends NodeViewController {
 
   use StringTranslationTrait;
@@ -132,9 +136,10 @@ class AnulmsNodeViewController extends NodeViewController {
    * {@inheritdoc}
    */
   public function view(EntityInterface $node, $view_mode = 'full', $langcode = NULL) {
+    /** @var \Drupal\node\NodeInterface $node */
     $node_type = $node->bundle();
 
-    // Modify the output only for node types we're responsible for,
+    // Modify the output only for node types we're responsible for,.
     if (!in_array($node_type, ['courses_page', 'course', 'module', 'module_lesson', 'module_assessment'])) {
       return parent::view($node, $view_mode, $langcode);
     }
@@ -147,10 +152,37 @@ class AnulmsNodeViewController extends NodeViewController {
         break;
 
       case 'module_lesson':
+
+        // If a user got to the current lesson, it means that
+        // they hit "Next" button on the previous lesson and so
+        // we can call the previous lesson completed.
+        $this->lesson->setPreviousLessonCompleted($node);
+        // If after setting the previous lesson a completed state the
+        // current lesson still has restricted access, it means that
+        // something went wrong with doing that and the user should not
+        // be able to see the current page.
+        if ($this->lesson->isRestricted($node)) {
+          throw new AccessDeniedHttpException();
+        }
+
         // Get data for viewed lesson.
         $content_data = $this->lesson->getPageData($node);
         break;
+
       case 'module_assessment':
+
+        // If a user got to the current quiz, it means that
+        // they hit "Next" button on the previous lesson and so
+        // we can call the previous lesson completed.
+        $this->quiz->setPreviousLessonCompleted($node);
+        // If after setting the previous lesson a completed state the
+        // current quiz still has restricted access, it means that
+        // something went wrong with doing that and the user should not
+        // be able to see the current page.
+        if ($this->quiz->isRestricted($node)) {
+          throw new AccessDeniedHttpException();
+        }
+
         // Get data for viewed quiz.
         $content_data = $this->quiz->getPageData($node);
         break;

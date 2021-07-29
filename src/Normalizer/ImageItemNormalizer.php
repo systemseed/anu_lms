@@ -24,9 +24,9 @@ class ImageItemNormalizer extends ReferenceItemNormalizer {
    */
   public function normalize($field_item, $format = NULL, array $context = []) {
     return parent::normalize($field_item, $format, $context) + [
-        'title' => $field_item->get('title')->getValue(),
-        'alt' =>  $field_item->get('alt')->getValue(),
-      ];
+      'title' => $field_item->get('title')->getValue(),
+      'alt' => $field_item->get('alt')->getValue(),
+    ];
   }
 
 }
