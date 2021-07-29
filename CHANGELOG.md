@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+ - Added linear progress support for courses
  - Improve 'Hide correct answers' functionality to answers are not returned at all to front end on submission
  - Improve 'Make single submission' functionality to not allow submission in different browser window
 
