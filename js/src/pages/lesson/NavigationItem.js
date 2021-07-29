@@ -26,19 +26,23 @@ const useStyles = makeStyles((theme) => ({
       color: isActive ? theme.palette.accent1.contrastText : theme.typography.link.color,
     },
   }),
+  iconWrapper: {
+    height: '20px',
+  },
   restrictedLink: {
     padding: theme.spacing(1, 2, 1, 1),
-    color: theme.palette.restricted.font,
+    color: theme.palette.grey[400],
     display: 'block',
     textDecoration: 'none',
   },
   circle: ({ isActive, isRestricted }) => ({
-    width: theme.spacing(2),
-    height: theme.spacing(2),
+    width: '20px',
+    height: '20px',
+    padding: '2px',
     background: isRestricted
-      ? theme.palette.restricted.lightBackground
+      ? theme.palette.grey[200]
       : theme.palette.common.white,
-    color: theme.palette.restricted.font,
+    color: theme.palette.grey[400],
     borderWidth: '2px',
     borderStyle: 'solid',
     borderColor: isActive ? theme.palette.common.black : theme.palette.grey[300],
@@ -48,8 +52,9 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 100,
   }),
   check: {
-    width: theme.spacing(2),
-    height: theme.spacing(2),
+    padding: '1px',
+    width: '20px',
+    height: '20px',
     background: theme.palette.success.main,
     color: theme.palette.success.contrastText,
     borderRadius: '50%',
@@ -61,30 +66,40 @@ const useStyles = makeStyles((theme) => ({
     width: 'auto',
     position: 'relative',
   },
-  firstLessonBackground: {
+  firstLessonBackground: ({ isSectionRestricted }) => ({
     position: 'absolute',
     zIndex: 1,
     left: 0,
     right: 0,
     top: 0,
     height: '50%',
-    // background: theme.palette.common.white,
-  },
-  lastLessonBackground: {
+    background: isSectionRestricted
+      ? theme.palette.grey[200]
+      : theme.palette.common.white,
+  }),
+  lastLessonBackground: ({ isSectionRestricted }) => ({
     position: 'absolute',
     zIndex: 1,
     left: 0,
     right: 0,
     bottom: 0,
     height: '50%',
-    // background: theme.palette.common.white,
-  },
+    background: isSectionRestricted
+      ? theme.palette.grey[200]
+      : theme.palette.common.white,
+  }),
 }));
 
-const LessonNavigationItem = ({ lesson, isActive, isFirstLesson, isLastLesson }) => {
+const LessonNavigationItem = ({
+  lesson,
+  isActive,
+  isFirstLesson,
+  isLastLesson,
+  isSectionRestricted,
+}) => {
   const isRestricted = lesson.isRestricted;
   const isCompleted = lesson.isCompleted;
-  const classes = useStyles({ isActive, isRestricted });
+  const classes = useStyles({ isActive, isRestricted, isSectionRestricted });
   const linkProps = isRestricted
     ? { className: classes.restrictedLink }
     : {
@@ -99,7 +114,7 @@ const LessonNavigationItem = ({ lesson, isActive, isFirstLesson, isLastLesson })
         {isFirstLesson && <Box className={classes.firstLessonBackground} />}
         {isLastLesson && <Box className={classes.lastLessonBackground} />}
 
-        <Grid item>
+        <Grid item className={classes.iconWrapper}>
           {isCompleted && <CheckIcon className={classes.check} />}
           {!isCompleted && !isRestricted && <Box className={classes.circle} />}
           {isRestricted && <LockIcon className={classes.circle} />}
@@ -120,12 +135,14 @@ LessonNavigationItem.propTypes = {
   isActive: PropTypes.bool,
   isFirstLesson: PropTypes.bool,
   isLastLesson: PropTypes.bool,
+  isSectionRestricted: PropTypes.bool,
 };
 
 LessonNavigationItem.defaultProps = {
   isActive: false,
   isFirstLesson: false,
   isLastLesson: false,
+  isSectionRestricted: false,
 };
 
 export default LessonNavigationItem;

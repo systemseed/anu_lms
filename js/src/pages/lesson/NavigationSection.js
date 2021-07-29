@@ -38,11 +38,15 @@ const useStyles = makeStyles((theme) => ({
   }),
   accordionSummaryRoot: ({ isRestricted }) => ({
     flexDirection: 'row-reverse',
-    background: isRestricted ? theme.palette.restricted.background : theme.palette.grey[200],
+    background: theme.palette.grey[200],
     transition: isRestricted ? '' : '.3s background-color',
+    // Border is needed to compensate border-right appearing
+    // when accordion is being open, to prevent icons jumping.
+    borderRight: '1px solid transparent',
     '&.Mui-expanded': {
       minHeight: theme.spacing(6),
-      background: isRestricted ? theme.palette.restricted.background : theme.palette.common.white,
+      background: isRestricted ? theme.palette.grey[200] : theme.palette.common.white,
+      borderRight: 'none',
     },
     '&:hover .MuiTypography-root': {
       color: theme.palette.primary.main,
@@ -52,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
     },
   }),
   accordionSummaryContent: {
-    color: theme.palette.restricted.font,
+    color: theme.palette.grey[400],
     margin: theme.spacing(2, 0),
     alignItems: 'center',
     '&.Mui-expanded': {
@@ -68,17 +72,17 @@ const useStyles = makeStyles((theme) => ({
   accordionDetailsRoot: ({ isRestricted }) => ({
     display: 'block',
     padding: theme.spacing(0, 0, 0, 5.5),
-    color: isRestricted ? theme.palette.restricted.background : theme.palette.black,
-    background: isRestricted ? theme.palette.restricted.background : theme.palette.common.white,
+    color: theme.palette.black,
+    background: isRestricted ? theme.palette.grey[200] : theme.palette.common.white,
   }),
   moduleTitle: ({ isRestricted }) => ({
-    color: isRestricted ? theme.palette.restricted.font : theme.palette.black,
+    color: isRestricted ? theme.palette.grey[400] : theme.palette.black,
   }),
   icon: ({ isRestricted }) => ({
     marginLeft: 'auto',
-    color: isRestricted ? theme.palette.restricted.font : theme.palette.success.main,
-    width: theme.spacing(3),
-    height: theme.spacing(3),
+    color: isRestricted ? theme.palette.grey[400] : theme.palette.success.main,
+    width: theme.spacing(2),
+    height: theme.spacing(2),
   }),
 }));
 
@@ -106,24 +110,16 @@ const LessonNavigationSection = ({ module, lessons, currentLesson, quiz }) => {
         <Typography variant="body1" className={classes.moduleTitle}>
           {module}
         </Typography>
-        {isRestricted && (
-          <LockIcon
-            classes={{
-              root: classes.icon,
-            }}
-          />
-        )}
-        {isCompleted && (
-          <CheckIcon
-            classes={{
-              root: classes.icon,
-            }}
-          />
-        )}
+        {isRestricted && <LockIcon classes={{ root: classes.icon }} />}
+        {isCompleted && <CheckIcon classes={{ root: classes.icon }} />}
       </AccordionSummary>
 
       <AccordionDetails classes={{ root: classes.accordionDetailsRoot }}>
-        <LessonNavigationItems lessons={content} currentLesson={currentLesson} />
+        <LessonNavigationItems
+          lessons={content}
+          currentLesson={currentLesson}
+          isSectionRestricted={isRestricted}
+        />
       </AccordionDetails>
     </Accordion>
   );

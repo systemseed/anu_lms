@@ -34,12 +34,6 @@ const defaultTheme = createMuiTheme({
       300: '#cfd8dc',
       400: '#445963',
     },
-    restricted: {
-      background: '#eceff1',
-      lightBackground: '#f6f7f8',
-      borders: '#cfd8dc',
-      font: '#546e7a',
-    },
     accent1: {
       main: '#f5de95',
       contrastText: '#000000',
