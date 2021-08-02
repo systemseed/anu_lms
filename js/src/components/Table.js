@@ -25,7 +25,6 @@ const TableGrid = withStyles((theme) => ({
 
 const CaptionTypography = withStyles((theme) => ({
   root: {
-    fontWeight: 'bold',
     marginBottom: theme.spacing(2),
   },
 }))(Typography);
@@ -60,7 +59,7 @@ const TableTypography = withStyles((theme) => ({
       backgroundClip: 'padding-box',
     },
     '& th:first-child, & td:first-child': {
-      position: ({ sticky }) => (sticky ? 'sticky' : 'relative'),
+      position: ({ issticky }) => (issticky ? 'sticky' : 'relative'),
       left: 0,
       zIndex: 2,
     },
@@ -92,16 +91,15 @@ const TableTypography = withStyles((theme) => ({
   },
 }))(Typography);
 
-const Table = ({ value, caption, sticky }) => (
+const Table = ({ value, caption, isSticky }) => (
   <TableGrid>
-    <CaptionTypography variant="h6" style={{ fontWeight: 'bold' }}>
-      {caption}
-    </CaptionTypography>
+    {caption && <CaptionTypography variant="h6">{caption}</CaptionTypography>}
+
     <TableTypography
       component="div"
       variant="body2"
       dangerouslySetInnerHTML={{ __html: value }}
-      sticky={sticky ? 'sticky' : null}
+      issticky={isSticky ? 'sticky' : null}
     />
   </TableGrid>
 );
@@ -109,12 +107,12 @@ const Table = ({ value, caption, sticky }) => (
 Table.propTypes = {
   value: PropTypes.node.isRequired,
   caption: PropTypes.string,
-  sticky: PropTypes.bool,
+  isSticky: PropTypes.bool,
 };
 
 Table.defaultProps = {
   caption: '',
-  sticky: false,
+  isSticky: false,
 };
 
 export default Table;

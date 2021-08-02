@@ -189,7 +189,7 @@ const transformParagraph = (paragraph) => {
         bundle,
         id: getNumberValue(paragraph, 'id'),
         caption: getTextValue(paragraph, 'field_lesson_table_caption'),
-        sticky: getBooleanValue(paragraph, 'field_lesson_table_sticky'),
+        isSticky: getBooleanValue(paragraph, 'field_lesson_table_sticky'),
         value: getTextValue(paragraph, 'field_lesson_table_content'),
       };
 
