@@ -25,14 +25,16 @@ const QuizSubmit = ({ onSubmit, isSubmitting, isQuiz }) => {
               <CircularProgress size={20} style={{ marginRight: theme.spacing(2) }} />
             )}
 
-            {isQuiz ? 'Submit quiz' : 'Submit answer'}
+            {isQuiz
+              ? Drupal.t('Submit quiz', {}, { context: 'ANU LMS' })
+              : Drupal.t('Submit answer', {}, { context: 'ANU LMS' })}
           </Button>
 
           {!online && (
             <Typography variant="subtitle1">
               {isQuiz
-                ? 'You cannot submit quizzes while offline.'
-                : 'You cannot submit answers while offline.'}
+                ? Drupal.t('You cannot submit quizzes while offline.', {}, { context: 'ANU LMS' })
+                : Drupal.t('You cannot submit answers while offline.', {}, { context: 'ANU LMS' })}
             </Typography>
           )}
         </>

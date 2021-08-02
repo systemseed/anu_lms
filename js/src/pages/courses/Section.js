@@ -6,10 +6,13 @@ import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import DownloadCourse from '@anu/components/DownloadCourse';
 import CoursesSectionEmpty from '@anu/pages/courses/SectionEmpty';
 import { coursePropTypes } from '@anu/utilities/transform.course';
+import { getPwaSettings } from '@anu/utilities/settings';
 
 const useStyles = makeStyles((theme) => ({
   media: {
@@ -19,6 +22,8 @@ const useStyles = makeStyles((theme) => ({
   card: {
     border: '1px solid ' + theme.palette.grey[300],
     height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
   },
 }));
 
@@ -35,10 +40,10 @@ const CoursesSection = ({ courses }) => {
         <Grid item xs={12} sm={6} md={4} key={course.id}>
           <Card elevation={0} className={classes.card}>
             <CardActionArea
-              disabled={!course.url}
+              disabled={!course.first_lesson_url}
               component="a"
-              href={course.url}
-              style={{ height: '100%' }}
+              href={course.first_lesson_url}
+              style={{ flexGrow: 1 }}
             >
               {course.image && course.image.url && (
                 <CardMedia
@@ -69,6 +74,12 @@ const CoursesSection = ({ courses }) => {
                 </Box>
               </CardContent>
             </CardActionArea>
+
+            {course && getPwaSettings() && (
+              <CardActions>
+                <DownloadCourse course={course} messagePosition="top" />
+              </CardActions>
+            )}
           </Card>
         </Grid>
       ))}

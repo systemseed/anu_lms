@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Snackbar from '@material-ui/core/Snackbar';
-import Typography from '@material-ui/core/Typography';
 import Alert from '@material-ui/lab/Alert';
 import { withStyles } from '@material-ui/styles';
 
@@ -21,10 +20,15 @@ const StyledSnackbar = withStyles((theme) => ({
 const StyledAlert = withStyles((theme) => ({
   outlinedError: {
     color: theme.palette.error.main,
-    backgroundColor: theme.palette.error.light,
+    backgroundColor: theme.palette.error.contrastText,
+  },
+  filledSuccess: {
+    backgroundColor: theme.palette.success.main,
+    color: theme.palette.success.contrastText,
   },
   filledWarning: {
-    color: theme.palette.text.primary,
+    backgroundColor: theme.palette.warning.main,
+    color: theme.palette.warning.contrastText,
   },
 }))(Alert);
 
@@ -61,7 +65,7 @@ const SnackAlert = ({
         error: <ErrorIcon />,
       }}
     >
-      <Typography variant="body2">{message}</Typography>
+      {message}
     </StyledAlert>
   </StyledSnackbar>
 );

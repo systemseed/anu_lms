@@ -46,7 +46,14 @@ class Lesson {
    *
    * @var \Psr\Log\LoggerInterface
    */
-  protected $logger;
+  protected $logger;  
+
+  /**
+   * The Courses page service.
+   *
+   * @var \Drupal\anu_lms\CoursesPage
+   */
+  protected $coursesPage;  
 
   /**
    * Course handler.
@@ -66,21 +73,32 @@ class Lesson {
    *   Current user object.
    * @param \Drupal\anu_lms\Normalizer $normalizer
    *   The normalizer handler.
-   * @param \Drupal\anu_lms\Course $course
-   *   Course handler.
    * @param \Psr\Log\LoggerInterface $logger
    *   Logger object.
+   * @param \Drupal\anu_lms\CoursesPage $coursesPage
+   *   The Courses page service.
+   * @param \Drupal\anu_lms\Course $course
+   *   The Course service.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, Connection $database, AccountProxyInterface $current_user, Normalizer $normalizer, Course $course, LoggerInterface $logger) {
+  public function __construct(
+    EntityTypeManagerInterface $entity_type_manager,
+    Connection $database,
+    AccountProxyInterface $current_user,
+    Normalizer $normalizer,
+    LoggerInterface $logger,
+    CoursesPage $coursesPage,
+    Course $course
+  ) {
     $this->nodeStorage = $entity_type_manager->getStorage('node');
     $this->database = $database;
     $this->currentUser = $current_user;
     $this->normalizer = $normalizer;
-    $this->course = $course;
     $this->logger = $logger;
+    $this->coursesPage = $coursesPage;
+    $this->course = $course;
   }
 
   /**
@@ -95,9 +113,25 @@ class Lesson {
   public function getPageData(NodeInterface $node) {
     $lesson_course = $this->getLessonCourse($node);
 
+    $normalized_courses_pages = [];
+    if (!empty($lesson_course)) {
+      $courses_pages = $this->coursesPage->getCoursesPagesByCourse($lesson_course);
+      foreach ($courses_pages as $courses_page) {
+        $normalized_courses_pages[] = [
+          'courses_page' => $this->normalizer->normalizeEntity($courses_page, ['max_depth' => 1])
+        ];
+      }
+    }
+
     $data = [
       $node->bundle() => $this->normalizer->normalizeEntity($node, ['max_depth' => 4]),
       'course' => !empty($lesson_course) ? $this->normalizer->normalizeEntity($lesson_course, ['max_depth' => 2]) : NULL,
+      'courses_pages_by_course' => empty($lesson_course) ? [] : [
+        [
+          'course_id' => $lesson_course->id(),
+          'courses_pages' => $normalized_courses_pages,
+        ],
+      ],
     ];
 
     return $data;
