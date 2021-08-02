@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_lesson_table_sticky
+    - paragraphs.paragraphs_type.lesson_table
+id: paragraph.lesson_table.field_lesson_table_sticky
+field_name: field_lesson_table_sticky
+entity_type: paragraph
+bundle: lesson_table
+label: 'Sticky first column'
+description: 'Make the first column sticky on small screens. Suits for tables with a big amount of columns, when the content can''t be wrapped properly. The first column must be a header.'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

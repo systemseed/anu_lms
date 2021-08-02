@@ -1,0 +1,51 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - filter.format.table
+  module:
+    - ckeditor
+format: table
+editor: ckeditor
+settings:
+  toolbar:
+    rows:
+      -
+        -
+          name: Table
+          items:
+            - Table
+        -
+          name: Formatting
+          items:
+            - Bold
+            - Underline
+            - Italic
+        -
+          name: Links
+          items:
+            - DrupalLink
+            - DrupalUnlink
+        -
+          name: Lists
+          items:
+            - BulletedList
+            - NumberedList
+        -
+          name: Tools
+          items:
+            - RemoveFormat
+            - Source
+  plugins:
+    language:
+      language_list: un
+    stylescombo:
+      styles: ''
+image_upload:
+  status: false
+  scheme: public
+  directory: inline-images
+  max_size: ''
+  max_dimensions:
+    width: null
+    height: null

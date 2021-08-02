@@ -39,9 +39,7 @@ const useStyles = makeStyles((theme) => ({
     width: '20px',
     height: '20px',
     padding: '2px',
-    background: isRestricted
-      ? theme.palette.grey[200]
-      : theme.palette.common.white,
+    background: isRestricted ? theme.palette.grey[200] : theme.palette.common.white,
     color: theme.palette.grey[400],
     borderWidth: '2px',
     borderStyle: 'solid',
@@ -73,9 +71,7 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
     top: 0,
     height: '50%',
-    background: isSectionRestricted
-      ? theme.palette.grey[200]
-      : theme.palette.common.white,
+    background: isSectionRestricted ? theme.palette.grey[200] : theme.palette.common.white,
   }),
   lastLessonBackground: ({ isSectionRestricted }) => ({
     position: 'absolute',
@@ -84,9 +80,7 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
     bottom: 0,
     height: '50%',
-    background: isSectionRestricted
-      ? theme.palette.grey[200]
-      : theme.palette.common.white,
+    background: isSectionRestricted ? theme.palette.grey[200] : theme.palette.common.white,
   }),
 }));
 

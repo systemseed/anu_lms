@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_lesson_table_content
+    - paragraphs.paragraphs_type.lesson_table
+  module:
+    - allowed_formats
+    - text
+third_party_settings:
+  allowed_formats:
+    table: table
+    minimal_html: '0'
+    plain_text: '0'
+id: paragraph.lesson_table.field_lesson_table_content
+field_name: field_lesson_table_content
+entity_type: paragraph
+bundle: lesson_table
+label: Table
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long
