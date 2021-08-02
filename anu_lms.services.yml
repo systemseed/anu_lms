@@ -1,4 +1,9 @@
 services:
+  # Generic ANU LMS logger.
+  logger.channel.anu_lms:
+    parent: logger.channel_base
+    arguments: [ 'anu_lms' ]
+
   # Route subscriber to overwrite node display for ANU LMS content types.
   anu_lms.route_subscriber:
     class: Drupal\anu_lms\Routing\RouteSubscriber
@@ -9,35 +14,42 @@ services:
   anu_lms.settings:
     class: Drupal\anu_lms\Settings
     arguments: [ '@entity.repository', '@serializer', '@language_manager', '@path.matcher' ]
+
   # Helper service for Courses Page content type.
   anu_lms.courses_page:
     class: Drupal\anu_lms\CoursesPage
     arguments: [ '@entity_type.manager', '@language_manager', '@anu_lms.normalizer', '@anu_lms.course']
+
   # Helper service for Course content type.
   anu_lms.course:
     class: Drupal\anu_lms\Course
     arguments: [ '@entity_type.manager' ]
+
   # Helper service for Lesson / Quiz content types.
   anu_lms.lesson:
     class: Drupal\anu_lms\Lesson
-    arguments: [ '@entity_type.manager', '@anu_lms.normalizer', '@anu_lms.courses_page']
+    arguments: [ '@entity_type.manager', '@database', '@current_user', '@anu_lms.normalizer', '@logger.channel.anu_lms', '@anu_lms.courses_page', '@anu_lms.course']
+  
   # Helper service for Quiz content types.
   anu_lms.quiz:
     class: Drupal\anu_lms\Quiz
-    arguments: [ '@entity_type.manager', '@anu_lms.normalizer', '@anu_lms.courses_page' ]
+    arguments: [ '@entity_type.manager', '@database', '@current_user', '@anu_lms.normalizer', '@logger.channel.anu_lms', '@anu_lms.courses_page', '@anu_lms.course']
 
   # Normalizers for better output by REST Entity Recursive module.
   anu_lms.normalizer:
     class: Drupal\anu_lms\Normalizer
     arguments: [ '@entity.repository', '@serializer' ]
+
   anu_lms.normalizer.node:
     class: Drupal\anu_lms\Normalizer\NodeNormalizer
     tags:
       - { name: normalizer, priority: 13 }
+
   anu_lms.normalizer.image_file:
     class: Drupal\anu_lms\Normalizer\ImageFileNormalizer
     tags:
       - { name: normalizer, priority: 12 }
+      
   anu_lms.normalizer.image_item:
     class: Drupal\anu_lms\Normalizer\ImageItemNormalizer
     arguments: [ '@entity.repository' ]

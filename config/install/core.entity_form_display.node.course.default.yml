@@ -6,6 +6,7 @@ dependencies:
     - field.field.node.course.field_course_description
     - field.field.node.course.field_course_image
     - field.field.node.course.field_course_label
+    - field.field.node.course.field_course_linear_progress
     - field.field.node.course.field_course_module
     - field.field.node.course.field_course_modules
     - image.style.thumbnail
@@ -23,6 +24,7 @@ third_party_settings:
       children:
         - group_course_info
         - group_course_modules
+        - group_settings
       parent_name: ''
       weight: 2
       format_type: tabs
@@ -63,6 +65,20 @@ third_party_settings:
         formatter: closed
         required_fields: true
       label: Modules
+    group_settings:
+      children:
+        - field_course_linear_progress
+      parent_name: group_course
+      weight: 15
+      format_type: tab
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        formatter: closed
+        required_fields: true
+      label: Settings
 id: node.course.default
 targetEntityType: node
 bundle: course
@@ -123,6 +139,13 @@ content:
       force_deepest: false
     third_party_settings: {  }
     type: options_shs_chosen
+    region: content
+  field_course_linear_progress:
+    weight: 105
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
     region: content
   field_course_module:
     type: entity_reference_paragraphs

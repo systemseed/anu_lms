@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, withStyles } from '@material-ui/core';
+import { Box, Button, withStyles } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import SyncIcon from '@material-ui/icons/Sync';
 import SnackAlert from '@anu/components/SnackAlert';
@@ -8,10 +8,34 @@ import { getPwaSettings } from '@anu/utilities/settings';
 
 import 'regenerator-runtime/runtime';
 
+const ButtonWrapper = withStyles(() => ({
+  root: {
+    position: 'relative',
+    display: 'flex',
+    flexDirection: ({ messageposition }) => (messageposition === 'left' ? 'row' : 'column'),
+    alignItems: ({ messageposition }) => (messageposition === 'left' ? 'center' : 'flex-start'),
+  },
+}))(Box);
+
+const ResultMessage = withStyles((theme) => ({
+  root: {
+    fontSize: '0.8rem',
+    color: theme.palette.success.main,
+    width: 280,
+    position: 'absolute',
+    bottom: ({ messageposition }) => (messageposition === 'left' ? 'auto' : 'calc(100% - 12px)'),
+    left: ({ messageposition }) => (messageposition === 'left' ? 'auto' : theme.spacing(1)),
+    right: ({ messageposition }) => (messageposition === 'left' ? '100%' : 'auto'),
+    textAlign: ({ messageposition }) => (messageposition === 'left' ? 'right' : 'left'),
+  },
+}))(Box);
+
 const StyledButton = withStyles((theme) => ({
   root: {
     width: 'max-content',
     margin: theme.spacing(1),
+    marginTop: ({ messageposition }) =>
+      messageposition === 'left' ? theme.spacing(1) : theme.spacing(2),
     background: '#f6f7f8',
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(3),
@@ -27,6 +51,7 @@ class DownloadCourse extends React.Component {
     this.state = {
       result: null,
       loading: false,
+      alertOpen: false,
     };
 
     this.handleDownload = this.handleDownload.bind(this);
@@ -151,10 +176,10 @@ class DownloadCourse extends React.Component {
       await this.saveUrlToCache(urlsToCache);
 
       // Updates loading status.
-      this.setState({ loading: false, result: 'success' });
+      this.setState({ loading: false, result: 'success', alertOpen: true });
     } catch (error) {
       // Updates loading status.
-      this.setState({ loading: false, result: 'error' });
+      this.setState({ loading: false, result: 'error', alertOpen: true });
       console.error(`Could not download course content: ${error}`);
     }
   }
@@ -179,7 +204,8 @@ class DownloadCourse extends React.Component {
   }
 
   render() {
-    const { loading, result } = this.state;
+    const { loading, result, alertOpen } = this.state;
+    const { messagePosition } = this.props;
 
     // Handling values needs to be done for both conditions
     // for preventing glitches on alert closing.
@@ -198,7 +224,23 @@ class DownloadCourse extends React.Component {
     }
 
     return (
-      <>
+      <ButtonWrapper messageposition={messagePosition}>
+        {result && result === 'success' && (
+          <ResultMessage messageposition={messagePosition}>
+            {Drupal.t('Successfully downloaded to your device!', {}, { context: 'ANU LMS' })}
+          </ResultMessage>
+        )}
+
+        {result && result === 'error' && (
+          <ResultMessage messageposition={messagePosition}>
+            {Drupal.t(
+              'Could not download the course. Please contact site administrator.',
+              {},
+              { context: 'ANU LMS' }
+            )}
+          </ResultMessage>
+        )}
+
         <StyledButton
           variant="contained"
           color="default"
@@ -206,6 +248,7 @@ class DownloadCourse extends React.Component {
           onClick={this.handleDownload}
           disabled={loading}
           disableElevation
+          messageposition={messagePosition}
         >
           {Drupal.t('Make available offline', {}, { context: 'ANU LMS' })}
 
@@ -213,15 +256,15 @@ class DownloadCourse extends React.Component {
         </StyledButton>
 
         <SnackAlert
-          show={result != null}
+          show={alertOpen}
           message={message}
-          onClose={() => this.setState({ result: null })}
+          onClose={() => this.setState({ alertOpen: false })}
           severity={severity}
           variant="filled"
           spaced
           duration={5000}
         />
-      </>
+      </ButtonWrapper>
     );
   }
 }

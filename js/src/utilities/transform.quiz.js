@@ -53,6 +53,8 @@ const transformQuizQuestions = (node) => {
     title: fields.getTextValue(node, 'title'),
     url: fields.getNodeUrl(node),
     isSingleSubmission: fields.getBooleanValue(node, 'field_no_multiple_submissions'),
+    isCompleted: fields.getBooleanValue(node, 'is_completed'),
+    isRestricted: fields.getBooleanValue(node, 'is_restricted'),
     questions: fields
       .getArrayValue(node, 'field_module_assessment_items')
       .map((paragraph) => transformParagraph(paragraph)),

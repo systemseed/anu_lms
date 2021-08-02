@@ -2,7 +2,6 @@
 
 namespace Drupal\anu_lms;
 
-use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\node\NodeInterface;
 
@@ -31,15 +30,17 @@ class Course {
   /**
    * Load the first lesson of the course the current user has access to.
    *
-   * @param NodeInterface $course
+   * @param \Drupal\node\NodeInterface $course
+   *   Course node object.
    *
-   * @return NodeInterface|bool
+   * @return \Drupal\node\NodeInterface|bool
+   *   Lesson or Quiz node object.
    */
-  public function getFirstAccessibleLesson(EntityInterface $course) {
-    $modules = $course->field_course_module->referencedEntities();
+  public function getFirstAccessibleLesson(NodeInterface $course) {
+    $modules = $course->get('field_course_module')->referencedEntities();
     foreach ($modules as $module) {
 
-      /** @var NodeInterface[] $lessons */
+      /** @var \Drupal\node\NodeInterface[] $lessons */
       $lessons = $module->field_module_lessons->referencedEntities();
       foreach ($lessons as $lesson) {
         if ($lesson->access('view')) {
@@ -47,7 +48,7 @@ class Course {
         }
       }
 
-      /** @var NodeInterface[] $quizzes */
+      /** @var \Drupal\node\NodeInterface[] $quizzes */
       $quizzes = $module->field_module_assessment->referencedEntities();
       foreach ($quizzes as $quiz) {
         if ($quiz->access('view')) {
@@ -58,4 +59,55 @@ class Course {
 
     return FALSE;
   }
+
+  /**
+   * Returns course navigation (lessons and quizzes).
+   *
+   * @param \Drupal\node\NodeInterface $course
+   *   Course node object.
+   *
+   * @return \Drupal\node\NodeInterface[]
+   *   Flat list of lessons and quizzes.
+   */
+  public function getLessonsAndQuizzes(NodeInterface $course) {
+    $nodes = &drupal_static('anu_lms_course_lessons', []);
+    if (!empty($nodes[$course->id()])) {
+      return $nodes[$course->id()];
+    }
+
+    // Get course modules.
+    $modules = $course->get('field_course_module')->referencedEntities();
+    foreach ($modules as $module) {
+
+      // Get module's lessons.
+      /** @var \Drupal\node\NodeInterface[] $lessons */
+      $lessons = $module->field_module_lessons->referencedEntities();
+      foreach ($lessons as $lesson) {
+        $nodes[$course->id()][] = $lesson;
+      }
+
+      // Get module's quiz.
+      /** @var \Drupal\node\NodeInterface[] $quizzes */
+      $quizzes = $module->field_module_assessment->referencedEntities();
+      foreach ($quizzes as $quiz) {
+        $nodes[$course->id()][] = $quiz;
+      }
+    }
+
+    return $nodes[$course->id()];
+  }
+
+  /**
+   * Returns status of linear progress enabling.
+   *
+   * @param \Drupal\node\NodeInterface $course
+   *   Course node object.
+   *
+   * @return bool
+   *   Whether linear progress is enabled for the given course.
+   */
+  public function isLinearProgressEnabled(NodeInterface $course): bool {
+    return (bool) $course->get('field_course_linear_progress')->getString();
+  }
+
 }

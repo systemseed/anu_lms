@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_course_linear_progress
+    - node.type.course
+id: node.course.field_course_linear_progress
+field_name: field_course_linear_progress
+entity_type: node
+bundle: course
+label: 'Enable linear progress'
+description: 'Users will be able to see the next lesson only once they''ve completed the previous lesson.'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

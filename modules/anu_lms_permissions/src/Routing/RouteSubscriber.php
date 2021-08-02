@@ -26,4 +26,5 @@ class RouteSubscriber extends RouteSubscriberBase {
       $route->setDefaults($defaults);
     }
   }
+
 }

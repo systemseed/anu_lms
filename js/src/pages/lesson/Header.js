@@ -65,7 +65,9 @@ const LessonHeader = ({ course }) => {
           </Grid>
 
           <Grid item xs={12} md={4} className={classes.actions} style={{ padding: 0 }}>
-            {course && getPwaSettings() && <DownloadCourse course={course} />}
+            {course && getPwaSettings() && (
+              <DownloadCourse course={course} messagePosition="left" />
+            )}
           </Grid>
         </Grid>
       </Container>

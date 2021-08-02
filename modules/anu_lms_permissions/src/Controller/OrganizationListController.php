@@ -7,10 +7,16 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\group\Entity\Group;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
+/**
+ *
+ */
 class OrganizationListController {
 
   use StringTranslationTrait;
 
+  /**
+   *
+   */
   public function build() {
     $groups = $this->getAvailableGroups();
 
@@ -34,7 +40,7 @@ class OrganizationListController {
         $blocks['groups']['content']['#content'][] = [
           'title' => $group->label(),
           'url' => $group->toUrl(),
-          'description' => $this->t('View and manage %group', ['%group' => $group->label()])
+          'description' => $this->t('View and manage %group', ['%group' => $group->label()]),
         ];
       }
     }
@@ -45,15 +51,22 @@ class OrganizationListController {
     ];
   }
 
+  /**
+   *
+   */
   public function access() {
     $groups = $this->getAvailableGroups();
     return !empty($groups) ? AccessResult::allowed() : AccessResult::forbidden();
   }
 
+  /**
+   *
+   */
   protected function getAvailableGroups() {
     // Load groups user has access to (only admins or orgadmins).
     return \Drupal::entityQuery('group')
       ->condition('type', 'anu_organization')
       ->execute();
   }
+
 }
