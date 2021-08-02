@@ -77,7 +77,7 @@ const CoursesSection = ({ courses }) => {
 
             {course && getPwaSettings() && (
               <CardActions>
-                <DownloadCourse course={course} />
+                <DownloadCourse course={course} messagePosition="top" />
               </CardActions>
             )}
           </Card>
