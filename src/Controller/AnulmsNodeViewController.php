@@ -190,7 +190,7 @@ class AnulmsNodeViewController extends NodeViewController {
       case 'course':
         $lesson = $this->course->getFirstAccessibleLesson($node);
         if (!empty($lesson)) {
-          return new RedirectResponse($lesson->toUrl()->toString());
+          return new RedirectResponse($lesson->toUrl('canonical', ['language' => $langcode])->toString());
         }
         return [
           '#markup' => $this->t('There are no lessons in this course yet.'),
