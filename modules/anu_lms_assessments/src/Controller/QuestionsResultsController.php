@@ -2,27 +2,33 @@
 
 namespace Drupal\anu_lms_assessments\Controller;
 
-use Drupal\anu_lms_assessments\Entity\AssessmentResultInterface;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\node\NodeInterface;
 use Drupal\node\Plugin\views\filter\Access;
-use Drupal\paragraphs\ParagraphInterface;
 
-
+/**
+ * QuestionsResultsController class
+ */
 class QuestionsResultsController extends ControllerBase {
 
+  /**
+   *
+   */
   public function resultsPageTitle(NodeInterface $node) {
-    return t('Responses to questions for %lesson', ['%lesson' => $node->label() ]);
+    return t('Responses to questions for %lesson', ['%lesson' => $node->label()]);
   }
 
+  /**
+   *
+   */
   public function resultsPage(NodeInterface $node) {
     $build = [];
 
     // Load questions from the lesson content.
     // TODO: Test for empty node.
-    /** @var ParagraphInterface[] $paragraphs */
+    /** @var \Drupal\paragraphs\ParagraphInterface[] $paragraphs */
     $sections = $node->get('field_module_lesson_content')->referencedEntities();
     $question_ids = [];
     foreach ($sections as $section) {
@@ -38,13 +44,17 @@ class QuestionsResultsController extends ControllerBase {
       '#type' => 'view',
       '#name' => 'lesson_questions_responses',
       '#display_id' => 'lesson_questions_responses_embed',
-      '#arguments' => [implode('+', $question_ids), $node->id()], // nid needs for generating download link.
+    // Nid needs for generating download link.
+      '#arguments' => [implode('+', $question_ids), $node->id()],
       '#embed' => TRUE,
     ];
 
     return $build;
   }
 
+  /**
+   *
+   */
   public function checkAccess(NodeInterface $node, AccountInterface $account) {
 
     // The route is valid only for lesson nodes.

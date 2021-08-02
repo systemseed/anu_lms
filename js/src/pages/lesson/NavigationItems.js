@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
   itemsLine: {
     position: 'absolute',
-    left: '7px',
+    left: '9px',
     top: theme.spacing(1.5),
     bottom: theme.spacing(3),
     width: '2px',
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LessonNavigationItems = ({ lessons, currentLesson }) => {
+const LessonNavigationItems = ({ lessons, currentLesson, isSectionRestricted }) => {
   const classes = useStyles();
 
   return (
@@ -49,6 +49,7 @@ const LessonNavigationItems = ({ lessons, currentLesson }) => {
             isActive={lesson.id === currentLesson.id}
             isFirstLesson={index === 0}
             isLastLesson={index === lessons.length - 1}
+            isSectionRestricted={isSectionRestricted}
           />
         ))}
       </Box>
@@ -59,10 +60,12 @@ const LessonNavigationItems = ({ lessons, currentLesson }) => {
 LessonNavigationItems.propTypes = {
   lessons: PropTypes.arrayOf(lessonPropTypes),
   currentLesson: lessonPropTypes.isRequired,
+  isSectionRestricted: PropTypes.bool,
 };
 
 LessonNavigationItems.defaultProps = {
   lessons: [],
+  isSectionRestricted: false,
 };
 
 export default LessonNavigationItems;

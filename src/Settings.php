@@ -101,7 +101,7 @@ class Settings {
 
     // Packaging script will always provide the published module version. Checking
     // for NULL is only so maintainers have something predictable to test against.
-    if ($pwa_module_version == null) {
+    if ($pwa_module_version == NULL) {
       $pwa_module_version = '8.x-1.x-dev';
     }
 
