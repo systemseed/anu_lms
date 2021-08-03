@@ -100,6 +100,8 @@ class DownloadCourse extends React.Component {
     const { course } = this.props;
     let urlsToCache = [];
 
+    console.log(course);
+
     // Indicate loading process.
     this.setState({ loading: true });
 
@@ -109,7 +111,7 @@ class DownloadCourse extends React.Component {
       urlsToCache.push(`${getLangCodePrefix()}/courses`);
 
       // Cache Course data.
-      urlsToCache.push(`${getLangCodePrefix()}/node/${course.id}`);
+      urlsToCache.push(getLangCodePrefix() + course.path);
 
       if (course.image && course.image.url) {
         urlsToCache.push(course.image.url);
@@ -121,19 +123,19 @@ class DownloadCourse extends React.Component {
         const urls = [];
 
         // Cache Module data.
-        urls.push(`${getLangCodePrefix()}/node/${module.id}`);
+        urls.push(getLangCodePrefix() + module.path);
         if (module.image && module.image.url) {
           urls.push(module.image.url);
         }
 
         // Find Module's lessons and return as a result,
         // they will be cached separately.
-        const moduleLessonUrls = module.lessons.map((lesson) => `${getLangCodePrefix()}/node/${lesson.id}`);
+        const moduleLessonUrls = module.lessons.map((lesson) => getLangCodePrefix() + lesson.path);
         lessonUrls = lessonUrls.concat(moduleLessonUrls);
 
         // Add Module's assessment.
         if (module.assessment && module.assessment.id) {
-          lessonUrls.push(`${getLangCodePrefix()}/node/${module.assessment.id}`);
+          lessonUrls.push(getLangCodePrefix() + module.assessment.path);
         }
 
         return urls;
