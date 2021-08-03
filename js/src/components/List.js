@@ -6,6 +6,7 @@ import { Icon, withStyles } from '@material-ui/core';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import LessonGrid from '@anu/components/LessonGrid';
+import Typography from '@material-ui/core/Typography';
 
 const StyledList = withStyles({
   root: {
@@ -53,6 +54,20 @@ const StyledIcon = withStyles((theme) => ({
   },
 }))(Icon);
 
+const StyledTypography = withStyles((theme) => ({
+  root: {
+    '& > p': {
+      marginBottom: theme.spacing(4),
+    },
+    '& > p:first-child': {
+      marginTop: 0,
+    },
+    '& > p:last-child': {
+      marginBottom: 0,
+    },
+  },
+}))(Typography);
+
 const ListElement = ({ items, type }) => (
   <LessonGrid>
     {type === 'ul' && (
@@ -63,7 +78,9 @@ const ListElement = ({ items, type }) => (
               <StyledIcon fontSize="small">brightness_1</StyledIcon>
             </ListItemIcon>
 
-            <ListItemText>{item}</ListItemText>
+            <ListItemText>
+              <StyledTypography component="div" dangerouslySetInnerHTML={{ __html: item }} />
+            </ListItemText>
           </StyledListItem>
         ))}
       </StyledList>
@@ -73,7 +90,9 @@ const ListElement = ({ items, type }) => (
       <NumberedList component={type}>
         {items.map((item, index) => (
           <NumberedListItem key={index}>
-            <NumberedListItemText>{item}</NumberedListItemText>
+            <NumberedListItemText>
+              <StyledTypography component="div" dangerouslySetInnerHTML={{ __html: item }} />
+            </NumberedListItemText>
           </NumberedListItem>
         ))}
       </NumberedList>

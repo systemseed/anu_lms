@@ -4,6 +4,15 @@ dependencies:
   config:
     - field.storage.paragraph.field_lesson_image_caption_long
     - paragraphs.paragraphs_type.lesson_image_thumbnail
+  module:
+    - allowed_formats
+    - text
+third_party_settings:
+  allowed_formats:
+    minimal_html: minimal_html
+    plain_text: '0'
+    basic_html: '0'
+    full_html: '0'
 id: paragraph.lesson_image_thumbnail.field_lesson_image_caption_long
 field_name: field_lesson_image_caption_long
 entity_type: paragraph
@@ -15,4 +24,4 @@ translatable: false
 default_value: {  }
 default_value_callback: ''
 settings: {  }
-field_type: string_long
+field_type: text_long
