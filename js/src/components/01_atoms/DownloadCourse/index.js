@@ -100,8 +100,6 @@ class DownloadCourse extends React.Component {
     const { course } = this.props;
     let urlsToCache = [];
 
-    console.log(course);
-
     // Indicate loading process.
     this.setState({ loading: true });
 
