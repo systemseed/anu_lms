@@ -17,7 +17,7 @@ const ImageWithCaptionThumbnail = ({ image, caption }) => (
       </Grid>
 
       <Grid item md={8} xs={12}>
-        <Typography>{caption}</Typography>
+        <Typography dangerouslySetInnerHTML={{ __html: caption }} />
       </Grid>
     </Grid>
   </LessonGrid>

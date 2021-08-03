@@ -6,6 +6,9 @@ import { Icon, withStyles } from '@material-ui/core';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import LessonGrid from '@anu/components/LessonGrid';
+import Typography from '@material-ui/core/Typography';
+
+console.log('hey');
 
 const StyledList = withStyles({
   root: {
@@ -63,7 +66,9 @@ const ListElement = ({ items, type }) => (
               <StyledIcon fontSize="small">brightness_1</StyledIcon>
             </ListItemIcon>
 
-            <ListItemText>{item}</ListItemText>
+            <ListItemText>
+              <Typography component="span" dangerouslySetInnerHTML={{ __html: item }} />
+            </ListItemText>
           </StyledListItem>
         ))}
       </StyledList>
@@ -73,7 +78,9 @@ const ListElement = ({ items, type }) => (
       <NumberedList component={type}>
         {items.map((item, index) => (
           <NumberedListItem key={index}>
-            <NumberedListItemText>{item}</NumberedListItemText>
+            <NumberedListItemText>
+              <Typography component="span" dangerouslySetInnerHTML={{ __html: item }} />
+            </NumberedListItemText>
           </NumberedListItem>
         ))}
       </NumberedList>

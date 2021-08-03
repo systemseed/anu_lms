@@ -4,6 +4,15 @@ dependencies:
   config:
     - field.storage.paragraph.field_lesson_list_items
     - paragraphs.paragraphs_type.lesson_list
+  module:
+    - allowed_formats
+    - text
+third_party_settings:
+  allowed_formats:
+    minimal_html: minimal_html
+    plain_text: '0'
+    basic_html: '0'
+    full_html: '0'
 id: paragraph.lesson_list.field_lesson_list_items
 field_name: field_lesson_list_items
 entity_type: paragraph
@@ -15,4 +24,5 @@ translatable: false
 default_value: {  }
 default_value_callback: ''
 settings: {  }
-field_type: string_long
+field_type: text_long
+
