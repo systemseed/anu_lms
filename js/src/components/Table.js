@@ -52,11 +52,14 @@ const TableTypography = withStyles((theme) => ({
     },
     '& th, & td': {
       padding: theme.spacing(2, 0.75),
+      backgroundClip: 'padding-box',
     },
     '& th': {
       textAlign: 'left',
       backgroundColor: theme.palette.grey[200],
-      backgroundClip: 'padding-box',
+    },
+    '& td': {
+      backgroundColor: theme.palette.common.white,
     },
     '& th:first-child, & td:first-child': {
       position: ({ issticky }) => (issticky ? 'sticky' : 'relative'),
@@ -70,18 +73,24 @@ const TableTypography = withStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       '& table': {
         borderRadius: 4,
-        boxShadow: `inset 0 0 0 1px ${theme.palette.grey[300]}`,
         overflow: 'hidden',
+        position: 'relative',
       },
-      '& tr': {
-        zIndex: -1,
-      },
-      '& th, & td': {
-        zIndex: -2,
+      '& table::after': {
+        content: '""',
+        display: 'block',
+        borderRadius: 4,
+        border: `1px solid ${theme.palette.grey[300]}`,
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        zIndex: 4,
+        pointerEvents: 'none',
       },
       '& th:first-child, & td:first-child': {
         position: 'relative',
-        zIndex: -2,
         paddingLeft: theme.spacing(1.5),
       },
       '& th:last-child, & td:last-child': {
