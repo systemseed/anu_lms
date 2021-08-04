@@ -8,12 +8,10 @@
 * [NOT THAT SIMPLE] Add basic automated tests coverage
 * [SORT OF SIMPLE]Add normal alerting system (instead of alert())
 * [SORT OF SIMPLE] Disable access to lessons when course is not in the group
-* [SORT OF SIMPLE] Offline functionality - blocked by the designs
 
 ### Full release
 * Disabled Slider has small balloon offset
 * Create default courses page
-* Bullet items don’t include html support
 * Create a style guide
 * Documentation
 
