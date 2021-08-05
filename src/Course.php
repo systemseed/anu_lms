@@ -48,6 +48,9 @@ class Course {
         }
       }
 
+      if (!$module->field_module_assessment) {
+        continue;
+      }
       /** @var \Drupal\node\NodeInterface[] $quizzes */
       $quizzes = $module->field_module_assessment->referencedEntities();
       foreach ($quizzes as $quiz) {
