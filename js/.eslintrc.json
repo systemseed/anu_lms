@@ -16,9 +16,10 @@
   "extends": [
     "eslint:recommended",
     "plugin:prettier/recommended",
-    "plugin:react/recommended"
+    "plugin:react/recommended",
+    "plugin:jsx-a11y/strict"
   ],
-  "plugins": ["react"],
+  "plugins": ["react", "jsx-a11y"],
   "rules": {
     "no-console": ["error", { "allow": ["error"] }],
     "react/prop-types": "warn"
@@ -27,5 +28,9 @@
     "react": {
       "version": "detect"
     }
+  },
+  "globals": {
+    "Drupal": "readonly",
+    "drupalSettings": "readonly"
   }
 }

@@ -42,7 +42,7 @@ class ParagraphsWithQuiz extends React.Component {
 
   handleSubmissionConfirmation(value) {
     this.setState(
-      (prevState) => ({
+      () => ({
         readyToSubmit: value,
         openDialog: false,
       }),
