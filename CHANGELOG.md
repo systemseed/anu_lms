@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
   -
 
+## [2.3.3]
+
+ - Fixed error when a course had no modules
+
 ## [2.3.2]
 
  - Fixed non-clickable links in tables
