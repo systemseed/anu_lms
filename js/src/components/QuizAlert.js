@@ -23,7 +23,7 @@ const QuizAlert = ({ open, handleClose }) => {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => handleClose(false)} color="primary" autoFocus>
+        <Button onClick={() => handleClose(false)} color="primary">
           Cancel
         </Button>
         <Button onClick={() => handleClose(true)} color="primary">

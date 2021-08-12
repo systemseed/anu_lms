@@ -83,7 +83,7 @@ class DownloadCourse extends React.Component {
     if (transformedAppData.lesson) {
       transformedAppData.lesson.sections.map((section) => {
         section.map((paragraph) => {
-          for (const [key, value] of Object.entries(paragraph)) {
+          for (const [, value] of Object.entries(paragraph)) {
             if (typeof value === 'object' && value.type && value.type === 'image') {
               paragraphUrls.push(value.url);
             }
@@ -95,7 +95,7 @@ class DownloadCourse extends React.Component {
     // Gather quiz images.
     if (transformedAppData.quiz) {
       transformedAppData.quiz.questions.map((item) => {
-        for (const [key, value] of Object.entries(item)) {
+        for (const [, value] of Object.entries(item)) {
           if (typeof value === 'object' && value.type && value.type === 'image') {
             paragraphUrls.push(value.url);
           }
