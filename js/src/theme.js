@@ -1,4 +1,4 @@
-import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
+import { createTheme } from '@material-ui/core/styles';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 const getDirection = () => document.dir || 'ltr';
