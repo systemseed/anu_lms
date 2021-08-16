@@ -8,7 +8,7 @@ const getDirection = () => document.dir || 'ltr';
 // colors and also breakpoints.
 // See https://material-ui.com/customization/default-theme
 // to find out about all options.
-const defaultTheme = createMuiTheme({
+const defaultTheme = createTheme({
   direction: getDirection(),
   typography: {
     fontFamily: '"Public Sans", sans-serif',
@@ -63,7 +63,7 @@ const defaultTheme = createMuiTheme({
   },
 });
 
-const theme = createMuiTheme({
+const theme = createTheme({
   ...defaultTheme,
   typography: {
     h1: {
