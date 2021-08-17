@@ -5,7 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
- - 
+ -
+
+## [2.3.7]
+ - Updated @material-ui/core to the latest version.
 
 ## [2.3.6]
  - Fixed bug with not defined function in theme.js.
@@ -14,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  - Fixed compatibility with latest @material-ui version.
 
 ## [2.3.4]
- - Fixed Eslint errors and added jsx-a11y Eslint plugin to check for Accessibility problems. 
+ - Fixed Eslint errors and added jsx-a11y Eslint plugin to check for Accessibility problems.
 
 ## [2.3.3]
 
