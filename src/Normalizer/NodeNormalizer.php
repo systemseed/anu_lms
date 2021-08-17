@@ -3,6 +3,7 @@
 namespace Drupal\anu_lms\Normalizer;
 
 use Drupal\rest_entity_recursive\Normalizer\ContentEntityNormalizer;
+use Drupal\Core\Entity\EntityInterface;
 
 /**
  * Converts the Drupal node object structure to a JSON array structure.
@@ -36,7 +37,55 @@ class NodeNormalizer extends ContentEntityNormalizer {
       $normalized['is_restricted'] = ['value' => $lessonHandler->isRestricted($entity)];
     }
 
+    /** @var \Drupal\anu_lms\Course $courseHandler */
+    $courseHandler = \Drupal::service('anu_lms.course');
+
+    if ($entity->bundle() === 'course' && $courseHandler->isLinearProgressEnabled($entity)) {
+      $normalized['progress'] = ['value' => $this->getCourseProgress($entity)];
+    }
+
     return $normalized;
+  }
+
+  /**
+   * Returns progress in a course.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $course
+   *   Course object.
+   *
+   * @return array
+   *   The passed array with the progress attached.
+   */
+  protected function getCourseProgress(EntityInterface $course) {
+    /** @var \Drupal\anu_lms\Lesson $lessonHandler */
+    $lessonHandler = \Drupal::service('anu_lms.lesson');
+
+    $modules = $course->get('field_course_module')->referencedEntities();
+    $totalLessons = 0;
+    $completedLessons = 0;
+    foreach ($modules as $module) {
+
+      /** @var \Drupal\node\NodeInterface[] $lessons */
+      $lessons = $module->field_module_lessons->referencedEntities();
+      foreach ($lessons as $lesson) {
+        if ($lesson->access('view')) {
+          $totalLessons++;
+          if ($lessonHandler->isCompleted($lesson)) {
+            $completedLessons++;
+          }
+        }
+      }
+    }
+
+    // Calculate percentage.
+    if ($totalLessons > 0) {
+      $progress = round(($completedLessons * 100) / $totalLessons, 2);
+    }
+    else {
+      $progress = 0;
+    }
+
+    return $progress;
   }
 
 }
