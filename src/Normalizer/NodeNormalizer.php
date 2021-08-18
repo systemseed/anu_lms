@@ -53,8 +53,8 @@ class NodeNormalizer extends ContentEntityNormalizer {
    * @param \Drupal\Core\Entity\EntityInterface $course
    *   Course object.
    *
-   * @return array
-   *   The passed array with the progress attached.
+   * @return float
+   *   The progress as a percentage like 33.34.
    */
   protected function getCourseProgress(EntityInterface $course) {
     /** @var \Drupal\anu_lms\Lesson $lessonHandler */
@@ -75,11 +75,24 @@ class NodeNormalizer extends ContentEntityNormalizer {
           }
         }
       }
+      if (!$module->field_module_assessment) {
+        continue;
+      }
+      /** @var \Drupal\node\NodeInterface[] $quizzes */
+      $quizzes = $module->field_module_assessment->referencedEntities();
+      foreach ($quizzes as $quiz) {
+        if ($quiz->access('view')) {
+          $totalLessons++;
+          if ($lessonHandler->isCompleted($quiz)) {
+            $completedLessons++;
+          }
+        }
+      }
     }
 
     // Calculate percentage.
     if ($totalLessons > 0) {
-      $progress = round(($completedLessons * 100) / $totalLessons, 2);
+      $progress = round($completedLessons * 100 / $totalLessons, 2);
     }
     else {
       $progress = 0;
