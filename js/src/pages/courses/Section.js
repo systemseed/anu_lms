@@ -9,7 +9,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import LinearProgress from "@material-ui/core/LinearProgress";
+import LinearProgress from '@material-ui/core/LinearProgress';
 import DownloadCourse from '@anu/components/DownloadCourse';
 import CoursesSectionEmpty from '@anu/pages/courses/SectionEmpty';
 import { coursePropTypes } from '@anu/utilities/transform.course';
@@ -69,14 +69,14 @@ const CoursesSection = ({ courses }) => {
                   {course.title}
                 </Typography>
 
-                {course.progress !== "" &&
+                {course.progress !== '' && (
                   <LinearProgress
                     className={classes.progress}
                     variant="determinate"
                     color="secondary"
                     value={course.progress}
                   />
-                }
+                )}
 
                 <Box mt={[0, 2]}>
                   <Typography
