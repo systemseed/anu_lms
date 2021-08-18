@@ -32,6 +32,7 @@ const ContentQuiz = ({ quiz, nextLesson }) => {
         <ContentNavigation
           isIntro={false}
           sections={[]}
+          currentLesson={[]}
           nextLesson={nextLesson}
           currentIndex={0}
           isEnabled={isSubmitted}

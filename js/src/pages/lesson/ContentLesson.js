@@ -61,6 +61,7 @@ const ContentLesson = ({ lesson, nextLesson }) => {
 
                   <ContentNavigation
                     sections={lesson.sections}
+                    currentLesson={lesson}
                     nextLesson={nextLesson}
                     currentIndex={index}
                     isEnabled={enableNext[index] === quizCount}

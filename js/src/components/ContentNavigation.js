@@ -9,7 +9,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import LessonGrid from '@anu/components/LessonGrid';
 
 // TODO - isIntro
-const ContentNavigation = ({ isIntro, sections, nextLesson, currentIndex, isEnabled }) => {
+const ContentNavigation = ({ isIntro, sections, currentLesson, nextLesson, currentIndex, isEnabled }) => {
   const history = useHistory();
   const completeAnswer = Drupal.t('Complete all answers to proceed', {}, { context: 'ANU LMS' });
   const nextIsQuiz = nextLesson && Boolean(nextLesson.questions);
@@ -47,6 +47,20 @@ const ContentNavigation = ({ isIntro, sections, nextLesson, currentIndex, isEnab
               </Button>
             )}
 
+            {/* No next lesson */}
+            {typeof sections[currentIndex + 1] === 'undefined' && !nextIsLesson && !nextIsQuiz && (
+              <Button {...buttonProps} href={`/node/${currentLesson.id}/finish`}>
+                {disabled ?
+                  completeAnswer :
+                  (
+                    currentLesson.finishButtonText === '' ?
+                    Drupal.t('Finish', {}, { context: 'ANU LMS' }) :
+                    currentLesson.finishButtonText
+                  )
+                }
+              </Button>
+            )}
+
             {typeof sections[currentIndex + 1] === 'undefined' && nextIsLesson && isIntro && (
               <Button {...buttonProps} href={nextLesson.url}>
                 {Drupal.t('Start', {}, { context: 'ANU LMS' })}
@@ -68,7 +82,7 @@ const ContentNavigation = ({ isIntro, sections, nextLesson, currentIndex, isEnab
 ContentNavigation.propTypes = {
   isIntro: PropTypes.bool,
   sections: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.shape())),
-  quiz: PropTypes.shape(),
+  currentLesson: PropTypes.shape(),
   nextLesson: PropTypes.shape(),
   currentIndex: PropTypes.number,
   isEnabled: PropTypes.bool,

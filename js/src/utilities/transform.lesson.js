@@ -33,6 +33,7 @@ const transformLesson = (node) => {
           .getArrayValue(content, 'field_lesson_section_content')
           .map((paragraph) => transformParagraph(paragraph))
       ),
+    finishButtonText: fields.getTextValue(node, 'finish_button_text'),
   };
 };
 
