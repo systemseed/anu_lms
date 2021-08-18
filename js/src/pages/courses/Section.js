@@ -69,7 +69,7 @@ const CoursesSection = ({ courses }) => {
                   {course.title}
                 </Typography>
 
-                {course.progress !== '' && (
+                {typeof course.progress !== 'undefined' && (
                   <LinearProgress
                     className={classes.progress}
                     variant="determinate"

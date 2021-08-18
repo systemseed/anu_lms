@@ -61,7 +61,7 @@ const transformCourse = (node, data) => {
     })),
     courses_pages: coursesPages.map((coursesPage) => transformCoursesPage({ data: coursesPage })),
     first_lesson_url: firstLessonUrl,
-    progress: fields.getTextValue(node, 'progress'),
+    progress: fields.getTextValueOrUndefined(node, 'progress'),
   };
 };
 
