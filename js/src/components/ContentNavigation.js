@@ -14,6 +14,7 @@ const ContentNavigation = ({ isIntro, sections, currentLesson, nextLesson, curre
   const completeAnswer = Drupal.t('Complete all answers to proceed', {}, { context: 'ANU LMS' });
   const nextIsQuiz = nextLesson && Boolean(nextLesson.questions);
   const nextIsLesson = nextLesson && Boolean(nextLesson.sections);
+  const noNextLesson = !sections[currentIndex + 1];
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -32,7 +33,7 @@ const ContentNavigation = ({ isIntro, sections, currentLesson, nextLesson, curre
 
         return (
           <LessonGrid>
-            {typeof sections[currentIndex + 1] !== 'undefined' && (
+            {sections[currentIndex + 1] && (
               <Button
                 {...buttonProps}
                 onClick={() => history.push({ pathname: `/section-${currentIndex + 2}` })}
@@ -41,14 +42,13 @@ const ContentNavigation = ({ isIntro, sections, currentLesson, nextLesson, curre
               </Button>
             )}
 
-            {typeof sections[currentIndex + 1] === 'undefined' && nextIsLesson && (
+            {noNextLesson && nextIsLesson && (
               <Button {...buttonProps} href={nextLesson.url}>
                 {disabled ? completeAnswer : Drupal.t('Next', {}, { context: 'ANU LMS' })}
               </Button>
             )}
 
-            {/* No next lesson */}
-            {typeof sections[currentIndex + 1] === 'undefined' && !nextIsLesson && !nextIsQuiz && (
+            {noNextLesson && !nextIsLesson && !nextIsQuiz && (
               <Button {...buttonProps} href={`/node/${currentLesson.id}/finish`}>
                 {disabled ?
                   completeAnswer :
@@ -61,13 +61,13 @@ const ContentNavigation = ({ isIntro, sections, currentLesson, nextLesson, curre
               </Button>
             )}
 
-            {typeof sections[currentIndex + 1] === 'undefined' && nextIsLesson && isIntro && (
+            {noNextLesson && nextIsLesson && isIntro && (
               <Button {...buttonProps} href={nextLesson.url}>
                 {Drupal.t('Start', {}, { context: 'ANU LMS' })}
               </Button>
             )}
 
-            {typeof sections[currentIndex + 1] === 'undefined' && nextIsQuiz && (
+            {noNextLesson && nextIsQuiz && (
               <Button {...buttonProps} href={nextLesson.url}>
                 {disabled ? completeAnswer : Drupal.t('Go to quiz', {}, { context: 'ANU LMS' })}
               </Button>
