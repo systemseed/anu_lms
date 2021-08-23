@@ -9,11 +9,12 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import LessonGrid from '@anu/components/LessonGrid';
 
 // TODO - isIntro
-const ContentNavigation = ({ isIntro, sections, nextLesson, currentIndex, isEnabled }) => {
+const ContentNavigation = ({ isIntro, sections, currentLesson, nextLesson, currentIndex, isEnabled }) => {
   const history = useHistory();
   const completeAnswer = Drupal.t('Complete all answers to proceed', {}, { context: 'ANU LMS' });
   const nextIsQuiz = nextLesson && Boolean(nextLesson.questions);
   const nextIsLesson = nextLesson && Boolean(nextLesson.sections);
+  const noNextLesson = !sections[currentIndex + 1];
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -32,7 +33,7 @@ const ContentNavigation = ({ isIntro, sections, nextLesson, currentIndex, isEnab
 
         return (
           <LessonGrid>
-            {typeof sections[currentIndex + 1] !== 'undefined' && (
+            {sections[currentIndex + 1] && (
               <Button
                 {...buttonProps}
                 onClick={() => history.push({ pathname: `/section-${currentIndex + 2}` })}
@@ -41,19 +42,32 @@ const ContentNavigation = ({ isIntro, sections, nextLesson, currentIndex, isEnab
               </Button>
             )}
 
-            {typeof sections[currentIndex + 1] === 'undefined' && nextIsLesson && (
+            {noNextLesson && nextIsLesson && (
               <Button {...buttonProps} href={nextLesson.url}>
                 {disabled ? completeAnswer : Drupal.t('Next', {}, { context: 'ANU LMS' })}
               </Button>
             )}
 
-            {typeof sections[currentIndex + 1] === 'undefined' && nextIsLesson && isIntro && (
+            {noNextLesson && !nextIsLesson && !nextIsQuiz && (
+              <Button {...buttonProps} href={`/node/${currentLesson.id}/finish`}>
+                {disabled ?
+                  completeAnswer :
+                  (
+                    currentLesson.finishButtonText === '' ?
+                    Drupal.t('Finish', {}, { context: 'ANU LMS' }) :
+                    currentLesson.finishButtonText
+                  )
+                }
+              </Button>
+            )}
+
+            {noNextLesson && nextIsLesson && isIntro && (
               <Button {...buttonProps} href={nextLesson.url}>
                 {Drupal.t('Start', {}, { context: 'ANU LMS' })}
               </Button>
             )}
 
-            {typeof sections[currentIndex + 1] === 'undefined' && nextIsQuiz && (
+            {noNextLesson && nextIsQuiz && (
               <Button {...buttonProps} href={nextLesson.url}>
                 {disabled ? completeAnswer : Drupal.t('Go to quiz', {}, { context: 'ANU LMS' })}
               </Button>
@@ -68,7 +82,7 @@ const ContentNavigation = ({ isIntro, sections, nextLesson, currentIndex, isEnab
 ContentNavigation.propTypes = {
   isIntro: PropTypes.bool,
   sections: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.shape())),
-  quiz: PropTypes.shape(),
+  currentLesson: PropTypes.shape(),
   nextLesson: PropTypes.shape(),
   currentIndex: PropTypes.number,
   isEnabled: PropTypes.bool,

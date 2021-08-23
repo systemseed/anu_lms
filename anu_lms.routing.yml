@@ -1,0 +1,8 @@
+ anu_lms.course.finish:
+  path: '/node/{node}/finish'
+  defaults:
+    _title: 'Finish'
+    _controller: '\Drupal\anu_lms\Controller\FinishCourse::complete'
+  requirements:
+    _entity_access: 'node.view'
+    node: \d+

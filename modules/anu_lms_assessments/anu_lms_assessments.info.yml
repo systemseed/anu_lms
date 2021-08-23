@@ -1,5 +1,5 @@
-name: Anu LMS Quizzes
-description: Adds quiz functionality to LMS.
+name: 'Anu LMS Quizzes'
+description: 'Adds quiz functionality to LMS.'
 type: module
 package: 'Anu LMS'
 core_version_requirement: '^8.9 || ^9'

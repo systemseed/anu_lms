@@ -4,6 +4,7 @@ namespace Drupal\anu_lms;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\node\NodeInterface;
+use Drupal\Core\Url;
 
 /**
  * Course service.
@@ -114,6 +115,36 @@ class Course {
    */
   public function isLinearProgressEnabled(NodeInterface $course): bool {
     return (bool) $course->get('field_course_linear_progress')->getString();
+  }
+
+  /**
+   * Returns the url to redirect when a user finishes a course.
+   *
+   * @param \Drupal\node\NodeInterface $course
+   *   Course node object.
+   *
+   * @return \Drupal\Core\Url
+   *   Url object for redirect.
+   */
+  public function getFinishRedirectUrl(NodeInterface $course) {
+    $uri = $course->field_course_finish_button->uri;
+    if (!empty($uri)) {
+      return Url::fromUri($uri);
+    }
+    return Url::fromRoute('<front>');
+  }
+
+  /**
+   * Returns the text for the finish button in the last lesson of a course.
+   *
+   * @param \Drupal\node\NodeInterface $course
+   *   Course node object.
+   *
+   * @return \Drupal\Core\Url
+   *   Url object for redirect.
+   */
+  public function getFinishText(NodeInterface $course) {
+    return $course->field_course_finish_button->title;
   }
 
 }

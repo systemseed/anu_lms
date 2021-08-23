@@ -4,6 +4,7 @@ dependencies:
   config:
     - field.field.node.course.field_course_category
     - field.field.node.course.field_course_description
+    - field.field.node.course.field_course_finish_button
     - field.field.node.course.field_course_image
     - field.field.node.course.field_course_label
     - field.field.node.course.field_course_linear_progress
@@ -14,6 +15,7 @@ dependencies:
   module:
     - entity_reference_revisions
     - image
+    - link
     - text
     - user
 id: node.course.default
@@ -35,6 +37,18 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: text_default
+    region: content
+  field_course_finish_button:
+    weight: 7
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
     region: content
   field_course_image:
     weight: 1

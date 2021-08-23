@@ -31,14 +31,19 @@ class NodeNormalizer extends ContentEntityNormalizer {
 
     /** @var \Drupal\anu_lms\Lesson $lessonHandler */
     $lessonHandler = \Drupal::service('anu_lms.lesson');
+    /** @var \Drupal\anu_lms\Course $courseHandler */
+    $courseHandler = \Drupal::service('anu_lms.course');
 
     if ($entity->bundle() == 'module_lesson' || $entity->bundle() == 'module_assessment') {
       $normalized['is_completed'] = ['value' => $lessonHandler->isCompleted($entity)];
       $normalized['is_restricted'] = ['value' => $lessonHandler->isRestricted($entity)];
-    }
 
-    /** @var \Drupal\anu_lms\Course $courseHandler */
-    $courseHandler = \Drupal::service('anu_lms.course');
+      $course = $lessonHandler->getLessonCourse($entity);
+      $finishText = $courseHandler->getFinishText($course);
+      if (!empty($finishText)) {
+        $normalized['finish_button_text'] = ['value' => $finishText];
+      }
+    }
 
     if ($entity->bundle() === 'course' && $courseHandler->isLinearProgressEnabled($entity)) {
       $normalized['progress'] = ['value' => $this->getCourseProgress($entity)];
