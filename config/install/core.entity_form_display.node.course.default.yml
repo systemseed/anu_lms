@@ -10,6 +10,7 @@ dependencies:
     - field.field.node.course.field_course_linear_progress
     - field.field.node.course.field_course_module
     - field.field.node.course.field_course_modules
+    - field.field.node.course.field_weight
     - image.style.thumbnail
     - node.type.course
   module:
@@ -28,7 +29,7 @@ third_party_settings:
         - group_course_modules
         - group_settings
       parent_name: ''
-      weight: 2
+      weight: 1
       format_type: tabs
       region: content
       format_settings:
@@ -89,7 +90,7 @@ mode: default
 content:
   created:
     type: datetime_timestamp
-    weight: 5
+    weight: 4
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -172,7 +173,7 @@ content:
     region: content
   path:
     type: path
-    weight: 3
+    weight: 2
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -180,12 +181,12 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 4
+    weight: 3
     region: content
     third_party_settings: {  }
   title:
     type: string_textfield
-    weight: 1
+    weight: 0
     region: content
     settings:
       size: 60
@@ -198,7 +199,7 @@ content:
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 6
+    weight: 5
     region: content
     settings:
       match_operator: CONTAINS
@@ -208,5 +209,6 @@ content:
     third_party_settings: {  }
 hidden:
   field_course_modules: true
+  field_weight: true
   promote: true
   sticky: true

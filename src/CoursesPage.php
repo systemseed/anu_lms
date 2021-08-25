@@ -31,7 +31,7 @@ class CoursesPage {
    *
    * @var \Drupal\Core\Language\LanguageManagerInterface
    */
-  protected $languageManager;  
+  protected $languageManager;
 
   /**
    * The normalizer.
@@ -153,13 +153,14 @@ class CoursesPage {
       return [];
     }
 
-    $courses = \Drupal::entityQuery('node')
+    $courses = $this->nodeStorage->getQuery()
       ->condition('type', 'course')
       ->condition('field_course_category', $category_ids, 'IN')
+      ->sort('field_weight')
       ->sort('created')
       ->execute();
 
-    return !empty($courses) ? Node::loadMultiple($courses) : [];
+    return !empty($courses) ? $this->nodeStorage->loadMultiple($courses) : [];
   }
 
   /**

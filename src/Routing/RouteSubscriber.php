@@ -22,6 +22,9 @@ class RouteSubscriber extends RouteSubscriberBase {
     if ($route = $collection->get('entity.node.canonical')) {
       $route->setDefault('_controller', '\Drupal\anu_lms\Controller\AnulmsNodeViewController::view');
     }
+    if ($route = $collection->get('view.sort_courses.sort_page')) {
+      $route->setOption('_admin_route', TRUE);
+    }
   }
 
 }
