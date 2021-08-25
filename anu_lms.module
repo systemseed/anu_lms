@@ -6,6 +6,7 @@
  */
 
 use Drupal\node\NodeInterface;
+use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Implements hook_form_FORM_ID_alter().
@@ -55,4 +56,41 @@ function anu_lms_node_delete(NodeInterface $node) {
       $storage->delete($nodes);
     }
   }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add an option to enable locking.
+ */
+function anu_lms_form_views_form_sort_courses_sort_page_1_alter(&$form, FormStateInterface $form_state) {
+  $termId = Drupal::routeMatch()->getParameter('taxonomy_term');
+  $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($termId);
+  $form['sequence'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Courses must be completed in this order'),
+    '#default_value' => $term->field_enable_course_sequence->value,
+  ];
+  $form['#submit'][] = 'anu_lms_form_views_form_sort_courses_sort_page_1_submit';
+}
+
+/**
+ * Custom submit to enable locking.
+ */
+function anu_lms_form_views_form_sort_courses_sort_page_1_submit(&$form, FormStateInterface $form_state) {
+  if ($form_state->getValue('sequence')) {
+    // Enable linear progress for all courses involved.
+    foreach ($form['field_weight'] as $element) {
+      if (isset($element['entity']['#value'])) {
+        $course = $element['entity']['#value'];
+        $course->field_course_linear_progress->value = TRUE;
+        $course->save();
+      }
+    }
+  }
+
+  $termId = Drupal::routeMatch()->getParameter('taxonomy_term');
+  $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($termId);
+  $term->field_enable_course_sequence->value = $form_state->getValue('sequence');
+  $term->save();
 }

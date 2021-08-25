@@ -62,6 +62,7 @@ const transformCourse = (node, data) => {
     courses_pages: coursesPages.map((coursesPage) => transformCoursesPage({ data: coursesPage })),
     first_lesson_url: firstLessonUrl,
     progress: fields.getTextValueOrUndefined(node, 'progress'),
+    locked: fields.getBooleanValue(node, 'locked'),
   };
 };
 

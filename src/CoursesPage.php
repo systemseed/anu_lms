@@ -148,7 +148,7 @@ class CoursesPage {
    * @return array|EntityInterface[]
    *   An array of Course entities.
    */
-  protected function getCoursesByCategories(array $category_ids) {
+  public function getCoursesByCategories(array $category_ids) {
     if (empty($category_ids)) {
       return [];
     }

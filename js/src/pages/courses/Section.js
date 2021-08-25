@@ -10,6 +10,7 @@ import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import LockIcon from '@material-ui/icons/Lock';
 import DownloadCourse from '@anu/components/DownloadCourse';
 import CoursesSectionEmpty from '@anu/pages/courses/SectionEmpty';
 import { coursePropTypes } from '@anu/utilities/transform.course';
@@ -44,7 +45,7 @@ const CoursesSection = ({ courses }) => {
         <Grid item xs={12} sm={6} md={4} key={course.id}>
           <Card elevation={0} className={classes.card}>
             <CardActionArea
-              disabled={!course.first_lesson_url}
+              disabled={!course.first_lesson_url || course.locked}
               component="a"
               href={course.first_lesson_url}
               style={{ flexGrow: 1 }}
@@ -65,16 +66,20 @@ const CoursesSection = ({ courses }) => {
                   </Typography>
                 </Box>
 
+
                 <Typography variant="h5" component="h3">
+                  {course.locked && (
+                    <LockIcon/>
+                  )}
                   {course.title}
                 </Typography>
 
-                {typeof course.progress !== 'undefined' && (
+                {course.progress && (
                   <LinearProgress
                     className={classes.progress}
                     variant="determinate"
                     color="secondary"
-                    value={course.progress}
+                    value={Number.parseInt(course.progress, 10)}
                   />
                 )}
 
