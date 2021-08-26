@@ -59,6 +59,50 @@ function anu_lms_node_delete(NodeInterface $node) {
 }
 
 /**
+ * Implements hook_ENTITY_TYPE_presave().
+ *
+ * Enables progress for courses that belong to a category with locking enabled.
+ */
+function anu_lms_node_presave(NodeInterface $node) {
+  if ($node->getType() == 'course') {
+    // Collect categories.
+    $categories = $node->get('field_course_category')->referencedEntities();
+
+    foreach ($categories as $category) {
+      if ($category->field_enable_course_sequence->value) {
+        $node->field_course_linear_progress->value = TRUE;
+        return;
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ *
+ * Case for boolean_checkbox.
+ *
+ * Disable widget when the course belongs to a category that requires
+ * progress to be enabled.
+ */
+function anu_lms_field_widget_boolean_checkbox_form_alter(&$element, FormStateInterface $form_state, $context) {
+  if ($context['items']->getName() === 'field_course_linear_progress') {
+    $course = $context['items']->getEntity();
+    $categories = $course->get('field_course_category')->referencedEntities();
+    foreach ($categories as $category) {
+      if ($category->field_enable_course_sequence->value) {
+        $element['value']['#disabled'] = TRUE;
+        $element['value']['#default_value'] = TRUE;
+        $element['warning'] = [
+          '#markup' => t('This course belongs to a category that requires for this setting to be enabled so it can not be edited'),
+        ];
+        return;
+      }
+    }
+  }
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  *
  * Add an option to enable locking.

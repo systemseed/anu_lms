@@ -52,10 +52,10 @@ class CoursesPage {
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
-   * @param \Drupal\anu_lms\Normalizer $normalizer
-   *   The normalizer.
    * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
    *   The language manager.
+   * @param \Drupal\anu_lms\Normalizer $normalizer
+   *   The normalizer.
    * @param \Drupal\anu_lms\Course $course
    *   The Course service.
    */
