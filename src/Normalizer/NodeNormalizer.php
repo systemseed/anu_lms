@@ -51,7 +51,11 @@ class NodeNormalizer extends ContentEntityNormalizer {
       $normalized['progress'] = ['value' => $courseProgressHandler->getCourseProgress($entity)];
     }
 
-    if ($entity->bundle() === 'course' && $courseProgressHandler->isLocked($entity)) {
+    if (
+      $entity->bundle() === 'course' &&
+      isset($context['course_page_categories']) &&
+      $courseProgressHandler->isLocked($entity, $context['course_page_categories'])
+    ) {
       $normalized['locked'] = ['value' => TRUE];
     }
 

@@ -106,12 +106,13 @@ class CourseProgress {
    *
    * @param \Drupal\node\NodeInterface $course
    *   Course node object.
+   * @param array $categories
+   *   The context categories.
    *
    * @return bool
    *   Whether the given course is locked.
    */
-  public function isLocked(NodeInterface $course): bool {
-    $categories = $course->get('field_course_category')->referencedEntities();
+  public function isLocked(NodeInterface $course, array $categories): bool {
     foreach ($categories as $category) {
       if (!$category->field_enable_course_sequence->value) {
         continue;
