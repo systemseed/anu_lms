@@ -66,11 +66,8 @@ const CoursesSection = ({ courses }) => {
                   </Typography>
                 </Box>
 
-
                 <Typography variant="h5" component="h3">
-                  {course.locked && (
-                    <LockIcon/>
-                  )}
+                  {course.locked && <LockIcon />}
                   {course.title}
                 </Typography>
 

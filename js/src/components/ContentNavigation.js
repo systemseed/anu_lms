@@ -9,7 +9,14 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import LessonGrid from '@anu/components/LessonGrid';
 
 // TODO - isIntro
-const ContentNavigation = ({ isIntro, sections, currentLesson, nextLesson, currentIndex, isEnabled }) => {
+const ContentNavigation = ({
+  isIntro,
+  sections,
+  currentLesson,
+  nextLesson,
+  currentIndex,
+  isEnabled,
+}) => {
   const history = useHistory();
   const completeAnswer = Drupal.t('Complete all answers to proceed', {}, { context: 'ANU LMS' });
   const nextIsQuiz = nextLesson && Boolean(nextLesson.questions);
@@ -50,14 +57,11 @@ const ContentNavigation = ({ isIntro, sections, currentLesson, nextLesson, curre
 
             {noNextLesson && !nextIsLesson && !nextIsQuiz && (
               <Button {...buttonProps} href={`/node/${currentLesson.id}/finish`}>
-                {disabled ?
-                  completeAnswer :
-                  (
-                    currentLesson.finishButtonText === '' ?
-                    Drupal.t('Finish', {}, { context: 'ANU LMS' }) :
-                    currentLesson.finishButtonText
-                  )
-                }
+                {disabled
+                  ? completeAnswer
+                  : currentLesson.finishButtonText === ''
+                  ? Drupal.t('Finish', {}, { context: 'ANU LMS' })
+                  : currentLesson.finishButtonText}
               </Button>
             )}
 
