@@ -56,15 +56,15 @@ const LessonHeader = ({ course }) => {
                 {course.title}
               </Typography>
             )}
+          </Grid>
+
+          <Grid item xs={12} md={4} className={classes.actions} style={{ padding: 0 }}>
             {course &&
               course.labels.map((label) => (
                 <Grid item key={label}>
                   <Box className={classes.label}>{label}</Box>
                 </Grid>
               ))}
-          </Grid>
-
-          <Grid item xs={12} md={4} className={classes.actions} style={{ padding: 0 }}>
             {course && getPwaSettings() && (
               <DownloadCourse course={course} messagePosition="left" />
             )}
