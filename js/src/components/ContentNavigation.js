@@ -23,6 +23,11 @@ const ContentNavigation = ({
   const nextIsLesson = nextLesson && Boolean(nextLesson.sections);
   const noNextLesson = !sections[currentIndex + 1];
 
+  const finishButtonText = (currentLesson) =>
+    currentLesson.finishButtonText === ''
+      ? Drupal.t('Finish', {}, { context: 'ANU LMS' })
+      : currentLesson.finishButtonText;
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -57,11 +62,7 @@ const ContentNavigation = ({
 
             {noNextLesson && !nextIsLesson && !nextIsQuiz && (
               <Button {...buttonProps} href={`/node/${currentLesson.id}/finish`}>
-                {disabled
-                  ? completeAnswer
-                  : currentLesson.finishButtonText === ''
-                  ? Drupal.t('Finish', {}, { context: 'ANU LMS' })
-                  : currentLesson.finishButtonText}
+                {disabled ? completeAnswer : finishButtonText(currentLesson)}
               </Button>
             )}
 

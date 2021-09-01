@@ -86,19 +86,21 @@ function anu_lms_node_presave(NodeInterface $node) {
  * progress to be enabled.
  */
 function anu_lms_field_widget_boolean_checkbox_form_alter(&$element, FormStateInterface $form_state, $context) {
-  if ($context['items']->getName() === 'field_course_linear_progress') {
-    $course = $context['items']->getEntity();
-    $categories = $course->get('field_course_category')->referencedEntities();
-    foreach ($categories as $category) {
-      if ($category->field_enable_course_sequence->value) {
-        $element['value']['#disabled'] = TRUE;
-        $element['value']['#default_value'] = TRUE;
-        $element['warning'] = [
-          '#markup' => t('This course belongs to a category that requires for this setting to be enabled so it can not be edited'),
-        ];
-        return;
-      }
+  if ($context['items']->getName() !== 'field_course_linear_progress') {
+    return;
+  }
+  $course = $context['items']->getEntity();
+  $categories = $course->get('field_course_category')->referencedEntities();
+  foreach ($categories as $category) {
+    if (!$category->field_enable_course_sequence->value) {
+      continue;
     }
+    $element['value']['#disabled'] = TRUE;
+    $element['value']['#default_value'] = TRUE;
+    $element['warning'] = [
+      '#markup' => t('This course belongs to a category that requires for this setting to be enabled so it can not be edited'),
+    ];
+    return;
   }
 }
 
@@ -123,18 +125,26 @@ function anu_lms_form_views_form_sort_courses_sort_page_1_alter(&$form, FormStat
  */
 function anu_lms_form_views_form_sort_courses_sort_page_1_submit(&$form, FormStateInterface $form_state) {
   if ($form_state->getValue('sequence')) {
-    // Enable linear progress for all courses involved.
-    foreach ($form['field_weight'] as $element) {
-      if (isset($element['entity']['#value'])) {
-        $course = $element['entity']['#value'];
-        $course->field_course_linear_progress->value = TRUE;
-        $course->save();
-      }
-    }
+    anu_lms_form_views_form_sort_courses_enable_progress($form['field_weight']);
   }
 
+  // Store the preference about the sequence.
   $termId = Drupal::routeMatch()->getParameter('taxonomy_term');
   $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($termId);
   $term->field_enable_course_sequence->value = $form_state->getValue('sequence');
   $term->save();
+}
+
+/**
+ * Enable linear progress for all courses in the form.
+ */
+function anu_lms_form_views_form_sort_courses_enable_progress($elements) {
+  foreach ($elements as $element) {
+    if (!isset($element['entity']['#value'])) {
+      continue;
+    }
+    $course = $element['entity']['#value'];
+    $course->field_course_linear_progress->value = TRUE;
+    $course->save();
+  }
 }

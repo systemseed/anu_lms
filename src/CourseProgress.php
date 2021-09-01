@@ -57,35 +57,8 @@ class CourseProgress {
    *   The progress as a percentage like 33.34.
    */
   public function getCourseProgress(NodeInterface $course) {
-    $modules = $course->get('field_course_module')->referencedEntities();
-    $totalLessons = 0;
-    $completedLessons = 0;
-    foreach ($modules as $module) {
-
-      /** @var \Drupal\node\NodeInterface[] $lessons */
-      $lessons = $module->field_module_lessons->referencedEntities();
-      foreach ($lessons as $lesson) {
-        if ($lesson->access('view')) {
-          $totalLessons++;
-          if ($this->lesson->isCompleted($lesson)) {
-            $completedLessons++;
-          }
-        }
-      }
-      if (!$module->field_module_assessment) {
-        continue;
-      }
-      /** @var \Drupal\node\NodeInterface[] $quizzes */
-      $quizzes = $module->field_module_assessment->referencedEntities();
-      foreach ($quizzes as $quiz) {
-        if ($quiz->access('view')) {
-          $totalLessons++;
-          if ($this->lesson->isCompleted($quiz)) {
-            $completedLessons++;
-          }
-        }
-      }
-    }
+    $totalLessons = $this->course->countLessons($course) + $this->course->countQuizzes($course);
+    $completedLessons = count($this->getCompletedLessons($course)) + count($this->getCompletedQuizzes($course));
 
     // Calculate percentage.
     if ($totalLessons > 0) {
@@ -133,15 +106,45 @@ class CourseProgress {
       if ($previousCourse === FALSE) {
         continue;
       }
-      else {
-        $progress = $this->getCourseProgress($previousCourse);
-        if ($progress < 100) {
-          return TRUE;
-        }
+      $progress = $this->getCourseProgress($previousCourse);
+      if ($progress < 100) {
+        return TRUE;
       }
     }
 
     return FALSE;
+  }
+
+  /**
+   * Returns completed lessons in a course.
+   *
+   * @param \Drupal\node\NodeInterface $course
+   *   Course node object.
+   *
+   * @return \Drupal\node\NodeInterface[]
+   *   Array of completed lessons.
+   */
+  public function getCompletedLessons(NodeInterface $course) {
+    return array_filter(
+      $this->course->getLessons($course),
+      [$this->lesson, 'isCompleted']
+    );
+  }
+
+  /**
+   * Returns completed quizzes in a course.
+   *
+   * @param \Drupal\node\NodeInterface $course
+   *   Course node object.
+   *
+   * @return \Drupal\node\NodeInterface[]
+   *   Array of completed quizzes.
+   */
+  public function getCompletedQuizzes(NodeInterface $course) {
+    return array_filter(
+      $this->course->getQuizzes($course),
+      [$this->lesson, 'isCompleted']
+    );
   }
 
 }

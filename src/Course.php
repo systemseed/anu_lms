@@ -147,4 +147,85 @@ class Course {
     return $course->field_course_finish_button->title;
   }
 
+  /**
+   * Returns the number of accesible lessons.
+   *
+   * @param \Drupal\node\NodeInterface $course
+   *   Course node object.
+   *
+   * @return int
+   *   Number of quizzes and lessons.
+   */
+  public function countLessons(NodeInterface $course) {
+    return count($this->getLessons($course));
+  }
+
+  /**
+   * Returns the number of accesible quizzes.
+   *
+   * @param \Drupal\node\NodeInterface $course
+   *   Course node object.
+   *
+   * @return int
+   *   Number of quizzes.
+   */
+  public function countQuizzes(NodeInterface $course) {
+    return count($this->getQuizzes($course));
+  }
+
+  /**
+   * Returns the accesible lessons.
+   *
+   * @param \Drupal\node\NodeInterface $course
+   *   Course node object.
+   *
+   * @return \Drupal\node\NodeInterface[]
+   *   Lessons in the course.
+   */
+  public function getLessons(NodeInterface $course) {
+    $modules = $course->get('field_course_module')->referencedEntities();
+    $lessonsInCourse = [];
+
+    foreach ($modules as $module) {
+
+      /** @var \Drupal\node\NodeInterface[] $lessons */
+      $lessons = $module->field_module_lessons->referencedEntities();
+      foreach ($lessons as $lesson) {
+        if ($lesson->access('view')) {
+          $lessonsInCourse[] = $lesson;
+        }
+      }
+    }
+    return $lessonsInCourse;
+  }
+
+  /**
+   * Returns the accesible quizzes.
+   *
+   * @param \Drupal\node\NodeInterface $course
+   *   Course node object.
+   *
+   * @return \Drupal\node\NodeInterface[]
+   *   Quizzes in the course.
+   */
+  public function getQuizzes(NodeInterface $course) {
+    $modules = $course->get('field_course_module')->referencedEntities();
+    $quizzesInCourse = [];
+
+    foreach ($modules as $module) {
+
+      if (!$module->field_module_assessment) {
+        continue;
+      }
+      /** @var \Drupal\node\NodeInterface[] $quizzes */
+      $quizzes = $module->field_module_assessment->referencedEntities();
+      foreach ($quizzes as $quiz) {
+        if ($quiz->access('view')) {
+          $quizzesInCourse[] = $quiz;
+        }
+      }
+    }
+    return $quizzesInCourse;
+  }
+
 }

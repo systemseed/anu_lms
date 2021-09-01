@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     '&.locked': {
       filter: 'opacity(40%)',
     },
+    marginBottom: 25,
   },
   card: {
     border: '1px solid ' + theme.palette.grey[300],
@@ -78,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
     height: 50,
     width: 50,
     marginLeft: theme.spacing(2),
-    marginTop: -25,
+    marginTop: -50,
     border: '1px solid white',
   },
 }));
