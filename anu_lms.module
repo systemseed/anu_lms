@@ -64,15 +64,16 @@ function anu_lms_node_delete(NodeInterface $node) {
  * Enables progress for courses that belong to a category with locking enabled.
  */
 function anu_lms_node_presave(NodeInterface $node) {
-  if ($node->getType() == 'course') {
-    // Collect categories.
-    $categories = $node->get('field_course_category')->referencedEntities();
+  if ($node->getType() !== 'course') {
+    return;
+  }
+  // Collect categories.
+  $categories = $node->get('field_course_category')->referencedEntities();
 
-    foreach ($categories as $category) {
-      if ($category->field_enable_course_sequence->value) {
-        $node->field_course_linear_progress->value = TRUE;
-        return;
-      }
+  foreach ($categories as $category) {
+    if ($category->field_enable_course_sequence->value) {
+      $node->field_course_linear_progress->value = TRUE;
+      return;
     }
   }
 }
