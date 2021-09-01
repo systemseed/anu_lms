@@ -110,7 +110,7 @@ function anu_lms_field_widget_boolean_checkbox_form_alter(&$element, FormStateIn
  *
  * Add an option to enable locking.
  */
-function anu_lms_form_views_form_sort_courses_sort_page_1_alter(&$form, FormStateInterface $form_state) {
+function anu_lms_form_views_form_sort_courses_sort_page_alter(&$form, FormStateInterface $form_state) {
   $termId = Drupal::routeMatch()->getParameter('taxonomy_term');
   $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($termId);
   $form['sequence'] = [
@@ -118,13 +118,13 @@ function anu_lms_form_views_form_sort_courses_sort_page_1_alter(&$form, FormStat
     '#title' => t('Courses must be completed in this order'),
     '#default_value' => $term->field_enable_course_sequence->value,
   ];
-  $form['#submit'][] = 'anu_lms_form_views_form_sort_courses_sort_page_1_submit';
+  $form['#submit'][] = 'anu_lms_form_views_form_sort_courses_sort_page_submit';
 }
 
 /**
  * Custom submit to enable locking.
  */
-function anu_lms_form_views_form_sort_courses_sort_page_1_submit(&$form, FormStateInterface $form_state) {
+function anu_lms_form_views_form_sort_courses_sort_page_submit(&$form, FormStateInterface $form_state) {
   if ($form_state->getValue('sequence')) {
     anu_lms_form_views_form_sort_courses_enable_progress($form['field_weight']);
   }

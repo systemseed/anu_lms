@@ -85,7 +85,8 @@ class CourseProgress {
    * @return bool
    *   Whether the given course is locked.
    */
-  public function isLocked(NodeInterface $course, array $categories): bool {
+  public function isLocked(NodeInterface $course, array $categories, $requireAllCategoriesLocked = FALSE): bool {
+    $lockedCategories = [];
     foreach ($categories as $category) {
       if (!$category->field_enable_course_sequence->value) {
         continue;
@@ -107,9 +108,15 @@ class CourseProgress {
         continue;
       }
       $progress = $this->getCourseProgress($previousCourse);
-      if ($progress < 100) {
+      if ($progress < 100 && !$requireAllCategoriesLocked) {
         return TRUE;
       }
+      if ($progress < 100 && $requireAllCategoriesLocked) {
+        $lockedCategories[] = $category;
+      }
+    }
+    if ($requireAllCategoriesLocked && count($categories) === count($lockedCategories)) {
+      return TRUE;
     }
 
     return FALSE;
