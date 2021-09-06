@@ -9,12 +9,24 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import LessonGrid from '@anu/components/LessonGrid';
 
 // TODO - isIntro
-const ContentNavigation = ({ isIntro, sections, currentLesson, nextLesson, currentIndex, isEnabled }) => {
+const ContentNavigation = ({
+  isIntro,
+  sections,
+  currentLesson,
+  nextLesson,
+  currentIndex,
+  isEnabled,
+}) => {
   const history = useHistory();
   const completeAnswer = Drupal.t('Complete all answers to proceed', {}, { context: 'ANU LMS' });
   const nextIsQuiz = nextLesson && Boolean(nextLesson.questions);
   const nextIsLesson = nextLesson && Boolean(nextLesson.sections);
   const noNextLesson = !sections[currentIndex + 1];
+
+  const finishButtonText = (currentLesson) =>
+    currentLesson.finishButtonText === ''
+      ? Drupal.t('Finish', {}, { context: 'ANU LMS' })
+      : currentLesson.finishButtonText;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -50,14 +62,7 @@ const ContentNavigation = ({ isIntro, sections, currentLesson, nextLesson, curre
 
             {noNextLesson && !nextIsLesson && !nextIsQuiz && (
               <Button {...buttonProps} href={`/node/${currentLesson.id}/finish`}>
-                {disabled ?
-                  completeAnswer :
-                  (
-                    currentLesson.finishButtonText === '' ?
-                    Drupal.t('Finish', {}, { context: 'ANU LMS' }) :
-                    currentLesson.finishButtonText
-                  )
-                }
+                {disabled ? completeAnswer : finishButtonText(currentLesson)}
               </Button>
             )}
 

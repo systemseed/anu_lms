@@ -5,7 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
- -
+ - Added ability to sort order of courses in the same category.
+ - Added locking of courses based on the order within their category.
+
+## [2.3.8]
+ - Added a progress bar for courses with linear progress enabled.
+ - Added finish button at the end of courses without a quiz with customizable text and path.
 
 ## [2.3.7]
  - Updated @material-ui/core to the latest version.

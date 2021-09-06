@@ -2,24 +2,25 @@
 
 namespace Drupal\anu_lms\Controller;
 
-use Drupal\anu_lms\Course;
-use Drupal\anu_lms\Lesson;
-use Drupal\anu_lms\Quiz;
-use Drupal\anu_lms\Settings;
-use Drupal\anu_lms\Normalizer;
-use Drupal\anu_lms\CoursesPage;
-use Drupal\Core\Entity\EntityInterface;
 use Drupal\Component\Serialization\Json;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityRepositoryInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\anu_lms\Course;
+use Drupal\anu_lms\CourseProgress;
+use Drupal\anu_lms\CoursesPage;
+use Drupal\anu_lms\Lesson;
+use Drupal\anu_lms\Normalizer;
+use Drupal\anu_lms\Quiz;
+use Drupal\anu_lms\Settings;
+use Drupal\node\Controller\NodeViewController;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Serializer\Serializer;
-use Drupal\node\Controller\NodeViewController;
-use Drupal\Core\Entity\EntityRepositoryInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Overrides default node view controller for ANU LMS content types.
@@ -57,6 +58,13 @@ class AnulmsNodeViewController extends NodeViewController {
   protected $coursesPage;
 
   /**
+   * The Courses progress service.
+   *
+   * @var \Drupal\anu_lms\CoursesProgress
+   */
+  protected $coursesProgress;
+
+  /**
    * The course page service.
    *
    * @var \Drupal\anu_lms\Course
@@ -88,6 +96,8 @@ class AnulmsNodeViewController extends NodeViewController {
    *   The normalizer.
    * @param \Drupal\anu_lms\CoursesPage $coursesPage
    *   The Courses page service.
+   * @param \Drupal\anu_lms\CoursesProgress $courseProgress
+   *   The Courses progress service.
    * @param \Drupal\anu_lms\Course $course
    *   The Course service.
    * @param \Drupal\anu_lms\Lesson $lesson
@@ -104,12 +114,13 @@ class AnulmsNodeViewController extends NodeViewController {
    * @param \Symfony\Component\Serializer\Serializer $serializer
    *   The serializer.
    */
-  public function __construct(Settings $anulmsSettings, EntityTypeManagerInterface $entity_type_manager, Normalizer $normalizer, CoursesPage $coursesPage, Course $course, Lesson $lesson, Quiz $quiz, RendererInterface $renderer, AccountInterface $current_user = NULL, EntityRepositoryInterface $entity_repository = NULL, Serializer $serializer = NULL) {
+  public function __construct(Settings $anulmsSettings, EntityTypeManagerInterface $entity_type_manager, Normalizer $normalizer, CoursesPage $coursesPage, CourseProgress $courseProgress, Course $course, Lesson $lesson, Quiz $quiz, RendererInterface $renderer, AccountInterface $current_user = NULL, EntityRepositoryInterface $entity_repository = NULL, Serializer $serializer = NULL) {
     parent::__construct($entity_type_manager, $renderer, $current_user, $entity_repository);
     $this->anulmsSettings = $anulmsSettings;
     $this->serializer = $serializer;
     $this->normalizer = $normalizer;
     $this->coursesPage = $coursesPage;
+    $this->courseProgress = $courseProgress;
     $this->course = $course;
     $this->lesson = $lesson;
     $this->quiz = $quiz;
@@ -124,6 +135,7 @@ class AnulmsNodeViewController extends NodeViewController {
       $container->get('entity_type.manager'),
       $container->get('anu_lms.normalizer'),
       $container->get('anu_lms.courses_page'),
+      $container->get('anu_lms.course_progress'),
       $container->get('anu_lms.course'),
       $container->get('anu_lms.lesson'),
       $container->get('anu_lms.quiz'),
@@ -190,6 +202,11 @@ class AnulmsNodeViewController extends NodeViewController {
         break;
 
       case 'course':
+        if ($this->courseProgress->isLocked($node, $node->get('field_course_category')->referencedEntities(), TRUE)) {
+          return [
+            '#markup' => $this->t('This course is locked.'),
+          ];
+        }
         $lesson = $this->course->getFirstAccessibleLesson($node);
         if (!empty($lesson)) {
           return new RedirectResponse($lesson->toUrl('canonical', ['language' => $langcode])->toString());
@@ -212,7 +229,8 @@ class AnulmsNodeViewController extends NodeViewController {
     // Attaches general site settings.
     $data['settings'] = $this->anulmsSettings->getSettings();
 
-    // You can use `jQuery('#application').data('application')` in console for debug.
+    // You can use `jQuery('#anu-application').data('application')`
+    // in the browser console for debug.
     $build['application'] = [
       '#type' => 'html_tag',
       '#tag' => 'div',

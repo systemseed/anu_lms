@@ -52,10 +52,10 @@ class CoursesPage {
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
-   * @param \Drupal\anu_lms\Normalizer $normalizer
-   *   The normalizer.
    * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
    *   The language manager.
+   * @param \Drupal\anu_lms\Normalizer $normalizer
+   *   The normalizer.
    * @param \Drupal\anu_lms\Course $course
    *   The Course service.
    */
@@ -95,7 +95,14 @@ class CoursesPage {
     $courses = $this->getCoursesByCategories($project_category_ids);
     $normalized_courses = [];
     foreach ($courses as $course) {
-      $normalized_course = $this->normalizer->normalizeEntity($course, ['max_depth' => 3]);
+      $normalized_course = $this->normalizer->normalizeEntity($course, [
+        'max_depth' => 3,
+        // Pass the categories requested as context so additional logic
+        // can be performed like the course being part of a sequence within
+        // a category.
+        // @see \Drupal\anu_lms\CourseProgress
+        'course_page_categories' => $this->taxonomyStorage->loadMultiple($project_category_ids),
+      ]);
       if (!empty($normalized_course)) {
         $normalized_courses[] = $normalized_course;
       }
@@ -108,7 +115,7 @@ class CoursesPage {
       $normalized_courses_pages = [];
       foreach ($courses_pages as $courses_page) {
         $normalized_courses_pages[] = [
-          'courses_page' =>  $this->normalizer->normalizeEntity($courses_page, ['max_depth' => 1])
+          'courses_page' => $this->normalizer->normalizeEntity($courses_page, ['max_depth' => 1]),
         ];
       }
 
@@ -148,7 +155,7 @@ class CoursesPage {
    * @return array|EntityInterface[]
    *   An array of Course entities.
    */
-  protected function getCoursesByCategories(array $category_ids) {
+  public function getCoursesByCategories(array $category_ids) {
     if (empty($category_ids)) {
       return [];
     }

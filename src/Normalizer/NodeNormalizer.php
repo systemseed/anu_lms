@@ -33,6 +33,8 @@ class NodeNormalizer extends ContentEntityNormalizer {
     $lessonHandler = \Drupal::service('anu_lms.lesson');
     /** @var \Drupal\anu_lms\Course $courseHandler */
     $courseHandler = \Drupal::service('anu_lms.course');
+    /** @var \Drupal\anu_lms\CourseProgress $courseProgressHandler */
+    $courseProgressHandler = \Drupal::service('anu_lms.course_progress');
 
     if ($entity->bundle() == 'module_lesson' || $entity->bundle() == 'module_assessment') {
       $normalized['is_completed'] = ['value' => $lessonHandler->isCompleted($entity)];
@@ -46,64 +48,18 @@ class NodeNormalizer extends ContentEntityNormalizer {
     }
 
     if ($entity->bundle() === 'course' && $courseHandler->isLinearProgressEnabled($entity)) {
-      $normalized['progress'] = ['value' => $this->getCourseProgress($entity)];
+      $normalized['progress'] = ['value' => $courseProgressHandler->getCourseProgress($entity)];
+    }
+
+    if (
+      $entity->bundle() === 'course' &&
+      isset($context['course_page_categories']) &&
+      $courseProgressHandler->isLocked($entity, $context['course_page_categories'])
+    ) {
+      $normalized['locked'] = ['value' => TRUE];
     }
 
     return $normalized;
-  }
-
-  /**
-   * Returns progress in a course.
-   *
-   * @param \Drupal\Core\Entity\EntityInterface $course
-   *   Course object.
-   *
-   * @return float
-   *   The progress as a percentage like 33.34.
-   */
-  protected function getCourseProgress(EntityInterface $course) {
-    /** @var \Drupal\anu_lms\Lesson $lessonHandler */
-    $lessonHandler = \Drupal::service('anu_lms.lesson');
-
-    $modules = $course->get('field_course_module')->referencedEntities();
-    $totalLessons = 0;
-    $completedLessons = 0;
-    foreach ($modules as $module) {
-
-      /** @var \Drupal\node\NodeInterface[] $lessons */
-      $lessons = $module->field_module_lessons->referencedEntities();
-      foreach ($lessons as $lesson) {
-        if ($lesson->access('view')) {
-          $totalLessons++;
-          if ($lessonHandler->isCompleted($lesson)) {
-            $completedLessons++;
-          }
-        }
-      }
-      if (!$module->field_module_assessment) {
-        continue;
-      }
-      /** @var \Drupal\node\NodeInterface[] $quizzes */
-      $quizzes = $module->field_module_assessment->referencedEntities();
-      foreach ($quizzes as $quiz) {
-        if ($quiz->access('view')) {
-          $totalLessons++;
-          if ($lessonHandler->isCompleted($quiz)) {
-            $completedLessons++;
-          }
-        }
-      }
-    }
-
-    // Calculate percentage.
-    if ($totalLessons > 0) {
-      $progress = round($completedLessons * 100 / $totalLessons, 2);
-    }
-    else {
-      $progress = 0;
-    }
-
-    return $progress;
   }
 
 }
