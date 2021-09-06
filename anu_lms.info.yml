@@ -26,4 +26,5 @@ dependencies:
   - paragraphs:paragraphs
   - rest_entity_recursive:rest_paragraphs_recursive
   - shs_chosen:shs_chosen
+  - weight:weight
 core_incompatible: false

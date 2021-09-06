@@ -1,5 +1,6 @@
 langcode: en
 status: true
+dependencies: {  }
 name: Table
 format: table
 weight: 0

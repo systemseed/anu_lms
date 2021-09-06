@@ -10,6 +10,7 @@ dependencies:
     - field.field.node.course.field_course_linear_progress
     - field.field.node.course.field_course_module
     - field.field.node.course.field_course_modules
+    - field.field.node.course.field_weight
     - image.style.medium
     - node.type.course
   module:
@@ -85,6 +86,15 @@ content:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    region: content
+  field_weight:
+    weight: 8
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
     region: content
   links:
     weight: 0
