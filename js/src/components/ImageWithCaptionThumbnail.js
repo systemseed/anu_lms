@@ -12,7 +12,7 @@ const StyledImg = styled('img')({
 const StyledTypography = withStyles((theme) => ({
   root: {
     '& > p': {
-      marginBottom: theme.spacing(4),
+      marginBottom: theme.spacing(2),
     },
     '& > p:first-child': {
       marginTop: 0,
