@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: theme.typography.fontWeightMedium,
     fontSize: '1rem',
     [theme.breakpoints.up('sm')]: {
-      fontSize: '1.5rem',
+      fontSize: '1.2rem',
       lineHeight: '2.063rem',
     },
     '& > p': {

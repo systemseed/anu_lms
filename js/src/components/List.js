@@ -57,7 +57,7 @@ const StyledIcon = withStyles((theme) => ({
 const StyledTypography = withStyles((theme) => ({
   root: {
     '& > p': {
-      marginBottom: theme.spacing(4),
+      marginBottom: theme.spacing(2),
     },
     '& > p:first-child': {
       marginTop: 0,
@@ -73,8 +73,8 @@ const ListElement = ({ items, type }) => (
     {type === 'ul' && (
       <StyledList component={type}>
         {items.map((item, index) => (
-          <StyledListItem key={index}>
-            <ListItemIcon style={{ minWidth: 32 }}>
+          <StyledListItem alignItems="flex-start" key={index}>
+            <ListItemIcon style={{ minWidth: 32, marginTop: 16 }}>
               <StyledIcon fontSize="small">brightness_1</StyledIcon>
             </ListItemIcon>
 

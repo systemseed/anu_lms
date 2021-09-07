@@ -26,13 +26,14 @@ const StyledTypography = withStyles((theme) => ({
 
 const ImageContainerSmall = withStyles((theme) => ({
   root: {
-    marginTop: theme.spacing(1.5),
+    marginTop: theme.spacing(1),
     marginRight: theme.spacing(2),
   },
 }))(Box);
 
 const ImageContainerLarge = withStyles((theme) => ({
   root: {
+    marginTop: theme.spacing(1),
     marginRight: theme.spacing(3),
   },
 }))(Box);

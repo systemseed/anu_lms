@@ -9,7 +9,7 @@ import LessonGrid from '@anu/components/LessonGrid';
 
 const StyledBox = withStyles((theme) => ({
   root: {
-    marginBottom: theme.spacing(4),
+    marginBottom: theme.spacing(2),
   },
 }))(Box);
 
@@ -23,7 +23,7 @@ const StyledTypography = withStyles((theme) => ({
       fontWeight: 700,
     },
     '& > p': {
-      marginBottom: theme.spacing(4),
+      marginBottom: theme.spacing(2),
     },
     '& > p:first-child': {
       marginTop: 0,
