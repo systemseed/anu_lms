@@ -21,6 +21,9 @@ const StyledTypography = withStyles((theme) => ({
     '& > p:last-child': {
       marginBottom: 0,
     },
+    '& > ul': {
+      margin: 0,
+    },
   },
 }))(Typography);
 
