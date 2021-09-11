@@ -7,7 +7,7 @@ const Paragraphs = ({ items, ...props }) => {
     if (item.bundle in paragraphMappings) {
       const Component = paragraphMappings[item.bundle];
       return (
-        <Box mt={2} mb={2} key={item.id}>
+        <Box mt={4} mb={4} key={item.id}>
           <Component {...props} {...item} />
         </Box>
       );

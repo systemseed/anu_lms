@@ -115,7 +115,7 @@ class CourseProgress {
         $lockedCategories[] = $category;
       }
     }
-    if ($requireAllCategoriesLocked && count($categories) === count($lockedCategories)) {
+    if ($requireAllCategoriesLocked && $lockedCategories && count($categories) === count($lockedCategories)) {
       return TRUE;
     }
 
