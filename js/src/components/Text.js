@@ -31,6 +31,28 @@ const StyledTypography = withStyles((theme) => ({
     '& > p:last-child': {
       marginBottom: 0,
     },
+    '& ul': {
+      paddingLeft: theme.spacing(4.5),
+    },
+    '& ul > li': {
+      marginBottom: theme.spacing(2),
+    },
+    '& ul > li::marker': {
+      fontSize: '1.1875rem',
+      color: theme.palette.primary.main,
+    },
+    '& ol': {
+      paddingLeft: theme.spacing(3.75),
+    },
+    '& ol > li': {
+      marginBottom: theme.spacing(2),
+      paddingLeft: theme.spacing(2),
+    },
+    '& ol > li::marker': {
+      fontSize: '1rem',
+      fontWeight: 'bold',
+      color: theme.palette.primary.main,
+    },
   },
 }))(Typography);
 
