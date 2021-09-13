@@ -4,6 +4,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import LessonGrid from '@anu/components/LessonGrid';
+import { textStyle } from '../theme';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -20,20 +21,19 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '1.25rem',
   },
   text: {
+    // Common styles for elements with an enabled rich text editor.
+    ...textStyle(theme),
     fontWeight: theme.typography.fontWeightMedium,
     fontSize: '1rem',
     [theme.breakpoints.up('sm')]: {
       fontSize: '1.125rem',
       lineHeight: '2.063rem',
     },
-    '& > p': {
-      marginBottom: theme.spacing(2),
+    '& ul > li::marker': {
+      color: theme.palette.common.black,
     },
-    '& > p:first-child': {
-      marginTop: 0,
-    },
-    '& > p:last-child': {
-      marginBottom: 0,
+    '& ol > li::marker': {
+      color: theme.palette.common.black,
     },
   },
 }));

@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { withStyles } from '@material-ui/core';
-
 import LessonGrid from '@anu/components/LessonGrid';
+import { textStyle } from '../theme';
 
 const StyledBox = withStyles((theme) => ({
   root: {
@@ -15,43 +14,14 @@ const StyledBox = withStyles((theme) => ({
 
 const StyledTypography = withStyles((theme) => ({
   root: {
+    // Common styles for elements with an enabled rich text editor.
+    ...textStyle(theme),
     '& img': {
       maxWidth: '100%',
       height: 'auto',
     },
     '& a': {
       fontWeight: 700,
-    },
-    '& > p': {
-      marginBottom: theme.spacing(2),
-    },
-    '& > p:first-child': {
-      marginTop: 0,
-    },
-    '& > p:last-child': {
-      marginBottom: 0,
-    },
-    '& ul': {
-      paddingLeft: theme.spacing(4.5),
-    },
-    '& ul > li': {
-      marginBottom: theme.spacing(2),
-    },
-    '& ul > li::marker': {
-      fontSize: '1.1875rem',
-      color: theme.palette.primary.main,
-    },
-    '& ol': {
-      paddingLeft: theme.spacing(3.75),
-    },
-    '& ol > li': {
-      marginBottom: theme.spacing(2),
-      paddingLeft: theme.spacing(2),
-    },
-    '& ol > li::marker': {
-      fontSize: '1rem',
-      fontWeight: 'bold',
-      color: theme.palette.primary.main,
     },
   },
 }))(Typography);

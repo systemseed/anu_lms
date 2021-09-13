@@ -5,12 +5,21 @@ import Typography from '@material-ui/core/Typography';
 import ImageBulletItem from '@anu/components/ImageBulletItem';
 import LessonGrid from '@anu/components/LessonGrid';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import { textStyle } from '../theme';
 
 const useHighlightStyles = makeStyles((theme) => ({
   root: {
+    // Common styles for elements with an enabled rich text editor.
+    ...textStyle(theme),
     borderRadius: '8px',
     backgroundColor: (props) => theme.palette.paragraphHighlight[props.color],
     padding: theme.spacing(3),
+    '& ul > li::marker': {
+      color: theme.palette.common.black,
+    },
+    '& ol > li::marker': {
+      color: theme.palette.common.black,
+    },
   },
 }));
 
