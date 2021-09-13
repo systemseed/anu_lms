@@ -96,6 +96,11 @@ class CourseProgress {
       // Position of the current course.
       $key = array_search($course, $courses, TRUE);
 
+      // The course is not in this category.
+      if ($key === FALSE) {
+        continue;
+      }
+
       // Search for the previous course in the sequence.
       reset($courses);
       while (key($courses) !== $key) {
