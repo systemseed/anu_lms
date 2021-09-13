@@ -258,6 +258,7 @@ export const textStyle = (theme) => ({
   },
   '& ul > li': {
     marginBottom: theme.spacing(2),
+    paddingLeft: theme.spacing(1.75),
   },
   '& ul > li::marker': {
     fontSize: '1.1875rem',
