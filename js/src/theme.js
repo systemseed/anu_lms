@@ -241,6 +241,44 @@ const theme = createTheme({
   },
 });
 
+// Common styles for elements with an enabled rich text editor.
+export const textStyle = (theme) => ({
+  '& > p': {
+    marginBottom: theme.spacing(2),
+  },
+  '& > p:first-child': {
+    marginTop: 0,
+  },
+  '& > p:last-child': {
+    marginBottom: 0,
+  },
+  '& ul': {
+    paddingLeft: theme.spacing(4.5),
+    margin: 0,
+  },
+  '& ul > li': {
+    marginBottom: theme.spacing(2),
+    paddingLeft: theme.spacing(1.75),
+  },
+  '& ul > li::marker': {
+    fontSize: '1.1875rem',
+    color: theme.palette.primary.main,
+  },
+  '& ol': {
+    paddingLeft: theme.spacing(3.75),
+    margin: 0,
+  },
+  '& ol > li': {
+    marginBottom: theme.spacing(2),
+    paddingLeft: theme.spacing(2),
+  },
+  '& ol > li::marker': {
+    fontSize: '1rem',
+    fontWeight: 'bold',
+    color: theme.palette.primary.main,
+  },
+});
+
 // Handle some global css overrides which exist
 // outside of MUI components.
 const GlobalCss = withStyles({

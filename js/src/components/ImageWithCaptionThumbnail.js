@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { styled, withStyles } from '@material-ui/core';
 import LessonGrid from '@anu/components/LessonGrid';
+import { textStyle } from '../theme';
 
 const StyledImg = styled('img')({
   width: '100%',
@@ -11,15 +12,8 @@ const StyledImg = styled('img')({
 
 const StyledTypography = withStyles((theme) => ({
   root: {
-    '& > p': {
-      marginBottom: theme.spacing(4),
-    },
-    '& > p:first-child': {
-      marginTop: 0,
-    },
-    '& > p:last-child': {
-      marginBottom: 0,
-    },
+    // Common styles for elements with an enabled rich text editor.
+    ...textStyle(theme),
   },
 }))(Typography);
 
