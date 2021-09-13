@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
+import {textStyle} from "../theme";
 
 const StyledBox = withStyles(() => ({
   root: {
@@ -12,18 +13,8 @@ const StyledBox = withStyles(() => ({
 
 const StyledTypography = withStyles((theme) => ({
   root: {
-    '& > p': {
-      marginBottom: theme.spacing(2),
-    },
-    '& > p:first-child': {
-      marginTop: 0,
-    },
-    '& > p:last-child': {
-      marginBottom: 0,
-    },
-    '& > ul': {
-      margin: 0,
-    },
+    // Common styles for elements with an enabled rich text editor.
+    ...textStyle(theme),
   },
 }))(Typography);
 
