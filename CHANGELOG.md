@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  - Fixed not working Finish button for quizzes.
 
 ## [2.3.11]
- - Reduced padding for <p> elements.
+ - Reduced padding for `<p>` elements.
  - List bullets aligned to the top of the element.
  - Added ul/ol lists for Minimal HTML editor.
 
