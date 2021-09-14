@@ -55,6 +55,7 @@ const transformQuizQuestions = (node) => {
     isSingleSubmission: fields.getBooleanValue(node, 'field_no_multiple_submissions'),
     isCompleted: fields.getBooleanValue(node, 'is_completed'),
     isRestricted: fields.getBooleanValue(node, 'is_restricted'),
+    finishButtonText: fields.getTextValue(node, 'finish_button_text'),
     questions: fields
       .getArrayValue(node, 'field_module_assessment_items')
       .map((paragraph) => transformParagraph(paragraph)),

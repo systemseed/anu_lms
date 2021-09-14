@@ -57,7 +57,7 @@ class FinishCourse extends ControllerBase {
    */
   public function complete(EntityInterface $node) {
     /** @var \Drupal\node\NodeInterface $node */
-    if ($node->bundle() !== 'module_lesson') {
+    if (!in_array($node->bundle(), ['module_lesson', 'module_assessment'])) {
       throw new AccessDeniedHttpException();
     }
     $course = $this->lesson->getLessonCourse($node);

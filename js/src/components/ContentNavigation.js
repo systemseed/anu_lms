@@ -24,7 +24,7 @@ const ContentNavigation = ({
   const noNextLesson = !sections[currentIndex + 1];
 
   const finishButtonText = (currentLesson) =>
-    currentLesson.finishButtonText === ''
+    !currentLesson.finishButtonText
       ? Drupal.t('Finish', {}, { context: 'ANU LMS' })
       : currentLesson.finishButtonText;
 
