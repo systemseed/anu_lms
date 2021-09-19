@@ -200,6 +200,13 @@ const transformParagraph = (paragraph) => {
         value: getTextValue(paragraph, 'field_lesson_text_content'),
       };
 
+    case 'lesson_footnotes':
+      return {
+        bundle,
+        id: getNumberValue(paragraph, 'id'),
+        value: getTextValue(paragraph, 'field_lesson_footnotes_content'),
+      };
+
     case 'question_short_answer':
       question = getObjectValue(paragraph, 'field_question');
       return {
