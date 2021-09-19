@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   divider: {
     width: '100%',
     height: '1px',
-    background: theme.palette.grey[200],
+    background: theme.palette.grey[300],
     top: theme.spacing(3),
   },
 }));
@@ -32,7 +32,7 @@ const StyledTypography = withStyles((theme) => ({
   },
   body2: {
     color: theme.palette.grey[400],
-    fontSize: '0.75rem',
+    fontSize: '0.875rem',
   },
 }))(Typography);
 
