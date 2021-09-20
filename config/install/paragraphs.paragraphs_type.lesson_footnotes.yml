@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies: {  }
+id: lesson_footnotes
+label: 'Lesson: Footnotes'
+icon_uuid: null
+icon_default: null
+description: 'Styled textarea for displaying footnotes.'
+behavior_plugins: {  }

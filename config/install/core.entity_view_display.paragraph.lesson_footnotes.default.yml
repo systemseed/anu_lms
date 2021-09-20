@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.lesson_footnotes.field_lesson_footnotes_content
+    - paragraphs.paragraphs_type.lesson_footnotes
+  module:
+    - text
+id: paragraph.lesson_footnotes.default
+targetEntityType: paragraph
+bundle: lesson_footnotes
+mode: default
+content:
+  field_lesson_footnotes_content:
+    weight: 0
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+hidden: {  }
