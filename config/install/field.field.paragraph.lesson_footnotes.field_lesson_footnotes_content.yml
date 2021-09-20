@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_lesson_footnotes_content
+    - paragraphs.paragraphs_type.lesson_footnotes
+  module:
+    - allowed_formats
+    - text
+third_party_settings:
+  allowed_formats:
+    minimal_html: minimal_html
+    table: '0'
+    plain_text: '0'
+id: paragraph.lesson_footnotes.field_lesson_footnotes_content
+field_name: field_lesson_footnotes_content
+entity_type: paragraph
+bundle: lesson_footnotes
+label: Footnotes
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

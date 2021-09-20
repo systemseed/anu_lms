@@ -17,7 +17,7 @@ filters:
     status: true
     weight: -10
     settings:
-      allowed_html: '<a href hreflang target> <em> <strong>'
+      allowed_html: '<a href hreflang target> <em> <strong> <ul> <li> <ol> <u> <sup>'
       filter_html_help: false
       filter_html_nofollow: false
   filter_htmlcorrector:

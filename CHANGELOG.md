@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Upcoming release]
  - 
 
+## [2.3.13]
+- Added Footnotes component.
+
 ## [2.3.12]
  - Fixed a bug where a course page with multiple categories timed out.
  - Fixed not working Finish button for quizzes.
