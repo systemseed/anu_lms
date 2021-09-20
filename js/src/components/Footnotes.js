@@ -14,7 +14,6 @@ const StyledBox = withStyles((theme) => ({
 
 const useStyles = makeStyles((theme) => ({
   divider: {
-    width: '100%',
     height: '1px',
     background: theme.palette.grey[300],
     top: theme.spacing(3),
