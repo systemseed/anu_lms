@@ -55,89 +55,89 @@ settings:
       lesson_checklist: lesson_checklist
       lesson_resource: lesson_resource
       lesson_table: lesson_table
+      lesson_footnotes: lesson_footnotes
       question_short_answer: question_short_answer
       question_long_answer: question_long_answer
       question_single_choice: question_single_choice
       question_multi_choice: question_multi_choice
       question_scale: question_scale
-      lesson_footnotes: lesson_footnotes
     target_bundles_drag_drop:
       checklist_item:
-        weight: -27
+        weight: -28
         enabled: false
       course_category:
-        weight: -29
+        weight: -30
         enabled: false
       course_modules:
-        weight: -28
+        weight: -29
         enabled: false
       lesson_checklist:
         enabled: true
-        weight: -39
+        weight: -41
       lesson_divider:
         enabled: true
-        weight: -41
+        weight: -43
       lesson_embedded_video:
         enabled: true
-        weight: -40
+        weight: -42
       lesson_footnotes:
         enabled: true
-        weight: 33
+        weight: -38
       lesson_heading:
         enabled: true
-        weight: -50
+        weight: -52
       lesson_highlight:
         enabled: true
-        weight: -44
+        weight: -46
       lesson_highlight_marker:
         enabled: true
-        weight: -43
+        weight: -45
       lesson_image:
         enabled: true
-        weight: -47
+        weight: -49
       lesson_image_thumbnail:
         enabled: true
-        weight: -45
+        weight: -47
       lesson_image_wide:
         enabled: true
-        weight: -46
+        weight: -48
       lesson_img_list:
         enabled: true
-        weight: -42
+        weight: -44
       lesson_img_list_item:
-        weight: -30
+        weight: -31
         enabled: false
       lesson_list:
         enabled: true
-        weight: -48
+        weight: -50
       lesson_resource:
         enabled: true
-        weight: -38
+        weight: -40
       lesson_section:
-        weight: -51
+        weight: -53
         enabled: false
       lesson_table:
         enabled: true
-        weight: -37
+        weight: -39
       lesson_text:
         enabled: true
-        weight: -49
+        weight: -51
       question_long_answer:
         enabled: true
-        weight: -35
+        weight: -36
       question_multi_choice:
         enabled: true
-        weight: -33
+        weight: -34
       question_scale:
         enabled: true
-        weight: -32
+        weight: -33
       question_short_answer:
         enabled: true
-        weight: -36
+        weight: -37
       question_single_choice:
         enabled: true
-        weight: -34
+        weight: -35
       single_multi_choice_item:
-        weight: -31
+        weight: -32
         enabled: false
 field_type: entity_reference_revisions
