@@ -11,7 +11,7 @@ filters:
     status: true
     weight: -10
     settings:
-      allowed_html: '<a href hreflang> <em> <strong> <ul type> <ol start type> <li> <table> <tbody> <thead> <tfoot> <th> <td colspan rowspan> <tr> <u>'
+      allowed_html: '<a href hreflang> <em> <strong> <ul type> <ol start type> <li> <table> <tbody> <thead> <tfoot> <th> <td colspan rowspan> <tr> <u> <sup>'
       filter_html_help: true
       filter_html_nofollow: false
   filter_htmlcorrector:
