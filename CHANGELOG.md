@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Upcoming release]
  - 
 
+## [2.3.15]
+- Improved image quality for all image styles of ANU LMS.
+
 ## [2.3.14]
 - Added footnotes functionality for Table HTML format.
 
