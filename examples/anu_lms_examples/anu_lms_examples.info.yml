@@ -1,0 +1,7 @@
+name: Anu LMS Examples
+type: module
+description: Examples on how to extend Anu LMS.
+package: Anu LMS
+core_version_requirement: ^8 || ^9
+dependencies:
+  - anu_lms:anu_lms
