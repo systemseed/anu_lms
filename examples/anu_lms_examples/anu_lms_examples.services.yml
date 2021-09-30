@@ -1,0 +1,6 @@
+services:
+  anu_lms_examples.event_subscriber:
+    class: Drupal\anu_lms_examples\EventSubscriber\AnuLmsExamplesSubscriber
+    arguments: ['@messenger']
+    tags:
+      - { name: event_subscriber }

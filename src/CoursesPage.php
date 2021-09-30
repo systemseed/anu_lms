@@ -5,7 +5,9 @@ namespace Drupal\anu_lms;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
+use Drupal\anu_lms\Event\CoursesPageDataGeneratedEvent;
 use Drupal\node\Entity\Node;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Normalizer service for the given entity.
@@ -34,6 +36,13 @@ class CoursesPage {
   protected $languageManager;
 
   /**
+   * The event dispatcher.
+   *
+   * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
+   */
+  protected $dispatcher;
+
+  /**
    * The normalizer.
    *
    * @var \Drupal\anu_lms\Normalizer
@@ -54,15 +63,18 @@ class CoursesPage {
    *   The entity type manager.
    * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
    *   The language manager.
+   * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
+   *   The event dispatcher.
    * @param \Drupal\anu_lms\Normalizer $normalizer
    *   The normalizer.
    * @param \Drupal\anu_lms\Course $course
    *   The Course service.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, LanguageManagerInterface $language_manager, Normalizer $normalizer, Course $course) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, LanguageManagerInterface $language_manager, EventDispatcherInterface $dispatcher, Normalizer $normalizer, Course $course) {
     $this->nodeStorage = $entity_type_manager->getStorage('node');
     $this->taxonomyStorage = $entity_type_manager->getStorage('taxonomy_term');
     $this->languageManager = $language_manager;
+    $this->dispatcher = $dispatcher;
     $this->normalizer = $normalizer;
     $this->course = $course;
   }
@@ -138,12 +150,15 @@ class CoursesPage {
       }
     }
 
-    return [
+    $pageData = [
       $node->bundle() => $this->normalizer->normalizeEntity($node, ['max_depth' => 3]),
       'courses' => $normalized_courses,
       'courses_pages_by_course' => $courses_pages_by_course,
       'first_lesson_url_by_course' => $first_lesson_url_by_course,
     ];
+    $event = new CoursesPageDataGeneratedEvent($pageData, $node);
+    $this->dispatcher->dispatch(CoursesPageDataGeneratedEvent::EVENT_NAME, $event);
+    return $event->getPageData();
   }
 
   /**
