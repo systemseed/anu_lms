@@ -33,8 +33,8 @@ const ImageBulletList = ({ title, items, color }) => {
         </Box>
       )}
 
-      {items.map(({ id, image, size, text }) => (
-        <ImageBulletItem key={id} image={image} size={size} text={text} />
+      {items.map(({ id, image, size, align, text }) => (
+        <ImageBulletItem key={id} image={image} size={size} align={align} text={text} />
       ))}
     </>
   );

@@ -120,6 +120,9 @@ const transformParagraph = (paragraph) => {
             size = 0;
           }
 
+          let align = getTextValue(item, 'field_lesson_img_list_item_align');
+          align = align === 'middle' ? 'center' : 'flex-start';
+
           return {
             id: getNumberValue(item, 'id'),
             image: getImage(
@@ -128,6 +131,7 @@ const transformParagraph = (paragraph) => {
               size === 20 ? 'image_bullet_list_small' : 'image_bullet_list_large'
             ),
             size,
+            align,
             text: getTextValue(item, 'field_lesson_img_list_item_text'),
           };
         }),

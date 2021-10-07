@@ -2,6 +2,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.lesson_img_list_item.field_lesson_img_list_item_align
     - field.field.paragraph.lesson_img_list_item.field_lesson_img_list_item_image
     - field.field.paragraph.lesson_img_list_item.field_lesson_img_list_item_size
     - field.field.paragraph.lesson_img_list_item.field_lesson_img_list_item_text
@@ -16,6 +17,12 @@ targetEntityType: paragraph
 bundle: lesson_img_list_item
 mode: default
 content:
+  field_lesson_img_list_item_align:
+    weight: 2
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
   field_lesson_img_list_item_image:
     weight: 0
     settings:
@@ -31,7 +38,7 @@ content:
     type: options_select
     region: content
   field_lesson_img_list_item_text:
-    weight: 2
+    weight: 3
     settings:
       rows: 5
       placeholder: ''
