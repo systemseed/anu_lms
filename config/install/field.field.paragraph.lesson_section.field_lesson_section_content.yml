@@ -19,11 +19,6 @@ dependencies:
     - paragraphs.paragraphs_type.lesson_section
     - paragraphs.paragraphs_type.lesson_table
     - paragraphs.paragraphs_type.lesson_text
-    - paragraphs.paragraphs_type.question_long_answer
-    - paragraphs.paragraphs_type.question_multi_choice
-    - paragraphs.paragraphs_type.question_scale
-    - paragraphs.paragraphs_type.question_short_answer
-    - paragraphs.paragraphs_type.question_single_choice
   module:
     - entity_reference_revisions
 id: paragraph.lesson_section.field_lesson_section_content
@@ -56,11 +51,6 @@ settings:
       lesson_resource: lesson_resource
       lesson_table: lesson_table
       lesson_footnotes: lesson_footnotes
-      question_short_answer: question_short_answer
-      question_long_answer: question_long_answer
-      question_single_choice: question_single_choice
-      question_multi_choice: question_multi_choice
-      question_scale: question_scale
     target_bundles_drag_drop:
       checklist_item:
         weight: -28
@@ -122,22 +112,4 @@ settings:
       lesson_text:
         enabled: true
         weight: -51
-      question_long_answer:
-        enabled: true
-        weight: -36
-      question_multi_choice:
-        enabled: true
-        weight: -34
-      question_scale:
-        enabled: true
-        weight: -33
-      question_short_answer:
-        enabled: true
-        weight: -37
-      question_single_choice:
-        enabled: true
-        weight: -35
-      single_multi_choice_item:
-        weight: -32
-        enabled: false
 field_type: entity_reference_revisions

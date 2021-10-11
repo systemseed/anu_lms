@@ -1,12 +1,13 @@
 <?php
 
-namespace Drupal\anu_lms;
+namespace Drupal\anu_lms_assessments;
 
 use Drupal\anu_lms_assessments\Entity\AssessmentQuestionResult;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\anu_lms\Lesson;
 
 /**
- * Quiz service.
+ * Handles quiz logic.
  */
 class Quiz extends Lesson {
   const FIELD_NO_MULTIPLE_SUBMISSIONS = 'field_no_multiple_submissions';

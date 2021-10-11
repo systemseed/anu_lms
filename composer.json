@@ -18,7 +18,7 @@
         "drupal/inline_entity_form": "^1.0@RC",
         "drupal/paragraphs": "^1.11",
         "drupal/range": "^1.1",
-        "drupal/rest_entity_recursive": "^1.0@beta",
+        "drupal/rest_entity_recursive": "^2@RC",
         "drupal/group": "^1.0@RC",
         "drupal/config_pages": "^2.6",
         "drupal/views_data_export": "^1.0",

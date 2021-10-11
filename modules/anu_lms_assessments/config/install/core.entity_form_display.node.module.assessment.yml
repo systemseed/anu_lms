@@ -3,6 +3,7 @@ status: true
 dependencies:
   config:
     - core.entity_form_mode.node.embedded
+    - field.field.node.module.field_module_assessment
     - field.field.node.module.field_module_course
     - field.field.node.module.field_module_description
     - field.field.node.module.field_module_image
@@ -21,6 +22,7 @@ third_party_settings:
       children:
         - group_module_info
         - group_module_lessons
+        - group_module_assessment
       parent_name: ''
       weight: 3
       format_type: tabs
@@ -60,10 +62,24 @@ third_party_settings:
         formatter: closed
         required_fields: true
       label: Lessons
-id: node.module.default
+    group_module_assessment:
+      children:
+        - field_module_assessment
+      parent_name: group_module
+      weight: 4
+      format_type: tab
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        formatter: closed
+        required_fields: true
+      label: 'Final quiz'
+id: node.module.assessment
 targetEntityType: node
 bundle: module
-mode: default
+mode: assessment
 content:
   created:
     type: datetime_timestamp
@@ -71,6 +87,23 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_module_assessment:
+    weight: 9
+    settings:
+      form_mode: embedded
+      override_labels: true
+      label_singular: assessment
+      label_plural: assessments
+      allow_new: true
+      allow_existing: true
+      match_operator: CONTAINS
+      collapsible: false
+      collapsed: false
+      allow_duplicate: false
+      revision: false
+    third_party_settings: {  }
+    type: inline_entity_form_complex
+    region: content
   field_module_course:
     type: entity_reference_autocomplete
     weight: 2

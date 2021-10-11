@@ -3,7 +3,6 @@ status: true
 dependencies:
   config:
     - core.entity_form_mode.node.embedded
-    - field.field.node.module.field_module_assessment
     - field.field.node.module.field_module_course
     - field.field.node.module.field_module_description
     - field.field.node.module.field_module_image
@@ -18,16 +17,6 @@ targetEntityType: node
 bundle: module
 mode: embedded
 content:
-  field_module_assessment:
-    type: entity_reference_autocomplete
-    weight: 7
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
   field_module_description:
     weight: 4
     settings:

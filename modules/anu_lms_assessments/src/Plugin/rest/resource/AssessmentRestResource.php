@@ -2,7 +2,7 @@
 
 namespace Drupal\anu_lms_assessments\Plugin\rest\resource;
 
-use Drupal\anu_lms\Quiz;
+use Drupal\anu_lms_assessments\Quiz;
 use Drupal\anu_lms_assessments\Entity\AssessmentQuestionResult;
 use Drupal\node\Entity\Node;
 use Drupal\rest\ModifiedResourceResponse;
@@ -27,12 +27,12 @@ class AssessmentRestResource extends ResourceBase {
   /**
    * Quiz handler.
    *
-   * @var \Drupal\anu_lms\Quiz
+   * @var \Drupal\anu_lms_assessments\Quiz
    */
   protected $quiz;
 
   /**
-   *
+   * {@inheritdoc}
    */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger, Quiz $quiz) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
@@ -49,7 +49,7 @@ class AssessmentRestResource extends ResourceBase {
       $plugin_definition,
       $container->getParameter('serializer.formats'),
       $container->get('logger.factory')->get('anu_lms_assessments'),
-      $container->get('anu_lms.quiz'),
+      $container->get('anu_lms_assessments.quiz'),
     );
   }
 
