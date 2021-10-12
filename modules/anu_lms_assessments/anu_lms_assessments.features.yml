@@ -94,3 +94,4 @@ required:
   - rest.resource.question_rest_resource
   - core.entity_view_mode.assessment_question.embedded
   - core.entity_form_mode.node.assessment
+  - core.entity_form_mode.paragraph.quiz

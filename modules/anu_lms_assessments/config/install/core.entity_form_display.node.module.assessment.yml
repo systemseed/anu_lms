@@ -2,6 +2,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_form_mode.node.assessment
     - core.entity_form_mode.node.embedded
     - field.field.node.module.field_module_assessment
     - field.field.node.module.field_module_course
