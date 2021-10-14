@@ -32,13 +32,13 @@ const ImageContainerLarge = withStyles((theme) => ({
   },
 }))(Box);
 
-const ImageBulletItem = ({ image, size, text }) => {
+const ImageBulletItem = ({ image, size, align, text }) => {
   const Image = () => (
     <img src={image.url} alt={image.alt} height={size} width={size} style={{ maxWidth: 'none' }} />
   );
 
   return (
-    <StyledBox size={size}>
+    <StyledBox size={size} alignItems={align}>
       {parseInt(size, 10) === 20 ? (
         <ImageContainerSmall>
           <Image />
@@ -60,6 +60,7 @@ ImageBulletItem.propTypes = {
     alt: PropTypes.string,
   }).isRequired,
   size: PropTypes.number.isRequired,
+  align: PropTypes.oneOf(['top', 'middle']).isRequired,
   text: PropTypes.string.isRequired,
 };
 
