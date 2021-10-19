@@ -5,6 +5,7 @@ import LessonGrid from '@anu/components/LessonGrid';
 import ParagraphsWithQuiz from '@anu/components/ParagraphsWithQuiz';
 import { quizPropTypes } from '@anu/utilities/transform.quiz';
 import ContentNavigation from '@anu/components/ContentNavigation';
+import Hidden from '@material-ui/core/Hidden';
 
 const ContentQuiz = ({ quiz, nextLesson }) => {
   const [isSubmitted, submitQuiz] = useState(!!quiz.isSubmitted);
@@ -12,9 +13,11 @@ const ContentQuiz = ({ quiz, nextLesson }) => {
     <Box mt={[2, 2, 0]}>
       <LessonGrid>
         <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Typography variant="h4" component="h1">
-            {quiz.title}
-          </Typography>
+          <Hidden smDown>
+            <Typography variant="h4" component="h1">
+              {quiz.title}
+            </Typography>
+          </Hidden>
         </Box>
       </LessonGrid>
 
