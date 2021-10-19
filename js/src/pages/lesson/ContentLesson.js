@@ -7,6 +7,7 @@ import LessonGrid from '@anu/components/LessonGrid';
 import LoadingIndicator from '@anu/components/LoadingIndicator';
 import Paragraphs from '@anu/components/Paragraphs';
 import { lessonPropTypes } from '@anu/utilities/transform.lesson';
+import Hidden from '@material-ui/core/Hidden';
 
 const ContentLesson = ({ lesson, nextLesson }) => {
   const [enableNext, setEnableNext] = useState(lesson.sections.map(() => 0));
@@ -41,7 +42,9 @@ const ContentLesson = ({ lesson, nextLesson }) => {
               <Box mt={[2, 2, 0]}>
                 <LessonGrid>
                   <Box display="flex" justifyContent="space-between" alignItems="center">
-                    <Typography variant="h4">{lesson.title}</Typography>
+                    <Hidden smDown>
+                      <Typography variant="h4">{lesson.title}</Typography>
+                    </Hidden>
 
                     {hasChecklist && (
                       <LoadingIndicator isLoading={isChecklistLoading} label={checklistLabel} />
