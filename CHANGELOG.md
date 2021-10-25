@@ -4,9 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+<<<<<<< HEAD
 ## Unreleased
 
  - Fixed request for the correct answer to respect translation.
+=======
+## [2.3.18]
+- Hides lesson/quiz title on mobile view (600px or smaller) based on results of user research.
+
+>>>>>>> 62fdff39f407ace5de12c31528214076652fcb34
 
 ## [2.3.17]
  - Added alignment option for "Highligt (with image)" paragraph.
