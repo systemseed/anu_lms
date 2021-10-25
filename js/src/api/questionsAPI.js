@@ -1,8 +1,8 @@
 import { getPathPrefix } from '@anu/utilities/settings';
 
 const pathPrefix = getPathPrefix();
-const TOKEN_URL = `${window.location.origin}/${pathPrefix}session/token`;
-const QUESTION_SUBMISSION_URL = `${window.location.origin}/${pathPrefix}assessments/question`;
+const TOKEN_URL = `/${pathPrefix}session/token`;
+const QUESTION_SUBMISSION_URL = `/${pathPrefix}assessments/question`;
 
 const postQuestion = async (questionId, value) => {
   const tokenResponse = await fetch(TOKEN_URL);
