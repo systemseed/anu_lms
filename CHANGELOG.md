@@ -5,8 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Upcoming release]
- - Quizzes submodule is not optional and the core module doesn't depend on it.
- - Legacy module content type removed
+ - Quizzes submodule is optional and the core module has no longer a dependency on it.
+ - Legacy module content type removed.
+ - Use paragraph_selection to allow bundles to select the fields in which they appear as a choice.
 
 ## [2.3.19]
  - Fixed request for the correct answer to respect translation.

@@ -21,6 +21,7 @@ dependencies:
   - 'field_group:field_group'
   - 'inline_entity_form:inline_entity_form'
   - 'paragraphs:paragraphs'
+  - 'paragraphs_selection:paragraphs_selection'
   - 'range:range'
   - 'views_data_export:views_data_export'
   - 'xls_serialization:xls_serialization'

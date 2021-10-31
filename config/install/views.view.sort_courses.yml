@@ -3,7 +3,6 @@ status: true
 dependencies:
   config:
     - node.type.course
-    - taxonomy.vocabulary.course_category
   module:
     - node
     - user

@@ -1,6 +1,14 @@
 langcode: en-gb
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - paragraphs_selection
+third_party_settings:
+  paragraphs_selection:
+    fields:
+      -
+        id: paragraph.lesson_section.field_lesson_section_content
+        weight: '51'
 id: question_single_choice
 label: 'Question: Single choice'
 icon_uuid: null

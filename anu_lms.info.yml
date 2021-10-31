@@ -23,6 +23,7 @@ dependencies:
   - field_group:field_group
   - inline_entity_form:inline_entity_form
   - paragraphs:paragraphs
+  - paragraphs_selection:paragraphs_selection
   - rest_entity_recursive:rest_paragraphs_recursive
   - shs_chosen:shs_chosen
   - weight:weight
