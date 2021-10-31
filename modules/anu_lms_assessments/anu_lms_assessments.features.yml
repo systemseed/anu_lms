@@ -1,4 +1,6 @@
 bundle: anu_lms
+excluded:
+  - core.entity_form_display.paragraph.course_modules.default
 required:
   - core.entity_form_display.assessment_question.long_answer.default
   - core.entity_form_display.assessment_question.multiple_choice.default

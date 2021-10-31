@@ -1,2 +1,4 @@
 bundle: anu_lms
 required: true
+excluded:
+  - core.entity_form_display.paragraph.course_modules.default
