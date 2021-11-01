@@ -52,6 +52,11 @@ use Drupal\Core\Entity\EntityTypeInterface;
  *     "langcode" = "langcode",
  *     "published" = "status",
  *   },
+ *   revision_metadata_keys = {
+ *     "revision_user" = "revision_user",
+ *     "revision_created" = "revision_created",
+ *     "revision_log_message" = "revision_log",
+ *    },
  *   links = {
  *     "canonical" = "/admin/structure/assessment_question/{assessment_question}",
  *     "add-page" = "/admin/structure/assessment_question/add",
@@ -168,7 +173,7 @@ class AssessmentQuestion extends EditorialContentEntityBase implements Assessmen
 
     $fields['status']
       ->setDescription(t('A boolean indicating whether the Question is published.'))
-      ->setDisplayOptions('form', ['type' => 'hidden']);
+      ->setDisplayOptions('form', ['region' => 'hidden']);
 
     $fields['created'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Created'))
@@ -186,7 +191,7 @@ class AssessmentQuestion extends EditorialContentEntityBase implements Assessmen
       ->setTranslatable(TRUE);
 
     if (!empty($fields['revision_log_message'])) {
-      $fields['revision_log_message']->setDisplayOptions('form', ['type' => 'hidden']);
+      $fields['revision_log_message']->setDisplayOptions('form', ['region' => 'hidden']);
     }
 
     return $fields;

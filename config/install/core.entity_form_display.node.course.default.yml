@@ -9,7 +9,6 @@ dependencies:
     - field.field.node.course.field_course_label
     - field.field.node.course.field_course_linear_progress
     - field.field.node.course.field_course_module
-    - field.field.node.course.field_course_modules
     - field.field.node.course.field_weight
     - image.style.thumbnail
     - node.type.course
@@ -208,7 +207,6 @@ content:
       placeholder: ''
     third_party_settings: {  }
 hidden:
-  field_course_modules: true
   field_weight: true
   promote: true
   sticky: true

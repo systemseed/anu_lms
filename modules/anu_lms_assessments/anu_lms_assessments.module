@@ -6,6 +6,8 @@
  */
 
 use Drupal\Core\Render\Element;
+use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
+use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Implements hook_views_data_alter().
@@ -23,8 +25,8 @@ function anu_lms_assessments_views_data_alter(array &$data) {
   ];
 
   $data['assessment_question']['assessment_question_result']['relationship'] = [
-    'title' => t('Qestion result'),
-    'label' => t('Qestion result'),
+    'title' => t('Question result'),
+    'label' => t('Question result'),
     'group' => 'Question',
     'help' => t('Reference to the Question result'),
     'id' => 'standard',
@@ -37,17 +39,32 @@ function anu_lms_assessments_views_data_alter(array &$data) {
 /**
  * Workaround to show translatable fields inside nested paragraphs.
  *
- * @param $entity_form
+ * @param array $entity_form
  *   Nested array of form elements that comprise the entity form.
- * @param $form_state
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
  *   The form state of the parent form.
  */
-function anu_lms_assessments_inline_entity_form_entity_form_alter(&$entity_form, &$form_state) {
+function anu_lms_assessments_inline_entity_form_entity_form_alter(array &$entity_form, FormStateInterface $form_state) {
   $children = Element::children($entity_form);
 
   foreach ($children as $field_name) {
     if (!empty($entity_form[$field_name]['#multilingual']) && $entity_form[$field_name]['#multilingual']) {
-      $entity_form[$field_name]['#access'] = true;
+      $entity_form[$field_name]['#access'] = TRUE;
     }
+  }
+}
+
+/**
+ * Implements hook_entity_form_display_alter().
+ *
+ * From
+ * https://www.drupal.org/forum/support/module-development-and-code-questions/2017-05-14/how-to-specifymodify-form-view-mode#comment-13458568
+ * Use hook_entity_form_mode_alter() after Drupal 9.2.0.
+ */
+function anu_lms_assessments_entity_form_display_alter(EntityFormDisplayInterface &$form_display, array $context) {
+  if ($context['entity_type'] === 'paragraph' && $context['bundle'] === 'course_modules') {
+    $storage = Drupal::service('entity_type.manager')
+      ->getStorage('entity_form_display');
+    $form_display = $storage->load('paragraph.course_modules.quiz');
   }
 }

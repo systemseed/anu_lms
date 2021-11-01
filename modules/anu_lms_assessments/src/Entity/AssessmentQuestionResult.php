@@ -198,14 +198,14 @@ class AssessmentQuestionResult extends ContentEntityBase implements AssessmentQu
         'weight' => -4,
       ])
       ->setDisplayOptions('form', [
-        'type' => 'hidden',
+        'region' => 'hidden',
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
       ->setRequired(TRUE);
 
     $fields['status']->setDescription(t('A boolean indicating whether the Quiz question result is published.'))
-      ->setDisplayOptions('form', ['type' => 'hidden']);
+      ->setDisplayOptions('form', ['region' => 'hidden']);
 
     $fields['created'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Created'))

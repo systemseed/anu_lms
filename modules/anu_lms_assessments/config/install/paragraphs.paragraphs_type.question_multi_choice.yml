@@ -1,6 +1,14 @@
 langcode: en-gb
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - paragraphs_selection
+third_party_settings:
+  paragraphs_selection:
+    fields:
+      -
+        id: paragraph.lesson_section.field_lesson_section_content
+        weight: '48'
 id: question_multi_choice
 label: 'Question: Multiple choice'
 icon_uuid: null

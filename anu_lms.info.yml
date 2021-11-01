@@ -5,10 +5,8 @@ package: Anu LMS
 core_version_requirement: '^8.9 || ^9'
 dependencies:
   - allowed_formats:allowed_formats
-  - anu_lms:anu_lms_assessments
   - config_pages:config_pages
   - drupal:ckeditor
-  - drupal:field
   - drupal:file
   - drupal:image
   - drupal:link
@@ -17,6 +15,7 @@ dependencies:
   - drupal:node
   - drupal:options
   - drupal:path
+  - drupal:rest
   - drupal:taxonomy
   - drupal:text
   - drupal:user
@@ -24,7 +23,7 @@ dependencies:
   - field_group:field_group
   - inline_entity_form:inline_entity_form
   - paragraphs:paragraphs
+  - paragraphs_selection:paragraphs_selection
   - rest_entity_recursive:rest_paragraphs_recursive
   - shs_chosen:shs_chosen
   - weight:weight
-core_incompatible: false

@@ -30,6 +30,10 @@ use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
  *     "label" = "label",
  *     "uuid" = "uuid"
  *   },
+ *   config_export = {
+ *     "id",
+ *     "label",
+ *   },
  *   links = {
  *     "canonical" = "/admin/structure/assessment_question_type/{assessment_question_type}",
  *     "add-form" = "/admin/structure/assessment_question_type/add",

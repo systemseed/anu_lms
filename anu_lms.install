@@ -50,6 +50,73 @@ function anu_lms_schema() {
 }
 
 /**
+ * Implements hook_install().
+ */
+function anu_lms_install($is_syncing) {
+  // The module is being installed as part of a config import so the changes
+  // below have been applied already and should be in the configuration set
+  // being imported.
+  if ($is_syncing) {
+    return;
+  }
+
+  // Change form display to show the correct widget.
+  // This way config overrides on features are avoided
+  // when new fields are added to the paragraph.
+  $storage = \Drupal::entityTypeManager()->getStorage('entity_form_display');
+  $id = 'paragraph.course_modules.default';
+  $formDisplay = $storage->load($id);
+  if (!$formDisplay) {
+    $formDisplay = $storage->create([
+      'id' => $id,
+      'status' => TRUE,
+      'targetEntityType' => 'paragraph',
+      'bundle' => 'course_modules',
+      'mode' => 'default',
+    ]);
+  }
+
+  $formDisplay->set('hidden', [
+    'created' => TRUE,
+    'status' => TRUE,
+  ]);
+  $content = $formDisplay->get('content');
+  $content = [
+    'field_module_lessons' => [
+      'type' => 'inline_entity_form_complex',
+      'weight' => 1,
+      'region' => 'content',
+      'settings' => [
+        'form_mode' => 'embedded',
+        'override_labels' => TRUE,
+        'label_singular' => 'lesson',
+        'label_plural' => 'lessons',
+        'allow_new' => TRUE,
+        'allow_existing' => TRUE,
+        'match_operator' => 'CONTAINS',
+        'revision' => FALSE,
+        'collapsible' => FALSE,
+        'collapsed' => FALSE,
+        'allow_duplicate' => FALSE,
+      ],
+      'third_party_settings' => [],
+    ],
+    'field_module_title' => [
+      'type' => 'string_textfield',
+      'weight' => 0,
+      'region' => 'content',
+      'settings' => [
+        'size' => 60,
+        'placeholder' => '',
+      ],
+      'third_party_settings' => [],
+    ],
+  ];
+  $formDisplay->set('content', $content);
+  $formDisplay->save();
+}
+
+/**
  * Migrate modules content from nodes to paragraphs.
  */
 function anu_lms_update_8001() {

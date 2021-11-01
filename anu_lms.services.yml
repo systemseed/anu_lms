@@ -35,11 +35,6 @@ services:
     class: Drupal\anu_lms\CourseProgress
     arguments: [ '@anu_lms.course', '@anu_lms.lesson', '@anu_lms.courses_page']
 
-  # Helper service for Quiz content types.
-  anu_lms.quiz:
-    class: Drupal\anu_lms\Quiz
-    arguments: [ '@entity_type.manager', '@database', '@current_user', '@anu_lms.normalizer', '@logger.channel.anu_lms', '@anu_lms.courses_page', '@anu_lms.course']
-
   # Normalizers for better output by REST Entity Recursive module.
   anu_lms.normalizer:
     class: Drupal\anu_lms\Normalizer
@@ -60,3 +55,7 @@ services:
     arguments: [ '@entity.repository' ]
     tags:
       - { name: normalizer, priority: 11 }
+
+  plugin.manager.anu_lms_content_type:
+    class: Drupal\anu_lms\AnuLmsContentTypePluginManager
+    parent: default_plugin_manager
