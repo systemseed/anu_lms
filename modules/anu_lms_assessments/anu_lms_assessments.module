@@ -60,10 +60,6 @@ function anu_lms_assessments_inline_entity_form_entity_form_alter(array &$entity
  * From
  * https://www.drupal.org/forum/support/module-development-and-code-questions/2017-05-14/how-to-specifymodify-form-view-mode#comment-13458568
  * Use hook_entity_form_mode_alter() after Drupal 9.2.0.
- *
- * Swap the 'register' form mode to the 'create' form mode.
- * This condition happens when a user with enough permission creates
- * an account for another user.
  */
 function anu_lms_assessments_entity_form_display_alter(EntityFormDisplayInterface &$form_display, array $context) {
   if ($context['entity_type'] === 'paragraph' && $context['bundle'] === 'course_modules') {

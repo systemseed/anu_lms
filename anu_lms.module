@@ -5,8 +5,8 @@
  * Main entry point for the module.
  */
 
-use Drupal\node\NodeInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\node\NodeInterface;
 
 /**
  * Implements hook_form_FORM_ID_alter().
