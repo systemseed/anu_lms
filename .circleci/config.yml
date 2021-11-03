@@ -21,7 +21,8 @@ jobs:
       - run: |
           cd ../anu_drupal && \
           composer config repositories.systemseed/anu_lms path ../anu_lms && \
-          composer require systemseed/anu_lms && \
+          composer config minimum-stability dev && \
+          composer require "systemseed/anu_lms:*@dev" && \
           composer require --dev drupal/core-dev:^9 && \
           composer require --dev phpspec/prophecy-phpunit:^2
       - save_cache:
