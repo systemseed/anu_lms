@@ -1,0 +1,33 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: cimg/php:8.0
+    working_directory: ~/anu_lms
+    steps:
+      - run:
+          name: Install SQLite driver
+          command: |
+            sudo apt-get update && \
+            sudo apt-get install -y php8.0-sqlite3
+      - checkout
+      - run: composer create-project drupal/recommended-project:^9 ../anu_drupal
+      - restore_cache:
+          keys:
+            - composer-v1-{{ checksum "../anu_drupal/composer.lock" }}
+            # fallback to using the latest cache if no exact match is found (See https://circleci.com/docs/2.0/caching/)
+            - composer-v1-
+      - run: |
+          cd ../anu_drupal && \
+          composer config repositories.systemseed/anu_lms path ../anu_lms && \
+          composer require systemseed/anu_lms && \
+          composer require --dev drupal/core-dev:^9 && \
+          composer require --dev phpspec/prophecy-phpunit:^2
+      - save_cache:
+          key: composer-v1-{{ checksum "../anu_drupal/composer.lock" }}
+          paths:
+            - vendor
+      - run: |
+          cd ../anu_drupal && php -S localhost:8888 -t web/ & sleep 1 && \
+          sudo php web/core/scripts/run-tests.sh --sqlite /tmp/drupal/test.sqlite --dburl sqlite://localhost//tmp/drupal/test.sqlite --url http://localhost:888. --module anu_lms --verbose --suppress-deprecations
