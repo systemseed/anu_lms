@@ -15,9 +15,9 @@ jobs:
       - run: composer create-project drupal/recommended-project:^9 ../anu_drupal
       - restore_cache:
           keys:
-            - composer-v1-{{ checksum "../anu_drupal/composer.lock" }}
+            - composer-v2-{{ checksum "../anu_drupal/composer.lock" }}
             # fallback to using the latest cache if no exact match is found (See https://circleci.com/docs/2.0/caching/)
-            - composer-v1-
+            - composer-v2-
       - run: |
           cd ../anu_drupal && \
           composer config repositories.systemseed/anu_lms path ../anu_lms && \
@@ -26,9 +26,10 @@ jobs:
           composer require --dev drupal/core-dev:^9 && \
           composer require --dev phpspec/prophecy-phpunit:^2
       - save_cache:
-          key: composer-v1-{{ checksum "../anu_drupal/composer.lock" }}
+          key: composer-v2-{{ checksum "../anu_drupal/composer.lock" }}
           paths:
             - vendor
+            - web/core
       - run: |
           cd ../anu_drupal && php -S localhost:8888 -t web/ & sleep 1 && \
-          sudo php web/core/scripts/run-tests.sh --sqlite /tmp/drupal/test.sqlite --dburl sqlite://localhost//tmp/drupal/test.sqlite --url http://localhost:888. --module anu_lms --verbose --suppress-deprecations
+          sudo php web/core/scripts/run-tests.sh --sqlite /tmp/drupal/test.sqlite --dburl sqlite://localhost//tmp/drupal/test.sqlite --url http://localhost:8888 --module anu_lms --verbose --suppress-deprecations
