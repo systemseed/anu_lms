@@ -24,12 +24,13 @@ jobs:
           composer config minimum-stability dev && \
           composer require "systemseed/anu_lms:*@dev" && \
           composer require --dev drupal/core-dev:^9 && \
-          composer require --dev phpspec/prophecy-phpunit:^2
-      - save_cache:
-          key: composer-v2-{{ checksum "../anu_drupal/composer.lock" }}
-          paths:
-            - vendor
-            - web/core
-      - run: |
-          cd ../anu_drupal && php -S localhost:8888 -t web/ & sleep 1 && \
+          composer require --dev phpspec/prophecy-phpunit:^2 && \
+          php -S localhost:8888 -t web/ & sleep 1 && \
           sudo php web/core/scripts/run-tests.sh --sqlite /tmp/drupal/test.sqlite --dburl sqlite://localhost//tmp/drupal/test.sqlite --url http://localhost:8888 --module anu_lms --verbose --suppress-deprecations
+      # - save_cache:
+      #     key: composer-v2-{{ checksum "../anu_drupal/composer.lock" }}
+      #     paths:
+      #       - vendor
+      #       - web/core
+      # - run: |
+      #     cd ../anu_drupal && \
