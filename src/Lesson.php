@@ -9,7 +9,7 @@ use Drupal\node\NodeInterface;
 use Psr\Log\LoggerInterface;
 
 /**
- * Lesson service.
+ * Methods that operate with lessons.
  */
 class Lesson {
 
@@ -46,14 +46,14 @@ class Lesson {
    *
    * @var \Psr\Log\LoggerInterface
    */
-  protected $logger;  
+  protected $logger;
 
   /**
    * The Courses page service.
    *
    * @var \Drupal\anu_lms\CoursesPage
    */
-  protected $coursesPage;  
+  protected $coursesPage;
 
   /**
    * Course handler.
@@ -118,7 +118,7 @@ class Lesson {
       $courses_pages = $this->coursesPage->getCoursesPagesByCourse($lesson_course);
       foreach ($courses_pages as $courses_page) {
         $normalized_courses_pages[] = [
-          'courses_page' => $this->normalizer->normalizeEntity($courses_page, ['max_depth' => 1])
+          'courses_page' => $this->normalizer->normalizeEntity($courses_page, ['max_depth' => 1]),
         ];
       }
     }
@@ -143,7 +143,7 @@ class Lesson {
    * @param \Drupal\node\NodeInterface $lesson
    *   Lesson node object.
    *
-   * @return \Drupal\node\NodeInterface|NULL
+   * @return \Drupal\node\NodeInterface|null
    *   Loaded Course object.
    */
   public function getLessonCourse(NodeInterface $lesson) {
@@ -209,7 +209,7 @@ class Lesson {
    * @param \Drupal\node\NodeInterface $lesson
    *   Lesson node object.
    *
-   * @return \Drupal\node\NodeInterface|NULL
+   * @return \Drupal\node\NodeInterface|null
    *   Previous lesson node object or NULL if not found.
    */
   public function getPreviousLesson(NodeInterface $lesson) {
@@ -327,7 +327,7 @@ class Lesson {
     }
 
     $completed_lessons = &drupal_static('anu_lms_lesson_is_completed');
-    if (!isset($completed_nids)) {
+    if (!isset($completed_lessons)) {
       $result = $this->database->select('anu_lms_progress')
         ->fields('anu_lms_progress', ['nid'])
         ->condition('uid', $this->currentUser->id())

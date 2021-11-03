@@ -3,7 +3,6 @@
 namespace Drupal\anu_lms;
 
 use Drupal\node\NodeInterface;
-use Drupal\Core\Url;
 
 /**
  * Group together progress-related methods.
@@ -81,6 +80,8 @@ class CourseProgress {
    *   Course node object.
    * @param array $categories
    *   The context categories.
+   * @param bool $requireAllCategoriesLocked
+   *   To consider the course locked, it should be locked for all categories.
    *
    * @return bool
    *   Whether the given course is locked.
