@@ -16,3 +16,5 @@
 
 ### To discuss
 * Potential issue with display of quiz scoring after the amount of quiz questions has changed (You scored X out of Y).
+* Get rid of Features dependency - we may let developers decide how they want to get ANU LMS updates
+* Get rid of Rest Entity Recursive dependency for better performance
