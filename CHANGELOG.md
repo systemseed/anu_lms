@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  - Fixed issue with not displaying unpublished courses on sorting of courses per category.
  - Refactored quiz submission API endpoint for better code readability, improved validation & access checks.
  - Refactored TODO list. Removed completed item.
+ - Updated "ansi-regex" package to fix security vulnerabilities.
 
 ## [2.4.0]
  - Quizzes submodule is optional and the core module has no longer a dependency on it.
