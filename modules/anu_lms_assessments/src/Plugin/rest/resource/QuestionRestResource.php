@@ -3,10 +3,16 @@
 namespace Drupal\anu_lms_assessments\Plugin\rest\resource;
 
 use Drupal\anu_lms_assessments\Entity\AssessmentQuestionResult;
+use Drupal\anu_lms_assessments\Entity\AssessmentResultInterface;
+use Drupal\anu_lms_assessments\Quiz;
+use Drupal\Core\Entity\EntityRepositoryInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Provides a resource to get view modes by entity and bundle.
@@ -22,6 +28,44 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 class QuestionRestResource extends ResourceBase {
 
   /**
+   * Payload sent from the frontend application.
+   *
+   * @var array
+   */
+  protected array $payload;
+
+  /**
+   * Quiz handler.
+   *
+   * @var \Drupal\anu_lms_assessments\Quiz
+   */
+  protected Quiz $quiz;
+
+  /**
+   * Entity type manager handler.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected EntityTypeManagerInterface $entityTypeManager;
+
+  /**
+   * Entity repository handler.
+   *
+   * @var \Drupal\Core\Entity\EntityRepositoryInterface
+   */
+  protected EntityRepositoryInterface $entityRepository;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger, Quiz $quiz, EntityTypeManagerInterface $entity_type_manager, EntityRepositoryInterface $entity_repository) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
+    $this->quiz = $quiz;
+    $this->entityTypeManager = $entity_type_manager;
+    $this->entityRepository = $entity_repository;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -31,94 +75,219 @@ class QuestionRestResource extends ResourceBase {
       $plugin_definition,
       $container->getParameter('serializer.formats'),
       $container->get('logger.factory')->get('anu_lms_assessments'),
+      $container->get('anu_lms_assessments.quiz'),
+      $container->get('entity_type.manager'),
+      $container->get('entity.repository'),
     );
   }
 
   /**
-   * TODO: Refactor and merge the logic with AssessmentRestResource.
+   * Handles submission of a single question within a lesson.
+   *
+   * @param array $payload
+   *   Data sent from the frontend application.
+   *   Example:
+   *   [
+   *     // Required field: ID of question asked.
+   *     "questionId" => 123,
+   *     // Required field: Answer provided by the user.
+   *     // Can be of any variable type depending on the question type.
+   *     "value" => 10,
+   *   ]
+   *
+   * @return \Drupal\rest\ModifiedResourceResponse
+   *   Response to the user containing the expected answer for the question.
    */
-  public function post(array $payload) {
+  public function post(array $payload): ModifiedResourceResponse {
+    $this->payload = $payload;
+
     try {
-      // TODO: Permissions.
-      // TODO: Validation.
-      /*   // You must to implement the logic of your REST Resource here.
-      // Use current user after pass authentication to validate access.
-      if (!$this->currentUser->hasPermission('access content')) {
-      throw new AccessDeniedHttpException();
-      }*/
-
-      $questionId = $payload['questionId'];
-      $value = $payload['value'];
-
-      $question = \Drupal::entityTypeManager()
-        ->getStorage('assessment_question')
-        ->load($questionId);
-
-      $question = \Drupal::service('entity.repository')
-        ->getTranslationFromContext($question);
-
-      $question_result = \Drupal::entityTypeManager()
-        ->getStorage('assessment_question_result')
-        ->create([
-          'type' => $question->bundle(),
-          'aqid' => $question,
-        ]);
-
-      // TODO: Refactor.
-      $correct_answer = NULL;
-      if ($question->bundle() === 'short_answer') {
-        $question_result->set('field_question_response', $value);
-        $question_result->set('is_correct', AssessmentQuestionResult::RESULT_NOT_APPLICABLE);
-        $correct_answer = $question->field_correct_answer->getString();
+      // Make sure required argument with question ID exists in the payload.
+      if (empty($payload['questionId']) || !is_numeric($payload['questionId'])) {
+        throw new BadRequestHttpException('Required argument "questionId" is missing');
       }
-      elseif ($question->bundle() === 'long_answer') {
-        $question_result->set('field_question_response_long', $value);
-        $question_result->set('is_correct', AssessmentQuestionResult::RESULT_NOT_APPLICABLE);
-        $correct_answer = $question->field_correct_answer_long->getString();
+
+      // Make sure required argument with response exists in the payload.
+      if (empty($payload['value'])) {
+        throw new BadRequestHttpException('Required argument "data" is missing');
       }
-      elseif ($question->bundle() === 'scale') {
-        $correct_answer = (int) $question->field_scale_correct->getString();
-        $value = (int) $value;
-        $question_result->set('field_question_response_scale', $value);
-        $is_correct = $correct_answer === $value ? AssessmentQuestionResult::RESULT_CORRECT : AssessmentQuestionResult::RESULT_INCORRECT;
-        $question_result->set('is_correct', $is_correct);
+
+      // Save answer & get the correct value for it.
+      [$expected_answer] = $this->processAnswerToQuestion($payload['value'], $payload['questionId']);
+    }
+    catch (HttpException $exception) {
+      $this->logger->error('Error on question submission: @message. Payload: @payload.', [
+        '@message' => $exception->getMessage(),
+        '@payload' => print_r($this->payload, 1),
+      ]);
+
+      // Pass on the exception.
+      throw new $exception;
+    }
+    catch (\Throwable $exception) {
+      $this->logger->error('Exception on question submission: @message. Payload: @payload. Trace: @trace.', [
+        '@message' => $exception->getMessage(),
+        '@payload' => print_r($this->payload, 1),
+        '@trace' => $exception->getTraceAsString()
+      ]);
+
+      throw new BadRequestHttpException('Unexpected error during question submission.');
+    }
+
+    return new ModifiedResourceResponse(['correctAnswer' => $expected_answer]);
+  }
+
+  /**
+   * Saves the submitted answer and returns correct value for it.
+   *
+   * @param $answer
+   *   Answer value given by the user.
+   *   Can be of any type (string, array, int, etc).
+   * @param int $question_id
+   *   ID of the question entity asked.
+   * @param \Drupal\anu_lms_assessments\Entity\AssessmentResultInterface|null $quiz_result
+   *   Assessment result entity. Added in case when answer belongs to
+   *   quiz response instead of just a single question submission.
+   *
+   * @return array
+   *   Array with 2 values:
+   *   - Expected (correct) answer
+   *   - Boolean value indicating whether this answer is correct
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   */
+  protected function processAnswerToQuestion($answer, int $question_id, AssessmentResultInterface $quiz_result = NULL): array {
+    // Define some defaults for an answer.
+    $is_correct_answer = FALSE;
+    $expected_answer = NULL;
+
+    // Load the question asked.
+    $question = $this->entityTypeManager->getStorage('assessment_question')
+      ->load($question_id);
+
+    // Make sure the provided question exists in the system.
+    if (empty($question)) {
+      throw new BadRequestHttpException(sprintf('Question %s does not exist in the system', $question_id));
+    }
+
+    // Make sure the provided question is within the list of supported
+    // question types.
+    $supported_question_types = ['short_answer', 'long_answer', 'scale', 'multiple_choice', 'single_choice'];
+    if (!in_array($question->bundle(), $supported_question_types)) {
+      throw new BadRequestHttpException(sprintf('Question %s has not supported bundle', $question_id));
+    }
+
+    // Make sure we loaded the translated version of the question.
+    /** @var \Drupal\anu_lms_assessments\Entity\AssessmentQuestionInterface $question */
+    $question = $this->entityRepository->getTranslationFromContext($question);
+
+    // Create an entity which holds user's response to the question.
+    $question_result = $this->entityTypeManager
+      ->getStorage('assessment_question_result')
+      ->create([
+        'type' => $question->bundle(),
+        'aqid' => $question,
+        'arid' => $quiz_result,
+      ]);
+
+    // Set the fields of the question result entity depending on its type.
+    if (in_array($question->bundle(), ['short_answer', 'long_answer'])) {
+      // Short and long answers have slightly different name of the fields,
+      // so make sure to use the right name for the given question type.
+      $field_prefix = $question->bundle() == 'long_answer' ? '_long' : '';
+      $question_result->set('field_question_response' . $field_prefix, $answer);
+
+      // For the free text fields we can't precisely say if the user
+      // response is correct or not, therefore we set its value to
+      // "not applicable".
+      $question_result->set('is_correct', AssessmentQuestionResult::RESULT_NOT_APPLICABLE);
+
+      // Grab the answer which was set by content editors in the backend
+      // as "correct" (or better say "expected") answer for the question.
+      $expected_answer = $question->get('field_correct_answer' . $field_prefix)->getString();
+
+      // Given that we can't determine if the answer is correct or not for
+      // this type of question, we assume it's always correct for free
+      // types of questions.
+      $is_correct_answer = TRUE;
+    }
+    elseif ($question->bundle() === 'scale') {
+      // Grab the correct value for the current question.
+      // Scale type of question supports only integer values.
+      $expected_answer = (int) $question->get('field_scale_correct')->getString();
+      $provided_answer = (int) $answer;
+
+      if ($provided_answer === $expected_answer) {
+        $is_correct = AssessmentQuestionResult::RESULT_CORRECT;
+        $is_correct_answer = TRUE;
       }
-      elseif ($question->bundle() === 'multiple_choice' || $question->bundle() === 'single_choice') {
-        $options = $question->field_options->referencedEntities();
-        $responses = (array) $value;
-        $correct_answer = [];
+      else {
+        $is_correct = AssessmentQuestionResult::RESULT_INCORRECT;
+      }
+
+      // Save user response & the status of the correctness of this answer.
+      $question_result->set('is_correct', $is_correct);
+      $question_result->set('field_question_response_scale', $provided_answer);
+    }
+    elseif (in_array($question->bundle(), ['multiple_choice', 'single_choice'])) {
+      // Get list of question answer options which contain information
+      // whether this option is the correct answer or not. Gather list of
+      // the correct answers before comparing it with the provided response
+      // by the user.
+      $expected_answer = [];
+      /** @var \Drupal\paragraphs\ParagraphInterface[] $options */
+      $options = $question->get('field_options')->referencedEntities();
+      foreach ($options as $option) {
+        $is_correct = (bool) $option->get('field_single_multi_choice_right')->getString();
+        if ($is_correct) {
+          $expected_answer[] = (int) $option->id();
+        }
+      }
+
+      // Answer is an array of IDs referencing answer options (for
+      // multi choice type of questions) or plan ID (for single choice
+      // type of questions). We make conversion to array for compatibility
+      // with multi-choice type of questions and easier handling.
+      $provided_answers = [];
+      foreach((array) $answer as $option_id) {
+        $provided_answers[] = (int) $option_id;
+      }
+
+      // Compare provided answers and the correct answers.
+      if ($expected_answer == $provided_answers) {
+        $question_result->set('is_correct', AssessmentQuestionResult::RESULT_CORRECT);
+        $is_correct_answer = TRUE;
+      }
+      else {
+        $question_result->set('is_correct', AssessmentQuestionResult::RESULT_INCORRECT);
+      }
+
+      // Validate & set answers provided by the user.
+      $provided_options = [];
+      foreach ($provided_answers as $option_id) {
+        $provided_option = NULL;
         foreach ($options as $option) {
-          $is_correct = !!$option->field_single_multi_choice_right->getString();
-          if ($is_correct) {
-            $correct_answer[] = (int) $option->id();
+          if ($option->id() == $option_id) {
+            $provided_option = $option;
           }
         }
 
-        $response_entities = \Drupal::entityTypeManager()
-          ->getStorage('paragraph')
-          ->loadMultiple($responses);
-        foreach ($response_entities as $response_entity) {
-          // Setting flag for workaround for preventing re saving paragraph and changing parent_id.
-          // Implementation made as patch for entity_reference_revisions module.
-          $response_entity->dontSave = TRUE;
+        // If option from the answer wasn't found in the list of available
+        // options, then something went wrong, maybe option was removed.
+        if (empty($provided_option)) {
+          throw new BadRequestHttpException(sprintf('Question %s has options not matching possible values.', $question_id));
         }
-        $question_result->set('field_single_multi_choice', $response_entities);
-
-        // TODO: Multiple correct values in radio?
-        $is_correct = $responses == $correct_answer ? AssessmentQuestionResult::RESULT_CORRECT : AssessmentQuestionResult::RESULT_INCORRECT;
-        $question_result->set('is_correct', $is_correct);
+        $provided_options[] = $provided_option;
       }
-
-      $question_result->save();
-    }
-    catch (\Throwable $exception) {
-      $this->logger->error($exception->getMessage() . ' Trace: ' . $exception->getTraceAsString());
-      throw new BadRequestHttpException('An error occurred during request handling');
+      $question_result->set('field_single_multi_choice', $provided_options);
     }
 
-    return new ModifiedResourceResponse([
-      'correctAnswer' => $correct_answer,
-    ], 200);
+    // When all fields are set, we can save question result entity.
+    $question_result->save();
+
+    return [$expected_answer, $is_correct_answer];
   }
 
 }

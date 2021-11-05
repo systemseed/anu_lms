@@ -2,14 +2,10 @@
 
 namespace Drupal\anu_lms_assessments\Plugin\rest\resource;
 
-use Drupal\anu_lms_assessments\Quiz;
-use Drupal\anu_lms_assessments\Entity\AssessmentQuestionResult;
-use Drupal\node\Entity\Node;
 use Drupal\rest\ModifiedResourceResponse;
-use Drupal\rest\Plugin\ResourceBase;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Provides a resource to get view modes by entity and bundle.
@@ -22,151 +18,106 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  *   }
  * )
  */
-class AssessmentRestResource extends ResourceBase {
+class AssessmentRestResource extends QuestionRestResource {
 
   /**
-   * Quiz handler.
+   * Handles quiz submission.
    *
-   * @var \Drupal\anu_lms_assessments\Quiz
+   * @param array $payload
+   *   Data sent from the frontend application.
+   *   Expected data structure:
+   *   [
+   *     // Node ID of the quiz.
+   *     "nid" => 123,
+   *     // Data from all quizzes on the page.
+   *     "data" => [
+   *       // Question ID => Answer.
+   *       1234 => 15,
+   *       1235 => [1, 2, 3]
+   *       1236 => "Text answer",
+   *     ]
+   *   ]
+   *
+   * @return ModifiedResourceResponse
+   *   Correct answers list and count.
    */
-  protected $quiz;
+  public function post(array $payload): ModifiedResourceResponse {
+    $response = [];
+    $this->payload = $payload;
 
-  /**
-   * {@inheritdoc}
-   */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger, Quiz $quiz) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
-    $this->quiz = $quiz;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    return new static(
-      $configuration,
-      $plugin_id,
-      $plugin_definition,
-      $container->getParameter('serializer.formats'),
-      $container->get('logger.factory')->get('anu_lms_assessments'),
-      $container->get('anu_lms_assessments.quiz'),
-    );
-  }
-
-  /**
-   * TODO: Refactor and merge the logic with QuestionRestResource.
-   */
-  public function post($payload) {
     try {
-      $correct_answers = [];
+      // Make sure required argument with quiz nid exists in the payload.
+      if (empty($payload['nid']) || !is_numeric($payload['nid'])) {
+        throw new BadRequestHttpException('Required argument "nid" is missing');
+      }
 
-      $assessment_nid = $payload['nid'];
-      $assessment_data = $payload['data'];
+      // Make sure required argument with responses exists in the payload.
+      if (!isset($payload['data']) || !is_array($payload['data'])) {
+        throw new BadRequestHttpException('Required argument "data" is missing');
+      }
 
-      $assessment_result = \Drupal::entityTypeManager()
-        ->getStorage('assessment_result')
-        ->create(['aid' => $assessment_nid]);
-      $assessment_result->save();
+      // Make sure nid present in the payload is actually a real quiz.
+      /** @var \Drupal\node\NodeInterface $quiz */
+      $quiz = $this->entityTypeManager->getStorage('node')->load($payload['nid']);
+      if (empty($quiz) || $quiz->bundle() != 'module_assessment') {
+        throw new BadRequestHttpException('Provided node ID is not a quiz');
+      }
 
-      $correct_answers_count = 0;
+      // Make sure the current user can access the current quiz node.
+      if (!$quiz->access('view')) {
+        throw new AccessDeniedHttpException('Not sufficient permissions to access the quiz');
+      }
 
-      foreach ($assessment_data as $question_id => $answer) {
-        $question = \Drupal::entityTypeManager()
-          ->getStorage('assessment_question')
-          ->load($question_id);
+      // Save a new entity which stores information about the current
+      // quiz submission attempt.
+      /** @var \Drupal\anu_lms_assessments\Entity\AssessmentResultInterface $quiz_result */
+      $quiz_result = $this->entityTypeManager->getStorage('assessment_result')
+        ->create(['aid' => $quiz->id()]);
+      $quiz_result->save();
 
-        $question = \Drupal::service('entity.repository')
-          ->getTranslationFromContext($question);
+      // Variable to gather correct responses for each of the question.
+      $expected_answers = [];
 
-        $question_result = \Drupal::entityTypeManager()
-          ->getStorage('assessment_question_result')
-          ->create([
-            'type' => $question->bundle(),
-            'aqid' => $question,
-            'arid' => $assessment_result,
-          ]);
+      // Calculator of correct answers given by the current user.
+      $correct_answers = 0;
 
-        // TODO: Refactor.
-        if ($question->bundle() === 'short_answer') {
-          $question_result->set('field_question_response', $answer);
-          $question_result->set('is_correct', AssessmentQuestionResult::RESULT_NOT_APPLICABLE);
-          $correct_answers[$question_id] = $question->field_correct_answer->getString();
-          $correct_answers_count++;
-        }
-        elseif ($question->bundle() === 'long_answer') {
-          $question_result->set('field_question_response_long', $answer);
-          $question_result->set('is_correct', AssessmentQuestionResult::RESULT_NOT_APPLICABLE);
-          $correct_answers[$question_id] = $question->field_correct_answer_long->getString();
-          $correct_answers_count++;
-        }
-        elseif ($question->bundle() === 'scale') {
-          $correct_answers[$question_id] = (int) $question->field_scale_correct->getString();
-          $value = (int) $answer;
-          $question_result->set('field_question_response_scale', $value);
-          $is_correct = $correct_answers[$question_id] === $value ? AssessmentQuestionResult::RESULT_CORRECT : AssessmentQuestionResult::RESULT_INCORRECT;
-          $question_result->set('is_correct', $is_correct);
-          if ($is_correct) {
-            $correct_answers_count++;
-          }
-        }
-        elseif ($question->bundle() === 'multiple_choice' || $question->bundle() === 'single_choice') {
-          $options = $question->field_options->referencedEntities();
-          $responses = (array) $answer;
-          $correct_answers[$question_id] = [];
-          foreach ($options as $option) {
-            $is_correct = !!$option->field_single_multi_choice_right->getString();
-            if ($is_correct) {
-              $correct_answers[$question_id][] = (int) $option->id();
-            }
-          }
+      // Go through all answers given by the user, save them & determine if
+      // they're correct or not.
+      foreach ($payload['data'] as $question_id => $answer) {
+        [$expected_answer, $is_correct_answer] = $this->processAnswerToQuestion($answer, $question_id, $quiz_result);
+        $expected_answers[$question_id] = $expected_answer;
+        $correct_answers += $is_correct_answer ? 1 : 0;
+      }
 
-          $response_entities = \Drupal::entityTypeManager()
-            ->getStorage('paragraph')
-            ->loadMultiple($responses);
-          foreach ($response_entities as $response_entity) {
-            // Setting flag for workaround for preventing re-saving
-            // paragraph and changing parent_id.
-            // Implementation made as patch
-            // for entity_reference_revisions module.
-            $response_entity->dontSave = TRUE;
-          }
-          $question_result->set('field_single_multi_choice', $response_entities);
+      // Mark the current quiz as completed for the current user.
+      $this->quiz->setCompleted($quiz);
 
-          // TODO: Multiple correct values in radio?
-          $is_correct = $responses == $correct_answers[$question_id] ? AssessmentQuestionResult::RESULT_CORRECT : AssessmentQuestionResult::RESULT_INCORRECT;
-          $question_result->set('is_correct', $is_correct);
-          if ($is_correct) {
-            $correct_answers_count++;
-          }
-        }
+      // Add information about the correct amount of answers to the output.
+      $response['correctAnswersCount'] = $correct_answers;
 
-        $question_result->save();
+      // Return the correct answers if the quiz settings allow showing them.
+      $hide_correct_answers = (bool) $quiz->get('field_hide_correct_answers')->getString();
+      if (empty($hide_correct_answers)) {
+        $response['correctAnswers'] = $expected_answers;
       }
     }
+    catch (HttpException $exception) {
+      $this->logger->error('Error on quiz submission: @message. Payload: @payload.', [
+        '@message' => $exception->getMessage(),
+        '@payload' => print_r($this->payload, 1),
+      ]);
+
+      // Pass on the exception.
+      throw new $exception;
+    }
     catch (\Throwable $exception) {
-      $this->logger->error($exception->getMessage() . ' Trace: ' . $exception->getTraceAsString());
-      throw new BadRequestHttpException('An error occurred during request handling');
-    }
+      $this->logger->error('Exception on quiz submission: @message. Payload: @payload. Trace: @trace.', [
+        '@message' => $exception->getMessage(),
+        '@payload' => print_r($this->payload, 1),
+        '@trace' => $exception->getTraceAsString()
+      ]);
 
-    /** @var \Drupal\node\NodeInterface $quiz */
-    $quiz = Node::load($assessment_nid);
-    // Default behavior fallback.
-    $hide_correct_answers = FALSE;
-    if ($quiz->hasField('field_hide_correct_answers')) {
-      $hide_correct_answers = (bool) $quiz->get('field_hide_correct_answers')->getString();
-    }
-
-    // Mark the current quiz as completed for the current user.
-    $this->quiz->setCompleted($quiz);
-
-    // Add information about the correct amount of answers to the output.
-    $response = [
-      'correctAnswersCount' => $correct_answers_count,
-    ];
-
-    // Return the correct answers if not set to hide them.
-    if (empty($hide_correct_answers)) {
-      $response['correctAnswers'] = $correct_answers;
+      throw new BadRequestHttpException('Unexpected error during quiz submission.');
     }
 
     return new ModifiedResourceResponse($response);
