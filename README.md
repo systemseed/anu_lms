@@ -1,3 +1,9 @@
+## ANU LMS
+
+Drupal module which adds E-Learning capabilities with knowledge assessment tools.
+
+## TODO List
+
 ### Beta release:
 * Add path alias patterns
 * Make “Back” button configurable
