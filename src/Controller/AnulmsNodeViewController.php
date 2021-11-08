@@ -60,9 +60,9 @@ class AnulmsNodeViewController extends NodeViewController {
   /**
    * The Courses progress service.
    *
-   * @var \Drupal\anu_lms\CoursesProgress
+   * @var \Drupal\anu_lms\CourseProgress
    */
-  protected $coursesProgress;
+  protected $courseProgress;
 
   /**
    * The course page service.
@@ -96,7 +96,7 @@ class AnulmsNodeViewController extends NodeViewController {
    *   The normalizer.
    * @param \Drupal\anu_lms\CoursesPage $coursesPage
    *   The Courses page service.
-   * @param \Drupal\anu_lms\CoursesProgress $courseProgress
+   * @param \Drupal\anu_lms\CourseProgress $courseProgress
    *   The Courses progress service.
    * @param \Drupal\anu_lms\Course $course
    *   The Course service.
