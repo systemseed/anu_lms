@@ -35,6 +35,7 @@ class HealthCheckTest extends BrowserTestBase {
    */
   public function testOpenAdminPage() {
     $this->drupalGet('admin');
+    $this->assertSession()->statusCodeEquals(403);
   }
 
 }

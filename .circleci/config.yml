@@ -4,7 +4,6 @@ jobs:
   build:
     docker:
       - image: cimg/php:8.0
-    working_directory: ~/anu_lms
     steps:
       - run:
           name: Install SQLite driver
@@ -12,12 +11,18 @@ jobs:
             sudo apt-get update && \
             sudo apt-get install -y php8.0-sqlite3
       - checkout
-      - run: composer create-project drupal/recommended-project:^9 ../anu_drupal
-      - run: |
-          cd ../anu_drupal && \
-          composer config repositories.systemseed/anu_lms path ../anu_lms && \
-          composer config minimum-stability dev && \
-          composer require "systemseed/anu_lms:*@dev" && \
-          composer require --dev drupal/core-dev:^9 && \
-          composer require --dev phpspec/prophecy-phpunit:^2 && \
-          sh -c 'php -S localhost:8888 -t web/ & sleep 1 && sudo php web/core/scripts/run-tests.sh --sqlite /tmp/drupal/test.sqlite --dburl sqlite://localhost//tmp/drupal/test.sqlite --url http://localhost:8888 --module anu_lms --verbose --suppress-deprecations'
+      - run:
+          name: Install recommended drupal projects
+          command: composer create-project drupal/recommended-project:^9 anu_drupal
+      - run:
+          name: Prepare project with anu_lms in the codebase
+          command: |
+            cd anu_drupal && \
+            composer config repositories.systemseed/anu_lms path ../anu_lms && \
+            composer config minimum-stability dev && \
+            composer require "systemseed/anu_lms:*@dev" && \
+            composer require --dev drupal/core-dev:^9 && \
+            composer require --dev phpspec/prophecy-phpunit:^2 && \
+      - run:
+          name: Run test
+          command: php -S localhost:8888 -t web/ & sleep 1 && php web/core/scripts/run-tests.sh --sqlite /tmp/drupal/runner.sqlite --dburl sqlite://localhost//tmp/drupal/test.sqlite --url http://localhost:8888 --module anu_lms --verbose --suppress-deprecations
