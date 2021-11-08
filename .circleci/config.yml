@@ -10,7 +10,8 @@ jobs:
           command: |
             sudo apt-get update && \
             sudo apt-get install -y php8.0-sqlite3
-      - checkout
+      - checkout:
+          path: anu_lms
       - run:
           name: Install recommended drupal projects
           command: composer create-project drupal/recommended-project:^9 anu_drupal
