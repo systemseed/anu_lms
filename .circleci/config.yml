@@ -22,7 +22,7 @@ jobs:
             composer config minimum-stability dev && \
             composer require "systemseed/anu_lms:*@dev" && \
             composer require --dev drupal/core-dev:^9 && \
-            composer require --dev phpspec/prophecy-phpunit:^2 && \
+            composer require --dev phpspec/prophecy-phpunit:^2
       - run:
           name: Run test
           command: php -S localhost:8888 -t web/ & sleep 1 && php web/core/scripts/run-tests.sh --sqlite /tmp/drupal/runner.sqlite --dburl sqlite://localhost//tmp/drupal/test.sqlite --url http://localhost:8888 --module anu_lms --verbose --suppress-deprecations
