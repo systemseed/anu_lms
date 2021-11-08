@@ -17,8 +17,8 @@ jobs:
           command: composer create-project drupal/recommended-project:^9 anu_drupal
       - run:
           name: Prepare project with anu_lms in the codebase
+          working_directory: anu_drupal
           command: |
-            cd anu_drupal && \
             composer config repositories.systemseed/anu_lms path ../anu_lms && \
             composer config minimum-stability dev && \
             composer require "systemseed/anu_lms:*@dev" && \
@@ -26,4 +26,5 @@ jobs:
             composer require --dev phpspec/prophecy-phpunit:^2
       - run:
           name: Run test
+          working_directory: anu_drupal
           command: php -S localhost:8888 -t web/ & sleep 1 && php web/core/scripts/run-tests.sh --sqlite /tmp/drupal/runner.sqlite --dburl sqlite://localhost//tmp/drupal/test.sqlite --url http://localhost:8888 --module anu_lms --verbose --suppress-deprecations
