@@ -1,4 +1,4 @@
- anu_lms.course.finish:
+anu_lms.course.finish:
   path: '/node/{node}/finish'
   defaults:
     _title: 'Finish'

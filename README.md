@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/systemseed/anu_lms/tree/2.x.svg?style=svg)](https://circleci.com/gh/systemseed/anu_lms/tree/2.x)
+
 ## ANU LMS
 
 Drupal module which adds E-Learning capabilities with knowledge assessment tools.

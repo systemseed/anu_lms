@@ -27,7 +27,8 @@
         "drupal/shs_chosen": "^1.0@alpha",
         "drupal/views_data_export": "^1.0",
         "drupal/weight": "^3.3",
-        "drupal/xls_serialization": "^1.2"
+        "drupal/xls_serialization": "^1.2",
+        "drupal/features": "^3.12"
     },
     "extra": {
         "enable-patching": true,
