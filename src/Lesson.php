@@ -5,8 +5,10 @@ namespace Drupal\anu_lms;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\anu_lms\Event\LessonPageDataGeneratedEvent;
 use Drupal\node\NodeInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Methods that operate with lessons.
@@ -63,6 +65,13 @@ class Lesson {
   protected $course;
 
   /**
+   * The event dispatcher.
+   *
+   * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
+   */
+  protected $dispatcher;
+
+  /**
    * Lesson constructor.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -79,6 +88,8 @@ class Lesson {
    *   The Courses page service.
    * @param \Drupal\anu_lms\Course $course
    *   The Course service.
+   * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
+   *   The event dispatcher.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
@@ -90,7 +101,8 @@ class Lesson {
     Normalizer $normalizer,
     LoggerInterface $logger,
     CoursesPage $coursesPage,
-    Course $course
+    Course $course,
+    EventDispatcherInterface $dispatcher
   ) {
     $this->nodeStorage = $entity_type_manager->getStorage('node');
     $this->database = $database;
@@ -99,6 +111,7 @@ class Lesson {
     $this->logger = $logger;
     $this->coursesPage = $coursesPage;
     $this->course = $course;
+    $this->dispatcher = $dispatcher;
   }
 
   /**
@@ -133,8 +146,9 @@ class Lesson {
         ],
       ],
     ];
-
-    return $data;
+    $event = new LessonPageDataGeneratedEvent($data, $node);
+    $this->dispatcher->dispatch(LessonPageDataGeneratedEvent::EVENT_NAME, $event);
+    return $event->getPageData();
   }
 
   /**
@@ -155,7 +169,7 @@ class Lesson {
     $course_lessons = &drupal_static('anu_lms_lesson_course_lessons', []);
     if (!empty($course_lessons[$lesson->id()])) {
       $course_nid = $course_lessons[$lesson->id()];
-      /** @var NodeInterface $course */
+      /** @var \Drupal\node\NodeInterface $course */
       $course = $this->nodeStorage->load($course_nid);
       return $course;
     }
