@@ -6,7 +6,7 @@ use Drupal\image\Plugin\Field\FieldType\ImageItem;
 use Drupal\rest_entity_recursive\Normalizer\ReferenceItemNormalizer;
 
 /**
- * Class ImageItemNormalizer.
+ * Add title and alt to image items.
  *
  * @package Drupal\anu_lms\Normalizer
  */

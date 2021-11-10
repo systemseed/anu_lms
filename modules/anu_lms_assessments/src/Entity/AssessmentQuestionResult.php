@@ -78,13 +78,17 @@ class AssessmentQuestionResult extends ContentEntityBase implements AssessmentQu
     ];
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function preSave(EntityStorageInterface $storage) {
 
     // Automatically set the response label.
     try {
       $question = $this->get('aqid')->referencedEntities()[0];
       $this->setName('Response for: ' . $question->getName());
-    } catch (\Exception $exception) {
+    }
+    catch (\Exception $exception) {
       $this->setName('Response for: (no question)');
     }
 

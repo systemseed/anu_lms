@@ -9,11 +9,22 @@ use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 
 /**
- * Settings service.
+ * Methods related to settings.
  */
 class Settings {
 
+  /**
+   * The entity repository.
+   *
+   * @var \Drupal\Core\Entity\EntityRepositoryInterface
+   */
   protected $entityRepository;
+
+  /**
+   * The serializer.
+   *
+   * @var \Symfony\Component\Serializer\Serializer
+   */
   protected $serializer;
 
   /**
@@ -99,8 +110,9 @@ class Settings {
     $pwa_module_info = system_get_info('module', 'pwa');
     $pwa_module_version = $pwa_module_info['version'];
 
-    // Packaging script will always provide the published module version. Checking
-    // for NULL is only so maintainers have something predictable to test against.
+    // Packaging script will always provide the published module version.
+    // Checking for NULL is only so maintainers have something
+    // predictable to test against.
     if ($pwa_module_version == NULL) {
       $pwa_module_version = '8.x-1.x-dev';
     }

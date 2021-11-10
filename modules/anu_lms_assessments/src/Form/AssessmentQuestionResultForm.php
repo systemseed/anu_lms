@@ -34,7 +34,7 @@ class AssessmentQuestionResultForm extends ContentEntityForm {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    /* @var \Drupal\anu_lms_assessments\Entity\AssessmentQuestionResult $entity */
+    /** @var \Drupal\anu_lms_assessments\Entity\AssessmentQuestionResult $entity */
     $form = parent::buildForm($form, $form_state);
 
     return $form;

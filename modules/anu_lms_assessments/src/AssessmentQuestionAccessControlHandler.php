@@ -51,8 +51,11 @@ class AssessmentQuestionAccessControlHandler extends EntityAccessControlHandler 
    * Test for given 'own' permission.
    *
    * @param \Drupal\Core\Entity\EntityInterface $entity
-   * @param $operation
+   *   Entity to check.
+   * @param string $operation
+   *   The operation to perform.
    * @param \Drupal\Core\Session\AccountInterface $account
+   *   The account to check.
    *
    * @return string|null
    *   The permission string indicating it's allowed.

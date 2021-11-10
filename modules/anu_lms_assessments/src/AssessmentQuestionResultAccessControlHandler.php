@@ -28,7 +28,6 @@ class AssessmentQuestionResultAccessControlHandler extends EntityAccessControlHa
           return AccessResult::allowedIfHasPermission($account, 'view unpublished assessment question result entities');
         }
 
-
         return AccessResult::allowedIfHasPermission($account, 'view published assessment question result entities');
 
       case 'update':
@@ -50,6 +49,5 @@ class AssessmentQuestionResultAccessControlHandler extends EntityAccessControlHa
   protected function checkCreateAccess(AccountInterface $account, array $context, $entity_bundle = NULL) {
     return AccessResult::allowedIfHasPermission($account, 'add assessment question result entities');
   }
-
 
 }

@@ -2,10 +2,12 @@
 
 namespace Drupal\anu_lms\Normalizer;
 
-use Drupal\Core\Url;
 use Drupal\file\FileInterface;
 use Drupal\rest_entity_recursive\Normalizer\ContentEntityNormalizer;
 
+/**
+ * Normalizes image files.
+ */
 class ImageFileNormalizer extends ContentEntityNormalizer {
 
   /**
@@ -35,6 +37,9 @@ class ImageFileNormalizer extends ContentEntityNormalizer {
    */
   protected $format = ['json_recursive'];
 
+  /**
+   * {@inheritdoc}
+   */
   public function supportsNormalization($data, $format = NULL) {
     return parent::supportsNormalization($data, $format) &&
       strpos($data->get('filemime')->value, 'image/') !== FALSE;
@@ -57,7 +62,7 @@ class ImageFileNormalizer extends ContentEntityNormalizer {
       'original' => file_create_url($entity->getFileUri()),
     ];
 
-    // TODO: Take from settings.
+    // @todo Take from settings.
     $supported_image_styles = [
       'course_preview',
       'image_with_caption',
@@ -69,7 +74,7 @@ class ImageFileNormalizer extends ContentEntityNormalizer {
 
     // Load image style entities in bulk.
     try {
-      // TODO: Use dependency injection.
+      // @todo Use dependency injection.
       $image_styles = \Drupal::entityTypeManager()
         ->getStorage('image_style')
         ->loadMultiple($supported_image_styles);
@@ -78,8 +83,9 @@ class ImageFileNormalizer extends ContentEntityNormalizer {
       foreach ($image_styles as $image_style) {
         $normalized_values['image_styles'][$image_style->getName()] = $image_style->buildUrl($entity->getFileUri());
       }
-    } catch (\Exception $exception) {
-      // TODO: catch
+    }
+    catch (\Exception $exception) {
+      // @todo catch.
     }
 
     // Add the current entity as a cacheable dependency to make Drupal flush

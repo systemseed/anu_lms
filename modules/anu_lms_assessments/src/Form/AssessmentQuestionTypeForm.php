@@ -6,7 +6,7 @@ use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Class AssessmentQuestionTypeForm.
+ * Create or edit a question type.
  */
 class AssessmentQuestionTypeForm extends EntityForm {
 

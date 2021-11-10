@@ -23,7 +23,13 @@ jobs:
             composer config minimum-stability dev && \
             composer require "systemseed/anu_lms:*@dev" && \
             composer require --dev drupal/core-dev:^9 && \
+            composer require --dev dealerdirect/phpcodesniffer-composer-installer && \
             composer require --dev phpspec/prophecy-phpunit:^2
+      - run:
+          name: Run PHP code sniffer
+          working_directory: anu_drupal
+          command: |
+            vendor/bin/phpcs --standard=Drupal --ignore=node_modules,vendor,dist,js web/modules/contrib/anu_lms/
       - run:
           name: Run test
           working_directory: anu_drupal
