@@ -8,14 +8,14 @@ use Drupal\group\Entity\Group;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
- *
+ * Page callbacks for orgation pages.
  */
 class OrganizationListController {
 
   use StringTranslationTrait;
 
   /**
-   *
+   * Build the page.
    */
   public function build() {
     $groups = $this->getAvailableGroups();
@@ -52,7 +52,7 @@ class OrganizationListController {
   }
 
   /**
-   *
+   * Access callback.
    */
   public function access() {
     $groups = $this->getAvailableGroups();
@@ -60,7 +60,7 @@ class OrganizationListController {
   }
 
   /**
-   *
+   * Helper method to fetch all anu organizations.
    */
   protected function getAvailableGroups() {
     // Load groups user has access to (only admins or orgadmins).

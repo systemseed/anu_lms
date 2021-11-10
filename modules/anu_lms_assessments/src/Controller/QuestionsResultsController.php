@@ -6,28 +6,27 @@ use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\node\NodeInterface;
-use Drupal\node\Plugin\views\filter\Access;
 
 /**
- * QuestionsResultsController class
+ * Page callback for question result routes.
  */
 class QuestionsResultsController extends ControllerBase {
 
   /**
-   *
+   * Title callack.
    */
   public function resultsPageTitle(NodeInterface $node) {
-    return t('Responses to questions for %lesson', ['%lesson' => $node->label()]);
+    return $this->t('Responses to questions for %lesson', ['%lesson' => $node->label()]);
   }
 
   /**
-   *
+   * Page with results.
    */
   public function resultsPage(NodeInterface $node) {
     $build = [];
 
     // Load questions from the lesson content.
-    // TODO: Test for empty node.
+    // @todo Test for empty node.
     /** @var \Drupal\paragraphs\ParagraphInterface[] $paragraphs */
     $sections = $node->get('field_module_lesson_content')->referencedEntities();
     $question_ids = [];
@@ -53,7 +52,7 @@ class QuestionsResultsController extends ControllerBase {
   }
 
   /**
-   *
+   * Access callback.
    */
   public function checkAccess(NodeInterface $node, AccountInterface $account) {
 

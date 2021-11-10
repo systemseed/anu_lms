@@ -6,10 +6,16 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
 use Drupal\group\Entity\GroupInterface;
 
+/**
+ * Page responses for the group pages.
+ */
 class AnulmsGroupViewController {
 
   use StringTranslationTrait;
 
+  /**
+   * Build the page.
+   */
   public function view(GroupInterface $group) {
     // If group bundle is not defined within this module, then leave the render
     // to defaults.
@@ -27,7 +33,10 @@ class AnulmsGroupViewController {
       [
         'title' => $this->t('Create a new course'),
         'description' => $this->t('Create a new course within the organization.'),
-        'url' => Url::fromRoute('entity.group_content.create_form', ['group' => $group->id(), 'plugin_id' => 'group_node:course']),
+        'url' => Url::fromRoute('entity.group_content.create_form', [
+          'group' => $group->id(),
+          'plugin_id' => 'group_node:course',
+        ]),
       ],
     ];
 
@@ -86,4 +95,5 @@ class AnulmsGroupViewController {
       '#blocks' => $blocks,
     ];
   }
+
 }

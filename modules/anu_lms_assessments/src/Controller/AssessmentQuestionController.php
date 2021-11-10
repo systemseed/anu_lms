@@ -10,9 +10,7 @@ use Drupal\anu_lms_assessments\Entity\AssessmentQuestionInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class AssessmentQuestionController.
- *
- *  Returns responses for Question routes.
+ * Returns responses for Question routes.
  */
 class AssessmentQuestionController extends ControllerBase implements ContainerInjectionInterface {
 
@@ -92,7 +90,12 @@ class AssessmentQuestionController extends ControllerBase implements ContainerIn
     $langname = $assessment_question->language()->getName();
     $languages = $assessment_question->getTranslationLanguages();
     $has_translations = (count($languages) > 1);
-    $build['#title'] = $has_translations ? $this->t('@langname revisions for %title', ['@langname' => $langname, '%title' => $assessment_question->label()]) : $this->t('Revisions for %title', ['%title' => $assessment_question->label()]);
+    $build['#title'] = $has_translations ? $this->t('@langname revisions for %title', [
+      '@langname' => $langname,
+      '%title' => $assessment_question->label(),
+    ]) : $this->t('Revisions for %title', [
+      '%title' => $assessment_question->label(),
+    ]);
 
     $header = [$this->t('Revision'), $this->t('Operations')];
     $revert_permission = (($account->hasPermission("revert all question revisions") || $account->hasPermission('administer question entities')));

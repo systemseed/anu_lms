@@ -8,13 +8,21 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\node\NodeInterface;
 
-
+/**
+ * Logic for result pages.
+ */
 class AssessmentResultsController extends ControllerBase {
 
+  /**
+   * Title callback for results page.
+   */
   public function resultsPageTitle(NodeInterface $node) {
-    return t('Completed quizzes for %assessment', ['%assessment' => $node->label() ]);
+    return $this->t('Completed quizzes for %assessment', ['%assessment' => $node->label()]);
   }
 
+  /**
+   * Display the assessment_results view.
+   */
   public function resultsPage(NodeInterface $node) {
     $build = [];
     $build['assessment_results'] = [
@@ -28,11 +36,17 @@ class AssessmentResultsController extends ControllerBase {
     return $build;
   }
 
+  /**
+   * Title callback for individual result page.
+   */
   public function resultPageTitle(NodeInterface $node, AssessmentResultInterface $assessment_result) {
     $author = $assessment_result->getOwner()->getDisplayName();
-    return t('Question responses from %username', ['%username' => $author]);
+    return $this->t('Question responses from %username', ['%username' => $author]);
   }
 
+  /**
+   * Display the assessment_question_responses view.
+   */
   public function resultPage(NodeInterface $node, AssessmentResultInterface $assessment_result) {
     $build = [];
     $build['assessment_results'] = [
@@ -46,6 +60,9 @@ class AssessmentResultsController extends ControllerBase {
     return $build;
   }
 
+  /**
+   * Access callback.
+   */
   public function checkAccess(NodeInterface $node, AccountInterface $account) {
 
     // The route is valid only for lesson nodes.

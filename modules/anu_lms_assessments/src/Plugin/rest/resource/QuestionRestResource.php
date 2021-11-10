@@ -93,7 +93,7 @@ class QuestionRestResource extends ResourceBase {
    *     // Required field: Answer provided by the user.
    *     // Can be of any variable type depending on the question type.
    *     "value" => 10,
-   *   ]
+   *   ].
    *
    * @return \Drupal\rest\ModifiedResourceResponse
    *   Response to the user containing the expected answer for the question.
@@ -122,13 +122,13 @@ class QuestionRestResource extends ResourceBase {
       ]);
 
       // Pass on the exception.
-      throw new $exception;
+      throw new $exception();
     }
     catch (\Throwable $exception) {
       $this->logger->error('Exception on question submission: @message. Payload: @payload. Trace: @trace.', [
         '@message' => $exception->getMessage(),
         '@payload' => print_r($this->payload, 1),
-        '@trace' => $exception->getTraceAsString()
+        '@trace' => $exception->getTraceAsString(),
       ]);
 
       throw new BadRequestHttpException('Unexpected error during question submission.');
@@ -140,7 +140,7 @@ class QuestionRestResource extends ResourceBase {
   /**
    * Saves the submitted answer and returns correct value for it.
    *
-   * @param $answer
+   * @param mixed $answer
    *   Answer value given by the user.
    *   Can be of any type (string, array, int, etc).
    * @param int $question_id
@@ -174,7 +174,13 @@ class QuestionRestResource extends ResourceBase {
 
     // Make sure the provided question is within the list of supported
     // question types.
-    $supported_question_types = ['short_answer', 'long_answer', 'scale', 'multiple_choice', 'single_choice'];
+    $supported_question_types = [
+      'short_answer',
+      'long_answer',
+      'scale',
+      'multiple_choice',
+      'single_choice',
+    ];
     if (!in_array($question->bundle(), $supported_question_types)) {
       throw new BadRequestHttpException(sprintf('Question %s has not supported bundle', $question_id));
     }
@@ -251,7 +257,7 @@ class QuestionRestResource extends ResourceBase {
       // type of questions). We make conversion to array for compatibility
       // with multi-choice type of questions and easier handling.
       $provided_answers = [];
-      foreach((array) $answer as $option_id) {
+      foreach ((array) $answer as $option_id) {
         $provided_answers[] = (int) $option_id;
       }
 

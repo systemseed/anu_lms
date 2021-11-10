@@ -36,9 +36,9 @@ class AssessmentRestResource extends QuestionRestResource {
    *       1235 => [1, 2, 3]
    *       1236 => "Text answer",
    *     ]
-   *   ]
+   *   ].
    *
-   * @return ModifiedResourceResponse
+   * @return \Drupal\rest\ModifiedResourceResponse
    *   Correct answers list and count.
    */
   public function post(array $payload): ModifiedResourceResponse {
@@ -108,13 +108,13 @@ class AssessmentRestResource extends QuestionRestResource {
       ]);
 
       // Pass on the exception.
-      throw new $exception;
+      throw new $exception();
     }
     catch (\Throwable $exception) {
       $this->logger->error('Exception on quiz submission: @message. Payload: @payload. Trace: @trace.', [
         '@message' => $exception->getMessage(),
         '@payload' => print_r($this->payload, 1),
-        '@trace' => $exception->getTraceAsString()
+        '@trace' => $exception->getTraceAsString(),
       ]);
 
       throw new BadRequestHttpException('Unexpected error during quiz submission.');

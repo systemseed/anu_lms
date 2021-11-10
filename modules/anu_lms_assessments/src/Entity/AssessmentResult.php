@@ -68,6 +68,9 @@ class AssessmentResult extends ContentEntityBase implements AssessmentResultInte
     ];
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function preSave(EntityStorageInterface $storage) {
 
     // Automatically set the response label.
@@ -75,7 +78,8 @@ class AssessmentResult extends ContentEntityBase implements AssessmentResultInte
       /** @var \Drupal\node\NodeInterface $assessment */
       $assessment = $this->get('aid')->referencedEntities()[0];
       $this->setName('Quiz result for: ' . $assessment->label());
-    } catch (\Exception $exception) {
+    }
+    catch (\Exception $exception) {
       $this->setName('Quiz result for: (no quiz)');
     }
 

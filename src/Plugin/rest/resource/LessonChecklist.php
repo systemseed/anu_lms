@@ -88,6 +88,10 @@ class LessonChecklist extends ResourceBase {
    *   The normalizer.
    * @param \Drupal\Core\Entity\EntityRepositoryInterface $entity_repository
    *   The entity repository.
+   * @param \Drupal\Core\Session\AccountInterface $current_user
+   *   The current user.
+   * @param \Drupal\Core\Entity\EntityStorageInterface $lesson_checklist_storage
+   *   The Lesson checklist storage.
    */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger, Normalizer $normalizer, EntityRepositoryInterface $entity_repository, AccountInterface $current_user, EntityStorageInterface $lesson_checklist_storage) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
@@ -183,10 +187,10 @@ class LessonChecklist extends ResourceBase {
    *   Data passed to create a checklist results entity.
    *
    * @code
-   * $data = [
+   *   $data = [
    *   'checklist_paragraph_id' => 31, // Lesson checklist Paragraph id
    *   'selected_option_ids' => [30, 32], // Ids of options.
-   * ];
+   *   ];
    * @endcode
    *
    * @return \Drupal\rest\ResourceResponse
@@ -196,7 +200,7 @@ class LessonChecklist extends ResourceBase {
   public function post(array $data) {
     // Validates state field value.
     if (empty($data['checklist_paragraph_id']) || !isset($data['selected_option_ids'])) {
-      throw new NotAcceptableHttpException($this->t('Incorrect request data.'));
+      throw new NotAcceptableHttpException('Incorrect request data.');
     }
 
     try {
@@ -204,10 +208,11 @@ class LessonChecklist extends ResourceBase {
 
       // Check additionally if user can create or update submission.
       if (empty($checklist_paragraph) || $checklist_paragraph->bundle() !== 'lesson_checklist') {
-        throw new NotAcceptableHttpException($this->t("Paragraph with given id doesn't exist"));
+        throw new NotAcceptableHttpException("Paragraph with given id doesn't exist");
       }
 
-      // Search for existing checklist results. Update it instead of create a new one.
+      // Search for existing checklist results.
+      // Update it instead of create a new one.
       $existing_submission_ids = $this->lessonChecklistStorage
         ->getQuery()
         ->condition('type', 'lesson_checklist_result')
@@ -223,9 +228,10 @@ class LessonChecklist extends ResourceBase {
         $lesson_checklist_entity = $this->lessonChecklistStorage->load($existing_submission_id);
       }
       else {
-        // Setting flag for workaround for preventing re saving paragraph and changing parent_id.
+        // Setting flag for workaround for preventing re saving paragraph
+        // and changing parent_id.
         // Implementation made as patch for entity_reference_revisions module.
-        // @todo: rewrite to avoid dependance to patch to entity_reference_revisions module.
+        // @todo rewrite to avoid dependance to patch to entity_reference_revisions module.
         $checklist_paragraph->dontSave = TRUE;
 
         $lesson_checklist_entity = $this->lessonChecklistStorage->create([
@@ -236,7 +242,7 @@ class LessonChecklist extends ResourceBase {
 
       // Check additionally if user can create or update submission.
       if (!$lesson_checklist_entity->access('update')) {
-        throw new NotAcceptableHttpException($this->t('User has no permissions to update checklist result'));
+        throw new NotAcceptableHttpException('User has no permissions to update checklist result');
       }
 
       $options = [];
@@ -246,17 +252,20 @@ class LessonChecklist extends ResourceBase {
           if (in_array($option_values['target_id'], $data['selected_option_ids'])) {
             $option_paragraph = Paragraph::load($option_values['target_id']);
 
-            // Setting flag for workaround for preventing re saving paragraph and changing parent_id.
-            // Implementation made as patch for entity_reference_revisions module.
+            // Setting flag for workaround for preventing re saving paragraph
+            // and changing parent_id.
+            // Implementation made as patch for entity_reference_revisions
+            // module.
             $option_paragraph->dontSave = TRUE;
 
             $options[] = $option_paragraph;
           }
         }
       }
-      // Setting flag for workaround for preventing re saving paragraph and changing parent_id.
+      // Setting flag for workaround for preventing re saving paragraph
+      // and changing parent_id.
       // Implementation made as patch for entity_reference_revisions module.
-      // @todo: rewrite to avoid dependance to patch to entity_reference_revisions module.
+      // @todo rewrite to avoid dependance to patch to entity_reference_revisions module.
       $lesson_checklist_entity->field_checklist_paragraph->entity->dontSave = TRUE;
 
       $lesson_checklist_entity->set('field_checklist_selected_options', $options);
@@ -268,7 +277,7 @@ class LessonChecklist extends ResourceBase {
           '@error' => $e->getMessage(),
           '@data' => print_r($data, 1),
         ]);
-      throw new NotAcceptableHttpException($this->t("Can't submit or update checklist results. Error: @error", ['@error' => $e->getMessage()]));
+      throw new NotAcceptableHttpException("Can't submit or update checklist results. Error: " . $e->getMessage());
     }
 
     return new ResourceResponse(['lesson_checklist_id' => $lesson_checklist_entity->id()]);

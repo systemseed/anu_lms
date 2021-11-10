@@ -7,7 +7,7 @@ use Drupal\node\NodeInterface;
 use Drupal\Core\Url;
 
 /**
- * Course service.
+ * Methods that operate with course nodes.
  */
 class Course {
 

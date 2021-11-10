@@ -26,7 +26,7 @@ class AssessmentResultListBuilder extends EntityListBuilder {
    * {@inheritdoc}
    */
   public function buildRow(EntityInterface $entity) {
-    /* @var \Drupal\anu_lms_assessments\Entity\AssessmentResult $entity */
+    /** @var \Drupal\anu_lms_assessments\Entity\AssessmentResult $entity */
     $row['id'] = $entity->id();
     $row['name'] = Link::createFromRoute(
       $entity->label(),

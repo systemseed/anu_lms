@@ -188,7 +188,7 @@ class CoursesPage {
   /**
    * Returns list of Courses page entities by given Course.
    *
-   * @param EntityInterface $course
+   * @param \Drupal\Core\Entity\EntityInterface $course
    *   Course entity.
    *
    * @return array|EntityInterface[]
@@ -225,4 +225,5 @@ class CoursesPage {
 
     return !empty($courses_page_ids) ? Node::loadMultiple($courses_page_ids) : [];
   }
+
 }

@@ -197,7 +197,7 @@ class Lesson {
 
     if (!empty($course_nids)) {
       // Load course node for the provided lesson.
-      /** @var NodeInterface $course */
+      /** @var \Drupal\node\NodeInterface $course */
       $course = $this->nodeStorage->load(reset($course_nids));
       if (empty($course)) {
         return NULL;
@@ -353,7 +353,7 @@ class Lesson {
       }
     }
 
-    // TODO: Don't forget about translations!
+    // @todo Don't forget about translations!
     return !empty($completed_lessons[$lesson->id()]);
   }
 
