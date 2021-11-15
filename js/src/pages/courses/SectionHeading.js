@@ -1,6 +1,7 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,6 +17,10 @@ const CoursesSectionHeading = ({ children }) => {
       {children}
     </Typography>
   );
+};
+
+CoursesSectionHeading.propTypes = {
+  children: PropTypes.string,
 };
 
 export default CoursesSectionHeading;

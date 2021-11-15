@@ -101,6 +101,7 @@ const ListElement = ({ items, type }) => (
 );
 
 ListElement.propTypes = {
+  items: PropTypes.array,
   type: PropTypes.oneOf(['ul', 'ol']).isRequired,
 };
 

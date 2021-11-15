@@ -6,6 +6,7 @@ import ParagraphsWithQuiz from '@anu/components/ParagraphsWithQuiz';
 import { quizPropTypes } from '@anu/utilities/transform.quiz';
 import ContentNavigation from '@anu/components/ContentNavigation';
 import Hidden from '@material-ui/core/Hidden';
+import { lessonPropTypes } from '@anu/utilities/transform.lesson';
 
 const ContentQuiz = ({ quiz, nextLesson }) => {
   const [isSubmitted, submitQuiz] = useState(!!quiz.isSubmitted);
@@ -47,6 +48,7 @@ const ContentQuiz = ({ quiz, nextLesson }) => {
 
 ContentQuiz.propTypes = {
   quiz: quizPropTypes,
+  nextLesson: lessonPropTypes,
 };
 
 export default ContentQuiz;

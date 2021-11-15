@@ -10,6 +10,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import LessonNavigationItems from '@anu/pages/lesson/NavigationItems';
 import { lessonPropTypes } from '@anu/utilities/transform.lesson';
+import { quizPropTypes } from '@anu/utilities/transform.quiz';
 
 const useStyles = makeStyles((theme) => ({
   accordionRoot: ({ hasCurrentContent }) => ({
@@ -131,6 +132,7 @@ LessonNavigationSection.propTypes = {
   module: PropTypes.string,
   lessons: PropTypes.arrayOf(lessonPropTypes),
   currentLesson: lessonPropTypes.isRequired,
+  quiz: quizPropTypes,
 };
 
 LessonNavigationSection.defaultProps = {

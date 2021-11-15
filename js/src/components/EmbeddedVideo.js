@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import { Offline, Online } from 'react-detect-offline';
 import ReactPlayer from 'react-player';
@@ -43,6 +44,10 @@ const EmbeddedVideo = ({ url }) => {
       </Offline>
     </LessonGrid>
   );
+};
+
+EmbeddedVideo.propTypes = {
+  url: PropTypes.string,
 };
 
 export default EmbeddedVideo;
