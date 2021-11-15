@@ -3,6 +3,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/core';
 import Clear from '@material-ui/icons/Clear';
 import Radio from '@material-ui/core/Radio';
+import PropTypes from 'prop-types';
 
 const ErrorRadio = withStyles((theme) => ({
   root: {
@@ -42,6 +43,12 @@ const RadioWithValidation = ({ value, correctValue, checked, ...props }) => {
   }
 
   return <Radio value={value} {...props} />;
+};
+
+RadioWithValidation.propTypes = {
+  value: PropTypes.string,
+  correctValue: PropTypes.number,
+  checked: PropTypes.bool,
 };
 
 export default RadioWithValidation;

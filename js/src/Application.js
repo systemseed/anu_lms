@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { jssPreset, ThemeProvider, StylesProvider } from '@material-ui/core/styles';
 import { BrowserRouter } from 'react-router-dom';
 import { theme, GlobalCss } from '@anu/theme';
@@ -16,5 +17,9 @@ const Application = ({ children }) => (
     </StylesProvider>
   </ThemeProvider>
 );
+
+Application.propTypes = {
+  children: PropTypes.node,
+};
 
 export default Application;

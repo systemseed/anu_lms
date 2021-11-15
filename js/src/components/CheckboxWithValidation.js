@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -42,6 +43,12 @@ const CheckboxWithValidation = ({ value, correctValues, checked, ...props }) => 
   }
 
   return <Checkbox value={value} checked={checked} {...props} />;
+};
+
+CheckboxWithValidation.propTypes = {
+  value: PropTypes.string,
+  correctValues: PropTypes.array,
+  checked: PropTypes.bool,
 };
 
 export default CheckboxWithValidation;

@@ -11,6 +11,7 @@ import QuizSubmit from '@anu/components/QuizSubmit';
 import LessonGrid from '@anu/components/LessonGrid';
 import CheckboxWithValidation from '@anu/components/CheckboxWithValidation';
 import RadioWithValidation from '@anu/components/RadioWithValidation';
+import PropTypes from 'prop-types';
 
 const StyledBox = withStyles((theme) => ({
   root: {
@@ -85,6 +86,18 @@ const QuizOptions = ({
       </LessonGrid>
     </StyledBox>
   );
+};
+
+QuizOptions.propTypes = {
+  question: PropTypes.string,
+  multipleOptions: PropTypes.bool,
+  options: PropTypes.array,
+  value: PropTypes.string,
+  isSubmitting: PropTypes.bool,
+  isSubmitted: PropTypes.bool,
+  onChange: PropTypes.func,
+  onSubmit: PropTypes.func,
+  correctValue: PropTypes.string,
 };
 
 export default QuizOptions;

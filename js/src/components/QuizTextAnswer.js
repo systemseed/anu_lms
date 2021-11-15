@@ -5,6 +5,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import LessonGrid from '@anu/components/LessonGrid';
 import QuizSubmit from '@anu/components/QuizSubmit';
+import PropTypes from 'prop-types';
 
 const StyledBox = withStyles((theme) => ({
   root: {
@@ -63,5 +64,17 @@ const QuizTextAnswer = ({
     </LessonGrid>
   </StyledBox>
 );
+
+QuizTextAnswer.propTypes = {
+  question: PropTypes.string,
+  value: PropTypes.string,
+  correctValue: PropTypes.number,
+  checked: PropTypes.bool,
+  multiline: PropTypes.bool,
+  isSubmitting: PropTypes.bool,
+  isSubmitted: PropTypes.bool,
+  onChange: PropTypes.func,
+  onSubmit: PropTypes.func,
+};
 
 export default QuizTextAnswer;

@@ -3,7 +3,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: cimg/php:8.0
+      - image: cimg/php:8.0-node
     steps:
       - run:
           name: Install SQLite driver
@@ -30,6 +30,14 @@ jobs:
           working_directory: anu_drupal
           command: |
             vendor/bin/phpcs --standard=Drupal --ignore=node_modules,vendor,dist,js web/modules/contrib/anu_lms/
+      - run:
+          name: Install nodejs dependencies
+          working_directory: anu_lms/js
+          command: npm install
+      - run:
+          name: Run eslint
+          working_directory: anu_lms/js
+          command: npm run lint
       - run:
           name: Run test
           working_directory: anu_drupal

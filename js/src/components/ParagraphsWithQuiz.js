@@ -189,6 +189,10 @@ class ParagraphsWithQuiz extends React.Component {
 ParagraphsWithQuiz.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape),
   nodeId: PropTypes.number,
+  correctValuesCount: PropTypes.number,
+  isSingleSubmission: PropTypes.bool,
+  submitQuiz: PropTypes.func,
+  isSubmitted: PropTypes.bool,
 };
 
 export default ParagraphsWithQuiz;

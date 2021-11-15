@@ -1,6 +1,7 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   inner: {
@@ -23,6 +24,10 @@ const useStyles = makeStyles((theme) => ({
 const LessonGrid = ({ children }) => {
   const classes = useStyles();
   return <Box className={classes.inner}>{children}</Box>;
+};
+
+LessonGrid.propTypes = {
+  children: PropTypes.node,
 };
 
 export default LessonGrid;

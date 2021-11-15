@@ -21,8 +21,7 @@
   ],
   "plugins": ["react", "jsx-a11y"],
   "rules": {
-    "no-console": ["error", { "allow": ["error"] }],
-    "react/prop-types": "warn"
+    "no-console": ["error", { "allow": ["error"] }]
   },
   "settings": {
     "react": {

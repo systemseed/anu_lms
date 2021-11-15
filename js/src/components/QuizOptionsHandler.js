@@ -1,6 +1,7 @@
 import React from 'react';
 import QuizOptions from '@anu/components/QuizOptions';
 import * as questionsAPI from '@anu/api/questionsAPI';
+import PropTypes from 'prop-types';
 
 // TODO - should be a pure function component with hooks.
 class QuizOptionsHandler extends React.Component {
@@ -118,5 +119,19 @@ class QuizOptionsHandler extends React.Component {
     );
   }
 }
+
+QuizOptionsHandler.propTypes = {
+  onChange: PropTypes.func,
+  bundle: PropTypes.string,
+  isQuiz: PropTypes.bool,
+  aqid: PropTypes.number,
+  onQuestionComplete: PropTypes.func,
+  question: PropTypes.string,
+  options: PropTypes.array,
+  submittedAnswer: PropTypes.string,
+  correctQuizValue: PropTypes.string,
+  isSubmitting: PropTypes.bool,
+  isSubmitted: PropTypes.bool,
+};
 
 export default QuizOptionsHandler;

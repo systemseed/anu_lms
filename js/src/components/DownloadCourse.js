@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { coursePropTypes } from '@anu/utilities/transform.course';
 import { Box, Button, withStyles } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import SyncIcon from '@material-ui/icons/Sync';
@@ -268,5 +270,10 @@ class DownloadCourse extends React.Component {
     );
   }
 }
+
+DownloadCourse.propTypes = {
+  messagePosition: PropTypes.string,
+  course: coursePropTypes.isRequired,
+};
 
 export default DownloadCourse;

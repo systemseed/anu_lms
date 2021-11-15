@@ -7,6 +7,7 @@ import {
   DialogTitle,
 } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
+import PropTypes from 'prop-types';
 
 const QuizAlert = ({ open, handleClose }) => {
   return (
@@ -32,6 +33,11 @@ const QuizAlert = ({ open, handleClose }) => {
       </DialogActions>
     </Dialog>
   );
+};
+
+QuizAlert.propTypes = {
+  open: PropTypes.bool,
+  handleClose: PropTypes.func,
 };
 
 export default QuizAlert;

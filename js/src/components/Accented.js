@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 
@@ -23,5 +24,9 @@ const Accented = ({ children }) => (
     {children}
   </AccentBox>
 );
+
+Accented.propTypes = {
+  children: PropTypes.node,
+};
 
 export default Accented;
