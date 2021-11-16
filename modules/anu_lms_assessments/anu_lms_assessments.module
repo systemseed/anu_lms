@@ -65,6 +65,9 @@ function anu_lms_assessments_entity_form_display_alter(?EntityFormDisplayInterfa
   if ($context['entity_type'] === 'paragraph' && $context['bundle'] === 'course_modules') {
     $storage = Drupal::service('entity_type.manager')
       ->getStorage('entity_form_display');
-    $form_display = $storage->load('paragraph.course_modules.quiz');
+    $quiz = $storage->load('paragraph.course_modules.quiz');
+    if ($quiz) {
+      $form_display = $storage->load('paragraph.course_modules.quiz');
+    }
   }
 }
