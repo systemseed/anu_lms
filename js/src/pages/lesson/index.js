@@ -34,7 +34,9 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'nowrap',
     flexGrow: 1,
     overflow: 'hidden',
-    paddingBottom: theme.spacing(8),
+    [theme.breakpoints.up('md')]: {
+      paddingBottom: theme.spacing(8),
+    },
   },
   sidebar: ({ isSidebarVisible }) => ({
     position: 'absolute',
