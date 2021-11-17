@@ -5,11 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Upcoming release]
- - 
+ - Fix empty checkboxes bug.
 
 ## [2.4.3]
- - Fix service existence
- - Fix empty quiz
+ - Fix service existence.
+ - Fix empty quiz.
 
 ## [2.4.2]
  - Fix TypeError for content_moderation_entity_form_display_alter().
