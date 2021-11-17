@@ -248,7 +248,7 @@ class QuestionRestResource extends ResourceBase {
       foreach ($options as $option) {
         // Prevent paragraph from being saved since that changes the parent_id.
         // Implementation made as patch for entity_reference_revisions module.
-        // See in patches/entity_reference_revisions-dont_resave_field_item.patch.
+        // See in entity_reference_revisions-dont_resave_field_item.patch.
         $option->dontSave = TRUE;
 
         $is_correct = (bool) $option->get('field_single_multi_choice_right')->getString();
