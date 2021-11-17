@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Upcoming release]
  - 
 
+## [2.4.6]
+ - Fixed a bug with denied access to lessons when course has linear progress enabled.
+
 ## [2.4.5]
  - Removed huge white space at the end of a lesson for mobile devices.
 

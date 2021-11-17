@@ -317,6 +317,11 @@ class Lesson {
           'nid' => $lesson->id(),
         ])
         ->execute();
+
+      // Update static cache to make sure that all subsequent requests
+      // have info about the completion of this lesson.
+      $completed_lessons = &drupal_static('anu_lms_lesson_is_completed');
+      $completed_lessons[$lesson->id()] = $lesson->id();
     }
     catch (\Exception $exception) {
       $this->logger->error($exception->getMessage());
