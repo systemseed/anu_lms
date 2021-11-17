@@ -1,0 +1,26 @@
+diff --git a/src/Plugin/Field/FieldType/EntityReferenceRevisionsItem.php b/src/Plugin/Field/FieldType/EntityReferenceRevisionsItem.php
+index 9146df4..c223d67 100644
+--- a/src/Plugin/Field/FieldType/EntityReferenceRevisionsItem.php
++++ b/src/Plugin/Field/FieldType/EntityReferenceRevisionsItem.php
+@@ -257,6 +257,10 @@ class EntityReferenceRevisionsItem extends EntityReferenceItem implements Option
+       // Create a new revision if it is a composite entity in a host with a new
+       // revision.
+ 
++      // Don't process if dontSave param passed.
++      if (isset($this->entity->dontSave) && $this->entity->dontSave) {
++        return;
++      }
+       $host = $this->getEntity();
+       $needs_save = $this->entity instanceof EntityNeedsSaveInterface && $this->entity->needsSave();
+       if (!$host->isNew() && $host->isNewRevision() && $this->entity && $this->entity->getEntityType()->get('entity_revision_parent_id_field')) {
+@@ -287,6 +291,10 @@ class EntityReferenceRevisionsItem extends EntityReferenceItem implements Option
+       return;
+     }
+ 
++    // Don't process if dontSave param passed.
++    if (isset($this->entity->dontSave) && $this->entity->dontSave) {
++      return;
++    }
+     $entity = $this->entity;
+     $parent_entity = $this->getEntity();
+ 
