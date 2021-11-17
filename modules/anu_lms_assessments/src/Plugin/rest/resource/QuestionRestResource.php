@@ -246,6 +246,10 @@ class QuestionRestResource extends ResourceBase {
       /** @var \Drupal\paragraphs\ParagraphInterface[] $options */
       $options = $question->get('field_options')->referencedEntities();
       foreach ($options as $option) {
+        // Setting flag for workaround for preventing re saving paragraph and changing parent_id.
+        // Implementation made as patch for entity_reference_revisions module.
+        $option->dontSave = TRUE;
+        
         $is_correct = (bool) $option->get('field_single_multi_choice_right')->getString();
         if ($is_correct) {
           $expected_answer[] = (int) $option->id();
