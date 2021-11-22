@@ -41,7 +41,7 @@ class NodeNormalizer extends ContentEntityNormalizer {
       $normalized['is_restricted'] = ['value' => $lessonHandler->isRestricted($entity)];
 
       $course = $lessonHandler->getLessonCourse($entity);
-      $finishText = $courseHandler->getFinishText($course);
+      $finishText = $course ? $courseHandler->getFinishText($course) : '';
       if (!empty($finishText)) {
         $normalized['finish_button_text'] = ['value' => $finishText];
       }
