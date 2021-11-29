@@ -5,7 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Upcoming release]
- - 
+ - Removed not necessary dependency on drupal/shs_chosen in composer
+ - Do not lock drupal/shs module's version in composer
 
 ## [2.4.6]
  - Fixed a bug with denied access to lessons when course has linear progress enabled.
