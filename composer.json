@@ -24,6 +24,7 @@
         "drupal/range": "^1.1",
         "drupal/rest_entity_recursive": "^2@RC",
         "drupal/shs": "*",
+        "drupal/shs_chosen": "*",
         "drupal/views_data_export": "^1.0",
         "drupal/weight": "^3.3",
         "drupal/xls_serialization": "^1.2",

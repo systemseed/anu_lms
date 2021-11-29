@@ -25,5 +25,5 @@ dependencies:
   - paragraphs:paragraphs
   - paragraphs_selection:paragraphs_selection
   - rest_entity_recursive:rest_paragraphs_recursive
-  - shs_chosen:shs_chosen
+  - shs:shs_chosen
   - weight:weight
