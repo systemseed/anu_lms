@@ -23,7 +23,7 @@ class AssessmentRestResource extends QuestionRestResource {
   /**
    * Handles quiz submission.
    *
-   * @param array $payload
+   * @param array $data
    *   Data sent from the frontend application.
    *   Expected data structure:
    *   [
@@ -41,24 +41,24 @@ class AssessmentRestResource extends QuestionRestResource {
    * @return \Drupal\rest\ModifiedResourceResponse
    *   Correct answers list and count.
    */
-  public function post(array $payload): ModifiedResourceResponse {
+  public function post(array $data): ModifiedResourceResponse {
     $response = [];
-    $this->payload = $payload;
+    $this->payload = $data;
 
     try {
       // Make sure required argument with quiz nid exists in the payload.
-      if (empty($payload['nid']) || !is_numeric($payload['nid'])) {
+      if (empty($data['nid']) || !is_numeric($data['nid'])) {
         throw new BadRequestHttpException('Required argument "nid" is missing');
       }
 
       // Make sure required argument with responses exists in the payload.
-      if (!isset($payload['data']) || !is_array($payload['data'])) {
+      if (!isset($data['data']) || !is_array($data['data'])) {
         throw new BadRequestHttpException('Required argument "data" is missing');
       }
 
       // Make sure nid present in the payload is actually a real quiz.
       /** @var \Drupal\node\NodeInterface $quiz */
-      $quiz = $this->entityTypeManager->getStorage('node')->load($payload['nid']);
+      $quiz = $this->entityTypeManager->getStorage('node')->load($data['nid']);
       if (empty($quiz) || $quiz->bundle() != 'module_assessment') {
         throw new BadRequestHttpException('Provided node ID is not a quiz');
       }
@@ -83,7 +83,7 @@ class AssessmentRestResource extends QuestionRestResource {
 
       // Go through all answers given by the user, save them & determine if
       // they're correct or not.
-      foreach ($payload['data'] as $question_id => $answer) {
+      foreach ($data['data'] as $question_id => $answer) {
         [$expected_answer, $is_correct_answer] = $this->processAnswerToQuestion($answer, $question_id, $quiz_result);
         $expected_answers[$question_id] = $expected_answer;
         $correct_answers += $is_correct_answer ? 1 : 0;

@@ -84,7 +84,7 @@ class QuestionRestResource extends ResourceBase {
   /**
    * Handles submission of a single question within a lesson.
    *
-   * @param array $payload
+   * @param array $data
    *   Data sent from the frontend application.
    *   Example:
    *   [
@@ -98,22 +98,22 @@ class QuestionRestResource extends ResourceBase {
    * @return \Drupal\rest\ModifiedResourceResponse
    *   Response to the user containing the expected answer for the question.
    */
-  public function post(array $payload): ModifiedResourceResponse {
-    $this->payload = $payload;
+  public function post(array $data): ModifiedResourceResponse {
+    $this->payload = $data;
 
     try {
       // Make sure required argument with question ID exists in the payload.
-      if (empty($payload['questionId']) || !is_numeric($payload['questionId'])) {
+      if (empty($data['questionId']) || !is_numeric($data['questionId'])) {
         throw new BadRequestHttpException('Required argument "questionId" is missing');
       }
 
       // Make sure required argument with response exists in the payload.
-      if (empty($payload['value'])) {
+      if (empty($data['value'])) {
         throw new BadRequestHttpException('Required argument "data" is missing');
       }
 
       // Save answer & get the correct value for it.
-      [$expected_answer] = $this->processAnswerToQuestion($payload['value'], $payload['questionId']);
+      [$expected_answer] = $this->processAnswerToQuestion($data['value'], $data['questionId']);
     }
     catch (HttpException $exception) {
       $this->logger->error('Error on question submission: @message. Payload: @payload.', [
