@@ -2,11 +2,12 @@
 
 namespace Drupal\anu_lms;
 
+use Drupal\Core\Entity\EntityRepositoryInterface;
+use Drupal\Core\Extension\ModuleExtensionList;
+use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Path\PathMatcherInterface;
 use Drupal\config_pages\Entity\ConfigPages;
 use Symfony\Component\Serializer\Serializer;
-use Drupal\Core\Entity\EntityRepositoryInterface;
-use Drupal\Core\Language\LanguageManagerInterface;
 
 /**
  * Methods related to settings.
@@ -42,6 +43,13 @@ class Settings {
   protected $pathMatcher;
 
   /**
+   * The module extension list.
+   *
+   * @var \Drupal\Core\Extension\ModuleExtensionList
+   */
+  protected $moduleExtensionList;
+
+  /**
    * Creates an Settings object.
    *
    * @param \Drupal\Core\Entity\EntityRepositoryInterface $entity_repository
@@ -52,12 +60,15 @@ class Settings {
    *   The language manager.
    * @param \Drupal\Core\Path\PathMatcherInterface $path_matcher
    *   The path matcher.
+   * @param \Drupal\Core\Extension\ModuleExtensionList $extension_list_module
+   *   The module extension list.
    */
-  public function __construct(EntityRepositoryInterface $entity_repository, Serializer $serializer, LanguageManagerInterface $language_manager, PathMatcherInterface $path_matcher) {
+  public function __construct(EntityRepositoryInterface $entity_repository, Serializer $serializer, LanguageManagerInterface $language_manager, PathMatcherInterface $path_matcher, ModuleExtensionList $extension_list_module) {
     $this->entityRepository = $entity_repository;
     $this->serializer = $serializer;
     $this->languageManager = $language_manager;
     $this->pathMatcher = $path_matcher;
+    $this->moduleExtensionList = $extension_list_module;
   }
 
   /**
@@ -107,7 +118,7 @@ class Settings {
     $config = \Drupal::config('pwa.config');
 
     // Look up module release from package info.
-    $pwa_module_info = system_get_info('module', 'pwa');
+    $this->moduleExtensionList->getExtensionInfo('pwa');
     $pwa_module_version = $pwa_module_info['version'];
 
     // Packaging script will always provide the published module version.
