@@ -119,14 +119,10 @@ class Settings {
 
     // Look up module release from package info.
     $this->moduleExtensionList->getExtensionInfo('pwa');
-    $pwa_module_version = $pwa_module_info['version'];
-
     // Packaging script will always provide the published module version.
     // Checking for NULL is only so maintainers have something
     // predictable to test against.
-    if ($pwa_module_version == NULL) {
-      $pwa_module_version = '8.x-1.x-dev';
-    }
+    $pwa_module_version = $pwa_module_info['version'] ?? '8.x-1.x-dev';
 
     return [
       'current_cache' => 'pwa-main-' . $pwa_module_version . '-v' . ($config->get('cache_version') ?: 1),
