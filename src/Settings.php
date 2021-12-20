@@ -118,7 +118,7 @@ class Settings {
     $config = \Drupal::config('pwa.config');
 
     // Look up module release from package info.
-    $this->moduleExtensionList->getExtensionInfo('pwa');
+    $pwa_module_info = $this->moduleExtensionList->getExtensionInfo('pwa');
     // Packaging script will always provide the published module version.
     // Checking for NULL is only so maintainers have something
     // predictable to test against.
