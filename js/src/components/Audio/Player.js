@@ -15,21 +15,21 @@ import { formatTime } from '../../utilities/helpers';
  *
  * See ./index.js for example usage.
  */
-const Player = ({ url, name, isPlaying, showButton, showTimings, classes }) => {
-  const [playing, setPlaying] = useState(isPlaying);
+const Player = ({ url, name, playing, showButton, showTimings, classes, ...props }) => {
+  const [isPlaying, setPlaying] = useState(isPlaying);
   const [seeking, setSeeking] = useState(false);
   const [played, setPlayed] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isReady, setReady] = useState(false);
 
   useEffect(() => {
-    setPlaying(isPlaying);
-  }, [isPlaying]);
+    setPlaying(playing);
+  }, [playing]);
 
   const player = useRef();
 
   const handlePlayPause = () => {
-    setPlaying(!playing);
+    setPlaying(!isPlaying);
   };
 
   const handleSeekInProgress = (e, value) => {
@@ -69,13 +69,13 @@ const Player = ({ url, name, isPlaying, showButton, showTimings, classes }) => {
       {showButton && (
         <Box className={`${classes.button} ${isReady ? classes.buttonActive : ''}`}>
           {!isReady && <CircularProgress size={null} className={classes.loader} />}
-          {playing && (
+          {isPlaying && (
             <PauseIcon
               onClick={handlePlayPause}
               className={`${classes.buttonIcon} ${isReady ? classes.buttonIconActive : ''}`}
             />
           )}
-          {!playing && (
+          {!isPlaying && (
             <PlayIcon
               onClick={handlePlayPause}
               className={`${classes.buttonIcon} ${isReady ? classes.buttonIconActive : ''}`}
@@ -87,7 +87,6 @@ const Player = ({ url, name, isPlaying, showButton, showTimings, classes }) => {
       <Box className={classes.player}>
         <ReactPlayer
           ref={player}
-          playing={playing}
           url={url}
           height={0}
           width={0}
@@ -98,6 +97,8 @@ const Player = ({ url, name, isPlaying, showButton, showTimings, classes }) => {
           onDuration={handleDuration}
           onReady={handleReady}
           onEnded={handleEnded}
+          {...props}
+          playing={isPlaying}
         />
 
         {name && (
@@ -143,7 +144,7 @@ const Player = ({ url, name, isPlaying, showButton, showTimings, classes }) => {
 Player.propTypes = {
   url: PropTypes.string.isRequired,
   name: PropTypes.string,
-  isPlaying: PropTypes.bool,
+  playing: PropTypes.bool,
   showButton: PropTypes.bool,
   showTimings: PropTypes.bool,
   classes: PropTypes.object,
@@ -151,7 +152,7 @@ Player.propTypes = {
 
 Player.defaultProps = {
   name: '',
-  isPlaying: false,
+  playing: false,
   showButton: true,
   showTimings: true,
   classes: {},

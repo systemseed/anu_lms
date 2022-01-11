@@ -45,7 +45,7 @@ const Audio = ({ url, name }) => {
 
   return (
     <LessonGrid>
-      <Box p={3} className={classes.container}>
+      <Box p={3} mt={-1} className={classes.container}>
         <SmallPlayer url={url} name={name} />
       </Box>
     </LessonGrid>
