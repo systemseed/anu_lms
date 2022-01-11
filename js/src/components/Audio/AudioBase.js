@@ -2,20 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Box from '@material-ui/core/Box';
-import { hex2rgba } from '@anu/utilities/helpers';
-import makeStyles from '@material-ui/core/styles/makeStyles';
 
 import LessonGrid from '@anu/components/LessonGrid';
-import Player from './Player';
+import AudioPlayer from '@anu/components/Audio/AudioPlayer';
 import { withStyles } from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => ({
-  container: {
-    backgroundColor: hex2rgba(theme.palette.primary.main, 0.08),
-  },
-}));
-
-const SmallPlayer = withStyles((theme) => ({
+const Player = withStyles((theme) => ({
   wrapper: {
     display: 'flex',
     direction: 'row',
@@ -38,23 +30,28 @@ const SmallPlayer = withStyles((theme) => ({
     width: theme.spacing(6),
     height: theme.spacing(6),
   },
-}))(Player);
+}))(AudioPlayer);
 
-const Audio = ({ url, name }) => {
-  const classes = useStyles();
-
+const AudioBase = ({ url, name, classes }) => {
   return (
     <LessonGrid>
       <Box p={3} mt={-1} className={classes.container}>
-        <SmallPlayer url={url} name={name} />
+        <Player url={url} name={name} />
       </Box>
     </LessonGrid>
   );
 };
 
-Audio.propTypes = {
+AudioBase.propTypes = {
   url: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  classes: PropTypes.object,
 };
 
-export default Audio;
+AudioBase.defaultProps = {
+  classes: {
+    container: '',
+  },
+};
+
+export default AudioBase;

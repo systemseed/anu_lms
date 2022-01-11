@@ -15,7 +15,7 @@ import { formatTime } from '../../utilities/helpers';
  *
  * See ./index.js for example usage.
  */
-const Player = ({ url, name, playing, showButton, showTimings, classes, ...props }) => {
+const AudioPlayer = ({ url, name, playing, showButton, showTimings, classes, ...props }) => {
   const [isPlaying, setPlaying] = useState(isPlaying);
   const [seeking, setSeeking] = useState(false);
   const [played, setPlayed] = useState(0);
@@ -131,6 +131,7 @@ const Player = ({ url, name, playing, showButton, showTimings, classes, ...props
             <Typography variant="body2" className={classes.time}>
               {formatTime(duration * played)}
             </Typography>
+            `
             <Typography variant="body2" className={classes.time}>
               {formatTime(duration)}
             </Typography>
@@ -141,7 +142,7 @@ const Player = ({ url, name, playing, showButton, showTimings, classes, ...props
   );
 };
 
-Player.propTypes = {
+AudioPlayer.propTypes = {
   url: PropTypes.string.isRequired,
   name: PropTypes.string,
   playing: PropTypes.bool,
@@ -150,7 +151,7 @@ Player.propTypes = {
   classes: PropTypes.object,
 };
 
-Player.defaultProps = {
+AudioPlayer.defaultProps = {
   name: '',
   playing: false,
   showButton: true,
@@ -235,4 +236,4 @@ export default withStyles((theme) => ({
     height: 16,
     backgroundColor: theme.palette.primary.main + 40,
   },
-}))(Player);
+}))(AudioPlayer);

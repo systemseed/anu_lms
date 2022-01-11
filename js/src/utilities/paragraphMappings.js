@@ -1,4 +1,4 @@
-import Audio from '@anu/components/Audio';
+import AudioWithLabel from '@anu/components/AudioWithLabel';
 import Checklist from '@anu/components/Checklist';
 import Divider from '@anu/components/Divider';
 import EmbeddedVideo from '@anu/components/EmbeddedVideo';
@@ -19,7 +19,7 @@ import Table from '@anu/components/Table';
 import Footnotes from '@anu/components/Footnotes';
 
 export default {
-  lesson_audio: Audio,
+  lesson_audio: AudioWithLabel,
   lesson_checklist: Checklist,
   lesson_divider: Divider,
   lesson_embedded_video: EmbeddedVideo,
