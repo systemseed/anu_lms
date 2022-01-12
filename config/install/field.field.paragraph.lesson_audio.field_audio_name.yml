@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_audio_name
+    - paragraphs.paragraphs_type.lesson_audio
+id: paragraph.lesson_audio.field_audio_name
+field_name: field_audio_name
+entity_type: paragraph
+bundle: lesson_audio
+label: Name
+description: 'A helpful title for the audio, which should be different from the file name.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

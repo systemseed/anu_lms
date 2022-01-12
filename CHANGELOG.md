@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Upcoming release]
  - Fixed Drupal 9 compatibility when pwa is enabled.
  - Fixed warning when PWA module didn't provide a version.
+ - Added AudioPlayer and AudioBase components for handing audio.
+ - Added Audio item for lessons.
 
 ## [2.4.8]
  - Updated REST endpoints for assessment to work with Drupal 9

@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_audio_file
+    - paragraphs.paragraphs_type.lesson_audio
+  module:
+    - file
+id: paragraph.lesson_audio.field_audio_file
+field_name: field_audio_file
+entity_type: paragraph
+bundle: lesson_audio
+label: 'Audio file'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: 'audio/[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'mp3 wav acc'
+  max_filesize: ''
+  description_field: false
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: file

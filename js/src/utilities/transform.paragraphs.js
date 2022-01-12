@@ -15,6 +15,15 @@ const transformParagraph = (paragraph) => {
   const bundle = getTextValue(paragraph, 'entity_bundle');
 
   switch (bundle) {
+    case 'lesson_audio': {
+      return {
+        bundle,
+        id: getNumberValue(paragraph, 'id'),
+        url: getFileURL(paragraph, 'field_audio_file'),
+        name: getTextValue(paragraph, 'field_audio_name'),
+      };
+    }
+
     case 'lesson_checklist':
       return {
         bundle,

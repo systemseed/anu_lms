@@ -1,0 +1,17 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs_selection
+third_party_settings:
+  paragraphs_selection:
+    fields:
+      -
+        id: paragraph.lesson_section.field_lesson_section_content
+        weight: 31
+id: lesson_audio
+label: 'Lesson: Audio'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }
