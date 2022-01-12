@@ -131,7 +131,6 @@ const AudioPlayer = ({ url, name, playing, showButton, showTimings, classes, ...
             <Typography variant="body2" className={classes.time}>
               {formatTime(duration * played)}
             </Typography>
-            `
             <Typography variant="body2" className={classes.time}>
               {formatTime(duration)}
             </Typography>
