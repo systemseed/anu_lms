@@ -17,10 +17,14 @@ import { formatTime } from '../../utilities/helpers';
  */
 const AudioPlayer = ({ url, name, playing, showButton, showTimings, classes, ...props }) => {
   const [isPlaying, setPlaying] = useState(isPlaying);
-  const [seeking, setSeeking] = useState(false);
   const [played, setPlayed] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isReady, setReady] = useState(false);
+
+  // During seeking progress we temporarily pause playback until the selected
+  // part of the audio is ready to play. During this seeking process we avoid
+  // play button change to keep interface clean.
+  const [seeking, setSeeking] = useState({ isSeeking: false, forcePlayButton: false });
 
   useEffect(() => {
     setPlaying(playing);
@@ -33,20 +37,23 @@ const AudioPlayer = ({ url, name, playing, showButton, showTimings, classes, ...
   };
 
   const handleSeekInProgress = (e, value) => {
-    setSeeking(true);
+    setSeeking({
+      isSeeking: true,
+      forcePlayButton: seeking.forcePlayButton || isPlaying,
+    });
     setPlaying(false);
     setPlayed(value);
   };
 
   const handleSeekChangeCommitted = (e, value) => {
-    setSeeking(false);
+    setSeeking({ isSeeking: false, forcePlayButton: false });
     setPlayed(value);
     player.current.seekTo(value);
     setPlaying(true);
   };
 
   const handleProgress = (state) => {
-    if (!seeking && state.played !== 1) {
+    if (!seeking.isSeeking && state.played !== 1) {
       setPlayed(state.played);
     }
   };
@@ -64,18 +71,20 @@ const AudioPlayer = ({ url, name, playing, showButton, showTimings, classes, ...
     setPlaying(false);
   };
 
+  const showPauseButton = isPlaying || seeking.forcePlayButton;
+
   return (
     <Box className={classes.wrapper}>
       {showButton && (
         <Box className={`${classes.button} ${isReady ? classes.buttonActive : ''}`}>
           {!isReady && <CircularProgress size={null} className={classes.loader} />}
-          {isPlaying && (
+          {showPauseButton && (
             <PauseIcon
               onClick={handlePlayPause}
               className={`${classes.buttonIcon} ${isReady ? classes.buttonIconActive : ''}`}
             />
           )}
-          {!isPlaying && (
+          {!showPauseButton && (
             <PlayIcon
               onClick={handlePlayPause}
               className={`${classes.buttonIcon} ${isReady ? classes.buttonIconActive : ''}`}
@@ -209,7 +218,6 @@ export default withStyles((theme) => ({
   },
   time: {
     color: theme.palette.primary.main,
-    fontWeight: theme.typography.fontWeightMedium,
     fontSize: '0.875rem',
     [theme.breakpoints.up('md')]: {
       fontSize: '1rem',
