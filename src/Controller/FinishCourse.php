@@ -60,11 +60,8 @@ class FinishCourse extends ControllerBase {
     if (!in_array($node->bundle(), ['module_lesson', 'module_assessment'])) {
       throw new AccessDeniedHttpException();
     }
-    $course = $this->lesson->getLessonCourse($node);
-    if (!empty($course) && $this->course->isLinearProgressEnabled($course)) {
-      $this->lesson->setCompleted($node);
-    }
 
+    $course = $this->lesson->getLessonCourse($node);
     $url = $this->course->getFinishRedirectUrl($course);
     return new RedirectResponse($url->toString(), 302);
   }

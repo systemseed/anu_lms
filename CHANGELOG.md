@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Upcoming release]
  - Small styling fixes for the Audio.
+ - Remove backend-based locking implementation (pending frontend implementation)
 
 ## [2.4.9]
  - Fixed Drupal 9 compatibility when pwa is enabled.
