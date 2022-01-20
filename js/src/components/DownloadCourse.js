@@ -164,6 +164,12 @@ class DownloadCourse extends React.Component {
         const moduleLessonUrls = module.lessons.map((lesson) => lesson.url);
         lessonUrls = lessonUrls.concat(moduleLessonUrls);
 
+        // Finish course URL.
+        const lastLesson = module.lessons.at(-1);
+        if (lastLesson && lastLesson.finishButtonUrl) {
+          lessonUrls.push(lastLesson.finishButtonUrl);
+        }
+
         // Quiz url.
         if (module.quiz && module.quiz.url) {
           lessonUrls.push(module.quiz.url);

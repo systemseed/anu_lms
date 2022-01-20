@@ -34,6 +34,7 @@ const transformLesson = (node) => {
           .map((paragraph) => transformParagraph(paragraph))
       ),
     finishButtonText: fields.getTextValue(node, 'finish_button_text'),
+    finishButtonUrl: fields.getTextValue(node, 'finish_button_url'),
   };
 };
 

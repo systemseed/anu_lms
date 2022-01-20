@@ -2,6 +2,7 @@
 
 namespace Drupal\anu_lms\Normalizer;
 
+use Drupal\Core\Url;
 use Drupal\rest_entity_recursive\Normalizer\ContentEntityNormalizer;
 
 /**
@@ -49,6 +50,11 @@ class NodeNormalizer extends ContentEntityNormalizer {
       if (!empty($finishText)) {
         $normalized['finish_button_text'] = ['value' => $finishText];
       }
+
+      $url = $course ? $courseHandler->getFinishRedirectUrl($course) : Url::fromRoute('<front>');
+      $normalized['finish_button_url'] = [
+        'value' => $url->setAbsolute()->toString(),
+      ];
     }
 
     if ($entity->bundle() === 'course' && $courseHandler->isLinearProgressEnabled($entity)) {

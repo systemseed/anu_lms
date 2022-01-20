@@ -61,7 +61,7 @@ const ContentNavigation = ({
             )}
 
             {noNextLesson && !nextIsLesson && !nextIsQuiz && (
-              <Button {...buttonProps} href={`/node/${currentLesson.id}/finish`}>
+              <Button {...buttonProps} href={currentLesson.finishButtonUrl}>
                 {disabled ? completeAnswer : finishButtonText(currentLesson)}
               </Button>
             )}
