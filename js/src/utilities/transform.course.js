@@ -95,6 +95,9 @@ const coursePropTypes = PropTypes.shape({
   labels: PropTypes.arrayOf(PropTypes.string),
   courses_pages: PropTypes.arrayOf(PropTypes.shape({})),
   first_lesson_url: PropTypes.string,
+  progress: PropTypes.shape({}).isRequired,
+  progress_percent: PropTypes.number.isRequired,
+  locked: PropTypes.bool,
 });
 
 export { transformCourse, coursePropTypes };

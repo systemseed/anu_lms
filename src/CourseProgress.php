@@ -117,11 +117,20 @@ class CourseProgress {
       if ($previousCourse === FALSE) {
         continue;
       }
+
+      $isCompleted = true;
       $progress = $this->getCourseProgress($previousCourse);
-      if ($progress < 100 && !$requireAllCategoriesLocked) {
+      foreach ($progress as $lesson) {
+        if (!$lesson['completed']) {
+          $isCompleted = false;
+          break;
+        }
+      }
+
+      if (!$isCompleted && !$requireAllCategoriesLocked) {
         return TRUE;
       }
-      if ($progress < 100 && $requireAllCategoriesLocked) {
+      if (!$isCompleted && $requireAllCategoriesLocked) {
         $lockedCategories[] = $category;
       }
     }
