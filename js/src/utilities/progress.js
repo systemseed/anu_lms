@@ -60,7 +60,7 @@ const prepareCourseProgress = (node) => {
         continue;
       }
       // Respect completed data from the client.
-      if (!serverData.completed && clientData.needsSync && clientData.completed) {
+      if (!serverData.completed && clientData.completed) {
         result[lessonId].needsSync = 1;
         result[lessonId].completed = 1;
       }
