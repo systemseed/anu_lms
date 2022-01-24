@@ -118,11 +118,11 @@ class CourseProgress {
         continue;
       }
 
-      $isCompleted = true;
+      $isCompleted = TRUE;
       $progress = $this->getCourseProgress($previousCourse);
       foreach ($progress as $lesson) {
         if (!$lesson['completed']) {
-          $isCompleted = false;
+          $isCompleted = FALSE;
           break;
         }
       }
