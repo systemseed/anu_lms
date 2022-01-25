@@ -3,4 +3,6 @@ const getPwaSettings = () => (drupalSettings && drupalSettings.pwa_settings) || 
 const getPathPrefix = () =>
   (drupalSettings && drupalSettings.path && drupalSettings.path.pathPrefix) || '';
 
-export { getPwaSettings, getPathPrefix };
+const getUserId = () => (drupalSettings && drupalSettings.user && drupalSettings.user.uid) || '0';
+
+export { getPwaSettings, getPathPrefix, getUserId };
