@@ -37,8 +37,8 @@ const formatTime = (seconds) => {
   return `${mm}:${ss}`;
 };
 
-function pad(string) {
+const pad = (string) => {
   return ('0' + string).slice(-2);
-}
+};
 
-export { debounce, hex2rgba, formatTime };
+export { debounce, formatTime, hex2rgba };

@@ -3,6 +3,7 @@ import * as fields from '@anu/utilities/fields';
 import { transformCourse } from '@anu/utilities/transform.course';
 import { transformParagraph } from '@anu/utilities/transform.paragraphs';
 import { transformQuiz } from '@anu/utilities/transform.quiz';
+import { completeLesson, isLessonCompleted, isLessonRestricted } from '@anu/utilities/progress';
 
 /**
  * Transform checklist result data from Drupal backend
@@ -15,17 +16,18 @@ const transformChecklistResults = ({ field_checklist_selected_options = [] }) =>
  * Transform lesson node from Drupal backend
  * into frontend-friendly object.
  */
-const transformLesson = (node) => {
+const transformLesson = (node, course) => {
   if (!fields.getNumberValue(node, 'nid')) {
     return null;
   }
+  const lessonId = fields.getNumberValue(node, 'nid');
 
   return {
-    id: fields.getNumberValue(node, 'nid'),
+    id: lessonId,
     title: fields.getTextValue(node, 'title'),
     url: fields.getNodeUrl(node),
-    isCompleted: fields.getBooleanValue(node, 'is_completed'),
-    isRestricted: fields.getBooleanValue(node, 'is_restricted'),
+    isCompleted: isLessonCompleted(course, lessonId),
+    isRestricted: isLessonRestricted(course, lessonId),
     sections: fields
       .getArrayValue(node, 'field_module_lesson_content')
       .map((content) =>
@@ -34,6 +36,8 @@ const transformLesson = (node) => {
           .map((paragraph) => transformParagraph(paragraph))
       ),
     finishButtonText: fields.getTextValue(node, 'finish_button_text'),
+    finishButtonUrl: fields.getTextValue(node, 'finish_button_url'),
+    complete: async () => await completeLesson(course, lessonId),
   };
 };
 
@@ -42,14 +46,14 @@ const transformLesson = (node) => {
  * object.
  */
 const transformLessonPage = ({ data }) => {
-  const lesson = data && data.module_lesson ? transformLesson(data.module_lesson) : null;
-  const quiz = data && data.module_assessment ? transformQuiz(data.module_assessment, data) : null;
   const course = data && data.course ? transformCourse(data.course, data) : null;
+  const lesson = data && data.module_lesson ? transformLesson(data.module_lesson, course) : null;
+  const quiz = data && data.module_assessment ? transformQuiz(data.module_assessment, data) : null;
 
   return {
+    course,
     lesson,
     quiz,
-    course,
   };
 };
 
