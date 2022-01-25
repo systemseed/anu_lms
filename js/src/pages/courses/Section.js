@@ -91,9 +91,6 @@ const CoursesSection = ({ courses }) => {
     return <CoursesSectionEmpty />;
   }
 
-  const isCompleted = (course) => course.progress === '100';
-  const isUnstarted = (course) => course.progress === '0';
-
   return (
     <Grid container spacing={4}>
       {courses.map((course) => (
@@ -114,7 +111,7 @@ const CoursesSection = ({ courses }) => {
                 />
               )}
 
-              {isCompleted(course) && (
+              {course.progress_percent === 100 && (
                 <Avatar className={classes.completed}>
                   <TrophyIcon className={classes.trophyIcon} />
                 </Avatar>
@@ -123,19 +120,23 @@ const CoursesSection = ({ courses }) => {
                 <Box mb={2} display="flex" flexWrap="wrap">
                   <Typography
                     variant="overline"
-                    className={`${classes.preTitle} ${isCompleted(course) && 'completed'}`}
+                    className={`${classes.preTitle} ${
+                      course.progress_percent === 100 && 'completed'
+                    }`}
                   >
-                    {isCompleted(course)
+                    {course.progress_percent === 100
                       ? Drupal.t('Completed course', {}, { context: 'ANU LMS' })
                       : Drupal.t('Course', {}, { context: 'ANU LMS' })}
                   </Typography>
-                  {course.progress && !isCompleted(course) && !isUnstarted(course) && (
-                    <LinearProgress
-                      className={classes.progress}
-                      variant="determinate"
-                      value={Number.parseInt(course.progress, 10)}
-                    />
-                  )}
+                  {course.progress &&
+                    course.progress_percent > 0 &&
+                    course.progress_percent < 100 && (
+                      <LinearProgress
+                        className={classes.progress}
+                        variant="determinate"
+                        value={course.progress_percent}
+                      />
+                    )}
                   {course.locked && <LockIcon className={classes.lockIcon} />}
                 </Box>
 

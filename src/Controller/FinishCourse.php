@@ -54,6 +54,9 @@ class FinishCourse extends ControllerBase {
 
   /**
    * Set a lesson as complete and redirect.
+   *
+   * @deprecated: The finish button should not link to this endpoint anymore
+   * and the progress should be handled by the frontend.
    */
   public function complete(EntityInterface $node) {
     /** @var \Drupal\node\NodeInterface $node */

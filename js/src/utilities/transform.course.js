@@ -7,6 +7,7 @@ import {
   courseCategoryPropTypes,
 } from '@anu/utilities/transform.courseCategory';
 import { transformCoursesPage } from '@anu/utilities/transform.courses';
+import { calculateProgressPercent, prepareCourseProgress } from '@anu/utilities/progress';
 
 /**
  * Transform course node from Drupal backend
@@ -39,6 +40,8 @@ const transformCourse = (node, data) => {
     });
   }
 
+  const progress = prepareCourseProgress(node);
+
   return {
     id: courseId,
     title: fields.getTextValue(node, 'title'),
@@ -55,13 +58,15 @@ const transformCourse = (node, data) => {
       module: fields.getTextValue(module, 'field_module_title'),
       lessons: fields
         .getArrayValue(module, 'field_module_lessons')
-        .map((lesson) => transformLesson(lesson))
+        .map((lesson) => transformLesson(lesson, { id: courseId, progress }))
         .filter((lesson) => !!lesson),
       quiz: transformQuiz(fields.getArrayValue(module, 'field_module_assessment')[0], data),
     })),
     courses_pages: coursesPages.map((coursesPage) => transformCoursesPage({ data: coursesPage })),
     first_lesson_url: firstLessonUrl,
-    progress: fields.getTextValueOrUndefined(node, 'progress'),
+    progress,
+    progress_percent: calculateProgressPercent(progress),
+    // TODO: add support for offline unlocking of courses in categories.
     locked: fields.getBooleanValue(node, 'locked'),
   };
 };
@@ -90,6 +95,9 @@ const coursePropTypes = PropTypes.shape({
   labels: PropTypes.arrayOf(PropTypes.string),
   courses_pages: PropTypes.arrayOf(PropTypes.shape({})),
   first_lesson_url: PropTypes.string,
+  progress: PropTypes.shape({}).isRequired,
+  progress_percent: PropTypes.number.isRequired,
+  locked: PropTypes.bool,
 });
 
 export { transformCourse, coursePropTypes };
