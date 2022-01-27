@@ -18,6 +18,8 @@ import { coursePropTypes } from '@anu/utilities/transform.course';
 import { lessonPropTypes } from '@anu/utilities/transform.lesson';
 import { quizPropTypes } from '@anu/utilities/transform.quiz';
 import LoadingIndicator from '@anu/components/LoadingIndicator';
+import { getPwaSettings } from '@anu/utilities/settings';
+import DownloadCoursePopup from '@anu/components/DownloadCoursePopup';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -103,6 +105,7 @@ const LessonPage = ({ lesson, quiz, course, width }) => {
           <LessonHeader lesson={content} course={course} />
         </Hidden>
       )}
+      {course && getPwaSettings() && <DownloadCoursePopup course={course} messagePosition="left" />}
 
       <Box className={classes.container}>
         {/* CTA to hide / show desktop sidebar */}
