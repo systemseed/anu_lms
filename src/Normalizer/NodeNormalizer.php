@@ -67,6 +67,11 @@ class NodeNormalizer extends ContentEntityNormalizer {
       $normalized['locked'] = ['value' => TRUE];
     }
 
+    if ($entity->bundle() === 'course') {
+      $audios = $courseHandler->getAudios($entity);
+      $normalized['audios'] = $audios;
+    }
+
     return $normalized;
   }
 

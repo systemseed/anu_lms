@@ -7,7 +7,6 @@ import SyncIcon from '@material-ui/icons/Sync';
 import SnackAlert from '@anu/components/SnackAlert';
 import { transformLessonPage } from '@anu/utilities/transform.lesson';
 import { getPwaSettings } from '@anu/utilities/settings';
-import useLocalStorage from '@anu/hooks/useLocalStorage';
 
 import 'regenerator-runtime/runtime';
 
@@ -77,6 +76,7 @@ const PopupHeading = withStyles((theme) => ({
 const PopupButton = withStyles((theme) => ({
   root: {
     width: 'max-content',
+    minWidth: '80%',
     marginBottom: theme.spacing(2),
     background: theme.palette.success.main,
     color: theme.palette.common.white,
@@ -193,9 +193,11 @@ class DownloadCoursePopup extends React.Component {
     );
   }
 
-  async handleDownload() {
+  async handleDownload(e) {
     const { course } = this.props;
-    let urlsToCache = [];
+    const includeAudios = e.currentTarget.getAttribute('data-include-audios');
+
+    let urlsToCache = includeAudios ? course.audios : [];
 
     // Indicate loading process.
     this.setState({ loading: true });
@@ -283,6 +285,11 @@ class DownloadCoursePopup extends React.Component {
     const { loading, result, alertOpen, popupOpen } = this.state;
     const { messagePosition, course } = this.props;
 
+    const courseHasAudio = course.audios.length !== 0;
+    const offlineButtonLabel = courseHasAudio
+      ? Drupal.t('Yes, no audio (small size)', {}, { context: 'ANU LMS' })
+      : Drupal.t('Yes, make available offline', {}, { context: 'ANU LMS' });
+
     // Handling values needs to be done for both conditions
     // for preventing glitches on alert closing.
     let message = '';
@@ -351,6 +358,7 @@ class DownloadCoursePopup extends React.Component {
               { context: 'ANU LMS' }
             )}
           </PopupHeading>
+
           <PopupButton
             variant="contained"
             color="default"
@@ -359,8 +367,21 @@ class DownloadCoursePopup extends React.Component {
             disabled={loading}
             disableElevation
           >
-            {Drupal.t('Yes, make available offline', {}, { context: 'ANU LMS' })}
+            {offlineButtonLabel}
           </PopupButton>
+          {courseHasAudio && (
+            <PopupButton
+              variant="contained"
+              color="default"
+              startIcon={<SyncIcon />}
+              onClick={this.handleDownload}
+              disabled={loading}
+              disableElevation
+              data-include-audios="true"
+            >
+              {Drupal.t('Yes, with audio (large size)', {}, { context: 'ANU LMS' })}
+            </PopupButton>
+          )}
           <PopupDismiss underline="always" href="#" onClick={this.dismissPopup}>
             {Drupal.t('No, do not make available offline', {}, { context: 'ANU LMS' })}
           </PopupDismiss>
