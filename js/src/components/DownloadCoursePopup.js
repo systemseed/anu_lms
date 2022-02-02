@@ -70,7 +70,7 @@ const PopupHeading = withStyles((theme) => ({
     marginLeft: theme.spacing(8),
     color: theme.palette.common.white,
     fontWeight: 700,
-    textSize: '20px',
+    fontSize: '20px',
   },
 }))(Typography);
 
@@ -110,6 +110,11 @@ const ManualTrigger = withStyles((theme) => ({
     color: theme.palette.success.main,
     fontWeight: 700,
     textTransform: 'inherit',
+    textDecoration: 'underline',
+    letterSpacing: 0,
+    '&:hover': {
+      textDecoration: 'underline',
+    }
   },
 }))(Button);
 
