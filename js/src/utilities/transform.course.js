@@ -68,6 +68,7 @@ const transformCourse = (node, data) => {
     progress_percent: calculateProgressPercent(progress),
     // TODO: add support for offline unlocking of courses in categories.
     locked: fields.getBooleanValue(node, 'locked'),
+    audios: fields.getArrayValue(node, 'audios'),
   };
 };
 
@@ -98,6 +99,7 @@ const coursePropTypes = PropTypes.shape({
   progress: PropTypes.shape({}).isRequired,
   progress_percent: PropTypes.number.isRequired,
   locked: PropTypes.bool,
+  audios: PropTypes.arrayOf(PropTypes.string),
 });
 
 export { transformCourse, coursePropTypes };

@@ -20,6 +20,7 @@ const defaultTheme = createTheme({
     common: {
       black: '#000000',
       white: '#ffffff',
+      darkBlue: '#212431',
     },
     // Note that it is assumed that the only color that is planned to be
     // overwritten is the primary. All other colors used in ANU are likely
