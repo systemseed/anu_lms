@@ -338,6 +338,21 @@ class Lesson {
    *   Whether the lesson is completed by the current user.
    */
   public function isCompleted(NodeInterface $lesson): bool {
+    return $this->isCompletedByUser($lesson, $this->currentUser->id());
+  }
+
+  /**
+   * Checks if the given user id completed the lesson.
+   *
+   * @param \Drupal\node\NodeInterface $lesson
+   *   Lesson node object.
+   * @param int $userId
+   *   User ID.
+   *
+   * @return bool
+   *   Whether the lesson is completed by the current user.
+   */
+  public function isCompletedByUser(NodeInterface $lesson, $userId): bool {
     // If linear progress is not enabled for the course or the lesson does not
     // belong to a course, then we don't show the completion progress.
     $course = $this->getLessonCourse($lesson);
@@ -349,7 +364,7 @@ class Lesson {
     if (!isset($completed_lessons)) {
       $result = $this->database->select('anu_lms_progress')
         ->fields('anu_lms_progress', ['nid'])
-        ->condition('uid', $this->currentUser->id())
+        ->condition('uid', $userId)
         ->execute();
 
       $completed_lessons = [];
