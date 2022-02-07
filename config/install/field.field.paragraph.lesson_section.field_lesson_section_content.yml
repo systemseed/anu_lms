@@ -19,6 +19,6 @@ default_value_callback: ''
 settings:
   handler: paragraph_reverse
   handler_settings:
-    negate: '0'
+    negate: 0
     self_field_id: paragraph.lesson_section.field_lesson_section_content
 field_type: entity_reference_revisions
