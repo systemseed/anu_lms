@@ -66,11 +66,12 @@ const PopupHeading = withStyles((theme) => ({
   root: {
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(3),
-    marginRight: theme.spacing(8),
-    marginLeft: theme.spacing(8),
+    marginRight: theme.spacing(4),
+    marginLeft: theme.spacing(4),
     color: theme.palette.common.white,
     fontWeight: 700,
     fontSize: '20px',
+    lineHeight: '1.4',
   },
 }))(Typography);
 
@@ -85,6 +86,7 @@ const PopupButton = withStyles((theme) => ({
     paddingRight: theme.spacing(3),
     textTransform: 'none',
     fontWeight: 700,
+    letterSpacing: 0,
     borderRadius: '4px',
   },
 }))(Button);
@@ -114,7 +116,7 @@ const ManualTrigger = withStyles((theme) => ({
     letterSpacing: 0,
     '&:hover': {
       textDecoration: 'underline',
-    }
+    },
   },
 }))(Button);
 
@@ -125,7 +127,9 @@ const AvailableOfflineMessage = withStyles((theme) => ({
     paddingBottom: theme.spacing(1),
     '& p': {
       color: theme.palette.success.main,
-      marginLeft: '4px',
+      marginLeft: theme.spacing(1),
+      fontSize: '1rem',
+      lineHeight: '1rem',
     },
     '& svg': {
       fontSize: '20px',
