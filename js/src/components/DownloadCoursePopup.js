@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Detector } from 'react-detect-offline';
 import { coursePropTypes } from '@anu/utilities/transform.course';
 import { Box, Button, withStyles, Typography, Link, Hidden } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -426,51 +427,57 @@ class DownloadCoursePopup extends React.Component {
           spaced
           duration={5000}
         />
-        <PopupOverlay style={{ maxHeight: popupOpen && !loading ? '1000px' : 0 }}>
-          <PopupHeading>
-            {Drupal.t(
-              'Would you like make this course available offline?',
-              {},
-              { context: 'ANU LMS' }
-            )}
-          </PopupHeading>
+        <Detector
+          render={({ online }) => (
+            <>
+              <PopupOverlay style={{ maxHeight: online && popupOpen && !loading ? '1000px' : 0 }}>
+                <PopupHeading>
+                  {Drupal.t(
+                    'Would you like make this course available offline?',
+                    {},
+                    { context: 'ANU LMS' }
+                  )}
+                </PopupHeading>
 
-          <PopupButton
-            variant="contained"
-            color="default"
-            startIcon={<SyncIcon />}
-            onClick={this.handleDownload}
-            disabled={loading}
-            disableElevation
-          >
-            {offlineButtonLabel}
-          </PopupButton>
-          {courseHasAudio && (
-            <PopupButton
-              variant="contained"
-              color="default"
-              startIcon={<SyncIcon />}
-              onClick={this.handleDownload}
-              disabled={loading}
-              disableElevation
-              data-include-audios="true"
-            >
-              {Drupal.t('Yes, with audio (large size)', {}, { context: 'ANU LMS' })}
-            </PopupButton>
+                <PopupButton
+                  variant="contained"
+                  color="default"
+                  startIcon={<SyncIcon />}
+                  onClick={this.handleDownload}
+                  disabled={loading}
+                  disableElevation
+                >
+                  {offlineButtonLabel}
+                </PopupButton>
+                {courseHasAudio && (
+                  <PopupButton
+                    variant="contained"
+                    color="default"
+                    startIcon={<SyncIcon />}
+                    onClick={this.handleDownload}
+                    disabled={loading}
+                    disableElevation
+                    data-include-audios="true"
+                  >
+                    {Drupal.t('Yes, with audio (large size)', {}, { context: 'ANU LMS' })}
+                  </PopupButton>
+                )}
+                <PopupDismiss underline="always" href="#" onClick={this.dismissPopup}>
+                  {Drupal.t('No, do not make available offline', {}, { context: 'ANU LMS' })}
+                </PopupDismiss>
+              </PopupOverlay>
+
+              <PopupOverlay style={{ maxHeight: loading ? '1000px' : 0 }}>
+                <SynchronizingBox display="flex" alignItems="center">
+                  <CircularProgress size={24} color="inherit" />
+                  <Typography style={{ color: 'white' }}>
+                    {Drupal.t('Synchronizing ...', {}, { context: 'ANU LMS' })}
+                  </Typography>
+                </SynchronizingBox>
+              </PopupOverlay>
+            </>
           )}
-          <PopupDismiss underline="always" href="#" onClick={this.dismissPopup}>
-            {Drupal.t('No, do not make available offline', {}, { context: 'ANU LMS' })}
-          </PopupDismiss>
-        </PopupOverlay>
-
-        <PopupOverlay style={{ maxHeight: loading ? '1000px' : 0 }}>
-          <SynchronizingBox display="flex" alignItems="center">
-            <CircularProgress size={24} color="inherit" />
-            <Typography color="white">
-              {Drupal.t('Synchronizing ...', {}, { context: 'ANU LMS' })}
-            </Typography>
-          </SynchronizingBox>
-        </PopupOverlay>
+        />
       </DownloadCourseWrapper>
     );
   }

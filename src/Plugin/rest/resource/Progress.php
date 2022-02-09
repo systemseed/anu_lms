@@ -141,7 +141,7 @@ class Progress extends ResourceBase {
         }
       }
       $this->logger->info("User completed lesson @lessons", [
-        '@data' => implode(',', $data),
+        '@lessons' => implode(',', $data),
       ]);
     }
     catch (\Exception $e) {

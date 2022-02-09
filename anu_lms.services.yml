@@ -56,6 +56,12 @@ services:
     tags:
       - { name: normalizer, priority: 11 }
 
+  anu_lms.pwa_response_subscriber:
+    class: Drupal\anu_lms\EventSubscriber\PWAResponseSubscriber
+    tags:
+      - { name: event_subscriber }
+    arguments: [ '@entity_type.manager', '@module_handler' ]
+
   plugin.manager.anu_lms_content_type:
     class: Drupal\anu_lms\AnuLmsContentTypePluginManager
     parent: default_plugin_manager
