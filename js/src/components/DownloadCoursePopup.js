@@ -183,6 +183,12 @@ class DownloadCoursePopup extends React.Component {
     const regExpString = /<div id="anu-application" data-application="(.*?)">/g;
     const regExpResult = regExpString.exec(pageContent);
 
+    // In an unlikely case when the page doesn't contain data-application don't
+    // do anything.
+    if (!regExpResult || !regExpResult[1]) {
+      return [];
+    }
+
     // Unescape application data value,
     // see https://stackoverflow.com/a/34064434/2220424
     const escapedAppData = new DOMParser().parseFromString(regExpResult[1], 'text/html');
