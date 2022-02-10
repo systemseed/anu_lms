@@ -330,8 +330,9 @@ class DownloadCoursePopup extends React.Component {
    * Save passed urls to the pwa cache.
    */
   async saveUrlToCache(urls) {
+    const uniqueUrls = urls.filter((url, i, array) => array.indexOf(url) === i);
     return Promise.all(
-      urls.map(async (url) => {
+      uniqueUrls.map(async (url) => {
         // Makes request to get data.
         const request = new Request(url);
         const response = await fetch(request, { mode: 'no-cors' });
