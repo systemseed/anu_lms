@@ -113,7 +113,7 @@ class Lesson {
     CoursesPage $coursesPage,
     Course $course,
     EventDispatcherInterface $dispatcher,
-    TimeInterface $time,
+    TimeInterface $time
   ) {
     $this->nodeStorage = $entity_type_manager->getStorage('node');
     $this->database = $database;
