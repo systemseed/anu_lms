@@ -41,8 +41,7 @@ const transformCourse = (node, data) => {
   }
 
   const progress = prepareCourseProgress(node);
-
-  return {
+  const transform = {
     id: courseId,
     title: fields.getTextValue(node, 'title'),
     description: fields.getTextValue(node, 'field_course_description'),
@@ -70,6 +69,24 @@ const transformCourse = (node, data) => {
     locked: fields.getBooleanValue(node, 'locked'),
     audios: fields.getArrayValue(node, 'audios'),
   };
+
+  // If progress is available, point first lesson URL to the first non-restricted lesson.
+  if (progress && transform.content.length) {
+    for (let i = transform.content.length - 1; i >= 0; i--) {
+      const module = transform.content[i];
+      for (let j = module.lessons.length - 1; j >= 0; j--) {
+        const lesson = module.lessons[j];
+        if (!lesson.isRestricted) {
+          return {
+            ...transform,
+            first_lesson_url: lesson.url,
+          };
+        }
+      }
+    }
+  }
+
+  return transform;
 };
 
 /**

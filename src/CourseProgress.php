@@ -62,6 +62,8 @@ class CourseProgress {
     foreach ($lessons as $index => $lesson) {
       $nextLesson = !empty($lessons[$index + 1]) ? $lessons[$index + 1]->id() : 0;
       $progress[$lesson->id()] = [
+        // We can't rely on object keys order in Javascript, so we attach
+        // prev/next pointers to each lesson.
         'prev' => $previous_lesson_id,
         'next' => $nextLesson,
         'completed' => (int) $this->lesson->isCompleted($lesson),

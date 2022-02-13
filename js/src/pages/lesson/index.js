@@ -105,7 +105,13 @@ const LessonPage = ({ lesson, quiz, course, width }) => {
           <LessonHeader lesson={content} course={course} />
         </Hidden>
       )}
-      {course && getPwaSettings() && <DownloadCoursePopup course={course} messagePosition="left" />}
+      {course && getPwaSettings() && (
+        <Hidden smDown>
+          <Box mt={2} mb={1}>
+            <DownloadCoursePopup course={course} showButton={true} />
+          </Box>
+        </Hidden>
+      )}
 
       <Box className={classes.container}>
         {/* CTA to hide / show desktop sidebar */}

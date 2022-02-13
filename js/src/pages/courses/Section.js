@@ -13,7 +13,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import LockIcon from '@material-ui/icons/Lock';
 import TrophyIcon from '@material-ui/icons/EmojiEvents';
 import Avatar from '@material-ui/core/Avatar';
-import DownloadCourse from '@anu/components/DownloadCourse';
+import DownloadCoursePopup from '@anu/components/DownloadCoursePopup';
 import CoursesSectionEmpty from '@anu/pages/courses/SectionEmpty';
 import { coursePropTypes } from '@anu/utilities/transform.course';
 import { getPwaSettings } from '@anu/utilities/settings';
@@ -35,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
     '&.locked': {
       backgroundColor: theme.palette.grey[200],
     },
+  },
+  content: {
+    paddingBottom: 0,
   },
   preTitle: {
     marginRight: theme.spacing(1),
@@ -161,7 +164,7 @@ const CoursesSection = ({ courses }) => {
 
             {course && getPwaSettings() && (
               <CardActions>
-                <DownloadCourse course={course} messagePosition="top" />
+                <DownloadCoursePopup course={course} showButton={true} />
               </CardActions>
             )}
           </Card>
