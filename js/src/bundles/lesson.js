@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Application from '@anu/Application';
-import LessonPage from '@anu/pages/lesson';
+import LessonPage from '@anu/pages/lesson/index';
 import { transformLessonPage } from '@anu/utilities/transform.lesson';
 
 document.addEventListener('DOMContentLoaded', () => {
