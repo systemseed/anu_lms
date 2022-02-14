@@ -361,6 +361,7 @@ class DownloadCoursePopup extends React.Component {
     return (
       <DownloadCourseWrapper>
         <Detector
+          polling={false}
           render={({ online }) => (
             <>
               {online && showButton && !availableOffline && (
@@ -390,6 +391,7 @@ class DownloadCoursePopup extends React.Component {
           duration={5000}
         />
         <Detector
+          polling={false}
           render={({ online }) => (
             <>
               <PopupOverlay style={{ maxHeight: online && popupOpen && !loading ? '1000px' : 0 }}>

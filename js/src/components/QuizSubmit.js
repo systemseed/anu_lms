@@ -12,6 +12,7 @@ const QuizSubmit = ({ onSubmit, isSubmitting, isQuiz }) => {
 
   return (
     <Detector
+      polling={false}
       render={({ online }) => (
         <>
           <Button

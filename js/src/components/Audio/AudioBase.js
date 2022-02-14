@@ -98,6 +98,7 @@ const AudioBase = ({ url, name, classes }) => {
         className={classes.container}
       >
         <Detector
+          polling={false}
           render={({ online }) => {
             const showOfflineMessage = !online && isAvailableOffline === false;
             return (
