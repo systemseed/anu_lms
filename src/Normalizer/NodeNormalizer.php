@@ -2,6 +2,7 @@
 
 namespace Drupal\anu_lms\Normalizer;
 
+use Drupal\Core\Url;
 use Drupal\rest_entity_recursive\Normalizer\ContentEntityNormalizer;
 
 /**
@@ -41,18 +42,21 @@ class NodeNormalizer extends ContentEntityNormalizer {
     $courseProgressHandler = \Drupal::service('anu_lms.course_progress');
 
     if ($entity->bundle() == 'module_lesson' || $entity->bundle() == 'module_assessment') {
-      $normalized['is_completed'] = ['value' => $lessonHandler->isCompleted($entity)];
-      $normalized['is_restricted'] = ['value' => $lessonHandler->isRestricted($entity)];
 
       $course = $lessonHandler->getLessonCourse($entity);
       $finishText = $course ? $courseHandler->getFinishText($course) : '';
       if (!empty($finishText)) {
         $normalized['finish_button_text'] = ['value' => $finishText];
       }
+
+      $url = $course ? $courseHandler->getFinishRedirectUrl($course) : Url::fromRoute('<front>');
+      $normalized['finish_button_url'] = [
+        'value' => $url->setAbsolute()->toString(),
+      ];
     }
 
     if ($entity->bundle() === 'course' && $courseHandler->isLinearProgressEnabled($entity)) {
-      $normalized['progress'] = ['value' => $courseProgressHandler->getCourseProgress($entity)];
+      $normalized['progress'] = $courseProgressHandler->getCourseProgress($entity);
     }
 
     if (
@@ -61,6 +65,11 @@ class NodeNormalizer extends ContentEntityNormalizer {
       $courseProgressHandler->isLocked($entity, $context['course_page_categories'])
     ) {
       $normalized['locked'] = ['value' => TRUE];
+    }
+
+    if ($entity->bundle() === 'course') {
+      $audios = $courseHandler->getAudios($entity);
+      $normalized['audios'] = $audios;
     }
 
     return $normalized;

@@ -13,6 +13,8 @@ import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
 import LessonNavigation from '@anu/pages/lesson/Navigation';
 import { lessonPropTypes } from '@anu/utilities/transform.lesson';
 import { coursePropTypes } from '@anu/utilities/transform.course';
+import { getPwaSettings } from '@anu/utilities/settings';
+import DownloadCoursePopup from '@anu/components/DownloadCoursePopup';
 
 const useStyles = makeStyles((theme) => ({
   sticky: {
@@ -63,6 +65,7 @@ const LessonNavigationMobile = ({ lesson, course }) => {
         <Box p={1} display="flex" justifyContent="flex-end">
           <CloseIcon className={classes.closeIcon} onClick={() => toggleVisibility(false)} />
         </Box>
+        {course && getPwaSettings() && <DownloadCoursePopup course={course} />}
 
         {/* Course content */}
         <LessonNavigation course={course} lesson={lesson} />

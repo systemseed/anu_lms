@@ -7,7 +7,6 @@ use Drupal\node\NodeInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\anu_lms\Lesson;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * Plugin implementation for the module_lesson.
@@ -63,18 +62,6 @@ class ModuleLesson extends AnuLmsContentTypePluginBase implements ContainerFacto
    *   The courses page node.
    */
   public function getData(NodeInterface $node) {
-    // If a user got to the current lesson, it means that
-    // they hit "Next" button on the previous lesson and so
-    // we can call the previous lesson completed.
-    $this->lesson->setPreviousLessonCompleted($node);
-    // If after setting the previous lesson a completed state the
-    // current lesson still has restricted access, it means that
-    // something went wrong with doing that and the user should not
-    // be able to see the current page.
-    if ($this->lesson->isRestricted($node)) {
-      throw new AccessDeniedHttpException();
-    }
-
     // Get data for viewed lesson.
     return $this->lesson->getPageData($node);
   }

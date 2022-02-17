@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Upcoming release]
  - Small styling fixes for the Audio.
+ - Remove backend-based locking implementation (pending frontend implementation)
+ - Link to finish course URL directly and make it available for online use. (progress will be reported by the frontend)
+ - Add new DownloadCoursePopup component
+ - Add new field `audios` for course with URLs of the audio files.
+ - Add a new isCompletedByUser helper method to lesson service.
+ - Track the date when a lesson is completed.
 
 ## [2.4.9]
  - Fixed Drupal 9 compatibility when pwa is enabled.

@@ -149,3 +149,29 @@ function anu_lms_form_views_form_sort_courses_enable_progress($elements) {
     $course->save();
   }
 }
+
+/**
+ * Implements hook_anu_lms_sw_scripts_alter().
+ *
+ * Include custom Anu service worker script if there is at least one audio
+ * paragraph in the system.
+ */
+function anu_lms_anu_lms_sw_scripts_alter(&$data) {
+  try {
+    $query = \Drupal::entityTypeManager()->getStorage('paragraph')->getQuery();
+    $audio_paragraphs_exist = $query->accessCheck(FALSE)
+      ->condition('type', 'lesson_audio')
+      ->condition('status', TRUE)
+      ->range(0, 1)
+      ->execute();
+
+    // Inject custom Anu service worker only if at least one audio paragraph
+    // exists.
+    if (!empty($audio_paragraphs_exist)) {
+      $data[] = "/" . \Drupal::service('extension.path.resolver')->getPath('module', 'anu_lms') . '/js/dist/serviceworker.min.js';
+    }
+  }
+  catch (\Exception $exception) {
+    watchdog_exception('anu_lms', $exception);
+  }
+}

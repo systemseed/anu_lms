@@ -2,5 +2,4 @@ services:
   # Helper service for Quiz content types.
   anu_lms_assessments.quiz:
     class: Drupal\anu_lms_assessments\Quiz
-    arguments: [ '@entity_type.manager', '@database', '@current_user', '@anu_lms.normalizer', '@logger.channel.anu_lms', '@anu_lms.courses_page', '@anu_lms.course', '@event_dispatcher']
-
+    arguments: [ '@entity_type.manager', '@database', '@current_user', '@anu_lms.normalizer', '@logger.channel.anu_lms', '@anu_lms.courses_page', '@anu_lms.course', '@event_dispatcher', '@datetime.time']
