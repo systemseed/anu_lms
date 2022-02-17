@@ -14,6 +14,7 @@ const QuizSubmit = ({ onSubmit, isSubmitting, isQuiz, prevLesson }) => {
 
   return (
     <Detector
+      polling={false}
       render={({ online }) => (
         <ButtonWrapper>
           {isQuiz && (

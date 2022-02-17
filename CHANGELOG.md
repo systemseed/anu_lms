@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Upcoming release]
  - Added "Anu LMS Demo content" module.
+ - Move lessons locking implementation to the frontend to make it compatible with offline.
+ - Link to finish course URL directly and make it available for online use. (progress will be reported by the frontend)
+ - Add new DownloadCoursePopup component
+ - Add new field `audios` for course with URLs of the audio files.
+ - Add a new isCompletedByUser helper method to lesson service.
+ - Track the date when a lesson is completed.
 
 ## [2.4.13]
  - Fixed checkbox text wrap, so it is readable and go in multiple lines if text is longer

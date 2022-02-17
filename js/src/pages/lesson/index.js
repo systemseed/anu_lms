@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import Box from '@material-ui/core/Box';
@@ -17,6 +17,9 @@ import useLocalStorage from '@anu/hooks/useLocalStorage';
 import { coursePropTypes } from '@anu/utilities/transform.course';
 import { lessonPropTypes } from '@anu/utilities/transform.lesson';
 import { quizPropTypes } from '@anu/utilities/transform.quiz';
+import LoadingIndicator from '@anu/components/LoadingIndicator';
+import { getPwaSettings } from '@anu/utilities/settings';
+import DownloadCoursePopup from '@anu/components/DownloadCoursePopup';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -69,6 +72,7 @@ const useStyles = makeStyles((theme) => ({
 const LessonPage = ({ lesson, quiz, course, width }) => {
   const [isSidebarVisible, toggleSidebarVisibility] = useLocalStorage('sidebarVisibility', true);
   const classes = useStyles({ isSidebarVisible });
+
   const courseSequence = ((course || {}).content || [])
     .flatMap((module) => [...module.lessons, module.quiz])
     .filter((lesson) => !!lesson);
@@ -76,6 +80,18 @@ const LessonPage = ({ lesson, quiz, course, width }) => {
   const content = lesson || quiz;
   const nextLesson = courseSequence[courseSequence.findIndex(({ id }) => id === content.id) + 1];
   const prevLesson = courseSequence[courseSequence.findIndex(({ id }) => id === content.id) - 1];
+
+  // TODO: get URL of the current lesson.
+  const fallbackUrl = '/';
+  useEffect(() => {
+    if (lesson.isRestricted) {
+      window.location.href = fallbackUrl;
+    }
+  }, [lesson.isRestricted, fallbackUrl]);
+
+  if (lesson.isRestricted) {
+    return <LoadingIndicator isLoading={true} />;
+  }
 
   return (
     <Box className={classes.wrapper}>
@@ -88,6 +104,13 @@ const LessonPage = ({ lesson, quiz, course, width }) => {
       {course && (
         <Hidden smDown>
           <LessonHeader lesson={content} course={course} />
+        </Hidden>
+      )}
+      {course && getPwaSettings() && (
+        <Hidden smDown>
+          <Box mt={2} mb={1}>
+            <DownloadCoursePopup course={course} showButton={true} />
+          </Box>
         </Hidden>
       )}
 

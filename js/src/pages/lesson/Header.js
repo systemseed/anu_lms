@@ -6,7 +6,6 @@ import Typography from '@material-ui/core/Typography';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import DownloadCourse from '@anu/components/DownloadCourse';
 import { coursePropTypes } from '@anu/utilities/transform.course';
-import { getPwaSettings } from '@anu/utilities/settings';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {

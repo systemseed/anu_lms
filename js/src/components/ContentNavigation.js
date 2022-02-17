@@ -25,6 +25,18 @@ const ContentNavigation = ({
   const nextIsLesson = nextLesson && Boolean(nextLesson.sections);
   const noNextLesson = !sections[currentIndex + 1];
   const noPrevLesson = !sections[currentIndex - 1];
+
+  const updateProgressAndRedirect = async () => {
+    // Marks lesson as completed if linear progress is enabled for its course.
+    await currentLesson.complete();
+    // Redirect to the next page.
+    if (noNextLesson && !nextIsLesson && !nextIsQuiz) {
+      window.location.href = currentLesson.finishButtonUrl;
+      return;
+    }
+    window.location.href = nextLesson.url;
+  };
+
   const finishButtonText = (currentLesson) =>
     !currentLesson.finishButtonText
       ? Drupal.t('Finish', {}, { context: 'ANU LMS' })
@@ -38,6 +50,7 @@ const ContentNavigation = ({
 
   return (
     <Detector
+      polling={false}
       render={({ online }) => {
         const disabled = !online ? false : !isEnabled;
         const buttonProps = {
@@ -97,25 +110,25 @@ const ContentNavigation = ({
               )}
 
               {noNextLesson && nextIsLesson && (
-                <Button {...buttonProps} href={nextLesson.url}>
+                <Button {...buttonProps} onClick={updateProgressAndRedirect}>
                   {disabled ? completeAnswer : Drupal.t('Next', {}, { context: 'ANU LMS' })}
                 </Button>
               )}
 
               {noNextLesson && !nextIsLesson && !nextIsQuiz && (
-                <Button {...buttonProps} href={`/${pathPrefix}node/${currentLesson.id}/finish`}>
+                <Button {...buttonProps} onClick={updateProgressAndRedirect}>
                   {disabled ? completeAnswer : finishButtonText(currentLesson)}
                 </Button>
               )}
 
               {noNextLesson && nextIsLesson && isIntro && (
-                <Button {...buttonProps} href={nextLesson.url}>
+                <Button {...buttonProps} onClick={updateProgressAndRedirect}>
                   {Drupal.t('Start', {}, { context: 'ANU LMS' })}
                 </Button>
               )}
 
               {noNextLesson && nextIsQuiz && (
-                <Button {...buttonProps} href={nextLesson.url}>
+                <Button {...buttonProps} onClick={updateProgressAndRedirect}>
                   {disabled ? completeAnswer : Drupal.t('Go to quiz', {}, { context: 'ANU LMS' })}
                 </Button>
               )}

@@ -15,7 +15,16 @@ import { formatTime } from '../../utilities/helpers';
  *
  * See ./index.js for example usage.
  */
-const AudioPlayer = ({ url, name, playing, showButton, showTimings, classes, ...props }) => {
+const AudioPlayer = ({
+  url,
+  name,
+  playing,
+  showButton,
+  showTimings,
+  showLoading,
+  classes,
+  ...props
+}) => {
   const [isPlaying, setPlaying] = useState(isPlaying);
   const [played, setPlayed] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -77,7 +86,7 @@ const AudioPlayer = ({ url, name, playing, showButton, showTimings, classes, ...
     <Box className={classes.wrapper}>
       {showButton && (
         <Box className={`${classes.button} ${isReady ? classes.buttonActive : ''}`}>
-          {!isReady && <CircularProgress size={null} className={classes.loader} />}
+          {!isReady && showLoading && <CircularProgress size={null} className={classes.loader} />}
           {showPauseButton && (
             <PauseIcon
               onClick={handlePlayPause}
@@ -156,6 +165,7 @@ AudioPlayer.propTypes = {
   playing: PropTypes.bool,
   showButton: PropTypes.bool,
   showTimings: PropTypes.bool,
+  showLoading: PropTypes.bool,
   classes: PropTypes.object,
 };
 
@@ -164,6 +174,7 @@ AudioPlayer.defaultProps = {
   playing: false,
   showButton: true,
   showTimings: true,
+  showLoading: true,
   classes: {},
 };
 
