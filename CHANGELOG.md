@@ -5,13 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Upcoming release]
- - Added "Anu LMS Demo content" module.
- - Move lessons locking implementation to the frontend to make it compatible with offline.
- - Link to finish course URL directly and make it available for online use. (progress will be reported by the frontend)
- - Add new DownloadCoursePopup component
- - Add new field `audios` for course with URLs of the audio files.
- - Add a new isCompletedByUser helper method to lesson service.
- - Track the date when a lesson is completed.
+- Added "Anu LMS Demo content" module.
+
+## [2.5.0-alpha]
+- Move progress tracking to frontend and make progress available offline.
+- Add new DownloadCoursePopup component that offers to download courses with or without audio (for courses with audios)
+- Add a new isCompletedByUser helper method to lesson service.
+- Track the date when a lesson is completed.
 
 ## [2.4.13]
  - Fixed checkbox text wrap, so it is readable and go in multiple lines if text is longer
