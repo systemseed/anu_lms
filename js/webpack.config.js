@@ -12,6 +12,9 @@ module.exports = {
       import: path.resolve(__dirname, './src/bundles/lesson.js'),
       dependOn: 'vendors',
     },
+    serviceworker: {
+      import: path.resolve(__dirname, './src/bundles/serviceworker.js'),
+    },
     // Shared modules across bundles to avoid code loading duplication.
     vendors: ['react', 'react-dom', 'react-router-dom', 'he', 'prop-types'],
   },

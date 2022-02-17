@@ -6,3 +6,9 @@ anu_lms.course.finish:
   requirements:
     _entity_access: 'node.view'
     node: \d+
+anu_lms.service_worker_settings:
+  path: /anu_lms/sw-settings
+  defaults:
+    _controller: '\Drupal\anu_lms\Controller\ServiceWorkerController::settings'
+  requirements:
+    _access: 'TRUE'

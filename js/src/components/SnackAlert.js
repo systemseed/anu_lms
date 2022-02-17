@@ -44,6 +44,7 @@ const SnackAlert = ({
 }) => (
   <StyledSnackbar
     open={show}
+    onClose={onClose}
     TransitionProps={{
       // onExited surprisingly doesnt actually fire in exactly the right moment.
       onExited: () => setTimeout(onTransitionEnd, 50),

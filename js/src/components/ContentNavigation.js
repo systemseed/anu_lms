@@ -45,6 +45,7 @@ const ContentNavigation = ({
 
   return (
     <Detector
+      polling={false}
       render={({ online }) => {
         const disabled = !online ? false : !isEnabled;
         const buttonProps = {

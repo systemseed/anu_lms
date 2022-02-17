@@ -65,9 +65,7 @@ const LessonNavigationMobile = ({ lesson, course }) => {
         <Box p={1} display="flex" justifyContent="flex-end">
           <CloseIcon className={classes.closeIcon} onClick={() => toggleVisibility(false)} />
         </Box>
-        {course && getPwaSettings() && (
-          <DownloadCoursePopup course={course} manualPopupTrigger={true} messagePosition="left" />
-        )}
+        {course && getPwaSettings() && <DownloadCoursePopup course={course} />}
 
         {/* Course content */}
         <LessonNavigation course={course} lesson={lesson} />

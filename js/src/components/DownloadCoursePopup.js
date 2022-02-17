@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Detector } from 'react-detect-offline';
 import { coursePropTypes } from '@anu/utilities/transform.course';
-import { Box, Button, withStyles, Typography, Link, Hidden } from '@material-ui/core';
+import { Box, Button, withStyles, Typography, Link } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import SyncIcon from '@material-ui/icons/Sync';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
@@ -15,37 +16,8 @@ const DownloadCourseWrapper = withStyles(() => ({
   root: {
     position: 'relative',
     display: 'flex',
-    flexDirection: ({ messageposition }) => (messageposition === 'left' ? 'row' : 'column'),
-    alignItems: ({ messageposition }) => (messageposition === 'left' ? 'center' : 'flex-start'),
   },
 }))(Box);
-
-const ResultMessage = withStyles((theme) => ({
-  root: {
-    fontSize: '0.8rem',
-    color: theme.palette.success.main,
-    width: 280,
-    position: 'absolute',
-    bottom: ({ messageposition }) => (messageposition === 'left' ? 'auto' : 'calc(100% - 12px)'),
-    left: ({ messageposition }) => (messageposition === 'left' ? 'auto' : theme.spacing(1)),
-    right: ({ messageposition }) => (messageposition === 'left' ? '100%' : 'auto'),
-    textAlign: ({ messageposition }) => (messageposition === 'left' ? 'right' : 'left'),
-  },
-}))(Box);
-
-const StyledButton = withStyles((theme) => ({
-  root: {
-    width: 'max-content',
-    margin: theme.spacing(1),
-    marginTop: ({ messageposition }) =>
-      messageposition === 'left' ? theme.spacing(1) : theme.spacing(2),
-    background: '#f6f7f8',
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(3),
-    textTransform: 'none',
-    fontWeight: 'normal',
-  },
-}))(Button);
 
 const PopupOverlay = withStyles((theme) => ({
   root: {
@@ -107,7 +79,7 @@ const ManualTrigger = withStyles((theme) => ({
   root: {
     width: 'auto',
     margin: '4px',
-    paddingLeft: theme.spacing(2),
+    paddingLeft: theme.spacing(1),
     paddingBottom: theme.spacing(1),
     color: theme.palette.success.main,
     fontWeight: 700,
@@ -123,7 +95,8 @@ const ManualTrigger = withStyles((theme) => ({
 const AvailableOfflineMessage = withStyles((theme) => ({
   root: {
     color: theme.palette.success.main,
-    paddingLeft: theme.spacing(2),
+    paddingLeft: theme.spacing(1),
+    paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
     '& p': {
       color: theme.palette.success.main,
@@ -157,14 +130,26 @@ class DownloadCoursePopup extends React.Component {
   constructor(props) {
     super(props);
 
+    let localStoragePopupDismissed = null;
+    let localStorageAvailableOffline = null;
+
+    try {
+      localStoragePopupDismissed = window.localStorage.getItem(
+        `Anu.offline.${props.course.id}.popupDismissed`
+      );
+      localStorageAvailableOffline = window.localStorage.getItem(
+        `Anu.offline.${props.course.id}.availableOffline`
+      );
+    } catch (e) {
+      console.error(e);
+    }
+
     this.state = {
       result: null,
       loading: false,
       alertOpen: false,
-      popupOpen:
-        window.localStorage.getItem(`Anu.offline.${props.course.id}.popupDismissed`) === null,
-      availableOffline:
-        window.localStorage.getItem(`Anu.offline.${props.course.id}.availableOffline`) !== null,
+      popupOpen: props.openPopupAutomatically && localStoragePopupDismissed === null,
+      availableOffline: localStorageAvailableOffline !== null,
     };
 
     this.handleDownload = this.handleDownload.bind(this);
@@ -181,6 +166,12 @@ class DownloadCoursePopup extends React.Component {
   getParagraphImagesFromContent(pageContent) {
     const regExpString = /<div id="anu-application" data-application="(.*?)">/g;
     const regExpResult = regExpString.exec(pageContent);
+
+    // In an unlikely case when the page doesn't contain data-application don't
+    // do anything.
+    if (!regExpResult || !regExpResult[1]) {
+      return [];
+    }
 
     // Unescape application data value,
     // see https://stackoverflow.com/a/34064434/2220424
@@ -225,8 +216,10 @@ class DownloadCoursePopup extends React.Component {
    * Cache lessons and returns list of lesson images (from paragraphs) to cache.
    */
   async cacheLessonsAndReturnLessonImages(lessonUrls) {
+    const uniqueUrls = lessonUrls.filter((url, i, array) => array.indexOf(url) === i);
+
     return Promise.all(
-      lessonUrls.map(async (url) => {
+      uniqueUrls.map(async (url) => {
         // Makes request to get lessons data.
         const request = new Request(url);
         const response = await fetch(request, { mode: 'no-cors' });
@@ -307,8 +300,8 @@ class DownloadCoursePopup extends React.Component {
         availableOffline: true,
       });
       // Do not offer the download again.
-      window.localStorage.setItem(`Anu.offline.${course.id}.popupDismissed`, true);
-      window.localStorage.setItem(`Anu.offline.${course.id}.availableOffline`, true);
+      window.localStorage.setItem(`Anu.offline.${course.id}.popupDismissed`, '1');
+      window.localStorage.setItem(`Anu.offline.${course.id}.availableOffline`, '1');
     } catch (error) {
       // Updates loading status.
       this.setState({ loading: false, result: 'error', alertOpen: true });
@@ -319,7 +312,11 @@ class DownloadCoursePopup extends React.Component {
   dismissPopup() {
     const { course } = this.props;
     this.setState({ popupOpen: false });
-    window.localStorage.setItem(`Anu.offline.${course.id}.popupDismissed`, true);
+    try {
+      window.localStorage.setItem(`Anu.offline.${course.id}.popupDismissed`, '1');
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   showPopup() {
@@ -329,24 +326,16 @@ class DownloadCoursePopup extends React.Component {
    * Save passed urls to the pwa cache.
    */
   async saveUrlToCache(urls) {
-    return Promise.all(
-      urls.map(async (url) => {
-        // Makes request to get data.
-        const request = new Request(url);
-        const response = await fetch(request, { mode: 'no-cors' });
-        const responseClone = response.clone();
-
-        // Put response to the pwa cache.
-        const cacheName = getPwaSettings().current_cache;
-        const cache = await caches.open(cacheName);
-        await cache.put(request, responseClone);
-      })
-    );
+    const uniqueUrls = urls.filter((url, i, array) => array.indexOf(url) === i);
+    // Put response to the pwa cache.
+    const cacheName = getPwaSettings().current_cache;
+    const cache = await caches.open(cacheName);
+    return await cache.addAll(uniqueUrls);
   }
 
   render() {
     const { loading, result, alertOpen, popupOpen, availableOffline } = this.state;
-    const { messagePosition, course, manualPopupTrigger } = this.props;
+    const { course, showButton } = this.props;
 
     const courseHasAudio = course.audios.length !== 0;
     const offlineButtonLabel = courseHasAudio
@@ -370,45 +359,20 @@ class DownloadCoursePopup extends React.Component {
     }
 
     return (
-      <DownloadCourseWrapper messageposition={messagePosition}>
-        {result && result === 'success' && (
-          <ResultMessage messageposition={messagePosition}>
-            {Drupal.t('This course is ready to be used offline.', {}, { context: 'ANU LMS' })}
-          </ResultMessage>
-        )}
-
-        {result && result === 'error' && (
-          <ResultMessage messageposition={messagePosition}>
-            {Drupal.t(
-              'Could not download the course. Please contact site administrator.',
-              {},
-              { context: 'ANU LMS' }
-            )}
-          </ResultMessage>
-        )}
-
-        <Hidden smDown>
-          <StyledButton
-            variant="contained"
-            color="default"
-            startIcon={<SyncIcon />}
-            onClick={this.handleDownload}
-            disabled={loading}
-            disableElevation
-            messageposition={messagePosition}
-          >
-            {Drupal.t('Make available offline', {}, { context: 'ANU LMS' })}
-
-            {loading && <CircularProgress size={24} style={{ position: 'absolute' }} />}
-          </StyledButton>
-        </Hidden>
-
-        {manualPopupTrigger && !availableOffline && (
-          <ManualTrigger variant="text" onClick={this.showPopup} startIcon={<SyncIcon />}>
-            {Drupal.t('Make course available offline', {}, { context: 'ANU LMS' })}
-          </ManualTrigger>
-        )}
-        {manualPopupTrigger && availableOffline && (
+      <DownloadCourseWrapper>
+        <Detector
+          polling={false}
+          render={({ online }) => (
+            <>
+              {online && showButton && !availableOffline && (
+                <ManualTrigger variant="text" onClick={this.showPopup} startIcon={<SyncIcon />}>
+                  {Drupal.t('Make course available offline', {}, { context: 'ANU LMS' })}
+                </ManualTrigger>
+              )}
+            </>
+          )}
+        />
+        {showButton && availableOffline && (
           <AvailableOfflineMessage display="flex" alignItems="center">
             <CheckCircleIcon />
             <Typography>
@@ -426,51 +390,58 @@ class DownloadCoursePopup extends React.Component {
           spaced
           duration={5000}
         />
-        <PopupOverlay style={{ maxHeight: popupOpen && !loading ? '1000px' : 0 }}>
-          <PopupHeading>
-            {Drupal.t(
-              'Would you like make this course available offline?',
-              {},
-              { context: 'ANU LMS' }
-            )}
-          </PopupHeading>
+        <Detector
+          polling={false}
+          render={({ online }) => (
+            <>
+              <PopupOverlay style={{ maxHeight: online && popupOpen && !loading ? '1000px' : 0 }}>
+                <PopupHeading>
+                  {Drupal.t(
+                    'Would you like make this course available offline?',
+                    {},
+                    { context: 'ANU LMS' }
+                  )}
+                </PopupHeading>
 
-          <PopupButton
-            variant="contained"
-            color="default"
-            startIcon={<SyncIcon />}
-            onClick={this.handleDownload}
-            disabled={loading}
-            disableElevation
-          >
-            {offlineButtonLabel}
-          </PopupButton>
-          {courseHasAudio && (
-            <PopupButton
-              variant="contained"
-              color="default"
-              startIcon={<SyncIcon />}
-              onClick={this.handleDownload}
-              disabled={loading}
-              disableElevation
-              data-include-audios="true"
-            >
-              {Drupal.t('Yes, with audio (large size)', {}, { context: 'ANU LMS' })}
-            </PopupButton>
+                <PopupButton
+                  variant="contained"
+                  color="default"
+                  startIcon={<SyncIcon />}
+                  onClick={this.handleDownload}
+                  disabled={loading}
+                  disableElevation
+                >
+                  {offlineButtonLabel}
+                </PopupButton>
+                {courseHasAudio && (
+                  <PopupButton
+                    variant="contained"
+                    color="default"
+                    startIcon={<SyncIcon />}
+                    onClick={this.handleDownload}
+                    disabled={loading}
+                    disableElevation
+                    data-include-audios="true"
+                  >
+                    {Drupal.t('Yes, with audio (large size)', {}, { context: 'ANU LMS' })}
+                  </PopupButton>
+                )}
+                <PopupDismiss underline="always" href="#" onClick={this.dismissPopup}>
+                  {Drupal.t('No, do not make available offline', {}, { context: 'ANU LMS' })}
+                </PopupDismiss>
+              </PopupOverlay>
+
+              <PopupOverlay style={{ maxHeight: loading ? '1000px' : 0 }}>
+                <SynchronizingBox display="flex" alignItems="center">
+                  <CircularProgress size={24} color="inherit" />
+                  <Typography style={{ color: 'white' }}>
+                    {Drupal.t('Synchronizing ...', {}, { context: 'ANU LMS' })}
+                  </Typography>
+                </SynchronizingBox>
+              </PopupOverlay>
+            </>
           )}
-          <PopupDismiss underline="always" href="#" onClick={this.dismissPopup}>
-            {Drupal.t('No, do not make available offline', {}, { context: 'ANU LMS' })}
-          </PopupDismiss>
-        </PopupOverlay>
-
-        <PopupOverlay style={{ maxHeight: loading ? '1000px' : 0 }}>
-          <SynchronizingBox display="flex" alignItems="center">
-            <CircularProgress size={24} color="inherit" />
-            <Typography color="white">
-              {Drupal.t('Synchronizing ...', {}, { context: 'ANU LMS' })}
-            </Typography>
-          </SynchronizingBox>
-        </PopupOverlay>
+        />
       </DownloadCourseWrapper>
     );
   }
@@ -478,8 +449,15 @@ class DownloadCoursePopup extends React.Component {
 
 DownloadCoursePopup.propTypes = {
   messagePosition: PropTypes.string,
-  manualPopupTrigger: PropTypes.bool,
+  showButton: PropTypes.bool,
   course: coursePropTypes.isRequired,
+  openPopupAutomatically: PropTypes.bool,
+};
+
+DownloadCoursePopup.defaultProps = {
+  messagePosition: 'left',
+  showButton: true,
+  openPopupAutomatically: false,
 };
 
 export default DownloadCoursePopup;

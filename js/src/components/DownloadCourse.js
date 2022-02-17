@@ -1,3 +1,4 @@
+// Legacy download course button. Consider DownloadCoursePopup.js instead.
 import React from 'react';
 import PropTypes from 'prop-types';
 import { coursePropTypes } from '@anu/utilities/transform.course';

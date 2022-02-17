@@ -28,7 +28,7 @@ services:
   # Helper service for Lesson / Quiz content types.
   anu_lms.lesson:
     class: Drupal\anu_lms\Lesson
-    arguments: [ '@entity_type.manager', '@database', '@current_user', '@anu_lms.normalizer', '@logger.channel.anu_lms', '@anu_lms.courses_page', '@anu_lms.course', '@event_dispatcher']
+    arguments: [ '@entity_type.manager', '@database', '@current_user', '@anu_lms.normalizer', '@logger.channel.anu_lms', '@anu_lms.courses_page', '@anu_lms.course', '@event_dispatcher', '@datetime.time']
 
  # Helper service for Course progress.
   anu_lms.course_progress:
@@ -55,6 +55,12 @@ services:
     arguments: [ '@entity.repository' ]
     tags:
       - { name: normalizer, priority: 11 }
+
+  anu_lms.pwa_response_subscriber:
+    class: Drupal\anu_lms\EventSubscriber\PWAResponseSubscriber
+    tags:
+      - { name: event_subscriber }
+    arguments: [ '@entity_type.manager', '@module_handler' ]
 
   plugin.manager.anu_lms_content_type:
     class: Drupal\anu_lms\AnuLmsContentTypePluginManager

@@ -218,6 +218,7 @@ const syncAll = async () => {
 export {
   calculateProgressPercent,
   completeLesson,
+  courseProgressKey,
   isLessonCompleted,
   isLessonRestricted,
   prepareCourseProgress,
