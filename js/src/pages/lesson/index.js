@@ -75,6 +75,7 @@ const LessonPage = ({ lesson, quiz, course, width }) => {
 
   const content = lesson || quiz;
   const nextLesson = courseSequence[courseSequence.findIndex(({ id }) => id === content.id) + 1];
+  const prevLesson = courseSequence[courseSequence.findIndex(({ id }) => id === content.id) - 1];
 
   return (
     <Box className={classes.wrapper}>
@@ -108,9 +109,9 @@ const LessonPage = ({ lesson, quiz, course, width }) => {
           </Hidden>
 
           <Box className={isWidthUp('md', width) ? classes.contentWrapper : ''}>
-            {quiz && <ContentQuiz quiz={quiz} nextLesson={nextLesson} />}
+            {quiz && <ContentQuiz quiz={quiz} nextLesson={nextLesson} prevLesson={prevLesson} />}
 
-            {lesson && <ContentLesson lesson={lesson} nextLesson={nextLesson} />}
+            {lesson && <ContentLesson lesson={lesson} nextLesson={nextLesson} prevLesson={prevLesson} />}
           </Box>
         </Box>
       </Box>

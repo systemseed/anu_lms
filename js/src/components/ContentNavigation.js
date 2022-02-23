@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Detector } from 'react-detect-offline';
 import { useHistory } from 'react-router-dom';
-
 import Button from '@material-ui/core/Button';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import LessonGrid from '@anu/components/LessonGrid';
+import ButtonWrapper from '@anu/components/ButtonWrapper';
 
 // TODO - isIntro
 const ContentNavigation = ({
@@ -14,6 +14,7 @@ const ContentNavigation = ({
   sections,
   currentLesson,
   nextLesson,
+  prevLesson,
   currentIndex,
   isEnabled,
 }) => {
@@ -22,6 +23,9 @@ const ContentNavigation = ({
   const nextIsQuiz = nextLesson && Boolean(nextLesson.questions);
   const nextIsLesson = nextLesson && Boolean(nextLesson.sections);
   const noNextLesson = !sections[currentIndex + 1];
+
+  const prevIsLesson = prevLesson && Boolean(prevLesson.sections);
+  const noPrevLesson = !sections[currentIndex - 1];
 
   const finishButtonText = (currentLesson) =>
     !currentLesson.finishButtonText
@@ -39,18 +43,31 @@ const ContentNavigation = ({
         const buttonProps = {
           variant: 'contained',
           color: 'primary',
+          size: 'large',
           endIcon: <ChevronRightIcon />,
           disabled,
         };
 
         return (
           <LessonGrid>
+            <ButtonWrapper>
             {sections[currentIndex + 1] && (
               <Button
                 {...buttonProps}
                 onClick={() => history.push({ pathname: `/section-${currentIndex + 2}` })}
               >
                 {disabled ? completeAnswer : Drupal.t('Next', {}, { context: 'ANU LMS' })}
+              </Button>
+            )}
+
+            {noPrevLesson && prevIsLesson && (
+              <Button
+                variant="outlined"
+                color="primary"
+                size="large"
+                startIcon={<ChevronLeftIcon/>}
+                href={prevLesson.url}>
+                {disabled ? completeAnswer : Drupal.t('Back', {}, { context: 'ANU LMS' })}
               </Button>
             )}
 
@@ -77,6 +94,7 @@ const ContentNavigation = ({
                 {disabled ? completeAnswer : Drupal.t('Go to quiz', {}, { context: 'ANU LMS' })}
               </Button>
             )}
+            </ButtonWrapper>
           </LessonGrid>
         );
       }}
@@ -89,6 +107,7 @@ ContentNavigation.propTypes = {
   sections: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.shape())),
   currentLesson: PropTypes.shape(),
   nextLesson: PropTypes.shape(),
+  prevLesson: PropTypes.shape(),
   currentIndex: PropTypes.number,
   isEnabled: PropTypes.bool,
 };

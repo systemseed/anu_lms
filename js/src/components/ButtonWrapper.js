@@ -5,27 +5,22 @@ import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   inner: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    gap: '8px',
     [theme.breakpoints.up('sm')]: {
-      paddingLeft: theme.spacing(3),
-      paddingRight: theme.spacing(3),
-    },
-    [theme.breakpoints.up('md')]: {
-      paddingLeft: theme.spacing(4),
-      paddingRight: theme.spacing(4),
-      maxWidth: '800px',
-      marginLeft: 'auto',
-      marginRight: 'auto',
+      justifyContent: 'flex-start',
     },
   },
 }));
 
-const LessonGrid = ({ children }) => {
+const ButtonWrapper = ({ children }) => {
   const classes = useStyles();
   return <Box className={classes.inner}>{children}</Box>;
 };
 
-LessonGrid.propTypes = {
+ButtonWrapper.propTypes = {
   children: PropTypes.node,
 };
 
-export default LessonGrid;
+export default ButtonWrapper;

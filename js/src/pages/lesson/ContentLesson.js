@@ -9,7 +9,7 @@ import Paragraphs from '@anu/components/Paragraphs';
 import { lessonPropTypes } from '@anu/utilities/transform.lesson';
 import Hidden from '@material-ui/core/Hidden';
 
-const ContentLesson = ({ lesson, nextLesson }) => {
+const ContentLesson = ({ lesson, nextLesson, prevLesson }) => {
   const [enableNext, setEnableNext] = useState(lesson.sections.map(() => 0));
   const [isChecklistLoading, setChecklistLoading] = useState(true);
   const [checklistLabel, setChecklistLabel] = useState(
@@ -66,6 +66,7 @@ const ContentLesson = ({ lesson, nextLesson }) => {
                     sections={lesson.sections}
                     currentLesson={lesson}
                     nextLesson={nextLesson}
+                    prevLesson={prevLesson}
                     currentIndex={index}
                     isEnabled={enableNext[index] === quizCount}
                   />
@@ -82,10 +83,12 @@ const ContentLesson = ({ lesson, nextLesson }) => {
 ContentLesson.propTypes = {
   lesson: lessonPropTypes.isRequired,
   nextLesson: lessonPropTypes,
+  prevLesson: lessonPropTypes,
 };
 
 ContentLesson.defaultProps = {
   nextLesson: null,
+  prevLesson: null,
 };
 
 export default ContentLesson;

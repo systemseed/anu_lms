@@ -213,11 +213,11 @@ const theme = createTheme({
         paddingRight: defaultTheme.spacing(4),
         paddingTop: defaultTheme.spacing(1.5),
         paddingBottom: defaultTheme.spacing(1.5),
-        [defaultTheme.breakpoints.down('sm')]: {
-          width: '100%',
-          borderRadius: 0,
-        },
       },
+      sizeLarge: {
+        paddingTop: '12px',
+        paddingBottom: '12px',
+      }
     },
     MuiChip: {
       root: {
