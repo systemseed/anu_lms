@@ -66,34 +66,35 @@ const ContentNavigation = ({
                   color="primary"
                   size="large"
                   startIcon={<ChevronLeftIcon />}
-                  href={prevLesson.url}>
+                  href={prevLesson.url}
+                >
                   {disabled ? completeAnswer : Drupal.t('Back', {}, { context: 'ANU LMS' })}
                 </Button>
               )}
 
-            {noNextLesson && nextIsLesson && (
-              <Button {...buttonProps} href={nextLesson.url}>
-                {disabled ? completeAnswer : Drupal.t('Next', {}, { context: 'ANU LMS' })}
-              </Button>
-            )}
+              {noNextLesson && nextIsLesson && (
+                <Button {...buttonProps} href={nextLesson.url}>
+                  {disabled ? completeAnswer : Drupal.t('Next', {}, { context: 'ANU LMS' })}
+                </Button>
+              )}
 
-            {noNextLesson && !nextIsLesson && !nextIsQuiz && (
-              <Button {...buttonProps} href={`/node/${currentLesson.id}/finish`}>
-                {disabled ? completeAnswer : finishButtonText(currentLesson)}
-              </Button>
-            )}
+              {noNextLesson && !nextIsLesson && !nextIsQuiz && (
+                <Button {...buttonProps} href={`/node/${currentLesson.id}/finish`}>
+                  {disabled ? completeAnswer : finishButtonText(currentLesson)}
+                </Button>
+              )}
 
-            {noNextLesson && nextIsLesson && isIntro && (
-              <Button {...buttonProps} href={nextLesson.url}>
-                {Drupal.t('Start', {}, { context: 'ANU LMS' })}
-              </Button>
-            )}
+              {noNextLesson && nextIsLesson && isIntro && (
+                <Button {...buttonProps} href={nextLesson.url}>
+                  {Drupal.t('Start', {}, { context: 'ANU LMS' })}
+                </Button>
+              )}
 
-            {noNextLesson && nextIsQuiz && (
-              <Button {...buttonProps} href={nextLesson.url}>
-                {disabled ? completeAnswer : Drupal.t('Go to quiz', {}, { context: 'ANU LMS' })}
-              </Button>
-            )}
+              {noNextLesson && nextIsQuiz && (
+                <Button {...buttonProps} href={nextLesson.url}>
+                  {disabled ? completeAnswer : Drupal.t('Go to quiz', {}, { context: 'ANU LMS' })}
+                </Button>
+              )}
             </ButtonWrapper>
           </LessonGrid>
         );
