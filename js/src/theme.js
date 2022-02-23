@@ -217,7 +217,7 @@ const theme = createTheme({
       sizeLarge: {
         paddingTop: '12px',
         paddingBottom: '12px',
-      }
+      },
     },
     MuiChip: {
       root: {
