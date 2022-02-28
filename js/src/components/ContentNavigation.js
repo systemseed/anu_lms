@@ -51,15 +51,6 @@ const ContentNavigation = ({
         return (
           <LessonGrid>
             <ButtonWrapper>
-              {sections[currentIndex + 1] && (
-                <Button
-                  {...buttonProps}
-                  onClick={() => history.push({ pathname: `/section-${currentIndex + 2}` })}
-                >
-                  {disabled ? completeAnswer : Drupal.t('Next', {}, { context: 'ANU LMS' })}
-                </Button>
-              )}
-
               {noPrevLesson && prevIsLesson && (
                 <Button
                   variant="outlined"
@@ -69,6 +60,15 @@ const ContentNavigation = ({
                   href={prevLesson.url}
                 >
                   {disabled ? completeAnswer : Drupal.t('Back', {}, { context: 'ANU LMS' })}
+                </Button>
+              )}
+
+              {sections[currentIndex + 1] && (
+                <Button
+                  {...buttonProps}
+                  onClick={() => history.push({ pathname: `/section-${currentIndex + 2}` })}
+                >
+                  {disabled ? completeAnswer : Drupal.t('Next', {}, { context: 'ANU LMS' })}
                 </Button>
               )}
 
