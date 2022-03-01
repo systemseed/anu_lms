@@ -24,9 +24,6 @@ const ContentNavigation = ({
   const nextIsLesson = nextLesson && Boolean(nextLesson.sections);
   const noNextLesson = !sections[currentIndex + 1];
 
-  const prevIsLesson = prevLesson && Boolean(prevLesson.sections);
-  const noPrevLesson = !sections[currentIndex - 1];
-
   const finishButtonText = (currentLesson) =>
     !currentLesson.finishButtonText
       ? Drupal.t('Finish', {}, { context: 'ANU LMS' })
@@ -51,22 +48,17 @@ const ContentNavigation = ({
         return (
           <LessonGrid>
             <ButtonWrapper>
-              {noPrevLesson &&
-                prevIsLesson &&
-                !prevIsLesson &&
-                !nextIsQuiz &&
-                isIntro &&
-                nextIsQuiz && (
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    size="large"
-                    startIcon={<ChevronLeftIcon />}
-                    href={prevLesson.url}
-                  >
-                    {Drupal.t('Back', {}, { context: 'ANU LMS' })}
-                  </Button>
-                )}
+              {prevLesson && completeAnswer && (
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  size="large"
+                  startIcon={<ChevronLeftIcon />}
+                  href={prevLesson.url}
+                >
+                  {Drupal.t('Back', {}, { context: 'ANU LMS' })}
+                </Button>
+              )}
 
               {sections[currentIndex + 1] && (
                 <Button

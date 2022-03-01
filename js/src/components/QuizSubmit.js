@@ -18,7 +18,7 @@ const QuizSubmit = ({ onSubmit, isSubmitting, isQuiz, prevLesson, currentIndex, 
     <Detector
       render={({ online }) => (
         <ButtonWrapper>
-          {noPrevLesson && prevIsLesson && isSubmitting && (
+          {noPrevLesson && prevIsLesson && (
             <Button
               variant="outlined"
               color="primary"

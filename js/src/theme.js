@@ -215,8 +215,11 @@ const theme = createTheme({
         paddingBottom: defaultTheme.spacing(1.5),
       },
       sizeLarge: {
-        paddingTop: theme.spacing(1.5),
-        paddingBottom: theme.spacing(1.5),
+        paddingTop: '12px',
+        paddingBottom: '12px',
+      },
+      contained: {
+        order: '1',
       },
     },
     MuiChip: {
