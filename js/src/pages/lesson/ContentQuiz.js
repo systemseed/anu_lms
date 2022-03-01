@@ -27,11 +27,13 @@ const ContentQuiz = ({ quiz, nextLesson, prevLesson }) => {
           items={quiz.questions}
           correctValuesCount={quiz.correctValuesCount}
           isSubmitted={isSubmitted}
+          prevLesson={prevLesson}
           isSingleSubmission={quiz.isSingleSubmission}
           nodeId={quiz.id}
           submitQuiz={submitQuiz}
         />
       </Box>
+
       {isSubmitted && (
         <ContentNavigation
           isIntro={false}
