@@ -51,17 +51,22 @@ const ContentNavigation = ({
         return (
           <LessonGrid>
             <ButtonWrapper>
-              {noPrevLesson && prevIsLesson && (
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  size="large"
-                  startIcon={<ChevronLeftIcon />}
-                  href={prevLesson.url}
-                >
-                  {disabled ? completeAnswer : Drupal.t('Back', {}, { context: 'ANU LMS' })}
-                </Button>
-              )}
+              {noPrevLesson &&
+                prevIsLesson &&
+                !prevIsLesson &&
+                !nextIsQuiz &&
+                isIntro &&
+                nextIsQuiz && (
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    size="large"
+                    startIcon={<ChevronLeftIcon />}
+                    href={prevLesson.url}
+                  >
+                    {Drupal.t('Back', {}, { context: 'ANU LMS' })}
+                  </Button>
+                )}
 
               {sections[currentIndex + 1] && (
                 <Button

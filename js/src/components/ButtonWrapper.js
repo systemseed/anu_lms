@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
   inner: {
     display: 'flex',
     justifyContent: 'space-between',
-    gap: '8px',
+    gap: theme.spacing(1),
     [theme.breakpoints.up('sm')]: {
       justifyContent: 'flex-start',
     },
