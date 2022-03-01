@@ -6,14 +6,30 @@ import { useTheme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ButtonWrapper from '@anu/components/ButtonWrapper';
 
-const QuizSubmit = ({ onSubmit, isSubmitting, isQuiz }) => {
+const QuizSubmit = ({ onSubmit, isSubmitting, isQuiz, prevLesson, currentIndex, sections }) => {
   const theme = useTheme();
+  const prevIsLesson = prevLesson && Boolean(prevLesson.sections);
+  const noPrevLesson = !sections[currentIndex - 1];
 
   return (
     <Detector
       render={({ online }) => (
-        <>
+        <ButtonWrapper>
+          {noPrevLesson && prevIsLesson && isSubmitting && (
+            <Button
+              variant="outlined"
+              color="primary"
+              size="large"
+              startIcon={<ChevronLeftIcon />}
+              href={prevLesson.url}
+            >
+              {Drupal.t('Back', {}, { context: 'ANU LMS' })}
+            </Button>
+          )}
+
           <Button
             variant="contained"
             color={isQuiz ? 'primary' : 'default'}
@@ -37,13 +53,16 @@ const QuizSubmit = ({ onSubmit, isSubmitting, isQuiz }) => {
                 : Drupal.t('You cannot submit answers while offline.', {}, { context: 'ANU LMS' })}
             </Typography>
           )}
-        </>
+        </ButtonWrapper>
       )}
     />
   );
 };
 
 QuizSubmit.propTypes = {
+  sections: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.shape())),
+  prevLesson: PropTypes.shape(),
+  currentIndex: PropTypes.number,
   onSubmit: PropTypes.func,
   isSubmitting: PropTypes.bool,
   isQuiz: PropTypes.bool,
