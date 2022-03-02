@@ -61,13 +61,13 @@ const ContentNavigation = ({
                 </Button>
               )}
 
-              {sections[currentIndex + 1] && (
+              {sections[currentIndex - 1] && (
                 <Button
                   variant="outlined"
                   color="primary"
                   size="large"
                   startIcon={<ChevronLeftIcon />}
-                  onClick={() => history.push({ pathname: `/section-${currentIndex - 2}` })}
+                  onClick={() => history.push({ pathname: `/section-${currentIndex + 1}` })}
                 >
                   {Drupal.t('Back', {}, { context: 'ANU LMS' })}
                 </Button>
