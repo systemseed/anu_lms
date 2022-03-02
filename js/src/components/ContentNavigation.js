@@ -61,7 +61,7 @@ const ContentNavigation = ({
                 </Button>
               )}
 
-              {sections[currentIndex - 1] && (
+              {sections[currentIndex + 1] && (
                 <Button
                   variant="outlined"
                   color="primary"
