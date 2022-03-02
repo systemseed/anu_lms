@@ -23,6 +23,7 @@ const ContentNavigation = ({
   const nextIsQuiz = nextLesson && Boolean(nextLesson.questions);
   const nextIsLesson = nextLesson && Boolean(nextLesson.sections);
   const noNextLesson = !sections[currentIndex + 1];
+  const noPrevLesson = !sections[currentIndex - 1];
 
   const finishButtonText = (currentLesson) =>
     !currentLesson.finishButtonText
@@ -48,7 +49,7 @@ const ContentNavigation = ({
         return (
           <LessonGrid>
             <ButtonWrapper>
-              {prevLesson && completeAnswer && (
+              {prevLesson && completeAnswer && noPrevLesson && (
                 <Button
                   variant="outlined"
                   color="primary"
@@ -66,7 +67,7 @@ const ContentNavigation = ({
                   color="primary"
                   size="large"
                   startIcon={<ChevronLeftIcon />}
-                  onClick={() => history.push({ pathname: `/section-${currentIndex - 1}` })}
+                  onClick={() => history.push({ pathname: `/section-${currentIndex - 2}` })}
                 >
                   {Drupal.t('Back', {}, { context: 'ANU LMS' })}
                 </Button>
