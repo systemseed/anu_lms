@@ -24,7 +24,6 @@ const ContentNavigation = ({
   const nextIsLesson = nextLesson && Boolean(nextLesson.sections);
   const noNextLesson = !sections[currentIndex + 1];
   const noPrevLesson = !sections[currentIndex - 1];
-
   const finishButtonText = (currentLesson) =>
     !currentLesson.finishButtonText
       ? Drupal.t('Finish', {}, { context: 'ANU LMS' })
@@ -61,13 +60,13 @@ const ContentNavigation = ({
                 </Button>
               )}
 
-              {sections[currentIndex - 1] && (
+              {!noPrevLesson && (
                 <Button
                   variant="outlined"
                   color="primary"
                   size="large"
                   startIcon={<ChevronLeftIcon />}
-                  onClick={() => history.push({ pathname: `/section-${currentIndex + 1}` })}
+                  onClick={() => history.push({ pathname: `/section-${currentIndex}` })}
                 >
                   {Drupal.t('Back', {}, { context: 'ANU LMS' })}
                 </Button>
