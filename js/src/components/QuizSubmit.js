@@ -22,7 +22,7 @@ const QuizSubmit = ({ onSubmit, isSubmitting, isQuiz, prevLesson }) => {
               color="primary"
               size="large"
               startIcon={<ChevronLeftIcon />}
-              href={prevLesson.url}
+              href={`${prevLesson.url}#back`}
               style={{ marginTop: theme.spacing(2) }}
             >
               {Drupal.t('Back', {}, { context: 'ANU LMS' })}

@@ -22,11 +22,13 @@ const ContentLesson = ({ lesson, nextLesson, prevLesson }) => {
       ...enableNext,
       [sectionIndex]: enableNext[sectionIndex] + 1,
     });
+  const backUrl = `/section-${lesson.sections.length}`;
 
   return (
     <HashRouter hashType="noslash">
       <Switch>
         <Redirect exact from="/" to="/section-1" />
+        <Redirect exact from="/back" to={backUrl} />
 
         {lesson.sections.map((paragraphs, index) => {
           const hasChecklist = paragraphs.find(

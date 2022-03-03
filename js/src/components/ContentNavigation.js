@@ -28,6 +28,7 @@ const ContentNavigation = ({
     !currentLesson.finishButtonText
       ? Drupal.t('Finish', {}, { context: 'ANU LMS' })
       : currentLesson.finishButtonText;
+  const isFirstSection = currentIndex == 0;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -48,7 +49,7 @@ const ContentNavigation = ({
         return (
           <LessonGrid>
             <ButtonWrapper>
-              {prevLesson && completeAnswer && noPrevLesson && (
+              {prevLesson && completeAnswer && noPrevLesson && !isFirstSection && (
                 <Button
                   variant="outlined"
                   color="primary"
@@ -67,6 +68,18 @@ const ContentNavigation = ({
                   size="large"
                   startIcon={<ChevronLeftIcon />}
                   onClick={() => history.push({ pathname: `/section-${currentIndex}` })}
+                >
+                  {Drupal.t('Back', {}, { context: 'ANU LMS' })}
+                </Button>
+              )}
+
+              {isFirstSection && prevLesson && (
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  size="large"
+                  startIcon={<ChevronLeftIcon />}
+                  href={`${prevLesson.url}#back`}
                 >
                   {Drupal.t('Back', {}, { context: 'ANU LMS' })}
                 </Button>
