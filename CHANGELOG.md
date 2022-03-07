@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Upcoming release]
  - Small styling fixes for the Audio.
 
+## [2.5.0]
+  - Remove back button in header of lessons.
+  - Deleted back button component.
+  - Added back button in content navigation for easier navigation through lessons.
+  - Small styles for buttons.
+
 ## [2.4.9]
  - Fixed Drupal 9 compatibility when pwa is enabled.
  - Fixed warning when PWA module didn't provide a version.
