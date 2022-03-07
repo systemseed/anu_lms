@@ -4,7 +4,6 @@ import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import BackLink from '@anu/components/BackLink';
 import DownloadCourse from '@anu/components/DownloadCourse';
 import { coursePropTypes } from '@anu/utilities/transform.course';
 import { getPwaSettings } from '@anu/utilities/settings';
@@ -45,10 +44,6 @@ const LessonHeader = ({ course }) => {
   return (
     <Box pt={[2, 3]} pb={[2, 3]} className={classes.wrapper}>
       <Container maxWidth={false}>
-        <Box mb={2}>
-          <BackLink />
-        </Box>
-
         <Grid container spacing={2}>
           <Grid item xs={12} md={8} className={classes.titleGroup}>
             {course && course.title && (

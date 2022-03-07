@@ -107,7 +107,7 @@ class ParagraphsWithQuiz extends React.Component {
   }
 
   render() {
-    const { items, isSingleSubmission, isSubmitted } = this.props;
+    const { items, isSingleSubmission, isSubmitted, prevLesson } = this.props;
     const {
       assessmentData,
       correctValues,
@@ -147,6 +147,7 @@ class ParagraphsWithQuiz extends React.Component {
               isSubmitting={isSubmitting}
               isSubmitted={isSubmitted}
               canSubmit={canSubmit}
+              prevLesson={prevLesson}
               isQuiz
             />
           </Box>
@@ -178,7 +179,12 @@ class ParagraphsWithQuiz extends React.Component {
           )}
 
           {canSubmit && (
-            <QuizSubmit onSubmit={this.checkSubmission} isSubmitting={isSubmitting} isQuiz />
+            <QuizSubmit
+              onSubmit={this.checkSubmission}
+              prevLesson={prevLesson}
+              isSubmitting={isSubmitting}
+              isQuiz
+            />
           )}
         </LessonGrid>
       </>
@@ -193,6 +199,7 @@ ParagraphsWithQuiz.propTypes = {
   isSingleSubmission: PropTypes.bool,
   submitQuiz: PropTypes.func,
   isSubmitted: PropTypes.bool,
+  prevLesson: PropTypes.shape(),
 };
 
 export default ParagraphsWithQuiz;
