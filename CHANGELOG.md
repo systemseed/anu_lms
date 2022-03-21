@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Upcoming release]
  - Small styling fixes for the Audio.
 
+## [2.4.11]
+  - Fixed the finish button didn't respect language.
+
 ## [2.4.10]
   - Remove back button in header of lessons.
   - Deleted back button component.
