@@ -228,4 +228,35 @@ class Course {
     return $quizzesInCourse;
   }
 
+  /**
+   * Returns urls of course's lessons and quizzes.
+   *
+   * @param \Drupal\node\NodeInterface $course
+   *   Course node object.
+   *
+   * @return array
+   *   List of urls.
+   */
+  public function getLessonsAndQuizzesUrls(NodeInterface $course) {
+    $modules = $course->get('field_course_module')->referencedEntities();
+    $urls = [];
+
+    foreach ($modules as $module) {
+      $lesson_ids = array_column($module->field_module_lessons->getValue(), 'target_id');
+      foreach ($lesson_ids as $nid) {
+        $urls[] = Url::fromRoute('entity.node.canonical', ['node' => $nid], ['absolute' => TRUE])->toString();
+      }
+
+      if (!$module->field_module_assessment) {
+        continue;
+      }
+      $quiz_ids = array_column($module->field_module_assessment->getValue(), 'target_id');
+      foreach ($quiz_ids as $nid) {
+        $urls[] = Url::fromRoute('entity.node.canonical', ['node' => $nid], ['absolute' => TRUE])->toString();
+      }
+    }
+
+    return $urls;
+  }
+
 }

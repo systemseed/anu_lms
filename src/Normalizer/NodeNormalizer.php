@@ -51,6 +51,10 @@ class NodeNormalizer extends ContentEntityNormalizer {
       }
     }
 
+    if ($entity->bundle() === 'course') {
+      $normalized['content_urls'] = $courseHandler->getLessonsAndQuizzesUrls($entity);
+    }
+
     if ($entity->bundle() === 'course' && $courseHandler->isLinearProgressEnabled($entity)) {
       $normalized['progress'] = ['value' => $courseProgressHandler->getCourseProgress($entity)];
     }
