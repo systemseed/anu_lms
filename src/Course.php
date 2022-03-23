@@ -242,17 +242,23 @@ class Course {
     $urls = [];
 
     foreach ($modules as $module) {
-      $lesson_ids = array_column($module->field_module_lessons->getValue(), 'target_id');
-      foreach ($lesson_ids as $nid) {
-        $urls[] = Url::fromRoute('entity.node.canonical', ['node' => $nid], ['absolute' => TRUE])->toString();
+      /** @var \Drupal\node\NodeInterface[] $lessons */
+      $lessons = $module->field_module_lessons->referencedEntities();
+      foreach ($lessons as $lesson) {
+        if ($lesson->access('view')) {
+          $urls[] = $lesson->toUrl('canonical', ['absolute' => TRUE])->toString();
+        }
       }
 
       if (!$module->field_module_assessment) {
         continue;
       }
-      $quiz_ids = array_column($module->field_module_assessment->getValue(), 'target_id');
-      foreach ($quiz_ids as $nid) {
-        $urls[] = Url::fromRoute('entity.node.canonical', ['node' => $nid], ['absolute' => TRUE])->toString();
+      /** @var \Drupal\node\NodeInterface[] $quizzes */
+      $quizzes = $module->field_module_assessment->referencedEntities();
+      foreach ($quizzes as $quiz) {
+        if ($quiz->access('view')) {
+          $urls[] = $quiz->toUrl('canonical', ['absolute' => TRUE])->toString();
+        }
       }
     }
 
