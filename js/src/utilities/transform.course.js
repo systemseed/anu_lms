@@ -63,6 +63,7 @@ const transformCourse = (node, data) => {
     first_lesson_url: firstLessonUrl,
     progress: fields.getTextValueOrUndefined(node, 'progress'),
     locked: fields.getBooleanValue(node, 'locked'),
+    content_urls: fields.getArrayValue(node, 'content_urls'),
   };
 };
 

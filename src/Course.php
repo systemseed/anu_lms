@@ -228,4 +228,41 @@ class Course {
     return $quizzesInCourse;
   }
 
+  /**
+   * Returns urls of course's lessons and quizzes.
+   *
+   * @param \Drupal\node\NodeInterface $course
+   *   Course node object.
+   *
+   * @return array
+   *   List of urls.
+   */
+  public function getLessonsAndQuizzesUrls(NodeInterface $course) {
+    $modules = $course->get('field_course_module')->referencedEntities();
+    $urls = [];
+
+    foreach ($modules as $module) {
+      /** @var \Drupal\node\NodeInterface[] $lessons */
+      $lessons = $module->field_module_lessons->referencedEntities();
+      foreach ($lessons as $lesson) {
+        if ($lesson->access('view')) {
+          $urls[] = $lesson->toUrl('canonical', ['absolute' => TRUE])->toString();
+        }
+      }
+
+      if (!$module->field_module_assessment) {
+        continue;
+      }
+      /** @var \Drupal\node\NodeInterface[] $quizzes */
+      $quizzes = $module->field_module_assessment->referencedEntities();
+      foreach ($quizzes as $quiz) {
+        if ($quiz->access('view')) {
+          $urls[] = $quiz->toUrl('canonical', ['absolute' => TRUE])->toString();
+        }
+      }
+    }
+
+    return $urls;
+  }
+
 }

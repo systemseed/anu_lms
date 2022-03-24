@@ -108,7 +108,7 @@ class CoursesPage {
     $normalized_courses = [];
     foreach ($courses as $course) {
       $normalized_course = $this->normalizer->normalizeEntity($course, [
-        'max_depth' => 3,
+        'max_depth' => 1,
         // Pass the categories requested as context so additional logic
         // can be performed like the course being part of a sequence within
         // a category.
