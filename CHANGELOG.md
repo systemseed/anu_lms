@@ -8,16 +8,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  - Small styling fixes for the Audio.
 
 ## [2.4.12]
-  - Improved performance of loading LMS pages.
+ - Improved courses page loading performance by reducing the depth of references to load and explicitly loading lessons and quizzes urls.
 
 ## [2.4.11]
-  - Fixed the finish button didn't respect language.
+ - Fixed the finish button didn't respect language.
 
 ## [2.4.10]
-  - Remove back button in header of lessons.
-  - Deleted back button component.
-  - Added back button in content navigation for easier navigation through lessons.
-  - Small styles for buttons.
+ - Remove back button in header of lessons.
+ - Deleted back button component.
+ - Added back button in content navigation for easier navigation through lessons.
+ - Small styles for buttons.
 
 ## [2.4.9]
  - Fixed Drupal 9 compatibility when pwa is enabled.
