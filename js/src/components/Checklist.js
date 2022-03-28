@@ -204,14 +204,24 @@ const CheckList = ({ id: checkListID, items, checkListState }) => {
                 style={{ marginRight: theme.spacing(1), height: 'max-content' }}
               />
 
-              <Box style={{ marginTop: theme.spacing(0.5), display: 'flex', alignItems: 'flex-start' }}>
+              <Box
+                style={{ marginTop: theme.spacing(0.5), display: 'flex', alignItems: 'flex-start' }}
+              >
                 <Typography
                   variant="body1"
                   dangerouslySetInnerHTML={{ __html: option }}
-                  style={{ marginBottom: theme.spacing(0.5), paddingTop: '5px', paddingBottom: '5px' }}
+                  style={{
+                    marginBottom: theme.spacing(0.5),
+                    paddingTop: '5px',
+                    paddingBottom: '5px',
+                  }}
                 />
 
-                <Typography variant="body2" dangerouslySetInnerHTML={{ __html: description }} style={{ paddingTop: '5px', paddingBottom: '5px' }} />
+                <Typography
+                  variant="body2"
+                  dangerouslySetInnerHTML={{ __html: description }}
+                  style={{ paddingTop: '5px', paddingBottom: '5px' }}
+                />
               </Box>
 
               <Box display="flex" flexGrow={1} justifyContent="flex-end" minWidth={24}>
