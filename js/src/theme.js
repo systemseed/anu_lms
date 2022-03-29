@@ -236,8 +236,8 @@ const theme = createTheme({
         alignItems: 'flex-start',
       },
       label: {
-        paddingTop: '5px',
-        paddingBottom: '5px',
+        paddingTop: theme.spacing(0.5),
+        paddingBottom: theme.spacing(0.5),
       },
     },
     MuiListItem: {
