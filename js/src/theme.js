@@ -238,6 +238,7 @@ const theme = createTheme({
       label: {
         paddingTop: defaultTheme.spacing(0.5),
         paddingBottom: defaultTheme.spacing(0.5),
+        lineHeight: 1.85,
       },
     },
     MuiListItem: {
