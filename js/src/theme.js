@@ -232,7 +232,13 @@ const theme = createTheme({
     },
     MuiFormControlLabel: {
       root: {
-        width: 'max-content',
+        display: 'flex',
+        alignItems: 'flex-start',
+      },
+      label: {
+        paddingTop: defaultTheme.spacing(0.5),
+        paddingBottom: defaultTheme.spacing(0.5),
+        lineHeight: 1.85,
       },
     },
     MuiListItem: {

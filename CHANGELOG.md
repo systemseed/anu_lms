@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Upcoming release]
  - Small styling fixes for the Audio.
 
+## [2.4.13]
+ - Fixed checkbox text wrap, so it is readable and go in multiple lines if text is longer
+
 ## [2.4.12]
  - Improved courses page loading performance by reducing the depth of references to load and explicitly loading lessons and quizzes urls.
 
