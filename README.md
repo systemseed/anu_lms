@@ -4,6 +4,47 @@
 
 Drupal module which adds E-Learning capabilities with knowledge assessment tools.
 
+## Development
+
+### Installation
+
+If you don't have a local dev environment yet, we recommend [DDEV](https://ddev.com/) as it comes with all necessary tooling for Anu LMS development.
+
+1. Install a clean Drupal 9 site ([Instructions for DDEV](https://ddev.readthedocs.io/en/latest/users/cli-usage/#drupal-9-quickstart)).
+2. Prepare composer for Anu LMS installation:
+  ```
+  composer config minimum-stability dev
+  composer config repositories.anu vcs git@github.com:systemseed/anu_lms.git
+  composer req  --prefer-source systemseed/anu_lms:"2.x-dev"
+  ```
+3. Enable Anu LMS module
+```
+drush pm:enable anu_lms
+drush cex
+```
+4. Create demo content:
+  - Course categories (Taxonomy terms)
+  - Course labels (Taxonomy terms)
+  - Course (Node) with a couple of modules and lessons
+  - Lesson content (Paragraphs inside Lesson node)
+  - Courses page (Node) - make it your front page for easy testing.
+5. Disable Drupal cache to see your code changes immidiately. [Instructions](https://www.drupal.org/node/2598914).
+
+
+### React development
+
+Node.js & NPM are required to build Javascript files.
+
+The React app sources are stored in `./js/src` folder of the module. To prepare React app for development, perform the following:
+
+1. `cd` into `anu_lms/js` foloder
+2. Run `npm install`
+3. Run `npm run watch`
+4. Make changes to JS code. After page refresh you should see your changes in your local Drupal site.
+5. When the changes are ready, run `npm run format`, `npm run lint-fix` and `npm run lint` and fix any code styling issues. Some IDEs can handle it automatically.
+6. Run `npm run build` to build final JS bundle files.
+
+
 ## TODO List
 
 ### Beta release:
