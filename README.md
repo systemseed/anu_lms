@@ -48,20 +48,20 @@ The React app sources are stored in `./js/src` folder of the module. To prepare 
 ## TODO List
 
 ### Beta release:
-* Add path alias patterns
-* Make “Back” button configurable
-* Fix eslint warnings
-* Provide documentation for recommended permission configuration after module's installation
+* Add path alias patterns https://github.com/systemseed/anu_lms/issues/160
+* Provide documentation for recommended permission configuration after module's installation 
 * Add a validation for quiz content creating experience. I.e. do not allow multiple options for single option response.
 * Add normal UI for errors handling on quizzes instead of ugly alert().
 * Disable access to lessons when course is not in the group
-* Add basic automated tests coverage
+* Add basic automated tests coverage https://github.com/systemseed/anu_lms/issues/157
 
 ### Full release
+* https://github.com/systemseed/anu_lms/issues/161
 * Disabled Slider has small balloon offset
-* Create default courses page
+* Create default courses page https://github.com/systemseed/anu_lms/issues/158
 * Create a style guide
 * Documentation
+* Integration with [Drupal.org](https://www.drupal.org/project/anu_lms)
 
 ### To discuss
 * Potential issue with display of quiz scoring after the amount of quiz questions has changed (You scored X out of Y).
