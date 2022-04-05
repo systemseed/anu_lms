@@ -43,7 +43,10 @@ function anu_lms_node_delete(NodeInterface $node) {
       $nids = [];
       foreach ($modules as $module) {
         $nids = array_merge($nids, array_column($module->get('field_module_lessons')->getValue(), 'target_id'));
-        $nids = array_merge($nids, array_column($module->get('field_module_assessment')->getValue(), 'target_id'));
+        if ($module->hasField('field_module_assessment')) {
+          $nids = array_merge($nids, array_column($module->get('field_module_assessment')->getValue(), 'target_id'));
+        }
+
       }
     }
   }
