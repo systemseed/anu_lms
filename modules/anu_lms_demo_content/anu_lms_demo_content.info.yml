@@ -1,0 +1,7 @@
+name: Anu LMS Demo content
+description: Installs demo content to test Anu LMS.
+type: module
+package: Anu LMS
+core_version_requirement: '^8.9 || ^9'
+dependencies:
+  - 'anu_lms:anu_lms'

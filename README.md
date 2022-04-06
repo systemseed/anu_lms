@@ -44,12 +44,24 @@ The React app sources are stored in `./js/src` folder of the module. To prepare 
 5. When the changes are ready, run `npm run format`, `npm run lint-fix` and `npm run lint` and fix any code styling issues. Some IDEs can handle it automatically.
 6. Run `npm run build` to build final JS bundle files.
 
+## Demo content
+
+To install some demo content for learning and testing, enable “Anu LMS Demo
+content” module.
+
+```
+drush pm:enable anu_lms_demo_content
+```
+
+Demo courses page will be available at /anu-demo after module installation.
+
+All demo content is deleted on module uninstall.
 
 ## TODO List
 
 ### Beta release:
 * Add path alias patterns https://github.com/systemseed/anu_lms/issues/160
-* Provide documentation for recommended permission configuration after module's installation 
+* Provide documentation for recommended permission configuration after module's installation
 * Add a validation for quiz content creating experience. I.e. do not allow multiple options for single option response.
 * Add normal UI for errors handling on quizzes instead of ugly alert().
 * Disable access to lessons when course is not in the group

@@ -14,7 +14,7 @@ class HealthCheckTest extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  protected static $modules = ['anu_lms'];
+  protected static $modules = ['anu_lms', 'anu_lms_demo_content'];
 
   /**
    * Set to TRUE to strict check all configuration saved.

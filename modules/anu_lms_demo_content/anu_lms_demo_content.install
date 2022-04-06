@@ -1,0 +1,435 @@
+<?php
+
+/**
+ * @file
+ * Install required content for testing.
+ *
+ * Each course is dedicated to one testable feature.
+ */
+
+use Drupal\Core\File\FileSystemInterface;
+
+/**
+ * Implements hook_install().
+ */
+function anu_lms_demo_content_install() {
+  $categories = anu_lms_demo_create_course_categories();
+  [$first_category, $second_category] = $categories;
+  [$first_label, $second_label] = anu_lms_demo_create_course_labels();
+  $default_cover_image = [
+    ['target_id' => anu_lms_demo_create_cover_image(), 'alt' => 'Anu LMS logo'],
+  ];
+  // Create courses page.
+  anu_lms_demo_create_courses_page($categories);
+
+  // Create separate courses for testing specific features.
+  anu_lms_demo_create_course_for_testing_paragraphs([
+    'field_course_image' => $default_cover_image,
+    'field_course_category' => [$first_category],
+    'field_course_label' => [$first_label],
+  ]);
+  anu_lms_demo_create_course_for_testing_navigation(
+    [
+      'field_course_image' => $default_cover_image,
+      'field_course_category' => [$second_category],
+      'field_course_label' => [$second_label],
+    ]
+  );
+}
+
+/**
+ * Creates course categories.
+ */
+function anu_lms_demo_create_course_categories() {
+  $categories = [];
+
+  $categories[] = [
+    'vid' => 'course_category',
+    'name' => 'Getting started [DEMO]',
+  ];
+
+  $categories[] = [
+    'vid' => 'course_category',
+    'name' => 'Developer guides [DEMO]',
+  ];
+
+  $entities = anu_lms_demo_content_create_entities($categories, 'taxonomy_term');
+  return array_keys($entities);
+}
+
+/**
+ * Creates course labels.
+ */
+function anu_lms_demo_create_course_labels() {
+  $categories = [];
+
+  $categories[] = [
+    'vid' => 'course_label',
+    'name' => 'Demo label 1',
+  ];
+
+  $categories[] = [
+    'vid' => 'course_label',
+    'name' => 'Demo label 2',
+  ];
+
+  $entities = anu_lms_demo_content_create_entities($categories, 'taxonomy_term');
+  return array_keys($entities);
+}
+
+/**
+ * Creates a course with all available paragraphs.
+ */
+function anu_lms_demo_create_course_for_testing_paragraphs($extra_data = []) {
+  $lessons_data = [];
+
+  // Headings lesson start.
+  $headings_data = [
+    [
+      'type' => 'lesson_heading',
+      'field_lesson_heading_value' => 'Lesson heading - h2',
+      'field_lesson_heading_size' => 'h2',
+    ],
+    [
+      'type' => 'lesson_heading',
+      'field_lesson_heading_value' => 'Lesson heading - h3',
+      'field_lesson_heading_size' => 'h3',
+    ],
+    [
+      'type' => 'lesson_heading',
+      'field_lesson_heading_value' => 'Lesson heading - h4',
+      'field_lesson_heading_size' => 'h4',
+    ],
+  ];
+  $paragraphs = anu_lms_demo_content_create_entities($headings_data, 'paragraph');
+  $default_section = anu_lms_demo_content_create_entities([
+    [
+      'type' => 'lesson_section',
+      'field_lesson_section_content' => array_values($paragraphs),
+    ],
+  ], 'paragraph');
+
+  $lessons_data[] = [
+    'type' => 'module_lesson',
+    'title' => 'Headings',
+    'field_module_lesson_content' => array_values($default_section),
+  ];
+  // Headings lesson end.
+  // Text lesson start.
+  $text_items_data = [
+    [
+      'type' => 'lesson_text',
+      'field_lesson_text_content' => [
+        'value' => '<p>This is short text without formatting</p>',
+        'format' => 'minimal_html',
+      ],
+    ],
+    [
+      'type' => 'lesson_text',
+      'field_lesson_text_content' => [
+        'value' => '<p>This is long text with formatting.
+        <p><strong>Anu</strong> is a deceptively simple learning management system (LMS) for individual teachers, educational organisations and businesses built on Drupal. It’s been developed to provide engaging and impactful learning for real people, with a UX based on extensive research.</p>
+        <p><a href="https://github.com/systemseed/anu_lms">Link to GitHub repository.</a></p>
+        ',
+        'format' => 'minimal_html',
+      ],
+    ],
+    [
+      'type' => 'lesson_footnotes',
+      'field_lesson_footnotes_content' => [
+        'value' => '<p>This is short text in the footnotes.</p>',
+        'format' => 'minimal_html',
+      ],
+    ],
+  ];
+  $paragraphs = anu_lms_demo_content_create_entities($text_items_data, 'paragraph');
+  $default_section = anu_lms_demo_content_create_entities([
+    [
+      'type' => 'lesson_section',
+      'field_lesson_section_content' => array_values($paragraphs),
+    ],
+  ], 'paragraph');
+
+  $lessons_data[] = [
+    'type' => 'module_lesson',
+    'title' => 'Text',
+    'field_module_lesson_content' => array_values($default_section),
+  ];
+  // Text lesson end.
+  // List lesson start.
+  $list_items_data = [
+    [
+      'type' => 'lesson_list',
+      'field_lesson_list_type' => 'ul',
+      'field_lesson_list_items' => [
+        'Chocolate',
+        'Strawberry',
+        'Vanilla',
+      ],
+    ],
+    [
+      'type' => 'lesson_list',
+      'field_lesson_list_type' => 'ol',
+      'field_lesson_list_items' => [
+        'One',
+        'Two',
+        'Three',
+      ],
+    ],
+  ];
+  $paragraphs = anu_lms_demo_content_create_entities($list_items_data, 'paragraph');
+  $default_section = anu_lms_demo_content_create_entities([
+    [
+      'type' => 'lesson_section',
+      'field_lesson_section_content' => array_values($paragraphs),
+    ],
+  ], 'paragraph');
+
+  $lessons_data[] = [
+    'type' => 'module_lesson',
+    'title' => 'Lists',
+    'field_module_lesson_content' => array_values($default_section),
+  ];
+  // List lesson end.
+  // Images lesson start.
+  $image_items_data = [
+    [
+      'type' => 'lesson_image',
+      'field_lesson_image_caption' => 'Image with caption',
+      'field_lesson_image_image' => $extra_data['field_course_image'],
+    ],
+    [
+      'type' => 'lesson_image_wide',
+      'field_lesson_image_caption' => 'Image with caption (full width)',
+      'field_lesson_image_image' => $extra_data['field_course_image'],
+    ],
+    [
+      'type' => 'lesson_image_thumbnail',
+      'field_lesson_image_caption_long' => [
+        'value' => '<p>Image with a longer caption (<em>thumbnail</em>)</p>',
+        'format' => 'minimal_html',
+      ],
+      'field_lesson_image_image' => $extra_data['field_course_image'],
+    ],
+  ];
+  $paragraphs = anu_lms_demo_content_create_entities($image_items_data, 'paragraph');
+  $default_section = anu_lms_demo_content_create_entities([
+    [
+      'type' => 'lesson_section',
+      'field_lesson_section_content' => array_values($paragraphs),
+    ],
+  ], 'paragraph');
+
+  $lessons_data[] = [
+    'type' => 'module_lesson',
+    'title' => 'Images',
+    'field_module_lesson_content' => array_values($default_section),
+  ];
+  // Images lesson end.
+  $lessons = anu_lms_demo_content_create_entities($lessons_data, 'node');
+
+  $default_module = anu_lms_demo_content_create_entities([
+    [
+      'type' => 'course_modules',
+      'field_module_title' => 'Anu items',
+      'field_module_lessons' => array_values($lessons),
+    ],
+  ], 'paragraph');
+
+  $course = [
+    'type' => 'course',
+    'title' => 'Learn Anu lesson item types [DEMO]',
+    'path' => '/course/demo-learn-anu-lesson-item-types',
+    'field_course_description' => [
+      'value' => 'This course contains all available lesson item types.',
+      'format' => 'minimal_html',
+    ],
+    'field_course_finish_button' => ['uri' => 'internal:/anu-demo'],
+    'field_course_module' => array_values($default_module),
+  ] + $extra_data;
+
+  anu_lms_demo_content_create_entities([$course], 'node');
+}
+
+/**
+ * Creates a course with multiple modules and sections.
+ */
+function anu_lms_demo_create_course_for_testing_navigation($extra_data = []) {
+  // Modules -> Lessons -> Sections with text items.
+  $content = [
+    'Intro' => [
+      'Intro 1' => ["
+<p>Anu course is broken down into modules. Each module includes one or more lessons.</p>
+<p>Modules and lessons are visible in the course navigation.</p>,",
+      ],
+      'Intro 2' => ["
+<p>This is the second lesson of the first module.</p>
+<p>Each lesson can have one or more sections. Sections are not visible in the course navigation.</p>
+    ",
+      ],
+    ],
+    'Modules' => [
+      "Modules lesson" => ["
+<p>Module is a paragraph with two fields: title and lessons.</p>
+<p>Modules can be created and edited on the course edit form.</p>
+<p>You are currently in the second module of the course. Click Next to go to the next module.</p>
+    ",
+      ],
+    ],
+    'Sections' => [
+      "Sections lesson" => ["
+<p>Section is a paragraph that doesn't have any visible fields. Its  purpose is to break lesson items into pages that can be navigated using Back/Next buttons.</p>
+<p>Click the Next button to see the next section of this module.</p>
+    ",
+        "
+<p>This is the second section of the Sections lesson.</p>
+<p>Sections can be created and edited on the lesson edit form.</p>
+",
+        "
+<p>This is the third section of the lesson.</p>
+<p>Click the Finish button to finish this course.</p>
+",
+      ],
+    ],
+  ];
+
+  $modules = [];
+  foreach ($content as $module => $lessons_data) {
+    $lessons = [];
+    foreach ($lessons_data as $lesson_name => $sections_data) {
+      $sections = [];
+      foreach ($sections_data as $text) {
+        $items_data = [
+          [
+            'type' => 'lesson_text',
+            'field_lesson_text_content' => [
+              'value' => $text,
+              'format' => 'minimal_html',
+            ],
+          ],
+        ];
+
+        $paragraphs = anu_lms_demo_content_create_entities($items_data, 'paragraph');
+        $sections += anu_lms_demo_content_create_entities([
+          [
+            'type' => 'lesson_section',
+            'field_lesson_section_content' => array_values($paragraphs),
+          ],
+        ], 'paragraph');
+      }
+
+      $lessons += anu_lms_demo_content_create_entities([
+        [
+          'type' => 'module_lesson',
+          'title' => $lesson_name,
+          'field_module_lesson_content' => array_values($sections),
+        ],
+      ], 'node');
+    }
+
+    $modules += anu_lms_demo_content_create_entities([
+      [
+        'type' => 'course_modules',
+        'field_module_title' => $module,
+        'field_module_lessons' => array_values($lessons),
+      ],
+    ], 'paragraph');
+  }
+
+  $course = [
+    'type' => 'course',
+    'title' => 'Modules, lessons and sections  [DEMO]',
+    'path' => '/course/demo-navigation',
+    'field_course_description' => [
+      'value' => 'This course contains multiple modules, lessons and sections.',
+      'format' => 'minimal_html',
+    ],
+    'field_course_finish_button' => ['uri' => 'internal:/anu-demo'],
+    'field_course_module' => array_values($modules),
+  ] + $extra_data;
+
+  anu_lms_demo_content_create_entities([$course], 'node');
+}
+
+/**
+ * Create cover image for courses.
+ */
+function anu_lms_demo_create_cover_image() {
+  $data = file_get_contents(__DIR__ . "/anu-logo.png");
+  $fileRepository = \Drupal::service('file.repository');
+
+  /* @var \Drupal\file\Entity\File $file */
+  $file = $fileRepository->writeData($data, 'public://anu_lms_logo.png', FileSystemInterface::EXISTS_REPLACE);
+
+  $state = \Drupal::state()->get('anu_lms_demo_content.entities', []);
+  $state['file'][] = $file->id();
+  \Drupal::state()->set('anu_lms_demo_content.entities', $state);
+
+  return $file->id();
+}
+
+/**
+ * Create courses page.
+ */
+function anu_lms_demo_create_courses_page($category_ids = []) {
+  $categories_data = [];
+  foreach ($category_ids as $category_id) {
+    $categories_data[] = [
+      'type' => 'course_category',
+      'field_course_category' => [$category_id],
+    ];
+  }
+  $paragraphs = anu_lms_demo_content_create_entities($categories_data, 'paragraph');
+
+  $courses_page = [
+    'type' => 'courses_page',
+    'title' => 'Courses  [DEMO]',
+    'path' => '/anu-demo',
+    'field_courses_content' => array_values($paragraphs),
+  ];
+  anu_lms_demo_content_create_entities([$courses_page], 'node');
+}
+
+/**
+ * Helper to create entities.
+ */
+function anu_lms_demo_content_create_entities($data, $entity_type) {
+  $entities = [];
+  $state = \Drupal::state()->get('anu_lms_demo_content.entities', []);
+
+  $storage = \Drupal::entityTypeManager()->getStorage($entity_type);
+
+  foreach ($data as $entity_data) {
+    $entity = $storage->create($entity_data);
+    $entity->save();
+    $entities[$entity->id()] = $entity;
+
+    $state[$entity_type][] = $entity->id();
+  }
+
+  // Save entity ids in Drupal state to be able to delete them
+  // on module uninstall.
+  \Drupal::state()->set('anu_lms_demo_content.entities', $state);
+
+  return $entities;
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function anu_lms_demo_content_uninstall() {
+  if ($state = \Drupal::state()->get('anu_lms_demo_content.entities')) {
+    try {
+      foreach ($state as $entity_type => $ids) {
+        $storage = \Drupal::entityTypeManager()->getStorage($entity_type);
+        $storage->delete($storage->loadMultiple($ids));
+      }
+    }
+    catch (\Exception $e) {
+      watchdog_exception('anu_lms_demo_content', $e);
+    }
+
+    \Drupal::state()->delete('anu_lms_demo_content.entities');
+  }
+
+}
