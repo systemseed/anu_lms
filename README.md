@@ -23,6 +23,8 @@ drush pm:enable anu_lms anu_lms_demo_content
 drush cex
 ```
 4. Disable Drupal cache to see your code changes immediately. [Instructions](https://www.drupal.org/node/2598914).
+5. Install and configure [PWA](https://www.drupal.org/project/pwa) module to
+enable Anu offline capabilities.
 
 ### React development
 
