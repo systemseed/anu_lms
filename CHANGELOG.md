@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Upcoming release]
- - Small styling fixes for the Audio.
+ - Added "Anu LMS Demo content" module.
 
 ## [2.4.13]
  - Fixed checkbox text wrap, so it is readable and go in multiple lines if text is longer
