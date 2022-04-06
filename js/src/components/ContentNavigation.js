@@ -7,7 +7,6 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import LessonGrid from '@anu/components/LessonGrid';
 import ButtonWrapper from '@anu/components/ButtonWrapper';
-import { getPathPrefix } from '@anu/utilities/settings';
 
 // TODO - isIntro
 const ContentNavigation = ({
@@ -42,7 +41,6 @@ const ContentNavigation = ({
       ? Drupal.t('Finish', {}, { context: 'ANU LMS' })
       : currentLesson.finishButtonText;
   const isFirstSection = currentIndex == 0;
-  const pathPrefix = getPathPrefix();
 
   useEffect(() => {
     window.scrollTo(0, 0);
