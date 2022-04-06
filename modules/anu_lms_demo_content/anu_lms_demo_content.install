@@ -191,6 +191,41 @@ function anu_lms_demo_create_course_for_testing_paragraphs($extra_data = []) {
     'field_module_lesson_content' => array_values($default_section),
   ];
   // List lesson end.
+  // Images lesson start.
+  $image_items_data = [
+    [
+      'type' => 'lesson_image',
+      'field_lesson_image_caption' => 'Image with caption',
+      'field_lesson_image_image' => $extra_data['field_course_image'],
+    ],
+    [
+      'type' => 'lesson_image_wide',
+      'field_lesson_image_caption' => 'Image with caption (full width)',
+      'field_lesson_image_image' => $extra_data['field_course_image'],
+    ],
+    [
+      'type' => 'lesson_image_thumbnail',
+      'field_lesson_image_caption_long' => [
+        'value' => '<p>Image with a longer caption (<em>thumbnail</em>)</p>',
+        'format' => 'minimal_html',
+      ],
+      'field_lesson_image_image' => $extra_data['field_course_image'],
+    ],
+  ];
+  $paragraphs = anu_lms_demo_content_create_entities($image_items_data, 'paragraph');
+  $default_section = anu_lms_demo_content_create_entities([
+    [
+      'type' => 'lesson_section',
+      'field_lesson_section_content' => array_values($paragraphs),
+    ],
+  ], 'paragraph');
+
+  $lessons_data[] = [
+    'type' => 'module_lesson',
+    'title' => 'Images',
+    'field_module_lesson_content' => array_values($default_section),
+  ];
+  // Images lesson end.
   $lessons = anu_lms_demo_content_create_entities($lessons_data, 'node');
 
   $default_module = anu_lms_demo_content_create_entities([
