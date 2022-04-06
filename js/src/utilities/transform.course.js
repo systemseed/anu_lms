@@ -72,20 +72,15 @@ const transformCourse = (node, data) => {
   };
 
   // If progress is available, point first lesson URL to the first non-restricted lesson.
-  // TODO: update to use content_urls.
-  if (progress && transform.content.length) {
-    for (let i = transform.content.length - 1; i >= 0; i--) {
-      const module = transform.content[i];
-      for (let j = module.lessons.length - 1; j >= 0; j--) {
-        const lesson = module.lessons[j];
-        if (!lesson.isRestricted) {
-          return {
-            ...transform,
-            first_lesson_url: lesson.url,
-          };
-        }
-      }
+  if (progress) {
+    let currentLesson = Object.values(progress).find((lesson) => lesson.prev === 0);
+    while (currentLesson.next && !progress[currentLesson.next].restricted) {
+      currentLesson = progress[currentLesson.next];
     }
+    return {
+      ...transform,
+      first_lesson_url: currentLesson.url,
+    };
   }
 
   return transform;
@@ -115,7 +110,7 @@ const coursePropTypes = PropTypes.shape({
   labels: PropTypes.arrayOf(PropTypes.string),
   courses_pages: PropTypes.arrayOf(PropTypes.shape({})),
   first_lesson_url: PropTypes.string,
-  progress: PropTypes.shape({}).isRequired,
+  progress: PropTypes.shape({}),
   progress_percent: PropTypes.number.isRequired,
   locked: PropTypes.bool,
   audios: PropTypes.arrayOf(PropTypes.string),

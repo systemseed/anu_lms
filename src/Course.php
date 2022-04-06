@@ -240,7 +240,7 @@ class Course {
   }
 
   /**
-   * Returns urls of course's lessons and quizzes.
+   * Returns urls of course's lessons and quizzes for offline download.
    *
    * @param \Drupal\node\NodeInterface $course
    *   Course node object.
@@ -272,6 +272,9 @@ class Course {
         }
       }
     }
+
+    // Attach course finish URL.
+    $urls[] = $this->getFinishRedirectUrl($course)->setAbsolute()->toString();
 
     return $urls;
   }

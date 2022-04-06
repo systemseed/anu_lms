@@ -68,6 +68,7 @@ class CourseProgress {
         'next' => $nextLesson,
         'completed' => (int) $this->lesson->isCompleted($lesson),
         'restricted' => (int) $this->lesson->isRestricted($lesson),
+        'url' => $lesson->toUrl()->toString(),
       ];
 
       $previous_lesson_id = $lesson->id();

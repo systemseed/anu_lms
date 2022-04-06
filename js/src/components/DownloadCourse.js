@@ -1,4 +1,4 @@
-// Legacy download course button. Consider DownloadCoursePopup.js instead.
+// Legacy download course button. Will be removed on next release.
 import React from 'react';
 import PropTypes from 'prop-types';
 import { coursePropTypes } from '@anu/utilities/transform.course';
@@ -160,8 +160,6 @@ class DownloadCourse extends React.Component {
 
       // Getting lessons and quizzes urls.
       const lessonUrls = course.content_urls;
-
-      // TODO: add lastLesson.finishButtonUrl.
 
       // Cache lessons and returns list of lesson images (from paragraphs) to cache.
       const lessonImageUrls = await this.cacheLessonsAndReturnLessonImages(lessonUrls);
