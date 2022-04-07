@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: course
+label: Course
+type: 'canonical_entities:node'
+pattern: 'course/[node:title]'
+selection_criteria:
+  60e73ac3-b9fb-48a5-b84e-67131ad60382:
+    id: node_type
+    negate: false
+    uuid: 60e73ac3-b9fb-48a5-b84e-67131ad60382
+    context_mapping:
+      node: node
+    bundles:
+      course: course
+selection_logic: and
+weight: -5
+relationships: {  }
