@@ -6,7 +6,7 @@ dependencies:
 id: courses_page
 label: 'Courses page'
 type: 'canonical_entities:node'
-pattern: 'courses-page/[node:title]'
+pattern: 'courses/[node:title]'
 selection_criteria:
   8db3cf12-8567-43fa-b2d3-b5bdde301319:
     id: node_type
