@@ -7,6 +7,7 @@ import {
   courseCategoryPropTypes,
 } from '@anu/utilities/transform.courseCategory';
 import { transformCoursesPage } from '@anu/utilities/transform.courses';
+import { calculateProgressPercent, prepareCourseProgress } from '@anu/utilities/progress';
 
 /**
  * Transform course node from Drupal backend
@@ -39,7 +40,8 @@ const transformCourse = (node, data) => {
     });
   }
 
-  return {
+  const progress = prepareCourseProgress(node);
+  const transform = {
     id: courseId,
     title: fields.getTextValue(node, 'title'),
     description: fields.getTextValue(node, 'field_course_description'),
@@ -55,16 +57,33 @@ const transformCourse = (node, data) => {
       module: fields.getTextValue(module, 'field_module_title'),
       lessons: fields
         .getArrayValue(module, 'field_module_lessons')
-        .map((lesson) => transformLesson(lesson))
+        .map((lesson) => transformLesson(lesson, { id: courseId, progress }))
         .filter((lesson) => !!lesson),
       quiz: transformQuiz(fields.getArrayValue(module, 'field_module_assessment')[0], data),
     })),
     courses_pages: coursesPages.map((coursesPage) => transformCoursesPage({ data: coursesPage })),
     first_lesson_url: firstLessonUrl,
-    progress: fields.getTextValueOrUndefined(node, 'progress'),
+    progress,
+    progress_percent: calculateProgressPercent(progress),
+    // TODO: add support for offline unlocking of courses in categories.
     locked: fields.getBooleanValue(node, 'locked'),
+    audios: fields.getArrayValue(node, 'audios'),
     content_urls: fields.getArrayValue(node, 'content_urls'),
   };
+
+  // If progress is available, point first lesson URL to the first non-restricted lesson.
+  if (progress) {
+    let currentLesson = Object.values(progress).find((lesson) => lesson.prev === 0);
+    while (currentLesson.next && !progress[currentLesson.next].restricted) {
+      currentLesson = progress[currentLesson.next];
+    }
+    return {
+      ...transform,
+      first_lesson_url: currentLesson.url,
+    };
+  }
+
+  return transform;
 };
 
 /**
@@ -91,6 +110,10 @@ const coursePropTypes = PropTypes.shape({
   labels: PropTypes.arrayOf(PropTypes.string),
   courses_pages: PropTypes.arrayOf(PropTypes.shape({})),
   first_lesson_url: PropTypes.string,
+  progress: PropTypes.shape({}),
+  progress_percent: PropTypes.number.isRequired,
+  locked: PropTypes.bool,
+  audios: PropTypes.arrayOf(PropTypes.string),
 });
 
 export { transformCourse, coursePropTypes };

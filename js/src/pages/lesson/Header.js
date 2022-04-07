@@ -4,9 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import DownloadCourse from '@anu/components/DownloadCourse';
 import { coursePropTypes } from '@anu/utilities/transform.course';
-import { getPwaSettings } from '@anu/utilities/settings';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -60,9 +58,6 @@ const LessonHeader = ({ course }) => {
                   <Box className={classes.label}>{label}</Box>
                 </Grid>
               ))}
-            {course && getPwaSettings() && (
-              <DownloadCourse course={course} messagePosition="left" />
-            )}
           </Grid>
         </Grid>
       </Container>

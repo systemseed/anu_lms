@@ -2,6 +2,7 @@
 
 namespace Drupal\anu_lms;
 
+use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
@@ -72,6 +73,13 @@ class Lesson {
   protected $dispatcher;
 
   /**
+   * The time service.
+   *
+   * @var \Drupal\Component\Datetime\TimeInterface
+   */
+  protected $time;
+
+  /**
    * Lesson constructor.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -90,6 +98,8 @@ class Lesson {
    *   The Course service.
    * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
    *   The event dispatcher.
+   * @param \Drupal\Component\Datetime\TimeInterface $time
+   *   The time service.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
@@ -102,7 +112,8 @@ class Lesson {
     LoggerInterface $logger,
     CoursesPage $coursesPage,
     Course $course,
-    EventDispatcherInterface $dispatcher
+    EventDispatcherInterface $dispatcher,
+    TimeInterface $time
   ) {
     $this->nodeStorage = $entity_type_manager->getStorage('node');
     $this->database = $database;
@@ -112,6 +123,7 @@ class Lesson {
     $this->coursesPage = $coursesPage;
     $this->course = $course;
     $this->dispatcher = $dispatcher;
+    $this->time = $time;
   }
 
   /**
@@ -312,9 +324,14 @@ class Lesson {
           'uid' => $this->currentUser->id(),
           'nid' => $lesson->id(),
         ])
-        ->fields([
+        ->insertFields([
           'uid' => $this->currentUser->id(),
           'nid' => $lesson->id(),
+          'created' => $this->time->getCurrentTime(),
+          'changed' => $this->time->getCurrentTime(),
+        ])
+        ->updateFields([
+          'changed' => $this->time->getCurrentTime(),
         ])
         ->execute();
 
@@ -338,6 +355,21 @@ class Lesson {
    *   Whether the lesson is completed by the current user.
    */
   public function isCompleted(NodeInterface $lesson): bool {
+    return $this->isCompletedByUser($lesson, $this->currentUser->id());
+  }
+
+  /**
+   * Checks if the given user id completed the lesson.
+   *
+   * @param \Drupal\node\NodeInterface $lesson
+   *   Lesson node object.
+   * @param int $userId
+   *   User ID.
+   *
+   * @return bool
+   *   Whether the lesson is completed by the current user.
+   */
+  public function isCompletedByUser(NodeInterface $lesson, $userId): bool {
     // If linear progress is not enabled for the course or the lesson does not
     // belong to a course, then we don't show the completion progress.
     $course = $this->getLessonCourse($lesson);
@@ -349,7 +381,7 @@ class Lesson {
     if (!isset($completed_lessons)) {
       $result = $this->database->select('anu_lms_progress')
         ->fields('anu_lms_progress', ['nid'])
-        ->condition('uid', $this->currentUser->id())
+        ->condition('uid', $userId)
         ->execute();
 
       $completed_lessons = [];

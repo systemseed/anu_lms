@@ -7,6 +7,7 @@
 
 use Drupal\node\Entity\Node;
 use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\Core\Database\Database;
 
 /**
  * Implements hook_schema().
@@ -26,6 +27,18 @@ function anu_lms_schema() {
         'description' => 'The {node}.nid completed by the {users}.id.',
         'type' => 'int',
         'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'created' => [
+        'description' => 'The Unix timestamp when the entry was created.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'changed' => [
+        'description' => 'The Unix timestamp when the entry was most recently saved.',
+        'type' => 'int',
         'not null' => TRUE,
         'default' => 0,
       ],
@@ -210,4 +223,25 @@ function anu_lms_update_8002() {
 function anu_lms_update_8220() {
   $schema = anu_lms_schema();
   \Drupal::database()->schema()->createTable('anu_lms_progress', $schema['anu_lms_progress']);
+}
+
+/**
+ * Create new columns on the progress table.
+ */
+function anu_lms_update_8240() {
+  $createdSpec = [
+    'description' => 'The Unix timestamp when the entry was created.',
+    'type' => 'int',
+    'not null' => TRUE,
+    'default' => 0,
+  ];
+  $changedSpec = [
+    'description' => 'The Unix timestamp when the entry was most recently saved.',
+    'type' => 'int',
+    'not null' => TRUE,
+    'default' => 0,
+  ];
+  $schema = Database::getConnection()->schema();
+  $schema->addField('anu_lms_progress', 'created', $createdSpec);
+  $schema->addField('anu_lms_progress', 'changed', $changedSpec);
 }

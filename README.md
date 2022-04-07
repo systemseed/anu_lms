@@ -17,19 +17,14 @@ If you don't have a local dev environment yet, we recommend [DDEV](https://ddev.
   composer config repositories.anu vcs git@github.com:systemseed/anu_lms.git
   composer req  --prefer-source systemseed/anu_lms:"2.x-dev"
   ```
-3. Enable Anu LMS module
+3. Enable Anu LMS module and the demo content
 ```
-drush pm:enable anu_lms
+drush pm:enable anu_lms anu_lms_demo_content
 drush cex
 ```
-4. Create demo content:
-  - Course categories (Taxonomy terms)
-  - Course labels (Taxonomy terms)
-  - Course (Node) with a couple of modules and lessons
-  - Lesson content (Paragraphs inside Lesson node)
-  - Courses page (Node) - make it your front page for easy testing.
-5. Disable Drupal cache to see your code changes immidiately. [Instructions](https://www.drupal.org/node/2598914).
-
+4. Disable Drupal cache to see your code changes immediately. [Instructions](https://www.drupal.org/node/2598914).
+5. Install and configure [PWA](https://www.drupal.org/project/pwa) module to
+enable Anu offline capabilities.
 
 ### React development
 

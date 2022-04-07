@@ -1,3 +1,4 @@
+// Legacy download course button. Will be removed on next release.
 import React from 'react';
 import PropTypes from 'prop-types';
 import { coursePropTypes } from '@anu/utilities/transform.course';

@@ -54,17 +54,17 @@ class FinishCourse extends ControllerBase {
 
   /**
    * Set a lesson as complete and redirect.
+   *
+   * @deprecated: The finish button should not link to this endpoint anymore
+   * and the progress should be handled by the frontend.
    */
   public function complete(EntityInterface $node) {
     /** @var \Drupal\node\NodeInterface $node */
     if (!in_array($node->bundle(), ['module_lesson', 'module_assessment'])) {
       throw new AccessDeniedHttpException();
     }
-    $course = $this->lesson->getLessonCourse($node);
-    if (!empty($course) && $this->course->isLinearProgressEnabled($course)) {
-      $this->lesson->setCompleted($node);
-    }
 
+    $course = $this->lesson->getLessonCourse($node);
     $url = $this->course->getFinishRedirectUrl($course);
     return new RedirectResponse($url->toString(), 302);
   }

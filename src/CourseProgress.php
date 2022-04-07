@@ -47,24 +47,31 @@ class CourseProgress {
   }
 
   /**
-   * Returns progress in a course.
+   * Returns progress data in a course.
    *
    * @param \Drupal\node\NodeInterface $course
    *   Course object.
    *
-   * @return float
-   *   The progress as a percentage like 33.34.
+   * @return array
+   *   Array of lesson progress data in client localStorage format.
    */
   public function getCourseProgress(NodeInterface $course) {
-    $totalLessons = $this->course->countLessons($course) + $this->course->countQuizzes($course);
-    $completedLessons = count($this->getCompletedLessons($course)) + count($this->getCompletedQuizzes($course));
+    $progress = [];
+    $lessons = $this->course->getLessonsAndQuizzes($course);
+    $previous_lesson_id = 0;
+    foreach ($lessons as $index => $lesson) {
+      $nextLesson = !empty($lessons[$index + 1]) ? $lessons[$index + 1]->id() : 0;
+      $progress[$lesson->id()] = [
+        // We can't rely on object keys order in Javascript, so we attach
+        // prev/next pointers to each lesson.
+        'prev' => $previous_lesson_id,
+        'next' => $nextLesson,
+        'completed' => (int) $this->lesson->isCompleted($lesson),
+        'restricted' => (int) $this->lesson->isRestricted($lesson),
+        'url' => $lesson->toUrl()->toString(),
+      ];
 
-    // Calculate percentage.
-    if ($totalLessons > 0) {
-      $progress = round($completedLessons * 100 / $totalLessons, 2);
-    }
-    else {
-      $progress = 0;
+      $previous_lesson_id = $lesson->id();
     }
 
     return $progress;
@@ -113,11 +120,20 @@ class CourseProgress {
       if ($previousCourse === FALSE) {
         continue;
       }
+
+      $isCompleted = TRUE;
       $progress = $this->getCourseProgress($previousCourse);
-      if ($progress < 100 && !$requireAllCategoriesLocked) {
+      foreach ($progress as $lesson) {
+        if (!$lesson['completed']) {
+          $isCompleted = FALSE;
+          break;
+        }
+      }
+
+      if (!$isCompleted && !$requireAllCategoriesLocked) {
         return TRUE;
       }
-      if ($progress < 100 && $requireAllCategoriesLocked) {
+      if (!$isCompleted && $requireAllCategoriesLocked) {
         $lockedCategories[] = $category;
       }
     }

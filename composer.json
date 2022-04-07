@@ -30,6 +30,9 @@
         "drupal/xls_serialization": "^1.2",
         "drupal/features": "^3.12"
     },
+    "suggest": {
+        "drupal/pwa": "Allows using Anu LMS offline."
+    },
     "extra": {
         "enable-patching": true,
         "patches":{

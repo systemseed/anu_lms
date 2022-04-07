@@ -5,6 +5,7 @@ namespace Drupal\anu_lms;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\node\NodeInterface;
 use Drupal\Core\Url;
+use Drupal\Core\File\FileUrlGeneratorInterface;
 
 /**
  * Methods that operate with course nodes.
@@ -19,13 +20,23 @@ class Course {
   protected $nodeStorage;
 
   /**
+   * The file url generator.
+   *
+   * @var \Drupal\Core\File\FileUrlGeneratorInterface
+   */
+  protected $fileUrlGenerator;
+
+  /**
    * Constructs service.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
+   * @param \Drupal\Core\File\FileUrlGeneratorInterface $file_url_generator
+   *   The file url generator.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, FileUrlGeneratorInterface $file_url_generator) {
     $this->nodeStorage = $entity_type_manager->getStorage('node');
+    $this->fileUrlGenerator = $file_url_generator;
   }
 
   /**
@@ -229,7 +240,7 @@ class Course {
   }
 
   /**
-   * Returns urls of course's lessons and quizzes.
+   * Returns urls of course's lessons and quizzes for offline download.
    *
    * @param \Drupal\node\NodeInterface $course
    *   Course node object.
@@ -262,7 +273,39 @@ class Course {
       }
     }
 
+    // Attach course finish URL.
+    $urls[] = $this->getFinishRedirectUrl($course)->setAbsolute()->toString();
+
     return $urls;
+  }
+
+  /**
+   * Returns the accesible audios.
+   *
+   * @param \Drupal\node\NodeInterface $course
+   *   Course node object.
+   *
+   * @return string[]
+   *   Audio URLs.
+   */
+  public function getAudios(NodeInterface $course) {
+    $lessons = $this->getLessons($course);
+
+    $audiosInCourse = [];
+    foreach ($lessons as $lesson) {
+      $sections = $lesson->get('field_module_lesson_content')->referencedEntities();
+      foreach ($sections as $section) {
+        $sectionContent = $section->get('field_lesson_section_content')->referencedEntities();
+        foreach ($sectionContent as $sectionParagraph) {
+          if ($sectionParagraph->bundle() === 'lesson_audio') {
+            $uri = $sectionParagraph->get('field_audio_file')->entity->getFileUri();
+            $url = $this->fileUrlGenerator->generateAbsoluteString($uri);
+            $audiosInCourse[] = $url;
+          }
+        }
+      }
+    }
+    return $audiosInCourse;
   }
 
 }

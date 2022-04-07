@@ -65,11 +65,6 @@ class Quiz extends AnuLmsContentTypePluginBase implements ContainerFactoryPlugin
    *   The language for the data.
    */
   public function getData(NodeInterface $node, $langcode = NULL) {
-
-    // If a user got to the current quiz, it means that
-    // they hit "Next" button on the previous lesson and so
-    // we can call the previous lesson completed.
-    $this->quiz->setPreviousLessonCompleted($node);
     // If after setting the previous lesson a completed state the
     // current quiz still has restricted access, it means that
     // something went wrong with doing that and the user should not
