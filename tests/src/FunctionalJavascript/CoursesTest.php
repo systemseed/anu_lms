@@ -57,14 +57,15 @@ class CoursesTest extends WebDriverTestBase {
 
     // Check for the second category.
     $this->drupalGet('courses/courses-demo');
-    $categoryTitle = $assert->waitForElementVisible('css', '#anu-application div[data-anu-lms-section-heading]:nth-of-type(3) h2');
-    $this->assertNotEmpty($categoryTitle);
-    $this->assertEqual($categoryTitle->getText(), 'Developer guides [DEMO]');
+    $anuApp = $assert->waitForElementVisible('css', '#anu-application');
+    $categoryTitles = $anuApp->findAll('css', 'h2');
+    $this->assertNotEmpty($categoryTitles);
+    $this->assertEqual($categoryTitles[1]->getText(), 'Developer guides [DEMO]');
 
-    $courseTitle = $assert->waitForElementVisible('css', '#anu-application [data-anu-lms-section]:nth-of-type(4) h3');
-    $this->assertNotEmpty($courseTitle);
-    $this->assertEqual($courseTitle->getText(), 'Modules, lessons and sections [DEMO]');
-    $courseTitle->click();
+    $courseTitles = $anuApp->findAll('css', '#anu-application h3');
+    $this->assertNotEmpty($courseTitles);
+    $this->assertEqual($courseTitles[1]->getText(), 'Modules, lessons and sections [DEMO]');
+    $courseTitles[1]->click();
 
     // After clicking on the title it should be inside the course.
     $courseTitle = $assert->waitForElementVisible('css', '#anu-application h1');
@@ -80,9 +81,7 @@ class CoursesTest extends WebDriverTestBase {
     $this->drupalGet('lesson/headings');
 
     // Inside the course. Check the sidebar active element.
-    $active = $assert->waitForElementVisible('css', 'div[data-anu-lms-navigation-item-status=active]');
-    $this->assertNotEmpty($active);
-    $this->assertEqual($active->getText(), 'Headings');
+    $this->assertJsCondition('document.querySelector("#anu-application div[data-anu-lms-navigation-item-status=active]").textContent === "Headings"');
 
     $headingThree = $assert->waitForElementVisible('css', '#anu-application h3');
     $this->assertNotEmpty($headingThree);
@@ -110,7 +109,23 @@ class CoursesTest extends WebDriverTestBase {
     $this->assertNotEmpty($image);
     $this->assertEqual($image->getAttribute('alt'), 'Image with caption');
 
+    $assert->waitForElementVisible('css', '[aria-label=Next]')->click();
+
+    // Highlights.
+    $highlightHeading = $assert->waitForElementVisible('css', '#anu-application p[data-anu-lms-highlight-heading]');
+    $this->assertNotEmpty($highlightHeading);
+    $this->assertEqual($highlightHeading->getText(), 'Highlight (full width)');
+
+    $assert->waitForElementVisible('css', '[aria-label=Next]')->click();
+    // Dividers.
+    $assert->waitForElementVisible('css', '[aria-label=Next]')->click();
+    // Video.
+    $assert->waitForElementVisible('css', '[aria-label=Next]')->click();
+    // Checklists.
+    $assert->waitForElementVisible('css', '[aria-label=Next]')->click();
+    // Tables.
     $assert->waitForElementVisible('css', '[aria-label=Finish]')->click();
+
     $assert->addressEquals('courses/courses-demo');
   }
 
