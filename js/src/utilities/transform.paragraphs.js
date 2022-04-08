@@ -10,6 +10,10 @@ import {
   getFileURL,
 } from '@anu/utilities/fields';
 
+/**
+ * Stores the number of numeric divider items.
+ */
+let numericDividerCount = 0;
 const transformParagraph = (paragraph) => {
   let question = null;
   const bundle = getTextValue(paragraph, 'entity_bundle');
@@ -38,11 +42,17 @@ const transformParagraph = (paragraph) => {
     // TODO: Rework - numeric divider counter must consider section separation
     // per lesson.
     case 'lesson_divider':
+      if (getTextValue(paragraph, 'field_lesson_divider_type') === 'numeric') {
+        numericDividerCount++;
+      }
       return {
         bundle,
         id: getNumberValue(paragraph, 'id'),
         type: getTextValue(paragraph, 'field_lesson_divider_type'),
-        counter: getTextValue(paragraph, 'field_lesson_divider_type') === 'numeric' ? 1 : 0,
+        counter:
+          getTextValue(paragraph, 'field_lesson_divider_type') === 'numeric'
+            ? numericDividerCount
+            : 0,
       };
 
     case 'lesson_embedded_video':
