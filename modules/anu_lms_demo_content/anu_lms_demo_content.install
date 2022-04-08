@@ -226,8 +226,216 @@ function anu_lms_demo_create_course_for_testing_paragraphs($extra_data = []) {
     'field_module_lesson_content' => array_values($default_section),
   ];
   // Images lesson end.
-  $lessons = anu_lms_demo_content_create_entities($lessons_data, 'node');
+  // Highlights lesson start.
+  $highlight_items_data = [];
+  foreach (['yellow', 'blue', 'purple', 'green'] as $color) {
+    $highlight_items_data[] = [
+      'type' => 'lesson_highlight',
+      'field_lesson_highlight_color' => $color,
+      'field_lesson_highlight_heading' => 'Highlight (full width)',
+      'field_lesson_highlight_text' => [
+        'value' => "<p>Highlight (full width) text (<em>$color</em>)</p>",
+        'format' => 'minimal_html',
+      ],
+    ];
+    $highlight_items_data[] = [
+      'type' => 'lesson_highlight_marker',
+      'field_lesson_highlight_color' => $color,
+      'field_highlight_marker_text' => "Highlight (marker) text ($color)",
+    ];
 
+    $paragraphs = anu_lms_demo_content_create_entities([
+      [
+        'type' => 'lesson_img_list_item',
+        'field_lesson_img_list_item_align' => 'middle',
+        'field_lesson_img_list_item_image' => $extra_data['field_course_image'],
+        'field_lesson_img_list_item_size' => 'small',
+        'field_lesson_img_list_item_text' => [
+          'value' => '<p>Highlight with image (<em>small</em>)</p>',
+          'format' => 'minimal_html',
+        ],
+      ],
+      [
+        'type' => 'lesson_img_list_item',
+        'field_lesson_img_list_item_align' => 'middle',
+        'field_lesson_img_list_item_image' => $extra_data['field_course_image'],
+        'field_lesson_img_list_item_size' => 'large',
+        'field_lesson_img_list_item_text' => [
+          'value' => '<p>Highlight with image (<em>large</em>)</p>',
+          'format' => 'minimal_html',
+        ],
+      ],
+    ], 'paragraph');
+    $highlight_items_data[] = [
+      'type' => 'lesson_img_list',
+      'field_lesson_highlight_color' => $color,
+      'field_lesson_img_list_heading' => 'Highlight (with image)',
+      'field_lesson_img_list_items' => array_values($paragraphs),
+    ];
+  }
+  $paragraphs = anu_lms_demo_content_create_entities($highlight_items_data, 'paragraph');
+  $default_section = anu_lms_demo_content_create_entities([
+    [
+      'type' => 'lesson_section',
+      'field_lesson_section_content' => array_values($paragraphs),
+    ],
+  ], 'paragraph');
+
+  $lessons_data[] = [
+    'type' => 'module_lesson',
+    'title' => 'Highlights',
+    'field_module_lesson_content' => array_values($default_section),
+  ];
+  // Highlights lesson end.
+  // Dividers lesson start.
+  $divider_items_data = [
+    [
+      'type' => 'lesson_text',
+      'field_lesson_text_content' => [
+        'value' => 'Example of a simple divider.',
+        'format' => 'minimal_html',
+      ],
+    ],
+    [
+      'type' => 'lesson_divider',
+      'field_lesson_divider_type' => 'simple',
+    ],
+  ];
+  foreach ([1, 2, 3] as $item) {
+    $divider_items_data[] = [
+      'type' => 'lesson_text',
+      'field_lesson_text_content' => [
+        'value' => "Example of a numeric divider #$item.",
+        'format' => 'minimal_html',
+      ],
+    ];
+    $divider_items_data[] = [
+      'type' => 'lesson_divider',
+      'field_lesson_divider_type' => 'numeric',
+    ];
+  }
+  $paragraphs = anu_lms_demo_content_create_entities($divider_items_data, 'paragraph');
+  $default_section = anu_lms_demo_content_create_entities([
+    [
+      'type' => 'lesson_section',
+      'field_lesson_section_content' => array_values($paragraphs),
+    ],
+  ], 'paragraph');
+
+  $lessons_data[] = [
+    'type' => 'module_lesson',
+    'title' => 'Dividers',
+    'field_module_lesson_content' => array_values($default_section),
+  ];
+  // Dividers lesson end.
+  // Video lesson start.
+  $video_items_data = [
+    [
+      'type' => 'lesson_embedded_video',
+      'field_lesson_embedded_video_url' => ['uri' => 'https://www.youtube.com/watch?v=mqUV4ZWzkew'],
+    ],
+  ];
+  $paragraphs = anu_lms_demo_content_create_entities($video_items_data, 'paragraph');
+  $default_section = anu_lms_demo_content_create_entities([
+    [
+      'type' => 'lesson_section',
+      'field_lesson_section_content' => array_values($paragraphs),
+    ],
+  ], 'paragraph');
+
+  $lessons_data[] = [
+    'type' => 'module_lesson',
+    'title' => 'Video',
+    'field_module_lesson_content' => array_values($default_section),
+  ];
+  // Video lesson end.
+  // Checklist lesson start.
+  $checklist_items = [];
+  foreach ([1, 2, 3] as $item) {
+    $checklist_items[] = [
+      'type' => 'checklist_item',
+      'field_checkbox_option' => [
+        'value' => "Option $item",
+        'format' => 'minimal_html',
+      ],
+      'field_lesson_text_content' => [
+        'value' => "More about option <strong>$item</strong>",
+        'format' => 'minimal_html',
+      ],
+    ];
+  }
+  $paragraphs = anu_lms_demo_content_create_entities($checklist_items, 'paragraph');
+  $checklist_items_data = [
+    [
+      'type' => 'lesson_checklist',
+      'field_checklist_items' => array_values($paragraphs),
+    ],
+  ];
+  $paragraphs = anu_lms_demo_content_create_entities($checklist_items_data, 'paragraph');
+  $default_section = anu_lms_demo_content_create_entities([
+    [
+      'type' => 'lesson_section',
+      'field_lesson_section_content' => array_values($paragraphs),
+    ],
+  ], 'paragraph');
+
+  $lessons_data[] = [
+    'type' => 'module_lesson',
+    'title' => 'Checklists',
+    'field_module_lesson_content' => array_values($default_section),
+  ];
+  // Checklist lesson end.
+  // Table lesson start.
+  $table_items_data = [
+    [
+      'type' => 'lesson_table',
+      'field_lesson_table_caption' => 'Table caption',
+      'field_lesson_table_content' => [
+        'value' => "<table>
+	<thead>
+		<tr>
+			<th>Odd values</th>
+			<th>Even values</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Value 1</td>
+			<td>Value 2</td>
+		</tr>
+		<tr>
+			<td>Value 3</td>
+			<td>Value 4</td>
+		</tr>
+		<tr>
+			<td>Value 5</td>
+			<td>Value 6</td>
+		</tr>
+		<tr>
+			<td>Value 7</td>
+			<td>Value 8</td>
+		</tr>
+	</tbody>
+</table>",
+        'format' => 'table',
+      ],
+    ],
+  ];
+  $paragraphs = anu_lms_demo_content_create_entities($table_items_data, 'paragraph');
+  $default_section = anu_lms_demo_content_create_entities([
+    [
+      'type' => 'lesson_section',
+      'field_lesson_section_content' => array_values($paragraphs),
+    ],
+  ], 'paragraph');
+
+  $lessons_data[] = [
+    'type' => 'module_lesson',
+    'title' => 'Tables',
+    'field_module_lesson_content' => array_values($default_section),
+  ];
+  // Table lesson end.
+  $lessons = anu_lms_demo_content_create_entities($lessons_data, 'node');
   $default_module = anu_lms_demo_content_create_entities([
     [
       'type' => 'course_modules',
