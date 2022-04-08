@@ -80,7 +80,9 @@ class CoursesTest extends WebDriverTestBase {
     $this->drupalGet('lesson/headings');
 
     // Inside the course. Check the sidebar active element.
-    $this->assertJsCondition('document.querySelector("div[data-anu-lms-navigation-item-status=active]").textContent === "Headings"');
+    $active = $assert->waitForElementVisible('css', 'div[data-anu-lms-navigation-item-status=active]');
+    $this->assertNotEmpty($active);
+    $this->assertEqual($active->getText(), 'Headings');
 
     $headingThree = $assert->waitForElementVisible('css', '#anu-application h3');
     $this->assertNotEmpty($headingThree);
@@ -98,6 +100,7 @@ class CoursesTest extends WebDriverTestBase {
 
     $assert->waitForElementVisible('css', '[aria-label=Next]')->click();
 
+    $assert->waitForElementVisible('css', '#anu-application ul li');
     // Check third item.
     $this->assertJsCondition('document.querySelector("#anu-application ul li:nth-child(3) div[data-anu-lms-list-item-text]").textContent === "Vanilla"');
 
