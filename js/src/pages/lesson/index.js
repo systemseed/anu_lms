@@ -70,7 +70,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LessonPage = ({ lesson, quiz, course, width }) => {
-  console.log(lesson, quiz, course);
   const [isSidebarVisible, toggleSidebarVisibility] = useLocalStorage('sidebarVisibility', true);
   const classes = useStyles({ isSidebarVisible });
 
