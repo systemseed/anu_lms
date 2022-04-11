@@ -70,6 +70,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LessonPage = ({ lesson, quiz, course, width }) => {
+  console.log(lesson, quiz, course);
   const [isSidebarVisible, toggleSidebarVisibility] = useLocalStorage('sidebarVisibility', true);
   const classes = useStyles({ isSidebarVisible });
 
@@ -84,12 +85,12 @@ const LessonPage = ({ lesson, quiz, course, width }) => {
   // TODO: get URL of the current lesson.
   const fallbackUrl = '/';
   useEffect(() => {
-    if (lesson.isRestricted) {
+    if (content.isRestricted) {
       window.location.href = fallbackUrl;
     }
-  }, [lesson.isRestricted, fallbackUrl]);
+  }, [content.isRestricted, fallbackUrl]);
 
-  if (lesson.isRestricted) {
+  if (content.isRestricted) {
     return <LoadingIndicator isLoading={true} />;
   }
 
