@@ -102,7 +102,12 @@ const LessonNavigationItem = ({
       };
 
   return (
-    <Grid container wrap="nowrap" className={classes.item}>
+    <Grid
+      container
+      wrap="nowrap"
+      className={classes.item}
+      data-anu-lms-navigation-item-status={isActive ? 'active' : ''}
+    >
       <Grid item container alignItems="center" className={classes.circleWrapper}>
         {/* Added to hide edges of the line which goes through lesson circles */}
         {isFirstLesson && <Box className={classes.firstLessonBackground} />}
