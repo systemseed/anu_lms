@@ -46,7 +46,7 @@ const ParagraphHighlightFullWidth = ({ title, text, color }) => {
       <LessonGrid>
         {title && (
           <Box mb={2}>
-            <Typography className={classes.heading} data-anu-lms-highlight-heading>
+            <Typography className={classes.heading} data-test="anu-lms-highlight-heading">
               {title}
             </Typography>
           </Box>

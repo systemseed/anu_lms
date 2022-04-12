@@ -106,7 +106,7 @@ const LessonNavigationItem = ({
       container
       wrap="nowrap"
       className={classes.item}
-      data-anu-lms-navigation-item-status={isActive ? 'active' : ''}
+      data-test={`anu-lms-navigation-item-status${isActive ? '-active' : ''}`}
     >
       <Grid item container alignItems="center" className={classes.circleWrapper}>
         {/* Added to hide edges of the line which goes through lesson circles */}

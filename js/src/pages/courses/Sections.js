@@ -12,7 +12,7 @@ const CoursesSections = ({ sections, courses }) => (
     {sections.map((section, index) => (
       <React.Fragment key={section.id}>
         {!section.parent && (
-          <Box pb={[2, 4]} data-anu-lms-section-heading>
+          <Box pb={[2, 4]}>
             <CoursesSectionHeading>{section.title}</CoursesSectionHeading>
           </Box>
         )}
@@ -36,7 +36,7 @@ const CoursesSections = ({ sections, courses }) => (
           </>
         )}
 
-        <Box pb={[3, 6]} data-anu-lms-section>
+        <Box pb={[3, 6]}>
           <CoursesSection
             // Filter out courses which don't belong to the category.
             courses={courses
