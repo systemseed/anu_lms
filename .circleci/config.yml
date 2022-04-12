@@ -29,6 +29,8 @@ jobs:
       - run:
           name: Prepare project with anu_lms in the codebase
           working_directory: anu_drupal
+          # TODO: When install dev-dependencies from main composer.json.
+          # Moving the project to Drupal.org will remove the need to do this.
           command: |
             composer config repositories.systemseed/anu_lms path ../anu_lms && \
             composer config minimum-stability dev && \
