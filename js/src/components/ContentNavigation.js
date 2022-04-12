@@ -102,25 +102,38 @@ const ContentNavigation = ({
                 <Button
                   {...buttonProps}
                   onClick={() => history.push({ pathname: `/section-${currentIndex + 2}` })}
+                  data-test="anu-lms-navigation-next"
                 >
                   {disabled ? completeAnswer : Drupal.t('Next', {}, { context: 'ANU LMS' })}
                 </Button>
               )}
 
               {noNextLesson && nextIsLesson && (
-                <Button {...buttonProps} onClick={updateProgressAndRedirect}>
+                <Button
+                  {...buttonProps}
+                  onClick={updateProgressAndRedirect}
+                  data-test="anu-lms-navigation-next"
+                >
                   {disabled ? completeAnswer : Drupal.t('Next', {}, { context: 'ANU LMS' })}
                 </Button>
               )}
 
               {noNextLesson && !nextIsLesson && !nextIsQuiz && (
-                <Button {...buttonProps} onClick={updateProgressAndRedirect}>
+                <Button
+                  {...buttonProps}
+                  onClick={updateProgressAndRedirect}
+                  data-test="anu-lms-navigation-finish"
+                >
                   {disabled ? completeAnswer : finishButtonText(currentLesson)}
                 </Button>
               )}
 
               {noNextLesson && nextIsLesson && isIntro && (
-                <Button {...buttonProps} onClick={updateProgressAndRedirect}>
+                <Button
+                  {...buttonProps}
+                  onClick={updateProgressAndRedirect}
+                  data-test="anu-lms-navigation-start"
+                >
                   {Drupal.t('Start', {}, { context: 'ANU LMS' })}
                 </Button>
               )}

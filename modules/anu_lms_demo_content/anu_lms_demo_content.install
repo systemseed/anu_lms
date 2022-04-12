@@ -12,7 +12,12 @@ use Drupal\Core\File\FileSystemInterface;
 /**
  * Implements hook_install().
  */
-function anu_lms_demo_content_install() {
+function anu_lms_demo_content_modules_installed($modules, $is_syncing) {
+  // Check for itself. This gives the opportunity for configuration
+  // to be installed such as pathauto patterns.
+  if (!in_array('anu_lms_demo_content', $modules)) {
+    return;
+  }
   $categories = anu_lms_demo_create_course_categories();
   [$first_category, $second_category] = $categories;
   [$first_label, $second_label] = anu_lms_demo_create_course_labels();
@@ -452,7 +457,7 @@ function anu_lms_demo_create_course_for_testing_paragraphs($extra_data = []) {
       'value' => 'This course contains all available lesson item types.',
       'format' => 'minimal_html',
     ],
-    'field_course_finish_button' => ['uri' => 'internal:/anu-demo'],
+    'field_course_finish_button' => ['uri' => 'internal:/courses/courses-demo'],
     'field_course_module' => array_values($default_module),
   ] + $extra_data;
 
@@ -552,7 +557,7 @@ function anu_lms_demo_create_course_for_testing_navigation($extra_data = []) {
       'value' => 'This course contains multiple modules, lessons and sections.',
       'format' => 'minimal_html',
     ],
-    'field_course_finish_button' => ['uri' => 'internal:/anu-demo'],
+    'field_course_finish_button' => ['uri' => 'internal:/courses/courses-demo'],
     'field_course_module' => array_values($modules),
   ] + $extra_data;
 
@@ -592,7 +597,7 @@ function anu_lms_demo_create_courses_page($category_ids = []) {
   $courses_page = [
     'type' => 'courses_page',
     'title' => 'Courses  [DEMO]',
-    'path' => '/anu-demo',
+    'path' => '/courses/courses-demo',
     'field_courses_content' => array_values($paragraphs),
   ];
   anu_lms_demo_content_create_entities([$courses_page], 'node');

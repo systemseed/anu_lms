@@ -30,6 +30,9 @@
         "drupal/xls_serialization": "^1.2",
         "drupal/features": "^3.12"
     },
+    "require-dev": {
+        "drupal/pathauto": "^1.9"
+    },
     "suggest": {
         "drupal/pwa": "Allows using Anu LMS offline."
     },

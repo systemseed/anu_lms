@@ -78,7 +78,7 @@ const ListElement = ({ items, type }) => (
               <StyledIcon fontSize="small">brightness_1</StyledIcon>
             </ListItemIcon>
 
-            <ListItemText>
+            <ListItemText data-test="anu-lms-list-item-text">
               <StyledTypography component="div" dangerouslySetInnerHTML={{ __html: item }} />
             </ListItemText>
           </StyledListItem>
