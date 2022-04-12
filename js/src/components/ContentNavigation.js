@@ -102,7 +102,7 @@ const ContentNavigation = ({
                 <Button
                   {...buttonProps}
                   onClick={() => history.push({ pathname: `/section-${currentIndex + 2}` })}
-                  aria-label={Drupal.t('Next', {}, { context: 'ANU LMS' })}
+                  data-test="anu-lms-navigation-next"
                 >
                   {disabled ? completeAnswer : Drupal.t('Next', {}, { context: 'ANU LMS' })}
                 </Button>
@@ -112,7 +112,7 @@ const ContentNavigation = ({
                 <Button
                   {...buttonProps}
                   onClick={updateProgressAndRedirect}
-                  aria-label={Drupal.t('Next', {}, { context: 'ANU LMS' })}
+                  data-test="anu-lms-navigation-next"
                 >
                   {disabled ? completeAnswer : Drupal.t('Next', {}, { context: 'ANU LMS' })}
                 </Button>
@@ -122,7 +122,7 @@ const ContentNavigation = ({
                 <Button
                   {...buttonProps}
                   onClick={updateProgressAndRedirect}
-                  aria-label={disabled ? completeAnswer : finishButtonText(currentLesson)}
+                  data-test="anu-lms-navigation-finish"
                 >
                   {disabled ? completeAnswer : finishButtonText(currentLesson)}
                 </Button>
@@ -132,7 +132,7 @@ const ContentNavigation = ({
                 <Button
                   {...buttonProps}
                   onClick={updateProgressAndRedirect}
-                  aria-label={Drupal.t('Start', {}, { context: 'ANU LMS' })}
+                  data-test="anu-lms-navigation-start"
                 >
                   {Drupal.t('Start', {}, { context: 'ANU LMS' })}
                 </Button>

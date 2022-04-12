@@ -87,8 +87,7 @@ class CoursesTest extends WebDriverTestBase {
     $this->assertNotEmpty($headingThree);
     $this->assertEqual($headingThree->getText(), 'Lesson heading - h3');
 
-    $next = $assert->waitForElementVisible('css', '[aria-label=Next]');
-    $next->click();
+    $assert->waitForElementVisible('css', '[data-test=anu-lms-navigation-next]')->click();
     $lessonTitle = $assert->waitForElementVisible('css', '#anu-application h4');
     $this->assertNotEmpty($lessonTitle);
     $this->assertEqual($lessonTitle->getText(), 'Text');
@@ -97,35 +96,37 @@ class CoursesTest extends WebDriverTestBase {
     $this->assertNotEmpty($linkInBody);
     $this->assertEqual($linkInBody->getText(), 'Link to GitHub repository.');
 
-    $assert->waitForElementVisible('css', '[aria-label=Next]')->click();
+    $assert->waitForElementVisible('css', '[data-test=anu-lms-navigation-next]')->click();
 
     $assert->waitForElementVisible('css', '#anu-application ul li');
     // Check third item.
     $this->assertJsCondition('document.querySelector("#anu-application ul li:nth-child(3) div[data-test=anu-lms-list-item-text]").textContent === "Vanilla"');
 
-    $assert->waitForElementVisible('css', '[aria-label=Next]')->click();
+    $assert->waitForElementVisible('css', '[data-test=anu-lms-navigation-next]')->click();
 
     $image = $assert->waitForElementVisible('css', '#anu-application img');
     $this->assertNotEmpty($image);
     $this->assertEqual($image->getAttribute('alt'), 'Image with caption');
 
-    $assert->waitForElementVisible('css', '[aria-label=Next]')->click();
+    $assert->waitForElementVisible('css', '[data-test=anu-lms-navigation-next]')->click();
 
     // Highlights.
     $highlightHeading = $assert->waitForElementVisible('css', '#anu-application p[data-test=anu-lms-highlight-heading]');
     $this->assertNotEmpty($highlightHeading);
     $this->assertEqual($highlightHeading->getText(), 'Highlight (full width)');
 
-    $assert->waitForElementVisible('css', '[aria-label=Next]')->click();
+    $assert->waitForElementVisible('css', '[data-test=anu-lms-navigation-next]')->click();
     // Dividers.
-    $assert->waitForElementVisible('css', '[aria-label=Next]')->click();
+    $assert->waitForElementVisible('css', '[data-test=anu-lms-navigation-next]')->click();
     // Video.
-    $assert->waitForElementVisible('css', '[aria-label=Next]')->click();
+    $assert->waitForElementVisible('css', '[data-test=anu-lms-navigation-next]')->click();
     // Checklists.
-    $assert->waitForElementVisible('css', '[aria-label=Next]')->click();
+    $assert->waitForElementVisible('css', '[data-test=anu-lms-navigation-next]')->click();
     // Tables.
-    $assert->waitForElementVisible('css', '[aria-label=Finish]')->click();
+    $assert->waitForElementVisible('css', '[data-test=anu-lms-navigation-finish]')->click();
 
+    // The course has a redirect configured for the courses page.
+    // Assert the redirect happened properly.
     $assert->addressEquals('courses/courses-demo');
   }
 
