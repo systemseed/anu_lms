@@ -17,7 +17,7 @@ const QuizSubmit = ({ onSubmit, isSubmitting, isQuiz, prevLesson }) => {
       polling={false}
       render={({ online }) => (
         <ButtonWrapper>
-          {isQuiz && (
+          {isQuiz && prevLesson && prevLesson.url && (
             <Button
               variant="outlined"
               color="primary"
