@@ -1,13 +1,14 @@
 import * as fields from '@anu/utilities/fields';
 import { transformParagraph } from '@anu/utilities/transform.paragraphs';
 import PropTypes from 'prop-types';
+import { completeLesson, isLessonCompleted, isLessonRestricted } from '@anu/utilities/progress';
 
 /**
  * Transforms quiz content from backend API into quiz
  * object.
  */
-const transformQuiz = (module_data, data) => {
-  const quiz = transformQuizQuestions(module_data);
+const transformQuiz = (module_data, data, course) => {
+  const quiz = transformQuizQuestions(module_data, course);
   if (quiz) {
     addSubmissionData(quiz, data);
   }
@@ -43,22 +44,26 @@ const addSubmittedAnswer = (quizSubmission) => {
  * Transform quiz content from Drupal backend into frontend-friendly
  * object.
  */
-const transformQuizQuestions = (node) => {
+const transformQuizQuestions = (node, course) => {
   if (!fields.getNumberValue(node, 'nid')) {
     return null;
   }
 
+  const id = fields.getNumberValue(node, 'nid');
+
   return {
-    id: fields.getNumberValue(node, 'nid'),
+    id,
     title: fields.getTextValue(node, 'title'),
     url: fields.getNodeUrl(node),
     isSingleSubmission: fields.getBooleanValue(node, 'field_no_multiple_submissions'),
-    isCompleted: fields.getBooleanValue(node, 'is_completed'),
-    isRestricted: fields.getBooleanValue(node, 'is_restricted'),
+    isCompleted: isLessonCompleted(course, id),
+    isRestricted: isLessonRestricted(course, id),
     finishButtonText: fields.getTextValue(node, 'finish_button_text'),
+    finishButtonUrl: fields.getTextValue(node, 'finish_button_url'),
     questions: fields
       .getArrayValue(node, 'field_module_assessment_items')
       .map((paragraph) => transformParagraph(paragraph)),
+    complete: async () => await completeLesson(course, id),
   };
 };
 
