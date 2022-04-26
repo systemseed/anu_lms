@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  - Added path alias patterns for Anu LMS content types.
  - Added js-enabled basic testing.
  - Fixed no lesson error for quizzes.
+ - Fixed bug with no previous lesson in quizzes.
 
 ## [2.5.0-alpha]
  - Move progress tracking to frontend and make progress available offline.
