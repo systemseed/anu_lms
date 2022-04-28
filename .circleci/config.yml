@@ -52,6 +52,20 @@ jobs:
           working_directory: anu_lms/js
           command: npm run lint
       - run:
+          name: Build assets
+          working_directory: anu_lms/js
+          command: npm run build
+      - run:
+          name: Print git status
+          working_directory: anu_lms
+          command: git status
+      - run:
+          name: Fail build if there are uncommitted changes after build
+          working_directory: anu_lms/js
+          command: git diff-index --quiet HEAD --
+      - run:
           name: Run Drupal tests
           working_directory: anu_drupal
           command: php -S localhost:8888 -t web/ & chromedriver --whitelisted-ips & sleep 1 && vendor/bin/phpunit -c web/core/phpunit.xml.dist web/modules/contrib/anu_lms/tests
+      - store_artifacts:
+          path: anu_lms/js/dist
