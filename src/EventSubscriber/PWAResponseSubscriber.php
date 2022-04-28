@@ -4,6 +4,7 @@ namespace Drupal\anu_lms\EventSubscriber;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Url;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -60,7 +61,9 @@ class PWAResponseSubscriber implements EventSubscriberInterface {
     // Service workers don't have access to window or localStorage objects.
     // To pass settings to custom Anu service worker, we inject "drupalSettings"
     // variable in global service worker scope.
-    $import_sw_scripts = ['/anu_lms/sw-settings'];
+    $import_sw_scripts = [
+      Url::fromRoute('anu_lms.service_worker_settings')->toString(),
+    ];
 
     // Allow other modules to alter custom Service Worker scripts.
     // When PWA module provides this capability, this code can be deprecated.
