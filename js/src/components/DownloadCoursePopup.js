@@ -265,24 +265,8 @@ class DownloadCoursePopup extends React.Component {
         urlsToCache.push(course.image.url);
       }
 
-      // Prepare Module related urls to cache.
-      let lessonUrls = [];
-      course.content.map((module) => {
-        // Module's lessons urls.
-        const moduleLessonUrls = module.lessons.map((lesson) => lesson.url);
-        lessonUrls = lessonUrls.concat(moduleLessonUrls);
-
-        // Finish course URL.
-        const lastLesson = module.lessons.at(-1);
-        if (lastLesson && lastLesson.finishButtonUrl) {
-          lessonUrls.push(lastLesson.finishButtonUrl);
-        }
-
-        // Quiz url.
-        if (module.quiz && module.quiz.url) {
-          lessonUrls.push(module.quiz.url);
-        }
-      });
+      // Getting lessons and quizzes urls.
+      const lessonUrls = course.content_urls;
 
       // Cache lessons and returns list of lesson images (from paragraphs) to cache.
       const lessonImageUrls = await this.cacheLessonsAndReturnLessonImages(lessonUrls);
