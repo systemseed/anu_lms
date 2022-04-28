@@ -16,7 +16,6 @@ const Application = ({ children }) => (
     <StylesProvider jss={jss}>
       <GlobalCss />
       <Detector
-        polling={false}
         onChange={onNetworkChange}
         render={() => <BrowserRouter>{children}</BrowserRouter>}
       />
