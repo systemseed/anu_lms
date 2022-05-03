@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fail CI build if there are uncommitted changes after `npm run build`.
 - Fix the issue when SW can't be registered due to a script redirect.
 - Fix course downloading the course from the courses page.
+- Added Event for completed all lessons.
 
 ## [2.5.1]
 - Fixed bug when the quiz can't be finished due to missing complete callback.
