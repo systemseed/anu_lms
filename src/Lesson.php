@@ -355,7 +355,7 @@ class Lesson {
       $completed_lessons[$lesson->id()] = $lesson->id();
 
       $event = new LessonCompletedEvent($this->currentUser, $lesson);
-      $this->dispatcher->dispatch("anu_lms.lesson_completed", $event);
+      $this->dispatcher->dispatch(LessonCompletedEvent::EVENT_NAME, $event);
     }
     catch (\Exception $exception) {
       $this->logger->error($exception->getMessage());

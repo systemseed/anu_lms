@@ -41,7 +41,7 @@ class LessonCompletedEvent extends Event {
   }
 
   /**
-   * Gets the user for which to restrict access.
+   * Gets the user.
    *
    * @return \Drupal\Core\Session\AccountInterface
    *   The user.
