@@ -4,20 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Upcoming release]
-
+## [2.5.3]
+ - Added Event for completed all lessons.
 
 ## [2.5.2]
-- Fail CI build if there are uncommitted changes after `npm run build`.
-- Fix the issue when SW can't be registered due to a script redirect.
-- Fix course downloading the course from the courses page.
-- Added Event for completed all lessons.
+ - Fail CI build if there are uncommitted changes after `npm run build`.
+ - Fix the issue when SW can't be registered due to a script redirect.
+ - Fix course downloading the course from the courses page.
 
 ## [2.5.1]
-- Fixed bug when the quiz can't be finished due to missing complete callback.
+ - Fixed bug when the quiz can't be finished due to missing complete callback.
 
 ## [2.5.1-beta]
-- Adding shamelessly forgotten built version of the app.
+ - Adding shamelessly forgotten built version of the app.
 
 ## [2.5.0-beta]
  - Added "Anu LMS Demo content" module.
