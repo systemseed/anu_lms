@@ -2,6 +2,7 @@
 
 namespace Drupal\anu_lms;
 
+use Drupal\anu_lms\Event\LessonCompletedEvent;
 use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -318,6 +319,20 @@ class Lesson {
     }
 
     try {
+      // Initialize static cache if it is empty.
+      $completed_lessons = &drupal_static('anu_lms_lesson_is_completed');
+      if (!isset($completed_lessons)) {
+        $result = $this->database->select('anu_lms_progress')
+          ->fields('anu_lms_progress', ['nid'])
+          ->condition('uid', $this->currentUser->id())
+          ->execute();
+
+        $completed_lessons = [];
+        foreach ($result as $item) {
+          $completed_lessons[$item->nid] = $item->nid;
+        }
+      }
+
       // Insert or ignore new record about the completion of the lesson.
       $this->database->merge('anu_lms_progress')
         ->keys([
@@ -337,8 +352,10 @@ class Lesson {
 
       // Update static cache to make sure that all subsequent requests
       // have info about the completion of this lesson.
-      $completed_lessons = &drupal_static('anu_lms_lesson_is_completed');
       $completed_lessons[$lesson->id()] = $lesson->id();
+
+      $event = new LessonCompletedEvent($this->currentUser, $lesson);
+      $this->dispatcher->dispatch(LessonCompletedEvent::EVENT_NAME, $event);
     }
     catch (\Exception $exception) {
       $this->logger->error($exception->getMessage());
