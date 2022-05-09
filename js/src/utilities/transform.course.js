@@ -77,13 +77,15 @@ const transformCourse = (node, data) => {
   // If progress is available, point first lesson URL to the first non-restricted lesson.
   if (progress) {
     let currentLesson = Object.values(progress).find((lesson) => lesson.prev === 0);
-    while (currentLesson.next && !progress[currentLesson.next].restricted) {
-      currentLesson = progress[currentLesson.next];
+    if (currentLesson) {
+      while (currentLesson.next && !progress[currentLesson.next].restricted) {
+        currentLesson = progress[currentLesson.next];
+      }
+      return {
+        ...transform,
+        first_lesson_url: currentLesson.url,
+      };
     }
-    return {
-      ...transform,
-      first_lesson_url: currentLesson.url,
-    };
   }
 
   return transform;
