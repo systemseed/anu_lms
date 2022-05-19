@@ -141,7 +141,7 @@ class Normalizer {
     ];
     // Merge default and given context settings.
     $context = array_merge_recursive($default_context, $context);
-    
+
     // Get translated version of the entity.
     $entity = $this->entityRepository->getTranslationFromContext($entity);
 
