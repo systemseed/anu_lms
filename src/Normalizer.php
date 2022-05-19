@@ -9,6 +9,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Language\LanguageManager;
 use Symfony\Component\Serializer\Serializer;
+use Drupal\serialization\Normalizer\CacheableNormalizerInterface;
 
 /**
  * Normalizer service for the given entities.
@@ -36,12 +37,6 @@ class Normalizer {
    */
   protected $cache;
 
-  /**
-   * Cacheable metadata to cache normalized competencies.
-   *
-   * @var \Drupal\Core\Cache\CacheableMetadata
-   */
-  protected $cacheableMetadata;
   /**
    * Language manager.
    *
@@ -73,7 +68,6 @@ class Normalizer {
     $this->serializer = $serializer;
     $this->cache = $cache;
     $this->languageManager = $language_manager;
-    $this->cacheableMetadata = new CacheableMetadata();
   }
 
   /**
@@ -103,6 +97,9 @@ class Normalizer {
       return NULL;
     }
 
+    // We are going to cache only normalized data of root entities
+    // but even in this case same entities may be requested with
+    // different max depth.
     $max_depth = empty($context['max_depth']) ? $this->defaultMaxDepth : $context['max_depth'];
     $cache_cid = $this->getCacheId($entity->getEntityTypeId() . ':' . $entity->id() . ':' . $max_depth);
     // Trying to get cached results first.
@@ -110,12 +107,11 @@ class Normalizer {
       return $cache->data;
     }
 
-    // Preparing results as usual.
-    $this->cacheableMetadata = new CacheableMetadata();
-    $this->cacheableMetadata->addCacheableDependency($entity);
+    $context_cacheability = CacheableNormalizerInterface::SERIALIZATION_CONTEXT_CACHEABILITY;
 
     // Default configurations.
     $default_context = [
+      $context_cacheability => new CacheableMetadata(),
       'settings' => [
         'user' => [
           'exclude_fields' => [
@@ -124,7 +120,7 @@ class Normalizer {
         ],
         'node' => [
           'exclude_fields' => [
-            'uid', 'type', 'vid', 'revision_timestamp', 'revision_uid', 'revision_log', 'revision_translation_affected', 'promote', 'sticky', 'menu_link', 'default_langcode', 'langcode', 'content_translation_source', 'content_translation_outdated',
+            'uid', 'type', 'vid', 'revision_timestamp', 'revision_uid', 'revision_log', 'revision_translation_affected', 'promote', 'sticky', 'menu_link', 'default_langcode', 'langcode', 'content_translation_source', 'content_translation_outdated', 'field_course_modules', 'field_module_lesson_module', '	field_module_assessment_module',
           ],
         ],
         'paragraph' => [
@@ -148,8 +144,8 @@ class Normalizer {
     // Normalize recursively given entity.
     $normalized_entity = $this->serializer->normalize($entity, 'json_recursive', $context);
 
-    // Saving normalized entity to the cache for further ussage.
-    $this->cache->set($cache_cid, $normalized_entity, Cache::PERMANENT, $this->cacheableMetadata->getCacheTags());
+    // Saving normalized entity to the cache for further usage.
+    $this->cache->set($cache_cid, $normalized_entity, Cache::PERMANENT, $context[$context_cacheability]->getCacheTags());
 
     return $normalized_entity;
   }
