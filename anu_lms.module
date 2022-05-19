@@ -7,6 +7,7 @@
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\NodeInterface;
+use Drupal\Core\Cache;
 
 /**
  * Implements hook_form_FORM_ID_alter().
@@ -79,6 +80,95 @@ function anu_lms_node_presave(NodeInterface $node) {
       return;
     }
   }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_save().
+ *
+ * Invalidates cache of parent entities of LMS content.
+ */
+function anu_lms_node_save(NodeInterface $node) {
+  // Covering case when course or couse page were cached before
+  // children were published, so cache tag of child content was not set.
+  $types = ['course', 'module_lesson', 'module_assessment'];
+  $node_type = $node->getType();
+  if (!in_array($node_type, $types)) {
+    return;
+  }
+
+  $nids = [];
+  switch ($node_type) {
+    case 'course':
+      // Get courses page from course.
+      //
+      // Gathering course categories.
+      $category_ids = array_column($node->get('field_course_category')->getValue(), 'target_id');
+
+      if (empty($category_ids)) {
+        return [];
+      }
+
+      // Gathering courses page's categories parargaphs.
+      $courses_page_categories = \Drupal::entityQuery('paragraph')
+        ->condition('type', 'course_category')
+        ->condition('field_course_category', $category_ids, 'IN')
+        ->accessCheck(FALSE)
+        ->execute();
+
+      if (empty($courses_page_categories)) {
+        return;
+      }
+
+      // Gathering courses page IDs.
+      $courses_page_categories = array_values($courses_page_categories);
+      $nids = \Drupal::entityQuery('node')
+        ->accessCheck(FALSE)
+        ->condition('type', 'courses_page')
+        ->condition('field_courses_content', $courses_page_categories, 'IN')
+        ->execute();
+
+      break;
+
+    case 'module_lesson':
+    case 'module_assessment':
+      // Get course from lessons and quizzes.
+      //
+      // Getting parent module paragraph.
+      $query = \Drupal::entityQuery('paragraph');
+      $query->condition('type', 'course_modules');
+      if ($node_type === 'module_lesson') {
+        $query->condition('field_module_lessons', $node->id());
+      }
+      elseif ($node_type === 'module_assessment') {
+        $query->condition('field_module_assessment', $node->id());
+      }
+      // In case of entity somehow will have multiple parents,
+      // we always will have a deal with most recently created one.
+      $query->sort('id', 'DESC');
+      $query->range(0, 1);
+      $pids = $query->accessCheck(FALSE)->execute();
+
+      if (empty($pids)) {
+        return;
+      }
+
+      // Getting modules's parent course.
+      $nids = \Drupal::entityQuery('node')
+        ->accessCheck(FALSE)
+        ->condition('type', 'course')
+        ->condition('field_course_module', reset($pids))
+        ->execute();
+
+      break;
+  }
+
+  // Invalidating caches.
+  if (!empty($nids)) {
+    foreach ($nids as $nid) {
+      Cache::invalidateTags("node:$nid");
+    }
+  }
+
 }
 
 /**
