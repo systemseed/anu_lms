@@ -7,7 +7,7 @@
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\NodeInterface;
-use Drupal\Core\Cache;
+use Drupal\Core\Cache\Cache;
 
 /**
  * Implements hook_form_FORM_ID_alter().
@@ -83,15 +83,16 @@ function anu_lms_node_presave(NodeInterface $node) {
 }
 
 /**
- * Implements hook_ENTITY_TYPE_save().
+ * Implements hook_ENTITY_TYPE_update().
  *
  * Invalidates cache of parent entities of LMS content.
  */
-function anu_lms_node_save(NodeInterface $node) {
+function anu_lms_node_update(NodeInterface $node) {
   // Covering case when course or couse page were cached before
   // children were published, so cache tag of child content was not set.
   $types = ['course', 'module_lesson', 'module_assessment'];
   $node_type = $node->getType();
+
   if (!in_array($node_type, $types)) {
     return;
   }
@@ -163,12 +164,16 @@ function anu_lms_node_save(NodeInterface $node) {
   }
 
   // Invalidating caches.
-  if (!empty($nids)) {
-    foreach ($nids as $nid) {
-      Cache::invalidateTags("node:$nid");
-    }
+  if (empty($nids)) {
+    return;
   }
 
+  $tags = [];
+  foreach ($nids as $nid) {
+    $tags[] = "node:$nid";
+  }
+
+  Cache::invalidateTags($tags);
 }
 
 /**
