@@ -6,6 +6,7 @@ import QuizSubmit from '@anu/components/QuizSubmit';
 import paragraphMappings from '@anu/utilities/paragraphMappings';
 import Box from '@material-ui/core/Box';
 import QuizAlert from '@anu/components/QuizAlert';
+import SnackAlert from "@anu/components/SnackAlert";
 
 // TODO - should be a pure function component with hooks.
 class ParagraphsWithQuiz extends React.Component {
@@ -18,6 +19,7 @@ class ParagraphsWithQuiz extends React.Component {
       correctValuesCount: !isNaN(props.correctValuesCount) ? props.correctValuesCount : -1,
       isSubmitting: false,
       openDialog: false,
+      alertOpen: false,
       readyToSubmit: !props.isSingleSubmission,
       isSingleSubmission: props.isSingleSubmission,
     };
@@ -96,7 +98,7 @@ class ParagraphsWithQuiz extends React.Component {
         });
         this.props.submitQuiz(true);
       } else {
-        alert(Drupal.t('Quiz submission failed. Please try again.', {}, { context: 'ANU LMS' }));
+        this.setState({alertOpen: true});
         console.error(response.status, await response.text());
       }
     } catch (error) {
@@ -186,6 +188,15 @@ class ParagraphsWithQuiz extends React.Component {
               isQuiz
             />
           )}
+          <SnackAlert
+            show={this.state.alertOpen}
+            message={Drupal.t('Quiz submission failed. Please try again.', {}, { context: 'ANU LMS' })}
+            onClose={() => this.setState({ alertOpen: false })}
+            severity='warning'
+            variant="filled"
+            spaced
+            duration={5000}
+          />
         </LessonGrid>
       </>
     );
