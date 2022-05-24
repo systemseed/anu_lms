@@ -107,11 +107,12 @@ class Normalizer {
       return $cache->data;
     }
 
-    $context_cacheability = CacheableNormalizerInterface::SERIALIZATION_CONTEXT_CACHEABILITY;
+    $cacheable_key = CacheableNormalizerInterface::SERIALIZATION_CONTEXT_CACHEABILITY;
 
     // Default configurations.
     $default_context = [
-      $context_cacheability => new CacheableMetadata(),
+      // Let rest_entity_recursive collect all cacheable metadata.
+      $cacheable_key => new CacheableMetadata(),
       'settings' => [
         'user' => [
           'exclude_fields' => [
@@ -145,7 +146,7 @@ class Normalizer {
     $normalized_entity = $this->serializer->normalize($entity, 'json_recursive', $context);
 
     // Saving normalized entity to the cache for further usage.
-    $this->cache->set($cache_cid, $normalized_entity, Cache::PERMANENT, $context[$context_cacheability]->getCacheTags());
+    $this->cache->set($cache_cid, $normalized_entity, Cache::PERMANENT, $context[$cacheable_key]->getCacheTags());
 
     return $normalized_entity;
   }
