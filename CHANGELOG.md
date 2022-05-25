@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 -
 
+## [2.5.6]
+- Disabled cache when the progress is enabled.
+
 ## [2.5.5]
 - Improved page loading performance by adding caching for serialized data.
 

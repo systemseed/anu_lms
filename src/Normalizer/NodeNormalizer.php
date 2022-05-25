@@ -61,6 +61,15 @@ class NodeNormalizer extends ContentEntityNormalizer {
 
     if ($entity->bundle() === 'course' && $courseHandler->isLinearProgressEnabled($entity)) {
       $normalized['progress'] = $courseProgressHandler->getCourseProgress($entity);
+
+      // If progress is enabled, we disable all REST Entity Recursive cache!
+      // @todo extract progress data in a separate data attribute and enable
+      // back cache.
+      if (isset($context[static::SERIALIZATION_CONTEXT_CACHEABILITY])) {
+        /** @var \Drupal\Core\Cache\CacheableMetadata $cacheable_metadata */
+        $cacheable_metadata = $context[static::SERIALIZATION_CONTEXT_CACHEABILITY];
+        $cacheable_metadata->setCacheMaxAge(0);
+      }
     }
 
     if (

@@ -2,7 +2,6 @@
 
 namespace Drupal\anu_lms;
 
-use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Entity\EntityInterface;
@@ -145,8 +144,15 @@ class Normalizer {
     // Normalize recursively given entity.
     $normalized_entity = $this->serializer->normalize($entity, 'json_recursive', $context);
 
+    /** @var \Drupal\Core\Cache\CacheableMetadata $cacheable_metadata */
+    $cacheable_metadata = $context[$cacheable_key];
     // Saving normalized entity to the cache for further usage.
-    $this->cache->set($cache_cid, $normalized_entity, Cache::PERMANENT, $context[$cacheable_key]->getCacheTags());
+    $this->cache->set(
+      $cache_cid,
+      $normalized_entity,
+      $cacheable_metadata->getCacheMaxAge(),
+      $cacheable_metadata->getCacheTags(),
+    );
 
     return $normalized_entity;
   }
