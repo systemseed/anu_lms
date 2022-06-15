@@ -69,7 +69,7 @@ const Resource = ({ file, name, description }) => {
                   startIcon={<GetAppIcon />}
                   onClick={() => window.open(file.path)}
                 >
-                  Download
+                  {Drupal.t('Download', {}, { context: 'ANU LMS' })}
                 </Button>
               ) : (
                 Drupal.t('File cannot be downloaded.', {}, { context: 'ANU LMS' })
