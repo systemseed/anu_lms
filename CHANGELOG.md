@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 - Fixed Download button label translation for Resource paragraph.
+- Added submodule which provides default configuration for LMS search functionality.
 
 ## [2.5.6]
 - Disabled cache when the progress is enabled.
