@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.search_result
+    - field.field.node.module_lesson.field_module_lesson_content
+    - node.type.module_lesson
+  module:
+    - user
+id: node.module_lesson.search_result
+targetEntityType: node
+bundle: module_lesson
+mode: search_result
+content:
+  search_api_excerpt:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_module_lesson_content: true
+  langcode: true
+  links: true

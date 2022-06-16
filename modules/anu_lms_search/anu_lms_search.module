@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * @file
+ * Functions to support search fuctionality in Anu LMS.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_form_views_exposed_form_alter().
+ */
+function anu_lms_search_form_views_exposed_form_alter(&$form, FormStateInterface $form_state) {
+  if ($form['#id'] == 'views-exposed-form-anu-lms-search-search-results-page') {
+    $form['#attached']['library'][] = 'anu_lms_search/search'; 
+    $form['#attributes']['class'][] = 'anu-lms-search__search-form';
+    $form['key']['#wrapper_attributes']['class'][] = 'search-form__input';
+    $form['key']['#attributes']['placeholder'] = t('Search LMS content');
+    $form['actions']['#attributes']['class'][] = 'visually-hidden';
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function anu_lms_search_theme($existing, $type, $theme, $path) {
+  return [
+    'views_exposed_form__anu_lms_search__search_results_page' => [
+      'template' => 'views-exposed-form--anu-lms-search--search-results-page',
+      'base hook' => 'views_exposed_form',
+    ],
+  ];
+}

@@ -1,0 +1,14 @@
+name: 'Anu LMS Search'
+description: 'Extends LMS functionality with fulltext search.'
+type: module
+package: 'Anu LMS'
+core_version_requirement: '^8.9 || ^9'
+dependencies:
+  - 'anu_lms:anu_lms'
+  - 'anu_lms_assessments:anu_lms_assessments'
+  - 'drupal:node'
+  - 'drupal:user'
+  - 'drupal:views'
+  - 'entity_reference_revisions:entity_reference_revisions'
+  - 'search_api:search_api'
+  - 'search_api:search_api_db'

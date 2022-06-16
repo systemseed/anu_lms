@@ -1,0 +1,4 @@
+search:
+  css:
+    component:
+      css/search.css: {}

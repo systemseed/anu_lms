@@ -39,6 +39,9 @@
     "extra": {
         "enable-patching": true,
         "patches":{
+            "drupal/core": {
+                "Make exposed filter values available as tokens for text areas": "https://www.drupal.org/files/issues/2022-01-19/2761273-41.patch"
+            },
             "drupal/paragraphs": {
                 "Fix error with empty langcode on saving in certain cases": "https://www.drupal.org/files/issues/2020-06-25/paragraphs-2901390-51.patch"
             }
