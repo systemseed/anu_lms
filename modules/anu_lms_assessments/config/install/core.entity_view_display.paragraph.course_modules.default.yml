@@ -13,26 +13,27 @@ mode: default
 content:
   field_module_assessment:
     type: entity_reference_label
+    label: hidden
+    settings:
+      link: false
+    third_party_settings: {  }
     weight: 2
     region: content
-    label: inline
-    settings:
-      link: false
-    third_party_settings: {  }
   field_module_lessons:
     type: entity_reference_label
-    weight: 1
-    region: content
-    label: inline
+    label: hidden
     settings:
       link: false
     third_party_settings: {  }
+    weight: 1
+    region: content
   field_module_title:
-    weight: 0
-    label: inline
+    type: string
+    label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 0
     region: content
-hidden: {  }
+hidden:
+  search_api_excerpt: true

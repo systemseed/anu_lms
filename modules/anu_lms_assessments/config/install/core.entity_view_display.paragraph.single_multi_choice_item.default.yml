@@ -10,21 +10,13 @@ targetEntityType: paragraph
 bundle: single_multi_choice_item
 mode: default
 content:
-  field_single_multi_choice_right:
-    weight: 1
-    label: above
-    settings:
-      format: default
-      format_custom_false: ''
-      format_custom_true: ''
-    third_party_settings: {  }
-    type: boolean
-    region: content
   field_single_multi_choice_value:
-    weight: 0
-    label: above
+    type: basic_string
+    label: hidden
     settings: {  }
     third_party_settings: {  }
-    type: basic_string
+    weight: 0
     region: content
-hidden: {  }
+hidden:
+  field_single_multi_choice_right: true
+  search_api_excerpt: true

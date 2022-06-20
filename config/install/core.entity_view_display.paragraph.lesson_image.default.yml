@@ -14,20 +14,21 @@ bundle: lesson_image
 mode: default
 content:
   field_lesson_image_caption:
-    weight: 1
-    label: above
+    type: string
+    label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 1
     region: content
   field_lesson_image_image:
-    weight: 0
-    label: above
-    settings:
-      image_style: medium
-      image_link: ''
-    third_party_settings: {  }
     type: image
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: medium
+    third_party_settings: {  }
+    weight: 0
     region: content
-hidden: {  }
+hidden:
+  search_api_excerpt: true

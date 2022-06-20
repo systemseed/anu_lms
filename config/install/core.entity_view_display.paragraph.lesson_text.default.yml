@@ -12,10 +12,11 @@ bundle: lesson_text
 mode: default
 content:
   field_lesson_text_content:
-    weight: 0
-    label: above
+    type: text_default
+    label: hidden
     settings: {  }
     third_party_settings: {  }
-    type: text_default
+    weight: 0
     region: content
-hidden: {  }
+hidden:
+  search_api_excerpt: true

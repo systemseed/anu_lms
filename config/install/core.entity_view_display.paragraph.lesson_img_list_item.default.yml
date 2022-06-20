@@ -9,41 +9,29 @@ dependencies:
     - paragraphs.paragraphs_type.lesson_img_list_item
   module:
     - image
-    - options
     - text
 id: paragraph.lesson_img_list_item.default
 targetEntityType: paragraph
 bundle: lesson_img_list_item
 mode: default
 content:
-  field_lesson_img_list_item_align:
-    weight: 2
-    label: hidden
-    settings: {  }
-    third_party_settings: {  }
-    type: list_default
-    region: content
   field_lesson_img_list_item_image:
-    weight: 0
+    type: image
     label: hidden
     settings:
-      image_style: ''
       image_link: ''
+      image_style: ''
     third_party_settings: {  }
-    type: image
-    region: content
-  field_lesson_img_list_item_size:
-    weight: 1
-    label: hidden
-    settings: {  }
-    third_party_settings: {  }
-    type: list_default
+    weight: 0
     region: content
   field_lesson_img_list_item_text:
-    weight: 3
+    type: text_default
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    type: text_default
+    weight: 1
     region: content
-hidden: {  }
+hidden:
+  field_lesson_img_list_item_align: true
+  field_lesson_img_list_item_size: true
+  search_api_excerpt: true

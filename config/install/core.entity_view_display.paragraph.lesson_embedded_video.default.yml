@@ -12,8 +12,8 @@ bundle: lesson_embedded_video
 mode: default
 content:
   field_lesson_embedded_video_url:
-    weight: 0
-    label: above
+    type: link
+    label: hidden
     settings:
       trim_length: 80
       url_only: false
@@ -21,6 +21,7 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    type: link
+    weight: 0
     region: content
-hidden: {  }
+hidden:
+  search_api_excerpt: true
