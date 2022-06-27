@@ -28,7 +28,6 @@ field_settings:
         anonymous: anonymous
       view_mode:
         'entity:node':
-          module_assessment: search_index
           module_lesson: search_index
   status:
     label: Published
@@ -64,7 +63,6 @@ datasource_settings:
     bundles:
       default: false
       selected:
-        - module_assessment
         - module_lesson
     languages:
       default: true

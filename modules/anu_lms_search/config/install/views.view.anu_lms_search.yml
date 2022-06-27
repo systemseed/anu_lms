@@ -198,7 +198,6 @@ display:
         options:
           view_modes:
             'entity:node':
-              module_assessment: search_result
               module_lesson: search_result
       query:
         type: views_query
