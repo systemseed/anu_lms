@@ -8,7 +8,7 @@ const getKeywords = () => {
   const urlParams = new URLSearchParams(queryString);
   const highlight = urlParams.get('hl');
 
-  return highlight ?? null;
+  return highlight ? highlight.replace(/[<>]/, '') : null;
 };
 
 /**
@@ -25,13 +25,18 @@ const highlightRawText = (text) => {
 
   let highlighted = text;
 
+  // We need to wrap all keywords matches by `strong` tag
+  // but have to ignore matches inside tag attributes,
+  // like urls, class names etc.
+  // The logic of regular expression is find only matches
+  // between `>` and `<` symbols.
   keywords
     .split(' ')
     .forEach(
       (keyword) =>
-        (highlighted = highlighted.replace(
-          new RegExp(`(${keyword})`, 'gi'),
-          '<strong class="highlight">$1</strong>'
+        (highlighted = highlighted.replaceAll(
+          new RegExp(`(>[^<]*?)(${keyword})(.*?<)`, 'gi'),
+          '$1<strong class="highlight">$2</strong>$3'
         ))
     );
 

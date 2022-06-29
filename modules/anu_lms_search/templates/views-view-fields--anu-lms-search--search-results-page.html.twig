@@ -6,7 +6,7 @@
         To support translations, it needs to pass language object (not just lngcode) to Url options like this:
 
         ```
-        href="{{ path('entity.node.canonical', {'node': node.id }, {'language': node.language, 'query': {'hl': view.getExposedInput.key} }}) }}"
+        href="{{ path('entity.node.canonical', { 'node': node.id }, { 'language': node.language, 'query': { 'hl': view.getExposedInput.key } }) }}"
         ```
 
         but by default `language` method is not allowed in Drupal Twig, so it needs to be whitelisted in `settings.php`:
@@ -25,7 +25,7 @@
       #}
       <h4>
         <a
-          href="{{ path('entity.node.canonical', {'node': node.id }, {'query': {'hl': view.getExposedInput.key} }) }}"
+          href="{{ path('entity.node.canonical', { 'node': node.id }, { 'query': { 'hl': view.getExposedInput.key } }) }}"
           rel="bookmark">
           {{ fields.title.content }}
         </a>
