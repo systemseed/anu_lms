@@ -5,6 +5,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import LessonGrid from '@anu/components/LessonGrid';
 import { textStyle } from '../theme';
+import { highlightText } from '@anu/utilities/searchHighlighter';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -47,7 +48,7 @@ const ParagraphHighlightFullWidth = ({ title, text, color }) => {
         {title && (
           <Box mb={2}>
             <Typography className={classes.heading} data-test="anu-lms-highlight-heading">
-              {title}
+              {highlightText(title)}
             </Typography>
           </Box>
         )}

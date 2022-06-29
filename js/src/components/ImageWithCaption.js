@@ -4,6 +4,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import LessonGrid from '@anu/components/LessonGrid';
+import { highlightText } from '@anu/utilities/searchHighlighter';
 
 const useStyles = makeStyles((theme) => ({
   borderedImage: {
@@ -24,7 +25,7 @@ const ImageWithCaption = ({ image, caption }) => {
       <img src={image.url} alt={caption || ''} className={classes.borderedImage} />
       {caption && (
         <Box mt={1}>
-          <Typography variant="caption">{caption}</Typography>
+          <Typography variant="caption">{highlightText(caption)}</Typography>
         </Box>
       )}
     </LessonGrid>

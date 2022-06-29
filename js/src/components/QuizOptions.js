@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
@@ -11,7 +12,7 @@ import QuizSubmit from '@anu/components/QuizSubmit';
 import LessonGrid from '@anu/components/LessonGrid';
 import CheckboxWithValidation from '@anu/components/CheckboxWithValidation';
 import RadioWithValidation from '@anu/components/RadioWithValidation';
-import PropTypes from 'prop-types';
+import { highlightText } from '@anu/utilities/searchHighlighter';
 
 const StyledBox = withStyles((theme) => ({
   root: {
@@ -36,7 +37,7 @@ const QuizOptions = ({
     <StyledBox>
       <LessonGrid>
         <Typography variant="subtitle1" style={{ marginBottom: theme.spacing(1) }}>
-          {question}
+          {highlightText(question)}
         </Typography>
 
         <FormGroup>
@@ -44,7 +45,7 @@ const QuizOptions = ({
             options.map((option) => (
               <FormControlLabel
                 key={option.id}
-                label={option.value}
+                label={highlightText(option.value)}
                 disabled={isSubmitted || isSubmitting}
                 control={
                   <CheckboxWithValidation
@@ -64,7 +65,7 @@ const QuizOptions = ({
                 {options.map((option) => (
                   <FormControlLabel
                     key={option.id}
-                    label={option.value}
+                    label={highlightText(option.value)}
                     value={option.id}
                     disabled={isSubmitted || isSubmitting}
                     control={

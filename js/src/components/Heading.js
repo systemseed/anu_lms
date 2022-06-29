@@ -2,11 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import LessonGrid from '@anu/components/LessonGrid';
+import { highlightText } from '@anu/utilities/searchHighlighter';
 
 const Heading = ({ type, value }) => (
   <LessonGrid>
     <Typography variant={type} component={type}>
-      {value}
+      {highlightText(value)}
     </Typography>
   </LessonGrid>
 );

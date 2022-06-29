@@ -4,6 +4,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import Typography from '@material-ui/core/Typography';
 import LessonGrid from '@anu/components/LessonGrid';
 import Box from '@material-ui/core/Box';
+import { highlightText } from '@anu/utilities/searchHighlighter';
 
 const useStyles = makeStyles((theme) => ({
   text: {
@@ -29,7 +30,7 @@ const ParagraphHighlightMarker = ({ text, color }) => {
     <LessonGrid>
       <Box className={classes.container}>
         <Typography component="marker" className={classes.text}>
-          {text}
+          {highlightText(text)}
         </Typography>
       </Box>
     </LessonGrid>

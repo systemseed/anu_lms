@@ -6,6 +6,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import QuizSubmit from '@anu/components/QuizSubmit';
 import LessonGrid from '@anu/components/LessonGrid';
+import { highlightText } from '@anu/utilities/searchHighlighter';
 
 const StyledBox = withStyles((theme) => ({
   root: {
@@ -60,7 +61,7 @@ const QuizScale = ({
     <StyledBox>
       <LessonGrid>
         <Box mb={5}>
-          <Typography variant="subtitle1">{question}</Typography>
+          <Typography variant="subtitle1">{highlightText(question)}</Typography>
         </Box>
 
         <SliderWithValidation

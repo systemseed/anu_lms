@@ -29,5 +29,9 @@ function anu_lms_search_theme($existing, $type, $theme, $path) {
       'template' => 'views-exposed-form--anu-lms-search--search-results-page',
       'base hook' => 'views_exposed_form',
     ],
+    'views_view_fields__anu_lms_search__search_results_page' => [
+      'template' => 'views-view-fields--anu-lms-search--search-results-page',
+      'base hook' => 'views_view_fields',
+    ],
   ];
 }

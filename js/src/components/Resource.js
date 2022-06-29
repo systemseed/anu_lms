@@ -11,6 +11,7 @@ import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 import GetAppIcon from '@material-ui/icons/GetApp';
 
 import LessonGrid from '@anu/components/LessonGrid';
+import { highlightText } from '@anu/utilities/searchHighlighter';
 
 const Resource = ({ file, name, description }) => {
   const theme = useTheme();
@@ -31,7 +32,7 @@ const Resource = ({ file, name, description }) => {
           <Box ml={2} mt={0.5}>
             <Box display="flex">
               <Typography variant="body1" style={{ fontWeight: 700 }}>
-                {name}
+                {highlightText(name)}
               </Typography>
 
               <Box
@@ -58,7 +59,7 @@ const Resource = ({ file, name, description }) => {
                   color: theme.palette.grey[300],
                 }}
               >
-                {description}
+                {highlightText(description)}
               </Typography>
             )}
 
