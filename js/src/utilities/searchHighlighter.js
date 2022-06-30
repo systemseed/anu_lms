@@ -56,32 +56,59 @@ const highlightText = (text) => {
     return text;
   }
 
-  let regexList = [];
-  keywords.split(' ').forEach((keyword) => regexList.push(new RegExp(`(${keyword})`, 'gi')));
-
+  const keywordList = keywords.split(' ');
   const words = text.split(' ');
+  let highlighted = [];
+
+  words.map((word, i, words) => {
+    let isReplaced = false;
+    // Have to use `for` instead of `map` for being able to call `break`.
+    for (var j = 0; j < keywordList.length; j++) {
+      const keyword = keywordList[j];
+      if (word.toLowerCase().includes(keyword.toLowerCase())) {
+        const index = word.toLowerCase().indexOf(keyword.toLowerCase());
+        // Part of the word from the beginning of the word to begging of the keyword.
+        if (index > 0) {
+          highlighted.push(word.substring(0, index));
+        }
+        // Keyword itself.
+        highlighted.push(
+          <strong className="highlight">{word.substring(index, index + keyword.length)}</strong>
+        );
+        // Part of the word from the end of the keyword to the end of the word.
+        if (word.length > index + keyword.length) {
+          highlighted.push(word.substring(index + keyword.length));
+        }
+        isReplaced = true;
+        break;
+      }
+    }
+    // No keywords, just put original word.
+    if (!isReplaced) {
+      highlighted.push(word);
+    }
+    // Space after every word.
+    if (i + 1 !== words.length) {
+      highlighted.push(' ');
+    }
+  });
+
   return (
     <>
-      {words.map((word, i, words) => (
-        <React.Fragment key={i}>
-          {regexList.some((rx) => rx.test(word)) ? (
-            <strong className="highlight">{word}</strong>
-          ) : (
-            <>{word}</>
-          )}
-          {i + 1 !== words.length && <> </>}
-        </React.Fragment>
+      {highlighted.map((part, i) => (
+        <React.Fragment key={i}>{part}</React.Fragment>
       ))}
     </>
   );
 
   /*
-  The solution looks a bit heavy.
+  The solution looks heavy.
   It would be great if more beautiful way will be found.
   Another considered solution - convert markup to node with
   `dangerouslySetInnerHTML` attribute.
   Main disadvantage of this solution - extra wrapper, like `div`
-  around rendered output:
+  around rendered output, which may cause unwanted consequences
+  for inline elements:
 
   ```
   keywords.split(' ').forEach(keyword => 
