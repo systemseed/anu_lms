@@ -8,7 +8,7 @@ dependencies:
 id: anu_lms_search
 label: 'Anu LMS search'
 module: views
-description: ''
+description: 'Anu LMS search results page.'
 tag: ''
 base_table: search_api_index_anu_lms_search_index
 base_field: search_api_id

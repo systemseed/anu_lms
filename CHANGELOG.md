@@ -4,20 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
-- Fixed Download button label translation for Resource paragraph.
-- Added submodule which provides default configuration for LMS search functionality.
-- Fixed course navigation overlapping by tables on mobiles.
-- Added search keywords highlighting i lesson content.
+## [2.6.0]
+ - Fixed Download button label translation for Resource paragraph.
+ - Added submodule which provides default configuration for LMS search functionality.
+ - Fixed course navigation overlapping by tables on mobiles.
+ - Added search keywords highlighting in lesson content.
 
 ## [2.5.6]
-- Disabled cache when the progress is enabled.
+ - Disabled cache when the progress is enabled.
 
 ## [2.5.5]
-- Improved page loading performance by adding caching for serialized data.
+ - Improved page loading performance by adding caching for serialized data.
 
 ## [2.5.4]
-- Fixed issue with non-existing first lesson within the course progress.
+ - Fixed issue with non-existing first lesson within the course progress.
 
 ## [2.5.3]
  - Added Event for completed all lessons.
