@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.5.7]
 - Fixed Download button label translation for Resource paragraph.
 - Fixed wrong domain name in the lesson sidebar on multi-domain sites.
+- Fixed caching of unpublished content in the lesson sidebar.
 
 ## [2.5.6]
 - Disabled cache when the progress is enabled.

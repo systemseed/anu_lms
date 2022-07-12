@@ -4,9 +4,10 @@ namespace Drupal\anu_lms;
 
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Cache\CacheBackendInterface;
+use Drupal\Core\Cache\Context\CacheContextsManager;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityRepositoryInterface;
-use Drupal\Core\Language\LanguageManager;
+use Drupal\Core\Language\LanguageInterface;
 use Symfony\Component\Serializer\Serializer;
 use Drupal\serialization\Normalizer\CacheableNormalizerInterface;
 
@@ -37,18 +38,18 @@ class Normalizer {
   protected $cache;
 
   /**
-   * Language manager.
-   *
-   * @var \Drupal\Core\Language\LanguageManager
-   */
-  protected $languageManager;
-
-  /**
    * Default max depth.
    *
    * @var int
    */
   protected $defaultMaxDepth = 10;
+
+  /**
+   * The cache context manager service.
+   *
+   * @var \Drupal\Core\Cache\Context\CacheContextsManager
+   */
+  protected $cacheContextManager;
 
   /**
    * Constructs service.
@@ -59,22 +60,25 @@ class Normalizer {
    *   The serializer.
    * @param \Drupal\Core\Cache\CacheBackendInterface $cache
    *   The cache.
-   * @param \Drupal\Core\Language\LanguageManager $language_manager
-   *   Language manager.
+   * @param \Drupal\Core\Cache\Context\CacheContextsManager $cache_context_manager
+   *   The cache contexts manager.
    */
-  public function __construct(EntityRepositoryInterface $entity_repository, Serializer $serializer, CacheBackendInterface $cache, LanguageManager $language_manager) {
+  public function __construct(EntityRepositoryInterface $entity_repository, Serializer $serializer, CacheBackendInterface $cache, CacheContextsManager $cache_context_manager) {
     $this->entityRepository = $entity_repository;
     $this->serializer = $serializer;
     $this->cache = $cache;
-    $this->languageManager = $language_manager;
+    $this->cacheContextManager = $cache_context_manager;
   }
 
   /**
    * Helper to generate cache id for custom caching.
    */
   protected function getCacheId($cache_name) {
-    $lang = $this->languageManager->getCurrentLanguage()->getId();
-    return "anu_lms:$cache_name:$lang";
+    $additional_keys = $this->cacheContextManager->convertTokensToKeys([
+      'languages:' . LanguageInterface::TYPE_INTERFACE,
+      'user.permissions',
+    ])->getKeys();
+    return implode(':', ['anu_lms', $cache_name, ...$additional_keys]);
   }
 
   /**
