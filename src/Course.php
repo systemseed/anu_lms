@@ -257,7 +257,7 @@ class Course {
       $lessons = $module->field_module_lessons->referencedEntities();
       foreach ($lessons as $lesson) {
         if ($lesson->access('view')) {
-          $urls[] = $lesson->toUrl('canonical', ['absolute' => TRUE])->toString();
+          $urls[] = $lesson->toUrl('canonical')->toString();
         }
       }
 
@@ -268,7 +268,7 @@ class Course {
       $quizzes = $module->field_module_assessment->referencedEntities();
       foreach ($quizzes as $quiz) {
         if ($quiz->access('view')) {
-          $urls[] = $quiz->toUrl('canonical', ['absolute' => TRUE])->toString();
+          $urls[] = $quiz->toUrl('canonical')->toString();
         }
       }
     }
