@@ -2,6 +2,7 @@
 
 namespace Drupal\anu_lms;
 
+use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\node\NodeInterface;
 use Drupal\Core\Url;
@@ -27,16 +28,26 @@ class Course {
   protected $fileUrlGenerator;
 
   /**
+   * The entity repository service.
+   *
+   * @var \Drupal\Core\Entity\EntityRepositoryInterface
+   */
+  protected $entityRepository;
+
+  /**
    * Constructs service.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
    * @param \Drupal\Core\File\FileUrlGeneratorInterface $file_url_generator
    *   The file url generator.
+   * @param \Drupal\Core\Entity\EntityRepositoryInterface $entity_repository
+   *   The entity repository.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, FileUrlGeneratorInterface $file_url_generator) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, FileUrlGeneratorInterface $file_url_generator, EntityRepositoryInterface $entity_repository) {
     $this->nodeStorage = $entity_type_manager->getStorage('node');
     $this->fileUrlGenerator = $file_url_generator;
+    $this->entityRepository = $entity_repository;
   }
 
   /**
@@ -257,6 +268,7 @@ class Course {
       $lessons = $module->field_module_lessons->referencedEntities();
       foreach ($lessons as $lesson) {
         if ($lesson->access('view')) {
+          $lesson = $this->entityRepository->getTranslationFromContext($lesson);
           $urls[] = $lesson->toUrl('canonical')->toString();
         }
       }
@@ -268,6 +280,7 @@ class Course {
       $quizzes = $module->field_module_assessment->referencedEntities();
       foreach ($quizzes as $quiz) {
         if ($quiz->access('view')) {
+          $quiz = $this->entityRepository->getTranslationFromContext($quiz);
           $urls[] = $quiz->toUrl('canonical')->toString();
         }
       }
