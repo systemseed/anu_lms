@@ -23,7 +23,7 @@ services:
   # Helper service for Course content type.
   anu_lms.course:
     class: Drupal\anu_lms\Course
-    arguments: [ '@entity_type.manager', '@file_url_generator' ]
+    arguments: [ '@entity_type.manager', '@file_url_generator', '@entity.repository' ]
 
   # Helper service for Lesson / Quiz content types.
   anu_lms.lesson:
@@ -38,7 +38,7 @@ services:
   # Normalizers for better output by REST Entity Recursive module.
   anu_lms.normalizer:
     class: Drupal\anu_lms\Normalizer
-    arguments: [ '@entity.repository', '@serializer', '@cache.default', '@language_manager' ]
+    arguments: [ '@entity.repository', '@serializer', '@cache.default', '@cache_contexts_manager' ]
 
   anu_lms.normalizer.node:
     class: Drupal\anu_lms\Normalizer\NodeNormalizer

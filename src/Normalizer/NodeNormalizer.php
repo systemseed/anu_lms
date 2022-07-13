@@ -31,7 +31,7 @@ class NodeNormalizer extends ContentEntityNormalizer {
       'module_assessment',
     ];
     if (in_array($entity->bundle(), $anu_content_types)) {
-      $normalized['path'] = $entity->toUrl('canonical', ['absolute' => TRUE])->toString();
+      $normalized['path'] = $entity->toUrl('canonical')->toString();
     }
 
     /** @var \Drupal\anu_lms\Lesson $lessonHandler */
