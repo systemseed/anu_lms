@@ -190,7 +190,7 @@ class CoursesPage extends AnuLmsContentTypePluginBase implements ContainerFactor
     $pageData = [
       $courses_page->bundle() => $this->normalizer->normalizeEntity($courses_page, ['max_depth' => 3]),
       'courses' => $normalized_courses,
-      'courses_page_urls_by_course' => $this->coursesPage->getCoursesPageURLsByCourse($courses),
+      'courses_page_urls_by_course' => $this->coursesPage->getCoursesPageUrlsByCourse($courses),
       'first_lesson_url_by_course' => $this->getFirstLessonURLByCourse($courses),
     ];
 

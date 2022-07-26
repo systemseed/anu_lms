@@ -26,7 +26,7 @@ class LessonNormalizer extends NodeNormalizerBase {
     /** @var \Drupal\anu_lms\Course $courseHandler */
     $courseHandler = \Drupal::service('anu_lms.course');
 
-    // TODO: Potentially can be moved to the course level - feels redundant
+    // @todo Potentially can be moved to the course level - feels redundant
     // to have properties with same values inside of each lesson.
     $course = $lessonHandler->getLessonCourse($lesson->id());
     $finishText = $course ? $courseHandler->getFinishText($course) : '';

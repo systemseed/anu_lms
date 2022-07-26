@@ -58,7 +58,7 @@ class CourseProgress {
    */
   public function getCourseProgress(NodeInterface $course) {
     $progress = [];
-    $lesson_ids = $this->course->getLessonsAndQuizzes($course);;
+    $lesson_ids = $this->course->getLessonsAndQuizzes($course);
     $previous_lesson_id = 0;
     foreach ($lesson_ids as $index => $lesson_id) {
       $next_lesson_id = !empty($lesson_ids[$index + 1]) ? $lesson_ids[$index + 1] : 0;

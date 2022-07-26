@@ -23,8 +23,6 @@ class CourseNormalizer extends NodeNormalizerBase {
     /** @var \Drupal\anu_lms\Course $courseHandler */
     $courseHandler = \Drupal::service('anu_lms.course');
 
-    // TODO: am I right that this is needed only for the offline mode,
-    // and therefore can be skipped when no offline is needed?
     if ($settings->isOfflineSupported()) {
       $normalized['content_urls'] = $courseHandler->getLessonsAndQuizzesUrls($entity);
       $normalized['audios'] = $courseHandler->getAudios($entity);

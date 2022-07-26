@@ -151,13 +151,14 @@ class CoursesPage {
    * Note that this is needed only for offline mode.
    *
    * @param array $courses
+   *   List of course nodes.
    *
    * @return array
    *   Course page URLs per course.
    *
    * @throws \Drupal\Core\Entity\EntityMalformedException
    */
-  public function getCoursesPageURLsByCourse(array $courses): array {
+  public function getCoursesPageUrlsByCourse(array $courses): array {
     $courses_page_urls_by_course = [];
     foreach ($courses as $course) {
       $courses_pages = $this->getCoursesPagesByCourse($course);

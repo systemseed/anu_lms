@@ -92,6 +92,8 @@ class ModuleLesson extends AnuLmsContentTypePluginBase implements ContainerFacto
    *   The Courses Page service.
    * @param \Drupal\anu_lms\Lesson $lesson
    *   The Lesson service.
+   * @param \Drupal\anu_lms\CourseProgress $course_progress
+   *   The course progress service.
    */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, EventDispatcherInterface $dispatcher, Normalizer $normalizer, CoursesPage $courses_page, Lesson $lesson, CourseProgress $course_progress) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
@@ -122,7 +124,7 @@ class ModuleLesson extends AnuLmsContentTypePluginBase implements ContainerFacto
     $data = [
       $lesson->bundle() => $this->normalizer->normalizeEntity($lesson, ['max_depth' => 4]),
       'course' => $normalized_course,
-      'courses_page_urls_by_course' => $this->coursesPage->getCoursesPageURLsByCourse([$course]),
+      'courses_page_urls_by_course' => $this->coursesPage->getCoursesPageUrlsByCourse([$course]),
     ];
 
     $event = new LessonPageDataGeneratedEvent($data, $lesson);
