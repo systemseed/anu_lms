@@ -119,6 +119,7 @@ class Settings {
    * Returns boolean whether the offline mode can be supported.
    *
    * @return bool
+   *   Boolean indicating whether the offline mode is supported.
    */
   public function isOfflineSupported(): bool {
     return $this->moduleHandler->moduleExists('pwa');

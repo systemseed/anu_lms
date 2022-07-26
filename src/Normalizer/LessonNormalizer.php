@@ -2,8 +2,6 @@
 
 namespace Drupal\anu_lms\Normalizer;
 
-use Drupal\node\NodeInterface;
-
 /**
  * Converts Lesson or Quiz node object structure to a JSON array structure.
  */
@@ -20,7 +18,7 @@ class LessonNormalizer extends NodeNormalizerBase {
   public function normalize($entity, $format = NULL, array $context = []) {
     $normalized = parent::normalize($entity, $format, $context);
 
-    /** @var NodeInterface $lesson */
+    /** @var \Drupal\node\NodeInterface $lesson */
     $lesson = $entity;
 
     /** @var \Drupal\anu_lms\Lesson $lessonHandler */
@@ -34,7 +32,7 @@ class LessonNormalizer extends NodeNormalizerBase {
     $finishText = $course ? $courseHandler->getFinishText($course) : '';
     if (!empty($finishText)) {
       $normalized['finish_button_text'] = [
-        'value' => $finishText
+        'value' => $finishText,
       ];
 
       $normalized['finish_button_url'] = [

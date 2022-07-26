@@ -11,4 +11,5 @@ class CoursesPageNormalizer extends NodeNormalizerBase {
    * {@inheritdoc}
    */
   protected array $supportedBundles = ['courses_page'];
+
 }

@@ -111,6 +111,7 @@ class Normalizer {
    *
    * @return array
    *   An array of normalized entities.
+   *
    * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
    */
   public function normalizeEntity(EntityInterface $entity, array $context = []): ?array {

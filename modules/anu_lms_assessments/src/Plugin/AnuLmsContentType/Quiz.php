@@ -65,7 +65,7 @@ class Quiz extends ModuleLesson implements ContainerFactoryPluginInterface {
    * @param \Drupal\anu_lms\Lesson $lesson
    *   The Lesson service.
    * @param \Drupal\anu_lms_assessments\Quiz $quiz
-   *    The Quiz service.
+   *   The Quiz service.
    */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, EventDispatcherInterface $dispatcher, Normalizer $normalizer, CoursesPage $courses_page, Lesson $lesson, QuizService $quiz) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $dispatcher, $normalizer, $courses_page, $lesson);

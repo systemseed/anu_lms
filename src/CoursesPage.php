@@ -14,7 +14,7 @@ class CoursesPage {
   /**
    * The node storage.
    *
-   * @var \Drupal\Core\Entity\EntityStorageInterface;
+   * @var \Drupal\Core\Entity\EntityStorageInterface
    */
   protected EntityStorageInterface $nodeStorage;
 
@@ -63,7 +63,7 @@ class CoursesPage {
   /**
    * Returns list of Courses page entities by given Course.
    *
-   * @param NodeInterface $course
+   * @param \Drupal\node\NodeInterface $course
    *   Course entity.
    *
    * @return array|NodeInterface[]
