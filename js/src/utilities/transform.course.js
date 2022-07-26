@@ -21,11 +21,11 @@ const transformCourse = (node, data) => {
 
   const courseId = fields.getNumberValue(node, 'nid');
   // Prepare courses pages for current course.
-  let coursesPages = [];
-  if (data.courses_pages_by_course) {
-    data.courses_pages_by_course.map((set) => {
-      if (set.course_id == courseId) {
-        coursesPages = set.courses_pages;
+  let coursesPageUrls = [];
+  if (data.courses_page_urls_by_course) {
+    data.courses_page_urls_by_course.map((item) => {
+      if (item.course_id === courseId) {
+        coursesPageUrls = item.courses_page_urls;
       }
     });
   }
@@ -34,7 +34,7 @@ const transformCourse = (node, data) => {
   let firstLessonUrl = '';
   if (data.first_lesson_url_by_course) {
     data.first_lesson_url_by_course.map((set) => {
-      if (set.course_id == courseId) {
+      if (set.course_id === courseId) {
         firstLessonUrl = set.first_lesson_url;
       }
     });
@@ -64,7 +64,7 @@ const transformCourse = (node, data) => {
         progress,
       }),
     })),
-    courses_pages: coursesPages.map((coursesPage) => transformCoursesPage({ data: coursesPage })),
+    courses_page_urls: coursesPageUrls,
     first_lesson_url: firstLessonUrl,
     progress,
     progress_percent: calculateProgressPercent(progress),

@@ -22,6 +22,13 @@ class Course {
   protected EntityStorageInterface $nodeStorage;
 
   /**
+   * The paragraph storage.
+   *
+   * @var \Drupal\Core\Entity\EntityStorageInterface
+   */
+  protected EntityStorageInterface $paragraphStorage;
+
+  /**
    * The file url generator.
    *
    * @var \Drupal\Core\File\FileUrlGeneratorInterface
@@ -47,6 +54,7 @@ class Course {
    */
   public function __construct(EntityTypeManagerInterface $entity_type_manager, FileUrlGeneratorInterface $file_url_generator, EntityRepositoryInterface $entity_repository) {
     $this->nodeStorage = $entity_type_manager->getStorage('node');
+    $this->paragraphStorage = $entity_type_manager->getStorage('paragraph');
     $this->fileUrlGenerator = $file_url_generator;
     $this->entityRepository = $entity_repository;
   }
@@ -60,26 +68,47 @@ class Course {
    * @return \Drupal\node\NodeInterface|bool
    *   Lesson or Quiz node object.
    */
-  public function getFirstAccessibleLesson(NodeInterface $course) {
-    $modules = $course->get('field_course_module')->referencedEntities();
+  /**
+   * Load the first lesson of the course the current user has access to.
+   *
+   * @param \Drupal\node\NodeInterface $course
+   *   Course node object.
+   *
+   * @return \Drupal\node\NodeInterface|bool
+   *   Lesson or Quiz node object.
+   */
+  public function getFirstAccessibleLesson(NodeInterface $course): NodeInterface {
+    $modules = $course->get('field_course_module')->getValue();
     foreach ($modules as $module) {
+      $module_paragraph = $this->paragraphStorage->load($module['target_id']);
+
+      // Make sure that the paragraph was successfully loaded.
+      if (empty($module_paragraph)) {
+        continue;
+      }
 
       /** @var \Drupal\node\NodeInterface[] $lessons */
-      $lessons = $module->field_module_lessons->referencedEntities();
+      $lessons = $module_paragraph->get('field_module_lessons')->getValue();
       foreach ($lessons as $lesson) {
-        if ($lesson->access('view')) {
-          return $lesson;
+        /** @var NodeInterface $lesson_node */
+        $lesson_node = $this->nodeStorage->load($lesson['target_id']);
+        if ($lesson_node && $lesson_node->access('view')) {
+          return $lesson_node;
         }
       }
 
-      if (!$module->field_module_assessment) {
+      // Ensure that the field with assessment exists, given that it's a part of
+      // submodule anu_lms_assessments.
+      if (!$module_paragraph->hasField('field_module_assessment')) {
         continue;
       }
       /** @var \Drupal\node\NodeInterface[] $quizzes */
-      $quizzes = $module->field_module_assessment->referencedEntities();
+      $quizzes = $module_paragraph->get('field_module_assessment')->getValue();
       foreach ($quizzes as $quiz) {
-        if ($quiz->access('view')) {
-          return $quiz;
+        /** @var NodeInterface $quiz_node */
+        $quiz_node = $this->nodeStorage->load($quiz['target_id']);
+        if ($quiz_node && $quiz_node->access('view')) {
+          return $quiz_node;
         }
       }
     }
@@ -163,11 +192,11 @@ class Course {
    * @param \Drupal\node\NodeInterface $course
    *   Course node object.
    *
-   * @return \Drupal\Core\Url
-   *   Url object for redirect.
+   * @return string
+   *   Finish button label.
    */
-  public function getFinishText(NodeInterface $course): Url {
-    return $course->field_course_finish_button->title;
+  public function getFinishText(NodeInterface $course): string {
+    return $course->get('field_course_finish_button')->getString();
   }
 
   /**

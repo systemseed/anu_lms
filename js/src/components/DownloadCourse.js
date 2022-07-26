@@ -146,8 +146,8 @@ class DownloadCourse extends React.Component {
       urlsToCache.push(Drupal.url(''));
 
       // Cache Courses pages where course categories referenced.
-      if (course.courses_pages) {
-        course.courses_pages.map((coursesPage) => urlsToCache.push(coursesPage.url));
+      if (course.courses_page_urls) {
+        course.courses_page_urls.forEach((courses_page_url) => urlsToCache.push(courses_page_url));
       }
 
       // Cache Course page (redirect).

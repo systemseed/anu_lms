@@ -187,24 +187,58 @@ class CoursesPage extends AnuLmsContentTypePluginBase implements ContainerFactor
       }
     }
 
-    // Get list of Courses pages for every Course.
-    // TODO: We need only URLs here.
-    $courses_pages_by_course = [];
+    $pageData = [
+      $courses_page->bundle() => $this->normalizer->normalizeEntity($courses_page, ['max_depth' => 3]),
+      'courses' => $normalized_courses,
+      'courses_page_urls_by_course' => $this->getCoursesPageURLsByCourse($courses),
+      'first_lesson_url_by_course' => $this->getFirstLessonURLByCourse($courses),
+    ];
+
+    $event = new CoursesPageDataGeneratedEvent($pageData, $courses_page);
+    $this->dispatcher->dispatch(CoursesPageDataGeneratedEvent::EVENT_NAME, $event);
+    return $event->getPageData();
+  }
+
+  /**
+   * Load list of courses page URLs for each course.
+   *
+   * Note that this is needed only for offline mode.
+   *
+   * @param array $courses
+   *
+   * @return array
+   *   Course page URLs per course.
+   * @throws \Drupal\Core\Entity\EntityMalformedException
+   */
+  protected function getCoursesPageURLsByCourse(array $courses): array {
+    $courses_page_urls_by_course = [];
     foreach ($courses as $course) {
       $courses_pages = $this->coursesPage->getCoursesPagesByCourse($course);
-      $normalized_courses_pages = [];
-      foreach ($courses_pages as $courses_page_entities) {
-        $normalized_courses_pages[] = [
-          'courses_page' => $this->normalizer->normalizeEntity($courses_page_entities, ['max_depth' => 1]),
-        ];
+      $courses_page_urls = [];
+      foreach ($courses_pages as $courses_page_node) {
+        $courses_page_urls[] = $courses_page_node->toUrl()->toString();
       }
 
-      $courses_pages_by_course[] = [
-        'course_id' => $course->id(),
-        'courses_pages' => $normalized_courses_pages,
+      $courses_page_urls_by_course[] = [
+        'course_id' => (int) $course->id(),
+        'courses_page_urls' => $courses_page_urls,
       ];
     }
 
+    return $courses_page_urls_by_course;
+  }
+
+  /**
+   * Returns URL of the first lesson for each course.
+   *
+   * @param array $courses
+   *   List of course nodes.
+   *
+   * @return array
+   *   URL of the first lesson for each course.
+   * @throws \Drupal\Core\Entity\EntityMalformedException
+   */
+  protected function getFirstLessonURLByCourse(array $courses): array {
     // Get first accessible Lesson URL.
     $first_lesson_url_by_course = [];
     $current_language = $this->languageManager->getCurrentLanguage();
@@ -212,23 +246,14 @@ class CoursesPage extends AnuLmsContentTypePluginBase implements ContainerFactor
       $lesson = $this->course->getFirstAccessibleLesson($course);
       if (!empty($lesson)) {
         $first_lesson_url_by_course[] = [
-          'course_id' => $course->id(),
+          'course_id' => (int) $course->id(),
           'first_lesson_url' => $lesson->toUrl('canonical', ['language' => $current_language])
             ->toString(),
         ];
       }
     }
 
-    $pageData = [
-      $courses_page->bundle() => $this->normalizer->normalizeEntity($courses_page, ['max_depth' => 3]),
-      'courses' => $normalized_courses,
-      'courses_pages_by_course' => $courses_pages_by_course,
-      'first_lesson_url_by_course' => $first_lesson_url_by_course,
-    ];
-
-    $event = new CoursesPageDataGeneratedEvent($pageData, $courses_page);
-    $this->dispatcher->dispatch(CoursesPageDataGeneratedEvent::EVENT_NAME, $event);
-    return $event->getPageData();
+    return $first_lesson_url_by_course;
   }
 
 }
