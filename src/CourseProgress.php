@@ -2,6 +2,7 @@
 
 namespace Drupal\anu_lms;
 
+use Drupal\Core\Url;
 use Drupal\node\NodeInterface;
 
 /**
@@ -57,21 +58,21 @@ class CourseProgress {
    */
   public function getCourseProgress(NodeInterface $course) {
     $progress = [];
-    $lessons = $this->course->getLessonsAndQuizzes($course);
+    $lesson_ids = $this->course->getLessonsAndQuizzes($course);;
     $previous_lesson_id = 0;
-    foreach ($lessons as $index => $lesson) {
-      $nextLesson = !empty($lessons[$index + 1]) ? $lessons[$index + 1]->id() : 0;
-      $progress[$lesson->id()] = [
+    foreach ($lesson_ids as $index => $lesson_id) {
+      $next_lesson_id = !empty($lesson_ids[$index + 1]) ? $lesson_ids[$index + 1] : 0;
+      $progress[$lesson_id] = [
         // We can't rely on object keys order in Javascript, so we attach
         // prev/next pointers to each lesson.
         'prev' => $previous_lesson_id,
-        'next' => $nextLesson,
-        'completed' => (int) $this->lesson->isCompleted($lesson),
-        'restricted' => (int) $this->lesson->isRestricted($lesson),
-        'url' => $lesson->toUrl()->toString(),
+        'next' => $next_lesson_id,
+        'completed' => (int) $this->lesson->isCompleted($lesson_id),
+        'restricted' => (int) $this->lesson->isRestricted($lesson_id),
+        'url' => (new Url('entity.node.canonical', ['node' => $lesson_id]))->toString(),
       ];
 
-      $previous_lesson_id = $lesson->id();
+      $previous_lesson_id = $lesson_id;
     }
 
     return $progress;
@@ -153,7 +154,7 @@ class CourseProgress {
    * @return \Drupal\node\NodeInterface[]
    *   Array of completed lessons.
    */
-  public function getCompletedLessons(NodeInterface $course) {
+  public function getCompletedLessons(NodeInterface $course): array {
     return array_filter(
       $this->course->getLessons($course),
       [$this->lesson, 'isCompleted']

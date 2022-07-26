@@ -2,6 +2,7 @@
 
 namespace Drupal\anu_lms\Plugin\AnuLmsContentType;
 
+use Drupal\anu_lms\CourseProgress;
 use Drupal\anu_lms\Lesson;
 use Drupal\anu_lms\CoursesPage;
 use Drupal\anu_lms\Normalizer;
@@ -52,6 +53,13 @@ class ModuleLesson extends AnuLmsContentTypePluginBase implements ContainerFacto
   protected Lesson $lesson;
 
   /**
+   * Course Progress handler.
+   *
+   * @var \Drupal\anu_lms\CourseProgress
+   */
+  protected CourseProgress $courseProgress;
+
+  /**
    * Create an instance of the plugin.
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -62,7 +70,8 @@ class ModuleLesson extends AnuLmsContentTypePluginBase implements ContainerFacto
       $container->get('event_dispatcher'),
       $container->get('anu_lms.normalizer'),
       $container->get('anu_lms.courses_page'),
-      $container->get('anu_lms.lesson')
+      $container->get('anu_lms.lesson'),
+      $container->get('anu_lms.course_progress')
     );
   }
 
@@ -84,12 +93,13 @@ class ModuleLesson extends AnuLmsContentTypePluginBase implements ContainerFacto
    * @param \Drupal\anu_lms\Lesson $lesson
    *   The Lesson service.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EventDispatcherInterface $dispatcher, Normalizer $normalizer, CoursesPage $courses_page, Lesson $lesson) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EventDispatcherInterface $dispatcher, Normalizer $normalizer, CoursesPage $courses_page, Lesson $lesson, CourseProgress $course_progress) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->dispatcher = $dispatcher;
     $this->normalizer = $normalizer;
     $this->coursesPage = $courses_page;
     $this->lesson = $lesson;
+    $this->courseProgress = $course_progress;
   }
 
   /**
@@ -101,33 +111,25 @@ class ModuleLesson extends AnuLmsContentTypePluginBase implements ContainerFacto
    * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
    */
   public function getData(NodeInterface $lesson): array {
-    $course = $this->lesson->getLessonCourse($lesson);
+    $course = $this->lesson->getLessonCourse($lesson->id());
 
-    $normalized_courses_pages = [];
+    $normalized_course = NULL;
     if (!empty($course)) {
-      // TODO: Potentially this is needed only for offline support.
-      $courses_pages = $this->coursesPage->getCoursesPagesByCourse($course);
-      foreach ($courses_pages as $courses_page) {
-        $normalized_courses_pages[] = [
-          'courses_page' => $this->normalizer->normalizeEntity($courses_page, ['max_depth' => 1]),
-        ];
-      }
+      $normalized_course = $this->normalizer->normalizeEntity($course, ['max_depth' => 2]);
+      $normalized_course['progress'] = $this->courseProgress->getCourseProgress($course);
     }
 
     $data = [
       $lesson->bundle() => $this->normalizer->normalizeEntity($lesson, ['max_depth' => 4]),
-      'course' => !empty($course) ? $this->normalizer->normalizeEntity($course, ['max_depth' => 2]) : NULL,
-      'courses_pages_by_course' => empty($course) ? [] : [
-        [
-          'course_id' => $course->id(),
-          'courses_pages' => $normalized_courses_pages,
-        ],
-      ],
+      'course' => $normalized_course,
+      'courses_page_urls_by_course' => $this->coursesPage->getCoursesPageURLsByCourse([$course]),
     ];
 
     $event = new LessonPageDataGeneratedEvent($data, $lesson);
     $this->dispatcher->dispatch(LessonPageDataGeneratedEvent::EVENT_NAME, $event);
     return $event->getPageData();
   }
+
+
 
 }

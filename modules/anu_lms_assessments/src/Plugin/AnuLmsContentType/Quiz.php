@@ -2,6 +2,7 @@
 
 namespace Drupal\anu_lms_assessments\Plugin\AnuLmsContentType;
 
+use Drupal\anu_lms\CourseProgress;
 use Drupal\anu_lms\CoursesPage;
 use Drupal\anu_lms\Lesson;
 use Drupal\anu_lms\Normalizer;
@@ -43,6 +44,7 @@ class Quiz extends ModuleLesson implements ContainerFactoryPluginInterface {
       $container->get('anu_lms.normalizer'),
       $container->get('anu_lms.courses_page'),
       $container->get('anu_lms.lesson'),
+      $container->get('anu_lms.course_progress'),
       $container->get('anu_lms_assessments.quiz'),
     );
   }
@@ -64,11 +66,13 @@ class Quiz extends ModuleLesson implements ContainerFactoryPluginInterface {
    *   The Courses Page service.
    * @param \Drupal\anu_lms\Lesson $lesson
    *   The Lesson service.
+   * @param \Drupal\anu_lms\CourseProgress $course_progress
+   *   The course progress handler.
    * @param \Drupal\anu_lms_assessments\Quiz $quiz
    *   The Quiz service.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EventDispatcherInterface $dispatcher, Normalizer $normalizer, CoursesPage $courses_page, Lesson $lesson, QuizService $quiz) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition, $dispatcher, $normalizer, $courses_page, $lesson);
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EventDispatcherInterface $dispatcher, Normalizer $normalizer, CoursesPage $courses_page, Lesson $lesson, CourseProgress $course_progress, QuizService $quiz) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition, $dispatcher, $normalizer, $courses_page, $lesson, $course_progress);
     $this->quiz = $quiz;
   }
 
@@ -85,7 +89,7 @@ class Quiz extends ModuleLesson implements ContainerFactoryPluginInterface {
     // current quiz still has restricted access, it means that
     // something went wrong with doing that and the user should not
     // be able to see the current page.
-    if ($this->quiz->isRestricted($quiz)) {
+    if ($this->quiz->isRestricted($quiz->id())) {
       throw new AccessDeniedHttpException();
     }
 

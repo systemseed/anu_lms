@@ -64,7 +64,7 @@ class FinishCourse extends ControllerBase {
       throw new AccessDeniedHttpException();
     }
 
-    $course = $this->lesson->getLessonCourse($node);
+    $course = $this->lesson->getLessonCourse($node->id());
     $url = $this->course->getFinishRedirectUrl($course);
     return new RedirectResponse($url->toString(), 302);
   }

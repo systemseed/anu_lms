@@ -122,7 +122,7 @@ class Course {
    * @param \Drupal\node\NodeInterface $course
    *   Course node object.
    *
-   * @return \Drupal\node\NodeInterface[]
+   * @return array
    *   Flat list of lessons and quizzes.
    */
   public function getLessonsAndQuizzes(NodeInterface $course): array {
@@ -131,26 +131,21 @@ class Course {
       return $nodes[$course->id()];
     }
 
+    // Initialize list of lessons and quizzes for the current course.
+    $nodes[$course->id()] = [];
+
     // Get course modules.
+    /** @var \Drupal\paragraphs\ParagraphInterface[] $modules */
     $modules = $course->get('field_course_module')->referencedEntities();
     foreach ($modules as $module) {
+      $nodes[$course->id()] += array_column($module->get('field_module_lessons')->getValue(), 'target_id');
 
-      // Get module's lessons.
-      /** @var \Drupal\node\NodeInterface[] $lessons */
-      $lessons = $module->field_module_lessons->referencedEntities();
-      foreach ($lessons as $lesson) {
-        $nodes[$course->id()][] = $lesson;
-      }
-
-      // Get module's quiz.
-      if (!$module->field_module_assessment) {
+      // Ensure anu_lms_assessments module is enabled.
+      if (!$module->hasField('field_module_assessment')) {
         continue;
       }
-      /** @var \Drupal\node\NodeInterface[] $quizzes */
-      $quizzes = $module->field_module_assessment->referencedEntities();
-      foreach ($quizzes as $quiz) {
-        $nodes[$course->id()][] = $quiz;
-      }
+
+      $nodes[$course->id()] += array_column($module->get('field_module_assessment')->getValue(), 'target_id');
     }
 
     return $nodes[$course->id()];
@@ -196,7 +191,7 @@ class Course {
    *   Finish button label.
    */
   public function getFinishText(NodeInterface $course): string {
-    return $course->get('field_course_finish_button')->getString();
+    return $course->field_course_finish_button->title;
   }
 
   /**

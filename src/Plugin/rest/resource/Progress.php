@@ -136,7 +136,7 @@ class Progress extends ResourceBase {
       $nodes = $this->nodeStorage->loadMultiple(array_filter($data));
       foreach ($nodes as $node) {
         if (in_array($node->bundle(), ['module_lesson', 'module_assessment'])) {
-          $this->lesson->setCompleted($node);
+          $this->lesson->setCompleted($node->id());
           $results[] = $node->id();
         }
       }

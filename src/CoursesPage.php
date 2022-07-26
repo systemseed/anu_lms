@@ -5,7 +5,6 @@ namespace Drupal\anu_lms;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Cache\CacheBackendInterface;
-use Drupal\mysql\Driver\Database\mysql\Connection;
 use Drupal\node\NodeInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -144,6 +143,35 @@ class CoursesPage {
     }
 
     return !empty($courses_page_ids) ? $this->nodeStorage->loadMultiple($courses_page_ids) : [];
+  }
+
+  /**
+   * Load list of courses page URLs for each course.
+   *
+   * Note that this is needed only for offline mode.
+   *
+   * @param array $courses
+   *
+   * @return array
+   *   Course page URLs per course.
+   * @throws \Drupal\Core\Entity\EntityMalformedException
+   */
+  public function getCoursesPageURLsByCourse(array $courses): array {
+    $courses_page_urls_by_course = [];
+    foreach ($courses as $course) {
+      $courses_pages = $this->getCoursesPagesByCourse($course);
+      $courses_page_urls = [];
+      foreach ($courses_pages as $courses_page_node) {
+        $courses_page_urls[] = $courses_page_node->toUrl()->toString();
+      }
+
+      $courses_page_urls_by_course[] = [
+        'course_id' => (int) $course->id(),
+        'courses_page_urls' => $courses_page_urls,
+      ];
+    }
+
+    return $courses_page_urls_by_course;
   }
 
 }

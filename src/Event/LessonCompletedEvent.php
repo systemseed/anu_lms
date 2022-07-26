@@ -3,7 +3,6 @@
 namespace Drupal\anu_lms\Event;
 
 use Drupal\Core\Session\AccountInterface;
-use Drupal\node\NodeInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
@@ -21,23 +20,23 @@ class LessonCompletedEvent extends Event {
   protected AccountInterface $account;
 
   /**
-   * The lesson node.
+   * The lesson node ID.
    *
-   * @var \Drupal\node\NodeInterface
+   * @var int
    */
-  protected NodeInterface $lesson;
+  protected int $lessonId;
 
   /**
    * Constructor.
    *
    * @param \Drupal\Core\Session\AccountInterface $account
    *   The account.
-   * @param \Drupal\node\NodeInterface $lesson
-   *   The lesson.
+   * @param int $lesson_id
+   *   The lesson ID.
    */
-  public function __construct(AccountInterface $account, NodeInterface $lesson) {
+  public function __construct(AccountInterface $account, int $lesson_id) {
     $this->account = $account;
-    $this->lesson = $lesson;
+    $this->lessonId = $lesson_id;
   }
 
   /**
@@ -53,11 +52,11 @@ class LessonCompletedEvent extends Event {
   /**
    * Gets the lesson.
    *
-   * @return \Drupal\node\NodeInterface
-   *   The lesson.
+   * @return int
+   *   The lesson ID.
    */
-  public function getLesson(): NodeInterface {
-    return $this->lesson;
+  public function getLessonId(): int {
+    return $this->lessonId;
   }
 
 }
