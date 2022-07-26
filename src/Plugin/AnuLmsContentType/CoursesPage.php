@@ -191,7 +191,7 @@ class CoursesPage extends AnuLmsContentTypePluginBase implements ContainerFactor
       $courses_page->bundle() => $this->normalizer->normalizeEntity($courses_page, ['max_depth' => 3]),
       'courses' => $normalized_courses,
       'courses_page_urls_by_course' => $this->coursesPage->getCoursesPageUrlsByCourse($courses),
-      'first_lesson_url_by_course' => $this->getFirstLessonURLByCourse($courses),
+      'first_lesson_url_by_course' => $this->getFirstLessonUrlByCourse($courses),
     ];
 
     $event = new CoursesPageDataGeneratedEvent($pageData, $courses_page);
@@ -210,7 +210,7 @@ class CoursesPage extends AnuLmsContentTypePluginBase implements ContainerFactor
    *
    * @throws \Drupal\Core\Entity\EntityMalformedException
    */
-  protected function getFirstLessonURLByCourse(array $courses): array {
+  protected function getFirstLessonUrlByCourse(array $courses): array {
     // Get first accessible Lesson URL.
     $first_lesson_url_by_course = [];
     $current_language = $this->languageManager->getCurrentLanguage();
