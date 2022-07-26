@@ -34,11 +34,11 @@ class LessonNormalizer extends NodeNormalizerBase {
       $normalized['finish_button_text'] = [
         'value' => $finishText,
       ];
-
-      $normalized['finish_button_url'] = [
-        'value' => $courseHandler->getFinishRedirectUrl($course)->setAbsolute()->toString(),
-      ];
     }
+
+    $normalized['finish_button_url'] = [
+      'value' => $courseHandler->getFinishRedirectUrl($course)->setAbsolute()->toString(),
+    ];
 
     return $normalized;
   }
