@@ -3,8 +3,8 @@
 namespace Drupal\anu_lms\Event;
 
 use Drupal\Core\Session\AccountInterface;
-use Symfony\Component\EventDispatcher\Event;
-use Drupal\Core\Entity\EntityInterface;
+use Drupal\node\NodeInterface;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Event that is fired when the Lesson is completed by the user.
@@ -18,24 +18,24 @@ class LessonCompletedEvent extends Event {
    *
    * @var \Drupal\Core\Session\AccountInterface
    */
-  protected $account;
+  protected AccountInterface $account;
 
   /**
    * The lesson node.
    *
-   * @var \Drupal\Core\Entity\EntityInterface
+   * @var \Drupal\node\NodeInterface
    */
-  protected $lesson;
+  protected NodeInterface $lesson;
 
   /**
    * Constructor.
    *
    * @param \Drupal\Core\Session\AccountInterface $account
    *   The account.
-   * @param \Drupal\Core\Entity\EntityInterface $lesson
+   * @param \Drupal\node\NodeInterface $lesson
    *   The lesson.
    */
-  public function __construct(AccountInterface $account, EntityInterface $lesson) {
+  public function __construct(AccountInterface $account, NodeInterface $lesson) {
     $this->account = $account;
     $this->lesson = $lesson;
   }
@@ -46,17 +46,17 @@ class LessonCompletedEvent extends Event {
    * @return \Drupal\Core\Session\AccountInterface
    *   The user.
    */
-  public function getAccount() {
+  public function getAccount(): AccountInterface {
     return $this->account;
   }
 
   /**
    * Gets the lesson.
    *
-   * @return \Drupal\Core\Entity\EntityInterface
+   * @return \Drupal\node\NodeInterface
    *   The lesson.
    */
-  public function getLesson() {
+  public function getLesson(): NodeInterface {
     return $this->lesson;
   }
 

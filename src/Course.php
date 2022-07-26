@@ -2,11 +2,12 @@
 
 namespace Drupal\anu_lms;
 
-use Drupal\Core\Entity\EntityRepositoryInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\node\NodeInterface;
 use Drupal\Core\Url;
+use Drupal\Core\Entity\EntityRepositoryInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\File\FileUrlGeneratorInterface;
+use Drupal\Core\Entity\EntityStorageInterface;
 
 /**
  * Methods that operate with course nodes.
@@ -18,21 +19,21 @@ class Course {
    *
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
-  protected $nodeStorage;
+  protected EntityStorageInterface $nodeStorage;
 
   /**
    * The file url generator.
    *
    * @var \Drupal\Core\File\FileUrlGeneratorInterface
    */
-  protected $fileUrlGenerator;
+  protected FileUrlGeneratorInterface $fileUrlGenerator;
 
   /**
    * The entity repository service.
    *
    * @var \Drupal\Core\Entity\EntityRepositoryInterface
    */
-  protected $entityRepository;
+  protected EntityRepositoryInterface $entityRepository;
 
   /**
    * Constructs service.
@@ -95,7 +96,7 @@ class Course {
    * @return \Drupal\node\NodeInterface[]
    *   Flat list of lessons and quizzes.
    */
-  public function getLessonsAndQuizzes(NodeInterface $course) {
+  public function getLessonsAndQuizzes(NodeInterface $course): array {
     $nodes = &drupal_static('anu_lms_course_lessons', []);
     if (!empty($nodes[$course->id()])) {
       return $nodes[$course->id()];
@@ -148,7 +149,7 @@ class Course {
    * @return \Drupal\Core\Url
    *   Url object for redirect.
    */
-  public function getFinishRedirectUrl(NodeInterface $course) {
+  public function getFinishRedirectUrl(NodeInterface $course): Url {
     $uri = $course->field_course_finish_button->uri;
     if (!empty($uri)) {
       return Url::fromUri($uri);
@@ -165,7 +166,7 @@ class Course {
    * @return \Drupal\Core\Url
    *   Url object for redirect.
    */
-  public function getFinishText(NodeInterface $course) {
+  public function getFinishText(NodeInterface $course): Url {
     return $course->field_course_finish_button->title;
   }
 
@@ -178,7 +179,7 @@ class Course {
    * @return int
    *   Number of quizzes and lessons.
    */
-  public function countLessons(NodeInterface $course) {
+  public function countLessons(NodeInterface $course): int {
     return count($this->getLessons($course));
   }
 
@@ -191,7 +192,7 @@ class Course {
    * @return int
    *   Number of quizzes.
    */
-  public function countQuizzes(NodeInterface $course) {
+  public function countQuizzes(NodeInterface $course): int {
     return count($this->getQuizzes($course));
   }
 
@@ -204,7 +205,7 @@ class Course {
    * @return \Drupal\node\NodeInterface[]
    *   Lessons in the course.
    */
-  public function getLessons(NodeInterface $course) {
+  public function getLessons(NodeInterface $course): array {
     $modules = $course->get('field_course_module')->referencedEntities();
     $lessonsInCourse = [];
 
@@ -230,7 +231,7 @@ class Course {
    * @return \Drupal\node\NodeInterface[]
    *   Quizzes in the course.
    */
-  public function getQuizzes(NodeInterface $course) {
+  public function getQuizzes(NodeInterface $course): array {
     $modules = $course->get('field_course_module')->referencedEntities();
     $quizzesInCourse = [];
 
@@ -259,7 +260,7 @@ class Course {
    * @return array
    *   List of urls.
    */
-  public function getLessonsAndQuizzesUrls(NodeInterface $course) {
+  public function getLessonsAndQuizzesUrls(NodeInterface $course): array {
     $modules = $course->get('field_course_module')->referencedEntities();
     $urls = [];
 
@@ -301,7 +302,7 @@ class Course {
    * @return string[]
    *   Audio URLs.
    */
-  public function getAudios(NodeInterface $course) {
+  public function getAudios(NodeInterface $course): array {
     $lessons = $this->getLessons($course);
 
     $audiosInCourse = [];

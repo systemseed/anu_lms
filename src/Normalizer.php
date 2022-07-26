@@ -2,13 +2,14 @@
 
 namespace Drupal\anu_lms;
 
+use Symfony\Component\Serializer\Serializer;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Cache\Context\CacheContextsManager;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Language\LanguageInterface;
-use Symfony\Component\Serializer\Serializer;
 use Drupal\serialization\Normalizer\CacheableNormalizerInterface;
 
 /**
@@ -21,35 +22,42 @@ class Normalizer {
    *
    * @var \Drupal\Core\Entity\EntityRepositoryInterface
    */
-  protected $entityRepository;
+  protected EntityRepositoryInterface $entityRepository;
 
   /**
    * The serializer.
    *
    * @var \Symfony\Component\Serializer\Serializer
    */
-  protected $serializer;
+  protected Serializer $serializer;
 
   /**
    * The cache.
    *
    * @var \Drupal\Core\Cache\CacheBackendInterface
    */
-  protected $cache;
+  protected CacheBackendInterface $cache;
 
   /**
    * Default max depth.
    *
    * @var int
    */
-  protected $defaultMaxDepth = 10;
+  protected int $defaultMaxDepth = 10;
 
   /**
    * The cache context manager service.
    *
    * @var \Drupal\Core\Cache\Context\CacheContextsManager
    */
-  protected $cacheContextManager;
+  protected CacheContextsManager $cacheContextManager;
+
+  /**
+   * Module handler service.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected ModuleHandlerInterface $moduleHandler;
 
   /**
    * Constructs service.
@@ -62,22 +70,32 @@ class Normalizer {
    *   The cache.
    * @param \Drupal\Core\Cache\Context\CacheContextsManager $cache_context_manager
    *   The cache contexts manager.
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   Module handler.
    */
-  public function __construct(EntityRepositoryInterface $entity_repository, Serializer $serializer, CacheBackendInterface $cache, CacheContextsManager $cache_context_manager) {
+  public function __construct(EntityRepositoryInterface $entity_repository, Serializer $serializer, CacheBackendInterface $cache, CacheContextsManager $cache_context_manager, ModuleHandlerInterface $module_handler) {
     $this->entityRepository = $entity_repository;
     $this->serializer = $serializer;
     $this->cache = $cache;
     $this->cacheContextManager = $cache_context_manager;
+    $this->moduleHandler = $module_handler;
   }
 
   /**
    * Helper to generate cache id for custom caching.
    */
-  protected function getCacheId($cache_name) {
-    $additional_keys = $this->cacheContextManager->convertTokensToKeys([
+  protected function getCacheId($cache_name): string {
+    $cache_contexts = [
       'languages:' . LanguageInterface::TYPE_INTERFACE,
       'user.permissions',
-    ])->getKeys();
+    ];
+
+    // Add support of Groups module permissions different per user.
+    if ($this->moduleHandler->moduleExists('anu_lms_permissions')) {
+      $cache_contexts[] = 'user.group_permissions';
+    }
+
+    $additional_keys = $this->cacheContextManager->convertTokensToKeys($cache_contexts)->getKeys();
     return implode(':', ['anu_lms', $cache_name, ...$additional_keys]);
   }
 
@@ -93,8 +111,9 @@ class Normalizer {
    *
    * @return array
    *   An array of normalized entities.
+   * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
    */
-  public function normalizeEntity(EntityInterface $entity, array $context = []) {
+  public function normalizeEntity(EntityInterface $entity, array $context = []): ?array {
     // Double check entity access.
     if (!$entity->access('view')) {
       return NULL;

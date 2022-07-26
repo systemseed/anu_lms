@@ -43,7 +43,7 @@ class Progress extends ResourceBase {
    *
    * @var \Drupal\Core\Session\AccountInterface
    */
-  protected $currentUser;
+  protected AccountInterface $currentUser;
 
   /**
    * The Lesson helper.

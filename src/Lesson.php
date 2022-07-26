@@ -2,14 +2,14 @@
 
 namespace Drupal\anu_lms;
 
+use Psr\Log\LoggerInterface;
 use Drupal\anu_lms\Event\LessonCompletedEvent;
 use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
-use Drupal\anu_lms\Event\LessonPageDataGeneratedEvent;
 use Drupal\node\NodeInterface;
-use Psr\Log\LoggerInterface;
+use Drupal\Core\Entity\EntityStorageInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -22,63 +22,56 @@ class Lesson {
    *
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
-  protected $nodeStorage;
+  protected EntityStorageInterface $nodeStorage;
 
   /**
    * Database connection.
    *
    * @var \Drupal\Core\Database\Connection
    */
-  protected $database;
+  protected Connection $database;
 
   /**
    * Current user object.
    *
    * @var \Drupal\Core\Session\AccountProxyInterface
    */
-  protected $currentUser;
+  protected AccountProxyInterface $currentUser;
 
   /**
    * The normalizer.
    *
    * @var \Drupal\anu_lms\Normalizer
    */
-  protected $normalizer;
+  protected Normalizer $normalizer;
 
   /**
    * Logger object.
    *
    * @var \Psr\Log\LoggerInterface
    */
-  protected $logger;
-
-  /**
-   * The Courses page service.
-   *
-   * @var \Drupal\anu_lms\CoursesPage
-   */
-  protected $coursesPage;
+  protected LoggerInterface $logger;
 
   /**
    * Course handler.
    *
    * @var \Drupal\anu_lms\Course
    */
-  protected $course;
+  protected Course $course;
 
   /**
    * The event dispatcher.
    *
    * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
    */
-  protected $dispatcher;
+  protected EventDispatcherInterface $dispatcher;
 
   /**
    * The time service.
    *
    * @var \Drupal\Component\Datetime\TimeInterface
    */
-  protected $time;
+  protected TimeInterface $time;
 
   /**
    * Lesson constructor.
@@ -93,8 +86,6 @@ class Lesson {
    *   The normalizer handler.
    * @param \Psr\Log\LoggerInterface $logger
    *   Logger object.
-   * @param \Drupal\anu_lms\CoursesPage $coursesPage
-   *   The Courses page service.
    * @param \Drupal\anu_lms\Course $course
    *   The Course service.
    * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
@@ -111,7 +102,6 @@ class Lesson {
     AccountProxyInterface $current_user,
     Normalizer $normalizer,
     LoggerInterface $logger,
-    CoursesPage $coursesPage,
     Course $course,
     EventDispatcherInterface $dispatcher,
     TimeInterface $time
@@ -121,47 +111,9 @@ class Lesson {
     $this->currentUser = $current_user;
     $this->normalizer = $normalizer;
     $this->logger = $logger;
-    $this->coursesPage = $coursesPage;
     $this->course = $course;
     $this->dispatcher = $dispatcher;
     $this->time = $time;
-  }
-
-  /**
-   * Returns normalized data for Lesson page.
-   *
-   * @param \Drupal\node\NodeInterface $node
-   *   Lesson node.
-   *
-   * @return array
-   *   An array containing current node and referenced course.
-   */
-  public function getPageData(NodeInterface $node) {
-    $lesson_course = $this->getLessonCourse($node);
-
-    $normalized_courses_pages = [];
-    if (!empty($lesson_course)) {
-      $courses_pages = $this->coursesPage->getCoursesPagesByCourse($lesson_course);
-      foreach ($courses_pages as $courses_page) {
-        $normalized_courses_pages[] = [
-          'courses_page' => $this->normalizer->normalizeEntity($courses_page, ['max_depth' => 1]),
-        ];
-      }
-    }
-
-    $data = [
-      $node->bundle() => $this->normalizer->normalizeEntity($node, ['max_depth' => 4]),
-      'course' => !empty($lesson_course) ? $this->normalizer->normalizeEntity($lesson_course, ['max_depth' => 2]) : NULL,
-      'courses_pages_by_course' => empty($lesson_course) ? [] : [
-        [
-          'course_id' => $lesson_course->id(),
-          'courses_pages' => $normalized_courses_pages,
-        ],
-      ],
-    ];
-    $event = new LessonPageDataGeneratedEvent($data, $node);
-    $this->dispatcher->dispatch(LessonPageDataGeneratedEvent::EVENT_NAME, $event);
-    return $event->getPageData();
   }
 
   /**
@@ -173,7 +125,7 @@ class Lesson {
    * @return \Drupal\node\NodeInterface|null
    *   Loaded Course object.
    */
-  public function getLessonCourse(NodeInterface $lesson) {
+  public function getLessonCourse(NodeInterface $lesson): ?NodeInterface {
     if (empty($lesson)) {
       return NULL;
     }
@@ -239,7 +191,7 @@ class Lesson {
    * @return \Drupal\node\NodeInterface|null
    *   Previous lesson node object or NULL if not found.
    */
-  public function getPreviousLesson(NodeInterface $lesson) {
+  public function getPreviousLesson(NodeInterface $lesson): ?NodeInterface {
     // If the lesson does not belong to a course, then we can't provide
     // the previous lesson.
     $course = $this->getLessonCourse($lesson);
@@ -386,7 +338,7 @@ class Lesson {
    * @return bool
    *   Whether the lesson is completed by the current user.
    */
-  public function isCompletedByUser(NodeInterface $lesson, $userId): bool {
+  public function isCompletedByUser(NodeInterface $lesson, int $userId): bool {
     // If linear progress is not enabled for the course or the lesson does not
     // belong to a course, then we don't show the completion progress.
     $course = $this->getLessonCourse($lesson);

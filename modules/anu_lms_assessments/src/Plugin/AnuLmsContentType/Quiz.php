@@ -2,11 +2,15 @@
 
 namespace Drupal\anu_lms_assessments\Plugin\AnuLmsContentType;
 
-use Drupal\anu_lms\AnuLmsContentTypePluginBase;
+use Drupal\anu_lms\CoursesPage;
+use Drupal\anu_lms\Lesson;
+use Drupal\anu_lms\Normalizer;
+use Drupal\anu_lms\Plugin\AnuLmsContentType\ModuleLesson;
+use Drupal\anu_lms_assessments\Quiz as QuizService;
 use Drupal\node\NodeInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\anu_lms_assessments\Quiz as QuizService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
@@ -18,14 +22,14 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  *   description = @Translation("Handle quiz content.")
  * )
  */
-class Quiz extends AnuLmsContentTypePluginBase implements ContainerFactoryPluginInterface {
+class Quiz extends ModuleLesson implements ContainerFactoryPluginInterface {
 
   /**
    * The Quiz service.
    *
    * @var \Drupal\anu_lms_assessments\Quiz
    */
-  protected $quiz;
+  protected QuizService $quiz;
 
   /**
    * Create an instance of the plugin.
@@ -35,12 +39,16 @@ class Quiz extends AnuLmsContentTypePluginBase implements ContainerFactoryPlugin
       $configuration,
       $plugin_id,
       $plugin_definition,
+      $container->get('event_dispatcher'),
+      $container->get('anu_lms.normalizer'),
+      $container->get('anu_lms.courses_page'),
+      $container->get('anu_lms.lesson'),
       $container->get('anu_lms_assessments.quiz'),
     );
   }
 
   /**
-   * Construct the plugin.
+   * Constructs the plugin.
    *
    * @param array $configuration
    *   Plugin configuration.
@@ -48,33 +56,42 @@ class Quiz extends AnuLmsContentTypePluginBase implements ContainerFactoryPlugin
    *   Plugin id.
    * @param mixed $plugin_definition
    *   Plugin definition.
+   * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
+   *   The event dispatcher.
+   * @param \Drupal\anu_lms\Normalizer $normalizer
+   *   The normalizer.
+   * @param \Drupal\anu_lms\CoursesPage $courses_page
+   *   The Courses Page service.
+   * @param \Drupal\anu_lms\Lesson $lesson
+   *   The Lesson service.
    * @param \Drupal\anu_lms_assessments\Quiz $quiz
-   *   The Quiz service.
+   *    The Quiz service.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, QuizService $quiz) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition);
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EventDispatcherInterface $dispatcher, Normalizer $normalizer, CoursesPage $courses_page, Lesson $lesson, QuizService $quiz) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition, $dispatcher, $normalizer, $courses_page, $lesson);
     $this->quiz = $quiz;
   }
 
   /**
    * Get data for this node.
    *
-   * @param \Drupal\node\NodeInterface $node
-   *   The courses page node.
-   * @param string $langcode
-   *   The language for the data.
+   * @param \Drupal\node\NodeInterface $quiz
+   *   The quiz node.
+   *
+   * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
    */
-  public function getData(NodeInterface $node, $langcode = NULL) {
+  public function getData(NodeInterface $quiz): array {
     // If after setting the previous lesson a completed state the
     // current quiz still has restricted access, it means that
     // something went wrong with doing that and the user should not
     // be able to see the current page.
-    if ($this->quiz->isRestricted($node)) {
+    if ($this->quiz->isRestricted($quiz)) {
       throw new AccessDeniedHttpException();
     }
 
     // Get data for viewed quiz.
-    return $this->quiz->getPageData($node);
+    $data = parent::getData($quiz);
+    return $this->quiz->getQuizSubmissionData($quiz, $data);
   }
 
 }

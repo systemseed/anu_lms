@@ -14,21 +14,21 @@ class CourseProgress {
    *
    * @var \Drupal\anu_lms\Course
    */
-  protected $course;
+  protected Course $course;
 
   /**
    * The lesson service.
    *
    * @var \Drupal\anu_lms\Lesson
    */
-  protected $lesson;
+  protected Lesson $lesson;
 
   /**
    * The courses page service.
    *
    * @var \Drupal\anu_lms\CoursesPage
    */
-  protected $coursesPage;
+  protected CoursesPage $coursesPage;
 
   /**
    * Constructs service.

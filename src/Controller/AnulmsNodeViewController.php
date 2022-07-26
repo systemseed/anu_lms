@@ -27,14 +27,14 @@ class AnulmsNodeViewController extends NodeViewController {
    *
    * @var \Drupal\anu_lms\Settings
    */
-  protected $anulmsSettings;
+  protected Settings $settings;
 
   /**
    * The plugin manager.
    *
    * @var \Drupal\anu_lms\AnuLmsContentTypePluginManager
    */
-  protected $contentTypePluginManager;
+  protected AnuLmsContentTypePluginManager $contentTypePluginManager;
 
   /**
    * Creates a NodeViewController object.
@@ -47,7 +47,7 @@ class AnulmsNodeViewController extends NodeViewController {
    *   The current user.
    * @param \Drupal\Core\Entity\EntityRepositoryInterface $entity_repository
    *   The entity repository.
-   * @param \Drupal\anu_lms\Settings $anulmsSettings
+   * @param \Drupal\anu_lms\Settings $settings
    *   Anu LMS Settings service.
    * @param \Drupal\anu_lms\AnuLmsContentTypePluginManager $contentTypePluginManager
    *   The plugin manager.
@@ -57,11 +57,11 @@ class AnulmsNodeViewController extends NodeViewController {
     RendererInterface $renderer,
     AccountInterface $current_user,
     EntityRepositoryInterface $entity_repository,
-    Settings $anulmsSettings,
+    Settings $settings,
     AnuLmsContentTypePluginManager $contentTypePluginManager
   ) {
     parent::__construct($entity_type_manager, $renderer, $current_user, $entity_repository);
-    $this->anulmsSettings = $anulmsSettings;
+    $this->settings = $settings;
     $this->contentTypePluginManager = $contentTypePluginManager;
   }
 
@@ -101,7 +101,7 @@ class AnulmsNodeViewController extends NodeViewController {
     }
 
     // Attaches general site settings.
-    $data['settings'] = $this->anulmsSettings->getSettings();
+    $data['settings'] = $this->settings->getSettings();
 
     // You can use `jQuery('#anu-application').data('application')`
     // in the browser console for debug.
@@ -116,8 +116,8 @@ class AnulmsNodeViewController extends NodeViewController {
     $build['#attached'] = $plugin->getAttachments();
 
     // Attach PWA cache version.
-    if (\Drupal::moduleHandler()->moduleExists('pwa')) {
-      $build['#attached']['drupalSettings']['pwa_settings'] = $this->anulmsSettings->getPwaSettings();
+    if ($this->settings->isOfflineSupported()) {
+      $build['#attached']['drupalSettings']['pwa_settings'] = $this->settings->getPwaSettings();
     }
 
     // Disable cache for this page. @todo can be improved using cache tags.

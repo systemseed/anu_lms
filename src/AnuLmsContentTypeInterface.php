@@ -13,7 +13,7 @@ interface AnuLmsContentTypeInterface {
    * @return string
    *   The translated title.
    */
-  public function label();
+  public function label(): string;
 
   /**
    * Returns the libraries for the page.
@@ -21,6 +21,6 @@ interface AnuLmsContentTypeInterface {
    * @return array
    *   The definition to use for an #attached in a render array.
    */
-  public function getAttachments();
+  public function getAttachments(): array;
 
 }

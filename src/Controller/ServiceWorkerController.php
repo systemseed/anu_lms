@@ -20,21 +20,7 @@ class ServiceWorkerController extends ControllerBase {
    *
    * @var \Drupal\anu_lms\Settings
    */
-  protected $settings;
-
-  /**
-   * Module handler service.
-   *
-   * @var \Drupal\Core\Extension\ModuleHandlerInterface
-   */
-  protected $moduleHandler;
-
-  /**
-   * Config factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $configFactory;
+  protected Settings $settings;
 
   /**
    * Creates ServiceWorkerController.
@@ -66,7 +52,7 @@ class ServiceWorkerController extends ControllerBase {
   /**
    * Exposes some Drupal settings to service worker global scope.
    */
-  public function settings() {
+  public function settings(): CacheableResponse {
     $data = [];
     $cache_metadata = new CacheableMetadata();
     $pwa = $this->settings->getPwaSettings();

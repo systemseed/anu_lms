@@ -12,7 +12,7 @@ abstract class AnuLmsContentTypePluginBase extends PluginBase implements AnuLmsC
   /**
    * {@inheritdoc}
    */
-  public function label() {
+  public function label(): string {
     // Cast the label to a string since it is a TranslatableMarkup object.
     return (string) $this->pluginDefinition['label'];
   }
@@ -20,7 +20,7 @@ abstract class AnuLmsContentTypePluginBase extends PluginBase implements AnuLmsC
   /**
    * {@inheritdoc}
    */
-  public function getAttachments() {
+  public function getAttachments(): array {
     return [
       'library' => ['anu_lms/lesson'],
     ];

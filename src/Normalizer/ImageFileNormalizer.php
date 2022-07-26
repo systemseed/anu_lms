@@ -22,7 +22,7 @@ class ImageFileNormalizer extends ContentEntityNormalizer {
    *
    * @var array
    */
-  protected $excludedFields = [
+  protected array $excludedFields = [
     'langcode',
     'uid',
     'status',
@@ -40,7 +40,7 @@ class ImageFileNormalizer extends ContentEntityNormalizer {
   /**
    * {@inheritdoc}
    */
-  public function supportsNormalization($data, $format = NULL) {
+  public function supportsNormalization($data, $format = NULL): bool {
     return parent::supportsNormalization($data, $format) &&
       strpos($data->get('filemime')->value, 'image/') !== FALSE;
   }
