@@ -182,7 +182,7 @@ class Course {
    *   Finish button label.
    */
   public function getFinishText(NodeInterface $course): string {
-    return $course->field_course_finish_button->title;
+    return $course->field_course_finish_button->title ?? '';
   }
 
   /**

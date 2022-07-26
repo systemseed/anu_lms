@@ -2,6 +2,7 @@
 
 namespace Drupal\anu_lms;
 
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Psr\Log\LoggerInterface;
 use Drupal\anu_lms\Event\LessonCompletedEvent;
 use Drupal\Component\Datetime\TimeInterface;
@@ -74,6 +75,13 @@ class Lesson {
   protected TimeInterface $time;
 
   /**
+   * The module handler service.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected ModuleHandlerInterface $moduleHandler;
+
+  /**
    * Lesson constructor.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -104,7 +112,8 @@ class Lesson {
     LoggerInterface $logger,
     Course $course,
     EventDispatcherInterface $dispatcher,
-    TimeInterface $time
+    TimeInterface $time,
+    ModuleHandlerInterface $module_handler
   ) {
     $this->nodeStorage = $entity_type_manager->getStorage('node');
     $this->database = $database;
@@ -114,6 +123,7 @@ class Lesson {
     $this->course = $course;
     $this->dispatcher = $dispatcher;
     $this->time = $time;
+    $this->moduleHandler = $module_handler;
   }
 
   /**
@@ -137,11 +147,19 @@ class Lesson {
 
     // Get lesson's modules.
     $query = \Drupal::entityQuery('paragraph');
-    $module_nids = $query->condition('type', 'course_modules')
-      ->condition($query->orConditionGroup()
+    $query->condition('type', 'course_modules');
+
+    if ($this->moduleHandler->moduleExists('anu_lms_assessments')) {
+      $query->condition($query->orConditionGroup()
         ->condition('field_module_lessons', $lesson_id)
         ->condition('field_module_assessment', $lesson_id)
-      )
+      );
+    }
+    else {
+      $query->condition('field_module_lessons', $lesson_id);
+    }
+
+    $module_nids = $query
       ->sort('created', 'DESC')
       ->range(0, 1)
       ->execute();
