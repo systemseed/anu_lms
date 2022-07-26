@@ -6,7 +6,6 @@ import {
   transformCourseCategory,
   courseCategoryPropTypes,
 } from '@anu/utilities/transform.courseCategory';
-import { transformCoursesPage } from '@anu/utilities/transform.courses';
 import { calculateProgressPercent, prepareCourseProgress } from '@anu/utilities/progress';
 
 /**
