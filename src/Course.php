@@ -129,14 +129,20 @@ class Course {
     /** @var \Drupal\paragraphs\ParagraphInterface[] $modules */
     $modules = $course->get('field_course_module')->referencedEntities();
     foreach ($modules as $module) {
-      $nodes[$course->id()] += array_column($module->get('field_module_lessons')->getValue(), 'target_id');
+      $lesson_values = $module->get('field_module_lessons')->getValue();
+      foreach ($lesson_values as $lesson_value) {
+        $nodes[$course->id()][] = $lesson_value['target_id'];
+      }
 
       // Ensure anu_lms_assessments module is enabled.
       if (!$module->hasField('field_module_assessment')) {
         continue;
       }
 
-      $nodes[$course->id()] += array_column($module->get('field_module_assessment')->getValue(), 'target_id');
+      $quiz_values = $module->get('field_module_assessment')->getValue();
+      foreach ($quiz_values as $quiz_value) {
+        $nodes[$course->id()][] = $quiz_value['target_id'];
+      }
     }
 
     return $nodes[$course->id()];
