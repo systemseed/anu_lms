@@ -207,6 +207,7 @@ class CoursesPage extends AnuLmsContentTypePluginBase implements ContainerFactor
    *
    * @return array
    *   URL of the first lesson for each course.
+   *
    * @throws \Drupal\Core\Entity\EntityMalformedException
    */
   protected function getFirstLessonURLByCourse(array $courses): array {

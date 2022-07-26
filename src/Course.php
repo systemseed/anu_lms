@@ -68,15 +68,6 @@ class Course {
    * @return \Drupal\node\NodeInterface|bool
    *   Lesson or Quiz node object.
    */
-  /**
-   * Load the first lesson of the course the current user has access to.
-   *
-   * @param \Drupal\node\NodeInterface $course
-   *   Course node object.
-   *
-   * @return \Drupal\node\NodeInterface|bool
-   *   Lesson or Quiz node object.
-   */
   public function getFirstAccessibleLesson(NodeInterface $course): NodeInterface {
     $modules = $course->get('field_course_module')->getValue();
     foreach ($modules as $module) {
@@ -90,7 +81,7 @@ class Course {
       /** @var \Drupal\node\NodeInterface[] $lessons */
       $lessons = $module_paragraph->get('field_module_lessons')->getValue();
       foreach ($lessons as $lesson) {
-        /** @var NodeInterface $lesson_node */
+        /** @var \Drupal\node\NodeInterface $lesson_node */
         $lesson_node = $this->nodeStorage->load($lesson['target_id']);
         if ($lesson_node && $lesson_node->access('view')) {
           return $lesson_node;
@@ -105,7 +96,7 @@ class Course {
       /** @var \Drupal\node\NodeInterface[] $quizzes */
       $quizzes = $module_paragraph->get('field_module_assessment')->getValue();
       foreach ($quizzes as $quiz) {
-        /** @var NodeInterface $quiz_node */
+        /** @var \Drupal\node\NodeInterface $quiz_node */
         $quiz_node = $this->nodeStorage->load($quiz['target_id']);
         if ($quiz_node && $quiz_node->access('view')) {
           return $quiz_node;

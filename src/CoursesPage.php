@@ -154,6 +154,7 @@ class CoursesPage {
    *
    * @return array
    *   Course page URLs per course.
+   *
    * @throws \Drupal\Core\Entity\EntityMalformedException
    */
   public function getCoursesPageURLsByCourse(array $courses): array {

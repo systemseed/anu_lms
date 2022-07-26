@@ -130,6 +130,4 @@ class ModuleLesson extends AnuLmsContentTypePluginBase implements ContainerFacto
     return $event->getPageData();
   }
 
-
-
 }
