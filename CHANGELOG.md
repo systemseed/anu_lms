@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 -
 
+## [2.6.0]
+- Separated generic NodeNormalizer for all ANU nodes into individual normalizers
+- Moved logic of getting page data from node managers to children of AnuLmsContentTypePluginBase (->getData() method)
+- Added a patch to composer.json which improves performance of ->referencedEntities() for paragraphs
+- For offline course download now we pass courses page urls instead of full course page entities
+- Quiz node view handler now inherits from ModuleLesson instead of generic AnuLmsContentTypePluginBase (anu_lms_assessments)
+- All methods related to Lesson manager now take lesson ID as an argument instead of loaded lesson node object
+- Added strict types for method arguments and returning values for PHP
+- Removed support of legacy Module node type for Groups (anu_lms_permissions) which prevented the module from install
+- Removed handler of content type view for legacy Module node type
+- Added a new method ->isOfflineSupported() which is a wrapper around checking whether pwa is enabled
+- Optimized heavy ->getFirstAccessibleLesson() method
+- Optimized heavy ->getLessonsAndQuizzes() method
+- Optimized heavy ->getCourseProgress() method
+- Optimized heavy ->getCoursesPagesByCourse() method
+- LessonCompletedEvent now passes lesson_id instead of lesson object
+- Method ->getPreviousLesson() was replaced with ->getPreviousLessonId()
+- Method ->setPreviousLessonCompleted() was removed (it was unused)
+- Added cache context to Normalizer for Groups permissions when anu_lms_assessment is enabled
+- Enabled support of Normalizer caching when course progress is enabled
+- Load certain parts of lessons and courses only when offline support is enabled (i.e. content_urls or audio)
+
 ## [2.5.7]
 - Fixed Download button label translation for Resource paragraph.
 - Fixed wrong domain name in the lesson sidebar on multi-domain sites.

@@ -10,22 +10,9 @@ use Drupal\anu_lms\Lesson;
  * Handles quiz logic.
  */
 class Quiz extends Lesson {
+
   const FIELD_NO_MULTIPLE_SUBMISSIONS = 'field_no_multiple_submissions';
   const FIELD_QUESTION_RESPONSE = 'field_question_response';
-
-  /**
-   * Returns normalized data for Quiz page.
-   *
-   * @param \Drupal\Core\Entity\EntityInterface $node
-   *   Lesson node.
-   *
-   * @return array
-   *   An array containing current node and referenced course.
-   */
-  public function getPageData(EntityInterface $node) {
-    $data = parent::getPageData($node);
-    return $this->getQuizSubmissionData($node, $data);
-  }
 
   /**
    * Returns data for Quiz submissions.
@@ -35,7 +22,7 @@ class Quiz extends Lesson {
    * @param array $data
    *   Data to be returned.
    */
-  protected function getQuizSubmissionData(EntityInterface $node, array $data) {
+  public function getQuizSubmissionData(EntityInterface $node, array $data): array {
     if ($node->hasField(self::FIELD_NO_MULTIPLE_SUBMISSIONS)) {
       $data['field'] = $node->get(self::FIELD_NO_MULTIPLE_SUBMISSIONS)->getString();
       if (!empty($node->get(self::FIELD_NO_MULTIPLE_SUBMISSIONS)->getString())) {
@@ -94,7 +81,7 @@ class Quiz extends Lesson {
    * @return bool
    *   Returns true if the result a correct answer.
    */
-  protected function isCorrectAnswer($answer) {
+  protected function isCorrectAnswer(int $answer): bool {
     return !($answer == AssessmentQuestionResult::RESULT_INCORRECT);
   }
 
@@ -121,11 +108,9 @@ class Quiz extends Lesson {
       ->condition('arid', $assessment_id)
       ->execute();
 
-    $answers = \Drupal::entityTypeManager()
+    return \Drupal::entityTypeManager()
       ->getStorage('assessment_question_result')
       ->loadMultiple($submitted_answer_ids);
-
-    return $answers;
   }
 
 }

@@ -48,28 +48,28 @@ class LessonChecklist extends ResourceBase {
    *
    * @var \Drupal\anu_lms\Normalizer
    */
-  protected $normalizer;
+  protected Normalizer $normalizer;
 
   /**
    * The entity repository service.
    *
    * @var \Drupal\Core\Entity\EntityRepositoryInterface
    */
-  protected $entityRepository;
+  protected EntityRepositoryInterface $entityRepository;
 
   /**
    * The current user.
    *
    * @var \Drupal\Core\Session\AccountInterface
    */
-  protected $currentUser;
+  protected AccountInterface $currentUser;
 
   /**
    * The Lesson checklist storage.
    *
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
-  protected $lessonChecklistStorage;
+  protected EntityStorageInterface $lessonChecklistStorage;
 
   /**
    * Constructs a Drupal\rest\Plugin\ResourceBase object.

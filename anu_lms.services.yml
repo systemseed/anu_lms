@@ -13,12 +13,12 @@ services:
   # Module's settings service.
   anu_lms.settings:
     class: Drupal\anu_lms\Settings
-    arguments: [ '@entity.repository', '@serializer', '@language_manager', '@path.matcher', '@extension.list.module' ]
+    arguments: [ '@entity.repository', '@serializer', '@language_manager', '@path.matcher', '@extension.list.module', '@module_handler' ]
 
   # Helper service for Courses Page content type.
   anu_lms.courses_page:
     class: Drupal\anu_lms\CoursesPage
-    arguments: [ '@entity_type.manager', '@language_manager', '@event_dispatcher', '@anu_lms.normalizer', '@anu_lms.course']
+    arguments: [ '@entity_type.manager', '@cache.default']
 
   # Helper service for Course content type.
   anu_lms.course:
@@ -28,20 +28,33 @@ services:
   # Helper service for Lesson / Quiz content types.
   anu_lms.lesson:
     class: Drupal\anu_lms\Lesson
-    arguments: [ '@entity_type.manager', '@database', '@current_user', '@anu_lms.normalizer', '@logger.channel.anu_lms', '@anu_lms.courses_page', '@anu_lms.course', '@event_dispatcher', '@datetime.time']
+    arguments: [ '@entity_type.manager', '@database', '@current_user', '@anu_lms.normalizer', '@logger.channel.anu_lms', '@anu_lms.course', '@event_dispatcher', '@datetime.time', '@module_handler']
 
  # Helper service for Course progress.
   anu_lms.course_progress:
     class: Drupal\anu_lms\CourseProgress
     arguments: [ '@anu_lms.course', '@anu_lms.lesson', '@anu_lms.courses_page']
 
-  # Normalizers for better output by REST Entity Recursive module.
+  # Root normalizer which prepares optimized output by REST Entity Recursive module.
   anu_lms.normalizer:
     class: Drupal\anu_lms\Normalizer
-    arguments: [ '@entity.repository', '@serializer', '@cache.default', '@cache_contexts_manager' ]
+    arguments: [ '@entity.repository', '@serializer', '@cache.default', '@cache_contexts_manager', '@module_handler']
 
-  anu_lms.normalizer.node:
-    class: Drupal\anu_lms\Normalizer\NodeNormalizer
+  # Normalizer for Course node type.
+  anu_lms.normalizer.course:
+    class: Drupal\anu_lms\Normalizer\CourseNormalizer
+    tags:
+      - { name: normalizer, priority: 13 }
+
+  # Normalizer for Lesson and Quiz node types.
+  anu_lms.normalizer.lesson:
+    class: Drupal\anu_lms\Normalizer\LessonNormalizer
+    tags:
+      - { name: normalizer, priority: 13 }
+
+  # Normalizer for Courses Page node types.
+  anu_lms.normalizer.courses_page:
+    class: Drupal\anu_lms\Normalizer\CoursesPageNormalizer
     tags:
       - { name: normalizer, priority: 13 }
 

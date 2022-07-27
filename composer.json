@@ -41,6 +41,9 @@
         "patches":{
             "drupal/paragraphs": {
                 "Fix error with empty langcode on saving in certain cases": "https://www.drupal.org/files/issues/2020-06-25/paragraphs-2901390-51.patch"
+            },
+            "drupal/entity_reference_revisions": {
+                "Improve performance of referencedEntities()": "https://www.drupal.org/files/issues/2022-07-25/entity_reference_revisions-improve-referenced-entities-performance-3281020-7.patch"
             }
         }
     }
