@@ -65,10 +65,10 @@ class Course {
    * @param \Drupal\node\NodeInterface $course
    *   Course node object.
    *
-   * @return \Drupal\node\NodeInterface|bool
+   * @return \Drupal\node\NodeInterface|null
    *   Lesson or Quiz node object.
    */
-  public function getFirstAccessibleLesson(NodeInterface $course): NodeInterface {
+  public function getFirstAccessibleLesson(NodeInterface $course): ?NodeInterface {
     $modules = $course->get('field_course_module')->getValue();
     foreach ($modules as $module) {
       $module_paragraph = $this->paragraphStorage->load($module['target_id']);
@@ -104,7 +104,7 @@ class Course {
       }
     }
 
-    return FALSE;
+    return NULL;
   }
 
   /**
