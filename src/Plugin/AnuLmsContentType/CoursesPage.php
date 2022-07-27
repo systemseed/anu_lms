@@ -164,13 +164,14 @@ class CoursesPage extends AnuLmsContentTypePluginBase implements ContainerFactor
 
     $normalized_courses = [];
     foreach ($courses as $course) {
+      $course_page_categories = $this->taxonomyStorage->loadMultiple($course_category_ids);
       $normalized_course = $this->normalizer->normalizeEntity($course, [
         'max_depth' => 1,
         // Pass the categories requested as context so additional logic
         // can be performed like the course being part of a sequence within
         // a category.
         // @see \Drupal\anu_lms\CourseProgress
-        'course_page_categories' => $this->taxonomyStorage->loadMultiple($course_category_ids),
+        'course_page_categories' => $course_page_categories,
       ]);
 
       if (!empty($normalized_course)) {
@@ -178,7 +179,6 @@ class CoursesPage extends AnuLmsContentTypePluginBase implements ContainerFactor
           $normalized_course['progress'] = $this->courseProgress->getCourseProgress($course);
         }
 
-        $course_page_categories = $context['course_page_categories'] ?? [];
         if ($this->courseProgress->isLocked($course, $course_page_categories)) {
           $normalized_course['locked'] = ['value' => TRUE];
         }
