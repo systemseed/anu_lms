@@ -2,6 +2,7 @@
 
 namespace Drupal\anu_lms;
 
+use Drupal\Core\Database\Connection;
 use Drupal\node\NodeInterface;
 use Drupal\Core\Url;
 use Drupal\Core\Entity\EntityRepositoryInterface;
@@ -43,6 +44,13 @@ class Course {
   protected EntityRepositoryInterface $entityRepository;
 
   /**
+   * Database connection.
+   *
+   * @var \Drupal\Core\Database\Connection
+   */
+  protected Connection $database;
+
+  /**
    * Constructs service.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -51,12 +59,15 @@ class Course {
    *   The file url generator.
    * @param \Drupal\Core\Entity\EntityRepositoryInterface $entity_repository
    *   The entity repository.
+   * @param \Drupal\Core\Database\Connection $database
+   *   Database connection object.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, FileUrlGeneratorInterface $file_url_generator, EntityRepositoryInterface $entity_repository) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, FileUrlGeneratorInterface $file_url_generator, EntityRepositoryInterface $entity_repository, Connection $database) {
     $this->nodeStorage = $entity_type_manager->getStorage('node');
     $this->paragraphStorage = $entity_type_manager->getStorage('paragraph');
     $this->fileUrlGenerator = $file_url_generator;
     $this->entityRepository = $entity_repository;
+    $this->database = $database;
   }
 
   /**
@@ -315,7 +326,7 @@ class Course {
   }
 
   /**
-   * Returns the accesible audios.
+   * Returns the accessible audios.
    *
    * @param \Drupal\node\NodeInterface $course
    *   Course node object.
@@ -324,23 +335,44 @@ class Course {
    *   Audio URLs.
    */
   public function getAudios(NodeInterface $course): array {
-    $lessons = $this->getLessons($course);
-
-    $audiosInCourse = [];
-    foreach ($lessons as $lesson) {
-      $sections = $lesson->get('field_module_lesson_content')->referencedEntities();
-      foreach ($sections as $section) {
-        $sectionContent = $section->get('field_lesson_section_content')->referencedEntities();
-        foreach ($sectionContent as $sectionParagraph) {
-          if ($sectionParagraph->bundle() === 'lesson_audio') {
-            $uri = $sectionParagraph->get('field_audio_file')->entity->getFileUri();
-            $url = $this->fileUrlGenerator->generateAbsoluteString($uri);
-            $audiosInCourse[] = $url;
-          }
-        }
-      }
+    $lesson_ids = [];
+    foreach ($this->getLessons($course) as $lesson) {
+      $lesson_ids[] = $lesson->id();
     }
-    return $audiosInCourse;
+    if (empty($lesson_ids)) {
+      return [];
+    }
+
+    // The select query below relies on Anu LMS data structure to avoid loading
+    // all course paragraph entities.
+    $query = $this->database->select('paragraphs_item_field_data', 'a');
+    // Join the same table to apply conditions to parents of audios.
+    $query->join('paragraphs_item_field_data', 'parent',
+      'a.parent_id = parent.id'
+    );
+    $query
+      ->condition('a.type', 'lesson_audio')
+      ->condition('parent.type', 'lesson_section')
+      ->condition('a.status', 1)
+      ->condition('parent.status', 1)
+      // Keep only audios which parent's parent is one of the course's lessons.
+      ->condition('parent.parent_id', $lesson_ids, 'IN');
+
+    $query->fields('a', ['id']);
+    $query->distinct();
+    $audio_ids = $query->execute()->fetchCol();
+    if (empty($audio_ids)) {
+      return [];
+    }
+
+    $audios_in_course = [];
+    foreach ($this->paragraphStorage->loadMultiple($audio_ids) as $paragraph) {
+      $uri = $paragraph->get('field_audio_file')->entity->getFileUri();
+      $url = $this->fileUrlGenerator->generateAbsoluteString($uri);
+      $audios_in_course[] = $url;
+    }
+
+    return $audios_in_course;
   }
 
 }

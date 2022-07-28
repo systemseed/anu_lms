@@ -23,7 +23,7 @@ services:
   # Helper service for Course content type.
   anu_lms.course:
     class: Drupal\anu_lms\Course
-    arguments: [ '@entity_type.manager', '@file_url_generator', '@entity.repository' ]
+    arguments: [ '@entity_type.manager', '@file_url_generator', '@entity.repository', '@database' ]
 
   # Helper service for Lesson / Quiz content types.
   anu_lms.lesson:
