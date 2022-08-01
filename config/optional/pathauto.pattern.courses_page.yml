@@ -8,10 +8,10 @@ label: 'Courses page'
 type: 'canonical_entities:node'
 pattern: 'courses/[node:title]'
 selection_criteria:
-  8db3cf12-8567-43fa-b2d3-b5bdde301319:
-    id: node_type
+  eb2641ae-de07-40e7-9413-1e3b1d2e4503:
+    id: 'entity_bundle:node'
     negate: false
-    uuid: 8db3cf12-8567-43fa-b2d3-b5bdde301319
+    uuid: eb2641ae-de07-40e7-9413-1e3b1d2e4503
     context_mapping:
       node: node
     bundles:

@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 -
 
+## [2.6.1]
+- Optimized heavy ->getAudios() method.
+- Fixed ->getFirstAccessibleLesson() return type.
+- Fixed Anu LMS module install on Drupal 9.4.4 by updating Pathauto configs.
+
 ## [2.6.0]
 - Separated generic NodeNormalizer for all ANU nodes into individual normalizers
 - Moved logic of getting page data from node managers to children of AnuLmsContentTypePluginBase (->getData() method)
