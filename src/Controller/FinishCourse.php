@@ -20,14 +20,14 @@ class FinishCourse extends ControllerBase {
    *
    * @var \Drupal\anu_lms\Course
    */
-  protected $course;
+  protected Course $course;
 
   /**
    * The Lesson service.
    *
    * @var \Drupal\anu_lms\Lesson
    */
-  protected $lesson;
+  protected Lesson $lesson;
 
   /**
    * Creates an NodeViewController object.
@@ -58,13 +58,13 @@ class FinishCourse extends ControllerBase {
    * @deprecated: The finish button should not link to this endpoint anymore
    * and the progress should be handled by the frontend.
    */
-  public function complete(EntityInterface $node) {
+  public function complete(EntityInterface $node): RedirectResponse {
     /** @var \Drupal\node\NodeInterface $node */
     if (!in_array($node->bundle(), ['module_lesson', 'module_assessment'])) {
       throw new AccessDeniedHttpException();
     }
 
-    $course = $this->lesson->getLessonCourse($node);
+    $course = $this->lesson->getLessonCourse($node->id());
     $url = $this->course->getFinishRedirectUrl($course);
     return new RedirectResponse($url->toString(), 302);
   }

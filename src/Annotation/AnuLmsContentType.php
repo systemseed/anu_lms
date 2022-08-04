@@ -3,6 +3,7 @@
 namespace Drupal\anu_lms\Annotation;
 
 use Drupal\Component\Annotation\Plugin;
+use Drupal\Core\Annotation\Translation;
 
 /**
  * Defines anu_lms_content_type annotation object.
@@ -16,7 +17,7 @@ class AnuLmsContentType extends Plugin {
    *
    * @var string
    */
-  public $id;
+  public string $id;
 
   /**
    * The human-readable name of the plugin.
@@ -25,7 +26,7 @@ class AnuLmsContentType extends Plugin {
    *
    * @ingroup plugin_translatable
    */
-  public $title;
+  public Translation $title;
 
   /**
    * The description of the plugin.
@@ -34,6 +35,6 @@ class AnuLmsContentType extends Plugin {
    *
    * @ingroup plugin_translatable
    */
-  public $description;
+  public Translation $description;
 
 }

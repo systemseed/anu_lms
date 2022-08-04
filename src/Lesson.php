@@ -2,14 +2,15 @@
 
 namespace Drupal\anu_lms;
 
+use Drupal\Core\Extension\ModuleHandlerInterface;
+use Psr\Log\LoggerInterface;
 use Drupal\anu_lms\Event\LessonCompletedEvent;
 use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
-use Drupal\anu_lms\Event\LessonPageDataGeneratedEvent;
 use Drupal\node\NodeInterface;
-use Psr\Log\LoggerInterface;
+use Drupal\Core\Entity\EntityStorageInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -22,63 +23,63 @@ class Lesson {
    *
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
-  protected $nodeStorage;
+  protected EntityStorageInterface $nodeStorage;
 
   /**
    * Database connection.
    *
    * @var \Drupal\Core\Database\Connection
    */
-  protected $database;
+  protected Connection $database;
 
   /**
    * Current user object.
    *
    * @var \Drupal\Core\Session\AccountProxyInterface
    */
-  protected $currentUser;
+  protected AccountProxyInterface $currentUser;
 
   /**
    * The normalizer.
    *
    * @var \Drupal\anu_lms\Normalizer
    */
-  protected $normalizer;
+  protected Normalizer $normalizer;
 
   /**
    * Logger object.
    *
    * @var \Psr\Log\LoggerInterface
    */
-  protected $logger;
-
-  /**
-   * The Courses page service.
-   *
-   * @var \Drupal\anu_lms\CoursesPage
-   */
-  protected $coursesPage;
+  protected LoggerInterface $logger;
 
   /**
    * Course handler.
    *
    * @var \Drupal\anu_lms\Course
    */
-  protected $course;
+  protected Course $course;
 
   /**
    * The event dispatcher.
    *
    * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
    */
-  protected $dispatcher;
+  protected EventDispatcherInterface $dispatcher;
 
   /**
    * The time service.
    *
    * @var \Drupal\Component\Datetime\TimeInterface
    */
-  protected $time;
+  protected TimeInterface $time;
+
+  /**
+   * The module handler service.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected ModuleHandlerInterface $moduleHandler;
 
   /**
    * Lesson constructor.
@@ -93,14 +94,14 @@ class Lesson {
    *   The normalizer handler.
    * @param \Psr\Log\LoggerInterface $logger
    *   Logger object.
-   * @param \Drupal\anu_lms\CoursesPage $coursesPage
-   *   The Courses page service.
    * @param \Drupal\anu_lms\Course $course
    *   The Course service.
    * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
    *   The event dispatcher.
    * @param \Drupal\Component\Datetime\TimeInterface $time
    *   The time service.
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   The module handler service.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
@@ -111,87 +112,56 @@ class Lesson {
     AccountProxyInterface $current_user,
     Normalizer $normalizer,
     LoggerInterface $logger,
-    CoursesPage $coursesPage,
     Course $course,
     EventDispatcherInterface $dispatcher,
-    TimeInterface $time
+    TimeInterface $time,
+    ModuleHandlerInterface $module_handler
   ) {
     $this->nodeStorage = $entity_type_manager->getStorage('node');
     $this->database = $database;
     $this->currentUser = $current_user;
     $this->normalizer = $normalizer;
     $this->logger = $logger;
-    $this->coursesPage = $coursesPage;
     $this->course = $course;
     $this->dispatcher = $dispatcher;
     $this->time = $time;
-  }
-
-  /**
-   * Returns normalized data for Lesson page.
-   *
-   * @param \Drupal\node\NodeInterface $node
-   *   Lesson node.
-   *
-   * @return array
-   *   An array containing current node and referenced course.
-   */
-  public function getPageData(NodeInterface $node) {
-    $lesson_course = $this->getLessonCourse($node);
-
-    $normalized_courses_pages = [];
-    if (!empty($lesson_course)) {
-      $courses_pages = $this->coursesPage->getCoursesPagesByCourse($lesson_course);
-      foreach ($courses_pages as $courses_page) {
-        $normalized_courses_pages[] = [
-          'courses_page' => $this->normalizer->normalizeEntity($courses_page, ['max_depth' => 1]),
-        ];
-      }
-    }
-
-    $data = [
-      $node->bundle() => $this->normalizer->normalizeEntity($node, ['max_depth' => 4]),
-      'course' => !empty($lesson_course) ? $this->normalizer->normalizeEntity($lesson_course, ['max_depth' => 2]) : NULL,
-      'courses_pages_by_course' => empty($lesson_course) ? [] : [
-        [
-          'course_id' => $lesson_course->id(),
-          'courses_pages' => $normalized_courses_pages,
-        ],
-      ],
-    ];
-    $event = new LessonPageDataGeneratedEvent($data, $node);
-    $this->dispatcher->dispatch(LessonPageDataGeneratedEvent::EVENT_NAME, $event);
-    return $event->getPageData();
+    $this->moduleHandler = $module_handler;
   }
 
   /**
    * Returns Course entity for the lesson.
    *
-   * @param \Drupal\node\NodeInterface $lesson
-   *   Lesson node object.
+   * @param int $lesson_id
+   *   Lesson node ID.
    *
    * @return \Drupal\node\NodeInterface|null
    *   Loaded Course object.
    */
-  public function getLessonCourse(NodeInterface $lesson) {
-    if (empty($lesson)) {
-      return NULL;
-    }
-
+  public function getLessonCourse(int $lesson_id): ?NodeInterface {
     // Get statically cached course.
     $course_lessons = &drupal_static('anu_lms_lesson_course_lessons', []);
-    if (!empty($course_lessons[$lesson->id()])) {
-      $course_nid = $course_lessons[$lesson->id()];
+    if (!empty($course_lessons[$lesson_id])) {
+      $course_nid = $course_lessons[$lesson_id];
       /** @var \Drupal\node\NodeInterface $course */
       $course = $this->nodeStorage->load($course_nid);
       return $course;
     }
 
-    // Get lesson's module.
-    $field_name = $lesson->bundle() === 'module_lesson' ? 'field_module_lessons' : 'field_module_assessment';
-    $module_nids = \Drupal::entityQuery('paragraph')
-      ->condition('type', 'course_modules')
-      ->condition($field_name, $lesson->id())
+    // Get lesson's modules.
+    $query = \Drupal::entityQuery('paragraph');
+    $query->condition('type', 'course_modules');
+
+    if ($this->moduleHandler->moduleExists('anu_lms_assessments')) {
+      $query->condition($query->orConditionGroup()
+        ->condition('field_module_lessons', $lesson_id)
+        ->condition('field_module_assessment', $lesson_id)
+      );
+    }
+    else {
+      $query->condition('field_module_lessons', $lesson_id);
+    }
+
+    $module_nids = $query
       ->sort('created', 'DESC')
       ->range(0, 1)
       ->execute();
@@ -219,9 +189,9 @@ class Lesson {
       // Load course navigation for sake of caching.
       // To avoid further db queries, we load the whole navigation
       // and cache references between lessons and courses here.
-      $lessons = $this->course->getLessonsAndQuizzes($course);
-      foreach ($lessons as $lesson) {
-        $course_lessons[$lesson->id()] = $course->id();
+      $lesson_ids = $this->course->getLessonsAndQuizzes($course);
+      foreach ($lesson_ids as $lesson_id) {
+        $course_lessons[$lesson_id] = $course->id();
       }
 
       return $course;
@@ -233,86 +203,38 @@ class Lesson {
   /**
    * Finds the previous lesson in the course navigation.
    *
-   * @param \Drupal\node\NodeInterface $lesson
+   * @param int $lesson_id
    *   Lesson node object.
    *
-   * @return \Drupal\node\NodeInterface|null
-   *   Previous lesson node object or NULL if not found.
+   * @return int|null
+   *   Previous lesson node ID or NULL if not found.
    */
-  public function getPreviousLesson(NodeInterface $lesson) {
+  public function getPreviousLessonId(int $lesson_id): ?int {
     // If the lesson does not belong to a course, then we can't provide
     // the previous lesson.
-    $course = $this->getLessonCourse($lesson);
-    if (empty($course)) {
-      return NULL;
-    }
+    $course = $this->getLessonCourse($lesson_id);
 
     // Load sequence of lessons and quizzes from the course and find the
     // previous entity.
-    $previous_lesson = NULL;
-    $nodes = $this->course->getLessonsAndQuizzes($course);
-    foreach ($nodes as $node) {
-      if ($node->id() == $lesson->id()) {
+    $previous_lesson_id = NULL;
+    $course_lesson_ids = $this->course->getLessonsAndQuizzes($course);
+    foreach ($course_lesson_ids as $course_lesson_id) {
+      if ($lesson_id == $course_lesson_id) {
         break;
       }
-      $previous_lesson = $node;
+      $previous_lesson_id = $course_lesson_id;
     }
 
-    return $previous_lesson;
-  }
-
-  /**
-   * Mark the previous course lesson as completed.
-   *
-   * @param \Drupal\node\NodeInterface $lesson
-   *   Lesson node object.
-   */
-  public function setPreviousLessonCompleted(NodeInterface $lesson): void {
-    // If linear progress is disabled for the course, then we don't set
-    // completion flag for any lesson of that course.
-    $course = $this->getLessonCourse($lesson);
-    if (empty($course) || !$this->course->isLinearProgressEnabled($course)) {
-      return;
-    }
-
-    // Get previous lesson or quiz from the course structure.
-    $previous_lesson = $this->getPreviousLesson($lesson);
-
-    // If no previous lesson - obviously, there's nothing to do here anymore.
-    if (empty($previous_lesson)) {
-      return;
-    }
-
-    // If the previous lesson still has restricted access, then we can't
-    // mark it as completed. It's an edge case if someone tries to access
-    // a URL directly without passing linear progress as expected.
-    if ($this->isRestricted($previous_lesson)) {
-      $this->logger->warning('User @uid tried to access the lesson with id @nid, but the previous lesson (id: @pnid) has restricted access.', [
-        '@uid' => $this->currentUser->id(),
-        '@nid' => $lesson->id(),
-        '@pnid' => $previous_lesson->id(),
-      ]);
-      return;
-    }
-
-    // If user was able to get to the current lesson, then the previous
-    // can be marked as completed. The only place how user can find URL
-    // of the next lesson is when they click "Next" button, which assumes
-    // that the lesson was fully completed.
-    // Note that we complete only lessons with this - quizzes have their
-    // own handler of completion when the quiz is submitted.
-    if ($previous_lesson->bundle() == 'module_lesson') {
-      $this->setCompleted($previous_lesson);
-    }
+    return $previous_lesson_id;
   }
 
   /**
    * Marks the lesson as completed for the current user.
    *
-   * @param \Drupal\node\NodeInterface $lesson
-   *   Lesson node object.
+   * @param int $lesson_id
+   *   Lesson node ID.
    */
-  public function setCompleted(NodeInterface $lesson): void {
+  public function setCompleted(int $lesson_id): void {
     // We don't want to track progress for anonymous users.
     if ($this->currentUser->isAnonymous()) {
       return;
@@ -337,11 +259,11 @@ class Lesson {
       $this->database->merge('anu_lms_progress')
         ->keys([
           'uid' => $this->currentUser->id(),
-          'nid' => $lesson->id(),
+          'nid' => $lesson_id,
         ])
         ->insertFields([
           'uid' => $this->currentUser->id(),
-          'nid' => $lesson->id(),
+          'nid' => $lesson_id,
           'created' => $this->time->getCurrentTime(),
           'changed' => $this->time->getCurrentTime(),
         ])
@@ -352,9 +274,9 @@ class Lesson {
 
       // Update static cache to make sure that all subsequent requests
       // have info about the completion of this lesson.
-      $completed_lessons[$lesson->id()] = $lesson->id();
+      $completed_lessons[$lesson_id] = $lesson_id;
 
-      $event = new LessonCompletedEvent($this->currentUser, $lesson);
+      $event = new LessonCompletedEvent($this->currentUser, $lesson_id);
       $this->dispatcher->dispatch(LessonCompletedEvent::EVENT_NAME, $event);
     }
     catch (\Exception $exception) {
@@ -365,31 +287,31 @@ class Lesson {
   /**
    * Checks if the current user completed the lesson.
    *
-   * @param \Drupal\node\NodeInterface $lesson
-   *   Lesson node object.
+   * @param int $lesson_id
+   *   Lesson node ID.
    *
    * @return bool
    *   Whether the lesson is completed by the current user.
    */
-  public function isCompleted(NodeInterface $lesson): bool {
-    return $this->isCompletedByUser($lesson, $this->currentUser->id());
+  public function isCompleted(int $lesson_id): bool {
+    return $this->isCompletedByUser($lesson_id, $this->currentUser->id());
   }
 
   /**
    * Checks if the given user id completed the lesson.
    *
-   * @param \Drupal\node\NodeInterface $lesson
-   *   Lesson node object.
+   * @param int $lesson_id
+   *   Lesson node ID.
    * @param int $userId
    *   User ID.
    *
    * @return bool
    *   Whether the lesson is completed by the current user.
    */
-  public function isCompletedByUser(NodeInterface $lesson, $userId): bool {
+  public function isCompletedByUser(int $lesson_id, int $userId): bool {
     // If linear progress is not enabled for the course or the lesson does not
     // belong to a course, then we don't show the completion progress.
-    $course = $this->getLessonCourse($lesson);
+    $course = $this->getLessonCourse($lesson_id);
     if (empty($course) || !$this->course->isLinearProgressEnabled($course)) {
       return FALSE;
     }
@@ -408,22 +330,22 @@ class Lesson {
     }
 
     // @todo Don't forget about translations!
-    return !empty($completed_lessons[$lesson->id()]);
+    return !empty($completed_lessons[$lesson_id]);
   }
 
   /**
    * Checks if the current user can view the lesson.
    *
-   * @param \Drupal\node\NodeInterface $lesson
+   * @param int $lesson_id
    *   Lesson node object.
    *
    * @return bool
    *   Whether the lesson has restricted access for the current user.
    */
-  public function isRestricted(NodeInterface $lesson): bool {
+  public function isRestricted(int $lesson_id): bool {
     // If linear progress is not enabled for the course or the lesson does not
     // belong to a course, then we don't restrict access to the lesson.
-    $course = $this->getLessonCourse($lesson);
+    $course = $this->getLessonCourse($lesson_id);
     if (empty($course) || !$this->course->isLinearProgressEnabled($course)) {
       return FALSE;
     }
@@ -431,7 +353,7 @@ class Lesson {
     // If the current lesson is completed by the current user, then
     // obviously it can't be restricted. This covers an edge case when
     // new lessons were added after users have passed some lessons.
-    if ($this->isCompleted($lesson)) {
+    if ($this->isCompleted($lesson_id)) {
       return FALSE;
     }
 
@@ -439,8 +361,8 @@ class Lesson {
     // and the access should always be given to the current lesson.
     // Also, if the previous lesson is completed, then the current lesson
     // can be accessed as well.
-    $previous_lesson = $this->getPreviousLesson($lesson);
-    if (empty($previous_lesson) || $this->isCompleted($previous_lesson)) {
+    $previous_lesson_id = $this->getPreviousLessonId($lesson_id);
+    if (empty($previous_lesson_id) || $this->isCompleted($previous_lesson_id)) {
       return FALSE;
     }
 

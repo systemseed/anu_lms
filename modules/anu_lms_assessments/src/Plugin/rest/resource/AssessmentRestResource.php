@@ -90,7 +90,7 @@ class AssessmentRestResource extends QuestionRestResource {
       }
 
       // Mark the current quiz as completed for the current user.
-      $this->quiz->setCompleted($quiz);
+      $this->quiz->setCompleted($quiz->id());
 
       // Add information about the correct amount of answers to the output.
       $response['correctAnswersCount'] = $correct_answers;

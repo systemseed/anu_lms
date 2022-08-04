@@ -2,12 +2,12 @@
 
 namespace Drupal\anu_lms\Plugin\AnuLmsContentType;
 
-use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\anu_lms\AnuLmsContentTypePluginBase;
 use Drupal\anu_lms\Course as CourseService;
 use Drupal\anu_lms\CourseProgress;
 use Drupal\node\NodeInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -29,14 +29,14 @@ class Course extends AnuLmsContentTypePluginBase implements ContainerFactoryPlug
    *
    * @var \Drupal\anu_lms\Course
    */
-  protected $course;
+  protected CourseService $course;
 
   /**
    * The Courses progress service.
    *
-   * @var \Drupal\anu_lms\CoursesProgress
+   * @var \Drupal\anu_lms\CourseProgress
    */
-  protected $coursesProgress;
+  protected CourseProgress $courseProgress;
 
   /**
    * Create an instance of the plugin.
@@ -74,18 +74,20 @@ class Course extends AnuLmsContentTypePluginBase implements ContainerFactoryPlug
   /**
    * Get data for this node.
    *
-   * @param \Drupal\node\NodeInterface $node
-   *   The courses page node.
+   * @param \Drupal\node\NodeInterface $course
+   *   The course node.
    * @param string $langcode
    *   The language for the data.
+   *
+   * @throws \Drupal\Core\Entity\EntityMalformedException
    */
-  public function getData(NodeInterface $node, $langcode = NULL) {
-    if ($this->courseProgress->isLocked($node, $node->get('field_course_category')->referencedEntities(), TRUE)) {
+  public function getData(NodeInterface $course, $langcode = NULL) {
+    if ($this->courseProgress->isLocked($course, $course->get('field_course_category')->referencedEntities(), TRUE)) {
       return [
         '#markup' => $this->t('This course is locked.'),
       ];
     }
-    $lesson = $this->course->getFirstAccessibleLesson($node);
+    $lesson = $this->course->getFirstAccessibleLesson($course);
     if (!empty($lesson)) {
       return new RedirectResponse($lesson->toUrl('canonical', ['language' => $langcode])->toString());
     }

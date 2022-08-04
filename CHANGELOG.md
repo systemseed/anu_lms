@@ -4,20 +4,52 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+- Fixed Download button label translation for Resource paragraph.
+- Added submodule which provides default configuration for LMS search functionality.
+- Fixed course navigation overlapping by tables on mobiles.
+- Added search keywords highlighting in lesson content.
+
+## [2.6.1]
+- Optimized heavy ->getAudios() method.
+- Fixed ->getFirstAccessibleLesson() return type.
+- Fixed Anu LMS module install on Drupal 9.4.4 by updating Pathauto configs.
+
 ## [2.6.0]
- - Fixed Download button label translation for Resource paragraph.
- - Added submodule which provides default configuration for LMS search functionality.
- - Fixed course navigation overlapping by tables on mobiles.
- - Added search keywords highlighting in lesson content.
+- Separated generic NodeNormalizer for all ANU nodes into individual normalizers
+- Moved logic of getting page data from node managers to children of AnuLmsContentTypePluginBase (->getData() method)
+- Added a patch to composer.json which improves performance of ->referencedEntities() for paragraphs
+- For offline course download now we pass courses page urls instead of full course page entities
+- Quiz node view handler now inherits from ModuleLesson instead of generic AnuLmsContentTypePluginBase (anu_lms_assessments)
+- All methods related to Lesson manager now take lesson ID as an argument instead of loaded lesson node object
+- Added strict types for method arguments and returning values for PHP
+- Removed support of legacy Module node type for Groups (anu_lms_permissions) which prevented the module from install
+- Removed handler of content type view for legacy Module node type
+- Added a new method ->isOfflineSupported() which is a wrapper around checking whether pwa is enabled
+- Optimized heavy ->getFirstAccessibleLesson() method
+- Optimized heavy ->getLessonsAndQuizzes() method
+- Optimized heavy ->getCourseProgress() method
+- Optimized heavy ->getCoursesPagesByCourse() method
+- LessonCompletedEvent now passes lesson_id instead of lesson object
+- Method ->getPreviousLesson() was replaced with ->getPreviousLessonId()
+- Method ->setPreviousLessonCompleted() was removed (it was unused)
+- Added cache context to Normalizer for Groups permissions when anu_lms_assessment is enabled
+- Enabled support of Normalizer caching when course progress is enabled
+- Load certain parts of lessons and courses only when offline support is enabled (i.e. content_urls or audio)
+
+## [2.5.7]
+- Fixed Download button label translation for Resource paragraph.
+- Fixed wrong domain name in the lesson sidebar on multi-domain sites.
+- Fixed caching of unpublished content in the lesson sidebar.
 
 ## [2.5.6]
- - Disabled cache when the progress is enabled.
+- Disabled cache when the progress is enabled.
 
 ## [2.5.5]
- - Improved page loading performance by adding caching for serialized data.
+- Improved page loading performance by adding caching for serialized data.
 
 ## [2.5.4]
- - Fixed issue with non-existing first lesson within the course progress.
+- Fixed issue with non-existing first lesson within the course progress.
 
 ## [2.5.3]
  - Added Event for completed all lessons.
