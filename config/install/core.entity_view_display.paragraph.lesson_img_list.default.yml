@@ -9,44 +9,29 @@ dependencies:
     - paragraphs.paragraphs_type.lesson_img_list
   module:
     - entity_reference_revisions
-    - options
 id: paragraph.lesson_img_list.default
 targetEntityType: paragraph
 bundle: lesson_img_list
 mode: default
 content:
-  field_lesson_highlight_color:
-    weight: 1
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    type: list_default
-    region: content
   field_lesson_img_list_heading:
-    weight: 0
+    type: string
     label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 0
     region: content
-  field_lesson_img_list_highlight:
-    type: boolean
-    weight: 2
-    region: content
-    label: above
-    settings:
-      format: default
-      format_custom_false: ''
-      format_custom_true: ''
-    third_party_settings: {  }
   field_lesson_img_list_items:
     type: entity_reference_revisions_entity_view
-    weight: 3
     label: hidden
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    weight: 1
     region: content
-hidden: {  }
+hidden:
+  field_lesson_highlight_color: true
+  field_lesson_img_list_highlight: true
+  search_api_excerpt: true

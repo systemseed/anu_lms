@@ -8,7 +8,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core';
 import Slider from '@material-ui/core/Slider';
 import ReactPlayer from 'react-player';
-import { formatTime } from '../../utilities/helpers';
+import { formatTime } from '@anu/utilities/helpers';
+import { highlightText } from '@anu/utilities/searchHighlighter';
 
 /**
  * Reusable player component.
@@ -121,7 +122,7 @@ const AudioPlayer = ({
 
         {name && (
           <Typography variant="body2" className={classes.name}>
-            {name}
+            {highlightText(name)}
           </Typography>
         )}
         <Slider

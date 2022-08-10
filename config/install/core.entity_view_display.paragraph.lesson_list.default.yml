@@ -6,24 +6,19 @@ dependencies:
     - field.field.paragraph.lesson_list.field_lesson_list_type
     - paragraphs.paragraphs_type.lesson_list
   module:
-    - options
+    - text
 id: paragraph.lesson_list.default
 targetEntityType: paragraph
 bundle: lesson_list
 mode: default
 content:
   field_lesson_list_items:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
     weight: 0
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    type: basic_string
     region: content
-  field_lesson_list_type:
-    weight: 1
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    type: list_default
-    region: content
-hidden: {  }
+hidden:
+  field_lesson_list_type: true
+  search_api_excerpt: true

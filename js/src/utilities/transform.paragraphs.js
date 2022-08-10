@@ -9,6 +9,7 @@ import {
   getLinkURL,
   getFileURL,
 } from '@anu/utilities/fields';
+import { highlightRawText } from '@anu/utilities/searchHighlighter';
 
 const transformParagraph = (paragraph) => {
   let question = null;
@@ -30,8 +31,8 @@ const transformParagraph = (paragraph) => {
         id: getNumberValue(paragraph, 'id'),
         items: getArrayValue(paragraph, 'field_checklist_items').map((item) => ({
           id: getNumberValue(item, 'id'),
-          option: getTextValue(item, 'field_checkbox_option'),
-          description: getTextValue(item, 'field_lesson_text_content'),
+          option: highlightRawText(getTextValue(item, 'field_checkbox_option')),
+          description: highlightRawText(getTextValue(item, 'field_lesson_text_content')),
         })),
       };
 
@@ -65,7 +66,7 @@ const transformParagraph = (paragraph) => {
         bundle,
         id: getNumberValue(paragraph, 'id'),
         title: getTextValue(paragraph, 'field_lesson_highlight_heading'),
-        text: getTextValue(paragraph, 'field_lesson_highlight_text'),
+        text: highlightRawText(getTextValue(paragraph, 'field_lesson_highlight_text')),
         color: getTextValueOrUndefined(paragraph, 'field_lesson_highlight_color'),
       };
 
@@ -109,7 +110,7 @@ const transformParagraph = (paragraph) => {
               size === 20 ? 'image_bullet_list_small' : 'image_bullet_list_large'
             ),
             size,
-            text: getTextValue(item, 'field_content_text'),
+            text: highlightRawText(getTextValue(item, 'field_content_text')),
           };
         }),
       };
@@ -141,7 +142,7 @@ const transformParagraph = (paragraph) => {
             ),
             size,
             align,
-            text: getTextValue(item, 'field_lesson_img_list_item_text'),
+            text: highlightRawText(getTextValue(item, 'field_lesson_img_list_item_text')),
           };
         }),
       };
@@ -151,7 +152,7 @@ const transformParagraph = (paragraph) => {
         bundle,
         id: getNumberValue(paragraph, 'id'),
         image: getImage(paragraph, 'field_lesson_image_image', 'image_thumbnail_with_caption'),
-        caption: getTextValue(paragraph, 'field_lesson_image_caption_long'),
+        caption: highlightRawText(getTextValue(paragraph, 'field_lesson_image_caption_long')),
       };
 
     case 'lesson_image_wide':
@@ -168,7 +169,7 @@ const transformParagraph = (paragraph) => {
         id: getNumberValue(paragraph, 'id'),
         type: getTextValue(paragraph, 'field_lesson_list_type'),
         items: getArrayValue(paragraph, 'field_lesson_list_items')
-          .map((item) => item && item.value)
+          .map((item) => item && highlightRawText(item.value))
           .filter(Boolean),
       };
 
@@ -203,21 +204,21 @@ const transformParagraph = (paragraph) => {
         id: getNumberValue(paragraph, 'id'),
         caption: getTextValue(paragraph, 'field_lesson_table_caption'),
         isSticky: getBooleanValue(paragraph, 'field_lesson_table_sticky'),
-        value: getTextValue(paragraph, 'field_lesson_table_content'),
+        value: highlightRawText(getTextValue(paragraph, 'field_lesson_table_content')),
       };
 
     case 'lesson_text':
       return {
         bundle,
         id: getNumberValue(paragraph, 'id'),
-        value: getTextValue(paragraph, 'field_lesson_text_content'),
+        value: highlightRawText(getTextValue(paragraph, 'field_lesson_text_content')),
       };
 
     case 'lesson_footnotes':
       return {
         bundle,
         id: getNumberValue(paragraph, 'id'),
-        value: getTextValue(paragraph, 'field_lesson_footnotes_content'),
+        value: highlightRawText(getTextValue(paragraph, 'field_lesson_footnotes_content')),
       };
 
     case 'question_short_answer':

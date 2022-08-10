@@ -6,6 +6,7 @@ import ImageBulletItem from '@anu/components/ImageBulletItem';
 import LessonGrid from '@anu/components/LessonGrid';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { textStyle } from '../theme';
+import { highlightText } from '@anu/utilities/searchHighlighter';
 
 const useHighlightStyles = makeStyles((theme) => ({
   root: {
@@ -29,7 +30,7 @@ const ImageBulletList = ({ title, items, color }) => {
     <>
       {title && (
         <Box mb={2}>
-          <Typography variant="subtitle1">{title}</Typography>
+          <Typography variant="subtitle1">{highlightText(title)}</Typography>
         </Box>
       )}
 

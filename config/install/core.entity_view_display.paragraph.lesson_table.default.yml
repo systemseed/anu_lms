@@ -14,28 +14,20 @@ bundle: lesson_table
 mode: default
 content:
   field_lesson_table_caption:
-    weight: 1
-    label: above
+    type: string
+    label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 1
     region: content
   field_lesson_table_content:
-    weight: 0
-    label: above
+    type: text_default
+    label: hidden
     settings: {  }
     third_party_settings: {  }
-    type: text_default
+    weight: 0
     region: content
-  field_lesson_table_sticky:
-    weight: 2
-    label: above
-    settings:
-      format: default
-      format_custom_false: ''
-      format_custom_true: ''
-    third_party_settings: {  }
-    type: boolean
-    region: content
-hidden: {  }
+hidden:
+  field_lesson_table_sticky: true
+  search_api_excerpt: true

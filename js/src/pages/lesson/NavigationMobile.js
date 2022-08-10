@@ -18,7 +18,7 @@ import DownloadCoursePopup from '@anu/components/DownloadCoursePopup';
 
 const useStyles = makeStyles((theme) => ({
   sticky: {
-    zIndex: 3,
+    zIndex: 4,
   },
   stickyContent: {
     background: theme.palette.grey[200],

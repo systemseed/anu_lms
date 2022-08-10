@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
+import { highlightText } from '@anu/utilities/searchHighlighter';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: ({ image }) => ({
@@ -38,7 +38,7 @@ const ImageWideWithCaption = ({ image, caption }) => {
     <Box className={classes.wrapper}>
       <Box className={classes.overlay}>
         <Typography className={classes.caption} variant="caption">
-          {caption}
+          {highlightText(caption)}
         </Typography>
       </Box>
     </Box>

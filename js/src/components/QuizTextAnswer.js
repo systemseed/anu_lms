@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import LessonGrid from '@anu/components/LessonGrid';
 import QuizSubmit from '@anu/components/QuizSubmit';
-import PropTypes from 'prop-types';
+import { highlightText } from '@anu/utilities/searchHighlighter';
 
 const StyledBox = withStyles((theme) => ({
   root: {
@@ -37,7 +38,7 @@ const QuizTextAnswer = ({
 }) => (
   <StyledBox>
     <LessonGrid>
-      <TypographyBottomSpaced variant="subtitle1">{question}</TypographyBottomSpaced>
+      <TypographyBottomSpaced variant="subtitle1">{highlightText(question)}</TypographyBottomSpaced>
 
       <TextField
         label={Drupal.t('Enter your answer', {}, { context: 'ANU LMS' })}

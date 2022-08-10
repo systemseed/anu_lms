@@ -300,6 +300,9 @@ const GlobalCss = withStyles({
         textDecoration: 'none',
       },
     },
+    'strong.highlight': {
+      background: '#FFFF00',
+    },
   },
 })(() => null);
 

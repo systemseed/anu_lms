@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 -
 
+## [2.6.2]
+- Fixed Download button label translation for Resource paragraph.
+- Added submodule which provides default configuration for LMS search functionality.
+- Fixed course navigation overlapping by tables on mobiles.
+- Added search keywords highlighting in lesson content.
+
 ## [2.6.1]
 - Optimized heavy ->getAudios() method.
 - Fixed ->getFirstAccessibleLesson() return type.

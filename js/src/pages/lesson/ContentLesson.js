@@ -7,6 +7,7 @@ import LessonGrid from '@anu/components/LessonGrid';
 import LoadingIndicator from '@anu/components/LoadingIndicator';
 import Paragraphs from '@anu/components/Paragraphs';
 import { lessonPropTypes } from '@anu/utilities/transform.lesson';
+import { highlightText } from '@anu/utilities/searchHighlighter';
 import Hidden from '@material-ui/core/Hidden';
 
 const ContentLesson = ({ lesson, nextLesson, prevLesson }) => {
@@ -45,7 +46,7 @@ const ContentLesson = ({ lesson, nextLesson, prevLesson }) => {
                 <LessonGrid>
                   <Box display="flex" justifyContent="space-between" alignItems="center">
                     <Hidden smDown>
-                      <Typography variant="h4">{lesson.title}</Typography>
+                      <Typography variant="h4">{highlightText(lesson.title)}</Typography>
                     </Hidden>
 
                     {hasChecklist && (

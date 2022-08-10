@@ -1,0 +1,39 @@
+{% set node = row._object.entity %}
+<div class="search-result-item">
+  <div class="search-result-item__content">
+    <div class="search-result-item__title">
+      {#
+        To support translations, it needs to pass language object (not just lngcode) to Url options like this:
+
+        ```
+        href="{{ path('entity.node.canonical', { 'node': node.id }, { 'language': node.language, 'query': { 'hl': view.getExposedInput.key } }) }}"
+        ```
+
+        but by default `language` method is not allowed in Drupal Twig, so it needs to be whitelisted in `settings.php`:
+
+        ```
+        $settings['twig_sandbox_whitelisted_methods'] = [
+          'id',
+          'label',
+          'bundle',
+          'get',
+          '__toString',
+          'toString',
+          'language',
+        ];
+        ```
+      #}
+      <h4>
+        <a
+          href="{{ path('entity.node.canonical', { 'node': node.id }, { 'query': { 'hl': view.getExposedInput.key } }) }}"
+          rel="bookmark">
+          {{ fields.title.content }}
+        </a>
+      </h4>
+    </div>
+  
+    <div class="search-result-item__excerpt">
+      {{ fields.search_api_excerpt.content }}
+    </div>
+  </div>
+</div>
