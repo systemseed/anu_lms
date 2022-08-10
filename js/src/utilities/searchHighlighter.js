@@ -29,7 +29,7 @@ const getHighlightedText = (text) => {
   });
 
   return highlightedText;
-}
+};
 
 /**
  * Returns text with highlighted keywords as raw markup.
@@ -50,7 +50,7 @@ const highlightRawText = (text) => {
  */
 const highlightText = (text) => {
   const highlightedText = getHighlightedText(text);
-  return <span dangerouslySetInnerHTML={{__html: highlightedText}} />
+  return <span dangerouslySetInnerHTML={{ __html: highlightedText }} />;
 };
 
 export { highlightRawText, highlightText };

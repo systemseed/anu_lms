@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
+-
+
+## [2.6.2]
 - Fixed Download button label translation for Resource paragraph.
 - Added submodule which provides default configuration for LMS search functionality.
 - Fixed course navigation overlapping by tables on mobiles.
