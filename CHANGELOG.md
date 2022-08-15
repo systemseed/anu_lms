@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 -
 
+## [2.6.3]
+- Changed range of weights on page where courses are sorted to support ordering of more than 40 courses per category.
+
 ## [2.6.2]
 - Fixed Download button label translation for Resource paragraph.
 - Added submodule which provides default configuration for LMS search functionality.
