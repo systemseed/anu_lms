@@ -17,6 +17,7 @@ const ContentNavigation = ({
   prevLesson,
   currentIndex,
   isEnabled,
+  ignorePaddings,
 }) => {
   const history = useHistory();
   const completeAnswer = Drupal.t('Complete all answers to proceed', {}, { context: 'ANU LMS' });
@@ -60,7 +61,7 @@ const ContentNavigation = ({
         };
 
         return (
-          <LessonGrid>
+          <LessonGrid ignorePaddings={ignorePaddings}>
             <ButtonWrapper>
               {prevLesson && completeAnswer && noPrevLesson && !isFirstSection && (
                 <Button
@@ -159,6 +160,7 @@ ContentNavigation.propTypes = {
   prevLesson: PropTypes.shape(),
   currentIndex: PropTypes.number,
   isEnabled: PropTypes.bool,
+  ignorePaddings: PropTypes.bool,
 };
 
 export default ContentNavigation;

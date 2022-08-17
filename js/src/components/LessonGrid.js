@@ -21,13 +21,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LessonGrid = ({ children }) => {
+const LessonGrid = ({ children, ignorePaddings = false }) => {
   const classes = useStyles();
-  return <Box className={classes.inner}>{children}</Box>;
+  return <Box className={!ignorePaddings ? classes.inner : ''}>{children}</Box>;
 };
 
 LessonGrid.propTypes = {
   children: PropTypes.node,
+  ignorePaddings: PropTypes.bool,
 };
 
 export default LessonGrid;

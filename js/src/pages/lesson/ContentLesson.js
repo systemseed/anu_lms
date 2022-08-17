@@ -9,6 +9,7 @@ import Paragraphs from '@anu/components/Paragraphs';
 import { lessonPropTypes } from '@anu/utilities/transform.lesson';
 import { highlightText } from '@anu/utilities/searchHighlighter';
 import Hidden from '@material-ui/core/Hidden';
+import ContentTopNavigation from "../../components/TopContentNavigation";
 
 const ContentLesson = ({ lesson, nextLesson, prevLesson }) => {
   const [enableNext, setEnableNext] = useState(lesson.sections.map(() => 0));
@@ -43,6 +44,14 @@ const ContentLesson = ({ lesson, nextLesson, prevLesson }) => {
           return (
             <Route path={`/section-${index + 1}`} key={index} exact>
               <Box mt={[2, 2, 0]}>
+                <ContentTopNavigation
+                  sections={lesson.sections}
+                  currentLesson={lesson}
+                  nextLesson={nextLesson}
+                  prevLesson={prevLesson}
+                  currentIndex={index}
+                  isEnabled={enableNext[index] === quizCount}
+                />
                 <LessonGrid>
                   <Box display="flex" justifyContent="space-between" alignItems="center">
                     <Hidden smDown>
