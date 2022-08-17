@@ -10,10 +10,14 @@ const useStyles = makeStyles((theme) => ({
     background: theme.palette.grey[200],
     padding: theme.spacing(1.5, 4, 1.5, 4),
     marginLeft: theme.spacing(0.5),
+    marginBottom: theme.spacing(8),
   },
   stickyContainer: {
     position: 'fixed',
     top: 0,
+  },
+  emptyContainer: {
+    height: '80px',
   },
   actionsSection: {
     display: 'flex',
@@ -28,6 +32,13 @@ const useStyles = makeStyles((theme) => ({
   },
   titleWrapper: {
     paddingRight: '250px',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'block',
+    },
   }
 }));
 
@@ -73,28 +84,31 @@ const ContentTopNavigation = ({
   }, []);
 
   return (
-    <Box className={`${classes.container} ${isSticky ? classes.stickyContainer : ''}`} id={'top-content-navigation'}>
-      <Grid container spacing={4}>
-        <Grid item md={8} xs={12} className={classes.titleSection}>
-          <div className={classes.titleWrapper}>
-            { currentLesson.title }
-          </div>
-        </Grid>
+    <>
+      {isSticky && <Box className={classes.emptyContainer}></Box>}
+      <Box className={`${classes.container} ${isSticky ? classes.stickyContainer : ''}`} id={'top-content-navigation'}>
+        <Grid container spacing={4}>
+          <Grid item md={8} xs={12} className={classes.titleSection}>
+            <div className={classes.titleWrapper}>
+              { currentLesson.title }
+            </div>
+          </Grid>
 
-        <Grid item md={4} xs={12} className={classes.actionsSection}>
-          <ContentNavigation
-            isIntro={isIntro}
-            sections={sections}
-            currentLesson={currentLesson}
-            nextLesson={nextLesson}
-            prevLesson={prevLesson}
-            currentIndex={currentIndex}
-            isEnabled={isEnabled}
-            ignorePaddings={true}
-          />
+          <Grid item md={4} xs={12} className={classes.actionsSection}>
+            <ContentNavigation
+              isIntro={isIntro}
+              sections={sections}
+              currentLesson={currentLesson}
+              nextLesson={nextLesson}
+              prevLesson={prevLesson}
+              currentIndex={currentIndex}
+              isEnabled={isEnabled}
+              ignorePaddings={true}
+            />
+          </Grid>
         </Grid>
-      </Grid>
-    </Box>
+      </Box>
+    </>
   );
 };
 
