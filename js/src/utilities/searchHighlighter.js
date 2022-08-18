@@ -4,13 +4,25 @@ import React from 'react';
  * Grab search keywords from the URL if present.
  */
 const urlParams = new URLSearchParams(window.location.search);
-const searchKeywords = urlParams.get('hl');
+
+let searchKeywords = urlParams.get('hl');
+if (searchKeywords) {
+  searchKeywords = searchKeywords
+    // Removes all special chars.
+    .replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ' ')
+    // Ensures no trailing whitespaces.
+    .trim()
+    // Separate string into array of keywords.
+    .split(' ')
+    // Filter out empty keywords.
+    .filter(item => !!item.trim());
+}
 
 /**
  * Indicates whether page has search keywords in the URL or not.
  * @type {boolean}
  */
-const pageHasSearchKeywords = !!searchKeywords;
+const pageHasSearchKeywords = searchKeywords && searchKeywords.length > 0;
 
 /**
  * Returns a text wrapped into html tag for visual highlighting of keywords.
@@ -30,12 +42,10 @@ const getHighlightedText = (text, matchOnly = false) => {
   }
 
   let highlightedText = text;
-  // Remove whitespaces and convert a string into an array of searched keywords.
-  const keywords = searchKeywords.trim().split(' ');
   // Replace each occurrence of the searched keyword.
   try {
     let matches = [];
-    keywords.forEach((keyword) => {
+    searchKeywords.forEach((keyword) => {
       const searchRegexp = new RegExp(`(\\W|^)(${keyword})(\\W|$)`, 'gi');
 
       if (matchOnly) {
@@ -58,6 +68,9 @@ const getHighlightedText = (text, matchOnly = false) => {
     console.error('Error during search for highlighted keywords');
     console.error(e);
   }
+
+  // Fallback to the default values in case if the error was thrown.
+  return matchOnly ? false : text;
 };
 
 /**
