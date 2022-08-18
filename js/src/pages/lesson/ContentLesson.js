@@ -9,7 +9,7 @@ import Paragraphs from '@anu/components/Paragraphs';
 import { lessonPropTypes } from '@anu/utilities/transform.lesson';
 import { highlightText } from '@anu/utilities/searchHighlighter';
 import Hidden from '@material-ui/core/Hidden';
-import ContentTopNavigation from "../../components/TopContentNavigation";
+import ContentTopNavigation from '../../components/TopContentNavigation';
 
 const ContentLesson = ({ lesson, nextLesson, prevLesson }) => {
   const [enableNext, setEnableNext] = useState(lesson.sections.map(() => 0));

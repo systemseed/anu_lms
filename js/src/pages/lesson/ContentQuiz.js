@@ -7,7 +7,7 @@ import { quizPropTypes } from '@anu/utilities/transform.quiz';
 import ContentNavigation from '@anu/components/ContentNavigation';
 import Hidden from '@material-ui/core/Hidden';
 import { lessonPropTypes } from '@anu/utilities/transform.lesson';
-import ContentTopNavigation from "../../components/TopContentNavigation";
+import ContentTopNavigation from '../../components/TopContentNavigation';
 
 const ContentQuiz = ({ quiz, nextLesson, prevLesson }) => {
   const [isSubmitted, submitQuiz] = useState(!!quiz.isSubmitted);

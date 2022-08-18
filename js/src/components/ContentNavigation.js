@@ -7,7 +7,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import LessonGrid from '@anu/components/LessonGrid';
 import ButtonWrapper from '@anu/components/ButtonWrapper';
-import {Tooltip} from '@material-ui/core';
+import { Tooltip } from '@material-ui/core';
 
 // TODO - isIntro
 const ContentNavigation = ({

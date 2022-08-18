@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('md')]: {
       display: 'block',
     },
-  }
+  },
 }));
 
 // Sticky top navigation used for lessons and quizzes.
@@ -86,12 +86,13 @@ const ContentTopNavigation = ({
   return (
     <>
       {isSticky && <Box className={classes.emptyContainer}></Box>}
-      <Box className={`${classes.container} ${isSticky ? classes.stickyContainer : ''}`} id={'top-content-navigation'}>
+      <Box
+        className={`${classes.container} ${isSticky ? classes.stickyContainer : ''}`}
+        id={'top-content-navigation'}
+      >
         <Grid container spacing={4}>
           <Grid item md={8} xs={12} className={classes.titleSection}>
-            <div className={classes.titleWrapper}>
-              { currentLesson.title }
-            </div>
+            <div className={classes.titleWrapper}>{currentLesson.title}</div>
           </Grid>
 
           <Grid item md={4} xs={12} className={classes.actionsSection}>
