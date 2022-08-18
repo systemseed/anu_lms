@@ -89,8 +89,7 @@ class CoursesTest extends WebDriverTestBase {
 
     $assert->waitForElementVisible('css', '[data-test=anu-lms-navigation-next]')->click();
     $lessonTitle = $assert->waitForElementVisible('css', '#anu-application h4');
-    $this->assertNotEmpty($lessonTitle);
-    $this->assertEqual($lessonTitle->getText(), 'Text');
+    $this->assertEmpty($lessonTitle);
 
     $linkInBody = $assert->waitForElementVisible('css', 'a[href="https://github.com/systemseed/anu_lms"]');
     $this->assertNotEmpty($linkInBody);
