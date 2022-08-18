@@ -22,8 +22,6 @@ class ModuleTitleItemList extends FieldItemList {
 
   /**
    * Add property with the title of the module.
-   *
-   * @return void
    */
   protected function ensurePopulated() {
     if (!isset($this->list[0])) {
