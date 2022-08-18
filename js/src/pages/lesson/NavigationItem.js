@@ -17,9 +17,10 @@ const useStyles = makeStyles((theme) => ({
   },
   link: ({ isActive }) => ({
     padding: theme.spacing(1, 2, 1, 1),
-    background: isActive ? theme.palette.accent1.main : 'none',
-    color: isActive ? theme.palette.accent1.contrastText : theme.palette.common.black,
-    borderBottom: isActive ? '2px solid black' : 'none',
+    background: isActive ? theme.palette.grey[200] : 'none',
+    color: theme.palette.common.black,
+    fontWeight: isActive ? theme.typography.fontWeightBold : theme.typography.fontWeightRegular,
+    borderBottom: isActive ? '4px solid black' : 'none',
     display: 'block',
     textDecoration: 'none',
     '&:hover': {

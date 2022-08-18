@@ -5,7 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
--
+- Removed toggleable "Hide modules" / "Show modules" course navigation link. Now the navigation is static.
+- Removed custom hook useLocalStorage() since it's not used anywhere in the code anymore
+- Changed css "position" of the course navigation from absolute to static since it does not have to be absolute anymore.
+- Changed styles of an active lesson / quiz item in the course navigation
 
 ## [2.6.3]
 - Changed range of weights on page where courses are sorted to support ordering of more than 40 courses per category.

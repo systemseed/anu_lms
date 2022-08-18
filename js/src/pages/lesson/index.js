@@ -8,12 +8,10 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 
 import LessonHeader from '@anu/pages/lesson/Header';
 import LessonSidebar from '@anu/pages/lesson/Sidebar';
-import LessonSidebarHide from '@anu/pages/lesson/SidebarHide';
 import LessonNavigationMobile from '@anu/pages/lesson/NavigationMobile';
 import ContentQuiz from '@anu/pages/lesson/ContentQuiz';
 import ContentLesson from '@anu/pages/lesson/ContentLesson';
 
-import useLocalStorage from '@anu/hooks/useLocalStorage';
 import { coursePropTypes } from '@anu/utilities/transform.course';
 import { lessonPropTypes } from '@anu/utilities/transform.lesson';
 import { quizPropTypes } from '@anu/utilities/transform.quiz';
@@ -33,30 +31,22 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
   },
   contentArea: {
-    position: 'relative',
     flexWrap: 'nowrap',
     flexGrow: 1,
-    overflow: 'hidden',
+    display: 'flex',
     [theme.breakpoints.up('md')]: {
       paddingBottom: theme.spacing(8),
     },
   },
-  sidebar: ({ isSidebarVisible }) => ({
-    position: 'absolute',
+  sidebar: {
     width: 300,
-    left: isSidebarVisible ? 0 : -300,
-    transition: '.3s left',
-    top: 0,
-    bottom: 0,
     flexShrink: 0,
     flexGrow: 0,
-  }),
-  contentWrapper: ({ isSidebarVisible }) => ({
-    transition: '.3s padding',
+  },
+  contentWrapper: {
     flexGrow: 1,
-    height: '100%',
-    paddingLeft: isSidebarVisible ? 300 : 0,
-  }),
+    marginTop: theme.spacing(5),
+  },
   content: {
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
@@ -70,8 +60,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LessonPage = ({ lesson, quiz, course, width }) => {
-  const [isSidebarVisible, toggleSidebarVisibility] = useLocalStorage('sidebarVisibility', true);
-  const classes = useStyles({ isSidebarVisible });
+  const classes = useStyles();
 
   const courseSequence = ((course || {}).content || [])
     .flatMap((module) => [...module.lessons, module.quiz])
@@ -115,14 +104,6 @@ const LessonPage = ({ lesson, quiz, course, width }) => {
       )}
 
       <Box className={classes.container}>
-        {/* CTA to hide / show desktop sidebar */}
-        <Hidden smDown>
-          <LessonSidebarHide
-            isSidebarVisible={isSidebarVisible}
-            toggleSidebarVisibility={toggleSidebarVisibility}
-          />
-        </Hidden>
-
         <Box className={classes.contentArea}>
           {/* Left sidebar visible on tablet + desktop devices only */}
           <Hidden smDown>
