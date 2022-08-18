@@ -9,13 +9,13 @@ let searchKeywords = urlParams.get('hl');
 if (searchKeywords) {
   searchKeywords = searchKeywords
     // Removes all special chars.
-    .replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ' ')
+    .replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>{}[\]\\/]/gi, ' ')
     // Ensures no trailing whitespaces.
     .trim()
     // Separate string into array of keywords.
     .split(' ')
     // Filter out empty keywords.
-    .filter(item => !!item.trim());
+    .filter((item) => !!item.trim());
 }
 
 /**
