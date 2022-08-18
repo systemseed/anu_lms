@@ -26,7 +26,7 @@ const defaultTheme = createTheme({
     // overwritten is the primary. All other colors used in ANU are likely
     // to stay as is regardless of the project.
     primary: {
-      main: '#004bbd',
+      main: '#000000',
       contrastText: '#ffffff',
     },
     grey: {
@@ -177,7 +177,7 @@ const theme = createTheme({
       fontSize: '1rem',
       lineHeight: 1.25,
       letterSpacing: '1px',
-      textTransform: 'uppercase',
+      textTransform: 'capitalize',
     },
     label1: {
       fontFamily: defaultTheme.typography.fontFamily,
@@ -218,6 +218,13 @@ const theme = createTheme({
       sizeLarge: {
         paddingTop: '12px',
         paddingBottom: '12px',
+        fontSize: '1rem',
+      },
+      startIcon: {
+        marginRight: '0',
+      },
+      endIcon: {
+        marginLeft: '0',
       },
       contained: {
         order: '1',

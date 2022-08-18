@@ -54,7 +54,7 @@ const ContentLesson = ({ lesson, nextLesson, prevLesson }) => {
                 />
                 <LessonGrid>
                   <Box display="flex" justifyContent="space-between" alignItems="center">
-                    <Hidden smDown>
+                    <Hidden mdUp>
                       <Typography variant="h4">{highlightText(lesson.title)}</Typography>
                     </Hidden>
 
