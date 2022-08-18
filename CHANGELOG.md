@@ -5,7 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
--
+- Added automatic switching to the section with search keywords if the first section does not contain any
+- Use "span" html tag instead of "marker" for highlighted paragraph
+- Fixed allowed values for "align" property in ImageBulletItem component
+- Changed default parse mode for search from "Single phrase" to "Multiple words" for better searchability
 
 ## [2.6.3]
 - Changed range of weights on page where courses are sorted to support ordering of more than 40 courses per category.
