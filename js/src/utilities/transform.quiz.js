@@ -58,7 +58,6 @@ const transformQuizQuestions = (node, course) => {
     isSingleSubmission: fields.getBooleanValue(node, 'field_no_multiple_submissions'),
     isCompleted: isLessonCompleted(course, id),
     isRestricted: isLessonRestricted(course, id),
-    finishButtonText: fields.getTextValue(node, 'finish_button_text'),
     finishButtonUrl: fields.getTextValue(node, 'finish_button_url'),
     questions: fields
       .getArrayValue(node, 'field_module_assessment_items')

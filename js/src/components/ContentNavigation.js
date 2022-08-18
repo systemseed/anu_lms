@@ -38,11 +38,7 @@ const ContentNavigation = ({
     window.location.href = nextLesson.url;
   };
 
-  const finishButtonText = (currentLesson) =>
-    !currentLesson.finishButtonText
-      ? Drupal.t('Finish', {}, { context: 'ANU LMS' })
-      : currentLesson.finishButtonText;
-  const isFirstSection = currentIndex == 0;
+  const isFirstSection = !currentIndex;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -140,7 +136,7 @@ const ContentNavigation = ({
                       onClick={updateProgressAndRedirect}
                       data-test="anu-lms-navigation-finish"
                     >
-                      {finishButtonText(currentLesson)}
+                      {Drupal.t('Finish', {}, { context: 'ANU LMS' })}
                     </Button>
                   </span>
                 </Tooltip>

@@ -5,7 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
--
+- Added the sticky top navigation for lessons and quizzes.
+- Changed styles and labels for navigation buttons.
+- Added lesson title into section above lesson content.
+- Improved styles for disabled buttons.
 
 ## [2.6.3]
 - Changed range of weights on page where courses are sorted to support ordering of more than 40 courses per category.
