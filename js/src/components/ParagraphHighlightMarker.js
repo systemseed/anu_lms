@@ -29,7 +29,7 @@ const ParagraphHighlightMarker = ({ text, color }) => {
   return (
     <LessonGrid>
       <Box className={classes.container}>
-        <Typography component="marker" className={classes.text}>
+        <Typography component="span" className={classes.text}>
           {highlightText(text)}
         </Typography>
       </Box>

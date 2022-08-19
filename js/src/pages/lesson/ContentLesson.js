@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import { HashRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
+import Hidden from '@material-ui/core/Hidden';
 import Typography from '@material-ui/core/Typography';
 import ContentNavigation from '@anu/components/ContentNavigation';
 import LessonGrid from '@anu/components/LessonGrid';
 import LoadingIndicator from '@anu/components/LoadingIndicator';
 import Paragraphs from '@anu/components/Paragraphs';
 import { lessonPropTypes } from '@anu/utilities/transform.lesson';
-import { highlightText } from '@anu/utilities/searchHighlighter';
 import Hidden from '@material-ui/core/Hidden';
 import ContentTopNavigation from '../../components/TopContentNavigation';
-import makeStyles from "@material-ui/core/styles/makeStyles";
-
+import makeStyles from '@material-ui/core/styles/makeStyles';
+import {
+  highlightText,
+  pageHasSearchKeywords,
+  getFirstSectionWithHighlightedKeywords,
+} from '@anu/utilities/searchHighlighter';
 
 const useStyles = makeStyles((theme) => ({
   lessonGrid: {
@@ -28,6 +32,17 @@ const ContentLesson = ({ lesson, nextLesson, prevLesson }) => {
     Drupal.t('Loading...', {}, { context: 'ANU LMS' })
   );
 
+  // Get the default section (page) within the lesson to redirect to.
+  // If no search keywords present in the URL then it's always the first section,
+  // otherwise we find the first section that matches search keywords and
+  // switch the user to it.
+  const [defaultSection] = useState(() => {
+    if (pageHasSearchKeywords) {
+      return getFirstSectionWithHighlightedKeywords(lesson.sections) + 1;
+    }
+    return 1;
+  });
+
   // Mark question as completed on the page.
   const handleQuestionCompletion = (sectionIndex) =>
     setEnableNext({
@@ -41,7 +56,7 @@ const ContentLesson = ({ lesson, nextLesson, prevLesson }) => {
   return (
     <HashRouter hashType="noslash">
       <Switch>
-        <Redirect exact from="/" to="/section-1" />
+        <Redirect exact from="/" to={`/section-${defaultSection}`} />
         <Redirect exact from="/back" to={backUrl} />
 
         {lesson.sections.map((paragraphs, index) => {

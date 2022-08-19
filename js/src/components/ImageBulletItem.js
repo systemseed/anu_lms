@@ -60,7 +60,7 @@ ImageBulletItem.propTypes = {
     alt: PropTypes.string,
   }).isRequired,
   size: PropTypes.number.isRequired,
-  align: PropTypes.oneOf(['top', 'middle']).isRequired,
+  align: PropTypes.oneOf(['center', 'flex-start']).isRequired,
   text: PropTypes.string.isRequired,
 };
 
