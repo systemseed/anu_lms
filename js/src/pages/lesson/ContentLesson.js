@@ -10,6 +10,16 @@ import { lessonPropTypes } from '@anu/utilities/transform.lesson';
 import { highlightText } from '@anu/utilities/searchHighlighter';
 import Hidden from '@material-ui/core/Hidden';
 import ContentTopNavigation from '../../components/TopContentNavigation';
+import makeStyles from "@material-ui/core/styles/makeStyles";
+
+
+const useStyles = makeStyles((theme) => ({
+  lessonGrid: {
+    [theme.breakpoints.up('md')]: {
+      justifyContent: 'end',
+    },
+  },
+}));
 
 const ContentLesson = ({ lesson, nextLesson, prevLesson }) => {
   const [enableNext, setEnableNext] = useState(lesson.sections.map(() => 0));
@@ -25,6 +35,8 @@ const ContentLesson = ({ lesson, nextLesson, prevLesson }) => {
       [sectionIndex]: enableNext[sectionIndex] + 1,
     });
   const backUrl = `/section-${lesson.sections.length}`;
+
+  const classes = useStyles();
 
   return (
     <HashRouter hashType="noslash">
@@ -53,7 +65,7 @@ const ContentLesson = ({ lesson, nextLesson, prevLesson }) => {
                   isEnabled={enableNext[index] === quizCount}
                 />
                 <LessonGrid>
-                  <Box display="flex" justifyContent="space-between" alignItems="center">
+                  <Box display="flex" justifyContent="space-between" alignItems="center" className={classes.lessonGrid}>
                     <Hidden mdUp>
                       <Typography variant="h4">{highlightText(lesson.title)}</Typography>
                     </Hidden>
@@ -81,6 +93,7 @@ const ContentLesson = ({ lesson, nextLesson, prevLesson }) => {
                     prevLesson={prevLesson}
                     currentIndex={index}
                     isEnabled={enableNext[index] === quizCount}
+                    ignorePaddings={true}
                   />
                 </Box>
               </Box>

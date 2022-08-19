@@ -55,6 +55,7 @@ const ContentQuiz = ({ quiz, nextLesson, prevLesson }) => {
           prevLesson={prevLesson}
           currentIndex={0}
           isEnabled={isSubmitted}
+          ignorePaddings={true}
         />
       )}
     </Box>

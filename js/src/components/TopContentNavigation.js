@@ -8,13 +8,14 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 const useStyles = makeStyles((theme) => ({
   container: {
     background: theme.palette.grey[200],
-    padding: theme.spacing(1.5, 4, 1.5, 4),
+    padding: theme.spacing(1.5, 0.25, 1.5, 4),
     marginLeft: theme.spacing(0.5),
     marginBottom: theme.spacing(8),
   },
   stickyContainer: {
     position: 'fixed',
     top: 0,
+    zIndex: 1,
   },
   emptyContainer: {
     height: '80px',
@@ -70,8 +71,8 @@ const ContentTopNavigation = ({
 
       if (navbar.getBoundingClientRect().top + navbar.offsetHeight < window.scrollY) {
         setIsSticky(true);
-        // Subtract paddings (64px) from the whole width.
-        navbar.style.width = `${navbar.parentElement.offsetWidth - 64}px`;
+        // Subtract paddings (32+6px) from the whole width.
+        navbar.style.width = `${navbar.parentElement.offsetWidth - 38}px`;
       } else {
         setIsSticky(false);
         navbar.style.width = `auto`;

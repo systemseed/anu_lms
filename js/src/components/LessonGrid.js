@@ -4,7 +4,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
-  inner: {
+  innerDefault: {
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
     [theme.breakpoints.up('sm')]: {
@@ -19,11 +19,14 @@ const useStyles = makeStyles((theme) => ({
       marginRight: 'auto',
     },
   },
+  innerIgnorePaddings: {
+    marginRight: theme.spacing(3.75),
+  }
 }));
 
 const LessonGrid = ({ children, ignorePaddings = false }) => {
   const classes = useStyles();
-  return <Box className={!ignorePaddings ? classes.inner : ''}>{children}</Box>;
+  return <Box className={!ignorePaddings ? classes.innerDefault : classes.innerIgnorePaddings}>{children}</Box>;
 };
 
 LessonGrid.propTypes = {

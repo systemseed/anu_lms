@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     gap: theme.spacing(1),
     [theme.breakpoints.up('sm')]: {
-      justifyContent: 'flex-start',
+      justifyContent: 'flex-end',
     },
   },
 }));
