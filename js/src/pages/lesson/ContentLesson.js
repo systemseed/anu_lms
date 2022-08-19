@@ -8,7 +8,6 @@ import LessonGrid from '@anu/components/LessonGrid';
 import LoadingIndicator from '@anu/components/LoadingIndicator';
 import Paragraphs from '@anu/components/Paragraphs';
 import { lessonPropTypes } from '@anu/utilities/transform.lesson';
-import Hidden from '@material-ui/core/Hidden';
 import ContentTopNavigation from '../../components/TopContentNavigation';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {
