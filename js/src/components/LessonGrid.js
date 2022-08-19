@@ -21,12 +21,16 @@ const useStyles = makeStyles((theme) => ({
   },
   innerIgnorePaddings: {
     marginRight: theme.spacing(3.75),
-  }
+  },
 }));
 
 const LessonGrid = ({ children, ignorePaddings = false }) => {
   const classes = useStyles();
-  return <Box className={!ignorePaddings ? classes.innerDefault : classes.innerIgnorePaddings}>{children}</Box>;
+  return (
+    <Box className={!ignorePaddings ? classes.innerDefault : classes.innerIgnorePaddings}>
+      {children}
+    </Box>
+  );
 };
 
 LessonGrid.propTypes = {

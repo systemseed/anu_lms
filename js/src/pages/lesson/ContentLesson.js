@@ -79,7 +79,12 @@ const ContentLesson = ({ lesson, nextLesson, prevLesson }) => {
                   isEnabled={enableNext[index] === quizCount}
                 />
                 <LessonGrid>
-                  <Box display="flex" justifyContent="space-between" alignItems="center" className={classes.lessonGrid}>
+                  <Box
+                    display="flex"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    className={classes.lessonGrid}
+                  >
                     <Hidden mdUp>
                       <Typography variant="h4">{highlightText(lesson.title)}</Typography>
                     </Hidden>
