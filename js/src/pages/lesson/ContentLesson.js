@@ -69,7 +69,7 @@ const ContentLesson = ({ lesson, nextLesson, prevLesson }) => {
 
           return (
             <Route path={`/section-${index + 1}`} key={index} exact>
-              <Box mt={[2, 2, 0]}>
+              <Box>
                 <ContentTopNavigation
                   sections={lesson.sections}
                   currentLesson={lesson}

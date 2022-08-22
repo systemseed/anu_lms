@@ -45,7 +45,6 @@ const useStyles = makeStyles((theme) => ({
   },
   contentWrapper: {
     flexGrow: 1,
-    marginTop: theme.spacing(5),
   },
   content: {
     paddingTop: theme.spacing(2),
