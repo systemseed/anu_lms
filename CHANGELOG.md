@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+- Added the sticky top navigation for lessons and quizzes.
+- Changed styles and labels for navigation buttons.
+- Added lesson title into section above lesson content.
+- Improved styles for disabled buttons.
+
 ## [2.6.4]
 - Added automatic switching to the section with search keywords if the first section does not contain any
 - Use "span" html tag instead of "marker" for highlighted paragraph

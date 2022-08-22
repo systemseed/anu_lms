@@ -7,11 +7,23 @@ import { quizPropTypes } from '@anu/utilities/transform.quiz';
 import ContentNavigation from '@anu/components/ContentNavigation';
 import Hidden from '@material-ui/core/Hidden';
 import { lessonPropTypes } from '@anu/utilities/transform.lesson';
+import ContentTopNavigation from '../../components/TopContentNavigation';
 
 const ContentQuiz = ({ quiz, nextLesson, prevLesson }) => {
   const [isSubmitted, submitQuiz] = useState(!!quiz.isSubmitted);
   return (
     <Box mt={[2, 2, 0]}>
+      {isSubmitted && (
+        <ContentTopNavigation
+          isIntro={false}
+          sections={[]}
+          currentLesson={quiz}
+          nextLesson={nextLesson}
+          prevLesson={prevLesson}
+          currentIndex={0}
+          isEnabled={isSubmitted}
+        />
+      )}
       <LessonGrid>
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Hidden smDown>
@@ -43,6 +55,7 @@ const ContentQuiz = ({ quiz, nextLesson, prevLesson }) => {
           prevLesson={prevLesson}
           currentIndex={0}
           isEnabled={isSubmitted}
+          ignorePaddings={true}
         />
       )}
     </Box>

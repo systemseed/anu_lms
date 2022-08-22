@@ -8,11 +8,21 @@ import LessonGrid from '@anu/components/LessonGrid';
 import LoadingIndicator from '@anu/components/LoadingIndicator';
 import Paragraphs from '@anu/components/Paragraphs';
 import { lessonPropTypes } from '@anu/utilities/transform.lesson';
+import ContentTopNavigation from '../../components/TopContentNavigation';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 import {
   highlightText,
   pageHasSearchKeywords,
   getFirstSectionWithHighlightedKeywords,
 } from '@anu/utilities/searchHighlighter';
+
+const useStyles = makeStyles((theme) => ({
+  lessonGrid: {
+    [theme.breakpoints.up('md')]: {
+      justifyContent: 'end',
+    },
+  },
+}));
 
 const ContentLesson = ({ lesson, nextLesson, prevLesson }) => {
   const [enableNext, setEnableNext] = useState(lesson.sections.map(() => 0));
@@ -40,6 +50,8 @@ const ContentLesson = ({ lesson, nextLesson, prevLesson }) => {
     });
   const backUrl = `/section-${lesson.sections.length}`;
 
+  const classes = useStyles();
+
   return (
     <HashRouter hashType="noslash">
       <Switch>
@@ -58,9 +70,22 @@ const ContentLesson = ({ lesson, nextLesson, prevLesson }) => {
           return (
             <Route path={`/section-${index + 1}`} key={index} exact>
               <Box mt={[2, 2, 0]}>
+                <ContentTopNavigation
+                  sections={lesson.sections}
+                  currentLesson={lesson}
+                  nextLesson={nextLesson}
+                  prevLesson={prevLesson}
+                  currentIndex={index}
+                  isEnabled={enableNext[index] === quizCount}
+                />
                 <LessonGrid>
-                  <Box display="flex" justifyContent="space-between" alignItems="center">
-                    <Hidden smDown>
+                  <Box
+                    display="flex"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    className={classes.lessonGrid}
+                  >
+                    <Hidden mdUp>
                       <Typography variant="h4">{highlightText(lesson.title)}</Typography>
                     </Hidden>
 
@@ -87,6 +112,7 @@ const ContentLesson = ({ lesson, nextLesson, prevLesson }) => {
                     prevLesson={prevLesson}
                     currentIndex={index}
                     isEnabled={enableNext[index] === quizCount}
+                    ignorePaddings={true}
                   />
                 </Box>
               </Box>

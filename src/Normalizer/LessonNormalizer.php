@@ -29,12 +29,6 @@ class LessonNormalizer extends NodeNormalizerBase {
     // @todo Potentially can be moved to the course level - feels redundant
     // to have properties with same values inside of each lesson.
     $course = $lessonHandler->getLessonCourse($lesson->id());
-    $finishText = $course ? $courseHandler->getFinishText($course) : '';
-    if (!empty($finishText)) {
-      $normalized['finish_button_text'] = [
-        'value' => $finishText,
-      ];
-    }
 
     $normalized['finish_button_url'] = [
       'value' => $courseHandler->getFinishRedirectUrl($course)->setAbsolute()->toString(),

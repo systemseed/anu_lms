@@ -190,19 +190,6 @@ class Course {
   }
 
   /**
-   * Returns the text for the finish button in the last lesson of a course.
-   *
-   * @param \Drupal\node\NodeInterface $course
-   *   Course node object.
-   *
-   * @return string
-   *   Finish button label.
-   */
-  public function getFinishText(NodeInterface $course): string {
-    return $course->field_course_finish_button->title ?? '';
-  }
-
-  /**
    * Returns the number of accesible lessons.
    *
    * @param \Drupal\node\NodeInterface $course

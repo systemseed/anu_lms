@@ -7,6 +7,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import LessonGrid from '@anu/components/LessonGrid';
 import ButtonWrapper from '@anu/components/ButtonWrapper';
+import { Tooltip } from '@material-ui/core';
 
 // TODO - isIntro
 const ContentNavigation = ({
@@ -17,6 +18,7 @@ const ContentNavigation = ({
   prevLesson,
   currentIndex,
   isEnabled,
+  ignorePaddings,
 }) => {
   const history = useHistory();
   const completeAnswer = Drupal.t('Complete all answers to proceed', {}, { context: 'ANU LMS' });
@@ -36,11 +38,7 @@ const ContentNavigation = ({
     window.location.href = nextLesson.url;
   };
 
-  const finishButtonText = (currentLesson) =>
-    !currentLesson.finishButtonText
-      ? Drupal.t('Finish', {}, { context: 'ANU LMS' })
-      : currentLesson.finishButtonText;
-  const isFirstSection = currentIndex == 0;
+  const isFirstSection = !currentIndex;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -60,18 +58,22 @@ const ContentNavigation = ({
         };
 
         return (
-          <LessonGrid>
+          <LessonGrid ignorePaddings={ignorePaddings}>
             <ButtonWrapper>
-              {prevLesson && completeAnswer && noPrevLesson && !isFirstSection && (
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  size="large"
-                  startIcon={<ChevronLeftIcon />}
-                  href={prevLesson.url}
-                >
-                  {Drupal.t('Back', {}, { context: 'ANU LMS' })}
-                </Button>
+              {prevLesson && noPrevLesson && !isFirstSection && (
+                <Tooltip title={completeAnswer} arrow>
+                  <span>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      size="large"
+                      startIcon={<ChevronLeftIcon />}
+                      href={prevLesson.url}
+                    >
+                      {Drupal.t('Previous', {}, { context: 'ANU LMS' })}
+                    </Button>
+                  </span>
+                </Tooltip>
               )}
 
               {!noPrevLesson && (
@@ -82,7 +84,7 @@ const ContentNavigation = ({
                   startIcon={<ChevronLeftIcon />}
                   onClick={() => history.push({ pathname: `/section-${currentIndex}` })}
                 >
-                  {Drupal.t('Back', {}, { context: 'ANU LMS' })}
+                  {Drupal.t('Previous', {}, { context: 'ANU LMS' })}
                 </Button>
               )}
 
@@ -94,38 +96,50 @@ const ContentNavigation = ({
                   startIcon={<ChevronLeftIcon />}
                   href={`${prevLesson.url}#back`}
                 >
-                  {Drupal.t('Back', {}, { context: 'ANU LMS' })}
+                  {Drupal.t('Previous', {}, { context: 'ANU LMS' })}
                 </Button>
               )}
 
               {sections[currentIndex + 1] && (
-                <Button
-                  {...buttonProps}
-                  onClick={() => history.push({ pathname: `/section-${currentIndex + 2}` })}
-                  data-test="anu-lms-navigation-next"
-                >
-                  {disabled ? completeAnswer : Drupal.t('Next', {}, { context: 'ANU LMS' })}
-                </Button>
+                <Tooltip title={disabled ? completeAnswer : ''} arrow>
+                  <span>
+                    <Button
+                      {...buttonProps}
+                      onClick={() => history.push({ pathname: `/section-${currentIndex + 2}` })}
+                      data-test="anu-lms-navigation-next"
+                    >
+                      {Drupal.t('Next', {}, { context: 'ANU LMS' })}
+                    </Button>
+                  </span>
+                </Tooltip>
               )}
 
               {noNextLesson && nextIsLesson && (
-                <Button
-                  {...buttonProps}
-                  onClick={updateProgressAndRedirect}
-                  data-test="anu-lms-navigation-next"
-                >
-                  {disabled ? completeAnswer : Drupal.t('Next', {}, { context: 'ANU LMS' })}
-                </Button>
+                <Tooltip title={disabled ? completeAnswer : ''} arrow>
+                  <span>
+                    <Button
+                      {...buttonProps}
+                      onClick={updateProgressAndRedirect}
+                      data-test="anu-lms-navigation-next"
+                    >
+                      {Drupal.t('Next', {}, { context: 'ANU LMS' })}
+                    </Button>
+                  </span>
+                </Tooltip>
               )}
 
               {noNextLesson && !nextIsLesson && !nextIsQuiz && (
-                <Button
-                  {...buttonProps}
-                  onClick={updateProgressAndRedirect}
-                  data-test="anu-lms-navigation-finish"
-                >
-                  {disabled ? completeAnswer : finishButtonText(currentLesson)}
-                </Button>
+                <Tooltip title={disabled ? completeAnswer : ''} arrow>
+                  <span>
+                    <Button
+                      {...buttonProps}
+                      onClick={updateProgressAndRedirect}
+                      data-test="anu-lms-navigation-finish"
+                    >
+                      {Drupal.t('Finish', {}, { context: 'ANU LMS' })}
+                    </Button>
+                  </span>
+                </Tooltip>
               )}
 
               {noNextLesson && nextIsLesson && isIntro && (
@@ -139,9 +153,13 @@ const ContentNavigation = ({
               )}
 
               {noNextLesson && nextIsQuiz && (
-                <Button {...buttonProps} onClick={updateProgressAndRedirect}>
-                  {disabled ? completeAnswer : Drupal.t('Go to quiz', {}, { context: 'ANU LMS' })}
-                </Button>
+                <Tooltip title={disabled ? completeAnswer : ''} arrow>
+                  <span>
+                    <Button {...buttonProps} onClick={updateProgressAndRedirect}>
+                      {Drupal.t('Next', {}, { context: 'ANU LMS' })}
+                    </Button>
+                  </span>
+                </Tooltip>
               )}
             </ButtonWrapper>
           </LessonGrid>
@@ -159,6 +177,7 @@ ContentNavigation.propTypes = {
   prevLesson: PropTypes.shape(),
   currentIndex: PropTypes.number,
   isEnabled: PropTypes.bool,
+  ignorePaddings: PropTypes.bool,
 };
 
 export default ContentNavigation;

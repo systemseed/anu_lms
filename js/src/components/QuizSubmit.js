@@ -41,9 +41,7 @@ const QuizSubmit = ({ onSubmit, isSubmitting, isQuiz, prevLesson }) => {
               <CircularProgress size={20} style={{ marginRight: theme.spacing(2) }} />
             )}
 
-            {isQuiz
-              ? Drupal.t('Submit quiz', {}, { context: 'ANU LMS' })
-              : Drupal.t('Submit answer', {}, { context: 'ANU LMS' })}
+            {Drupal.t('Submit', {}, { context: 'ANU LMS' })}
           </Button>
 
           {!online && (
