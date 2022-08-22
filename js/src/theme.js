@@ -216,9 +216,9 @@ const theme = createTheme({
         paddingBottom: defaultTheme.spacing(1.5),
       },
       sizeLarge: {
-        paddingTop: '12px',
-        paddingBottom: '12px',
+        padding: defaultTheme.spacing(1.5),
         fontSize: '1rem',
+        minWidth: defaultTheme.spacing(6),
       },
       startIcon: {
         marginRight: '0',

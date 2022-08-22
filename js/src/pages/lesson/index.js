@@ -8,7 +8,6 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 
 import LessonHeader from '@anu/pages/lesson/Header';
 import LessonSidebar from '@anu/pages/lesson/Sidebar';
-import LessonNavigationMobile from '@anu/pages/lesson/NavigationMobile';
 import ContentQuiz from '@anu/pages/lesson/ContentQuiz';
 import ContentLesson from '@anu/pages/lesson/ContentLesson';
 
@@ -83,11 +82,6 @@ const LessonPage = ({ lesson, quiz, course, width }) => {
 
   return (
     <Box className={classes.wrapper}>
-      {/* Navigation drawer visible only on mobile */}
-      <Hidden mdUp>
-        <LessonNavigationMobile lesson={content} course={course} />
-      </Hidden>
-
       {/* Header of the lesson page  */}
       {course && (
         <Hidden smDown>
@@ -112,10 +106,10 @@ const LessonPage = ({ lesson, quiz, course, width }) => {
           </Hidden>
 
           <Box className={isWidthUp('md', width) ? classes.contentWrapper : ''}>
-            {quiz && <ContentQuiz quiz={quiz} nextLesson={nextLesson} prevLesson={prevLesson} />}
+            {quiz && <ContentQuiz quiz={quiz} nextLesson={nextLesson} prevLesson={prevLesson} course={course} />}
 
             {lesson && (
-              <ContentLesson lesson={lesson} nextLesson={nextLesson} prevLesson={prevLesson} />
+              <ContentLesson lesson={lesson} nextLesson={nextLesson} prevLesson={prevLesson} course={course} />
             )}
           </Box>
         </Box>

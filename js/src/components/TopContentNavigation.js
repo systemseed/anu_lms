@@ -4,12 +4,16 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import ContentNavigation from './ContentNavigation';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import Hidden from '@material-ui/core/Hidden';
+import LessonNavigationMobile from '../pages/lesson/NavigationMobile';
+import { coursePropTypes } from '@anu/utilities/transform.course';
 
 const useStyles = makeStyles((theme) => ({
   container: {
     background: theme.palette.grey[200],
     boxSizing: 'border-box',
-    padding: theme.spacing(1.5, 0.25, 1.5, 4),
+    padding: theme.spacing(0, 0.25, 0, 4),
+    marginTop: theme.spacing(2),
     marginLeft: theme.spacing(0.5),
     marginBottom: theme.spacing(8),
   },
@@ -17,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
     position: 'fixed',
     top: 0,
     zIndex: 1,
+    paddingBottom: theme.spacing(1.5),
+    paddingTop: theme.spacing(1.5),
+    marginTop: theme.spacing(0),
   },
   emptyContainer: {
     height: '70px',
@@ -37,11 +44,10 @@ const useStyles = makeStyles((theme) => ({
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'block',
-    },
   },
+  navigationMobileSection: {
+    padding: '0!important',
+  }
 }));
 
 // Sticky top navigation used for lessons and quizzes.
@@ -53,6 +59,7 @@ const ContentTopNavigation = ({
   prevLesson,
   currentIndex,
   isEnabled,
+  course,
 }) => {
   const classes = useStyles();
 
@@ -114,12 +121,21 @@ const ContentTopNavigation = ({
         className={`${classes.container} ${isSticky ? classes.stickyContainer : ''}`}
         id={'top-content-navigation'}
       >
-        <Grid container spacing={4}>
-          <Grid item md={8} xs={12} className={classes.titleSection}>
-            <div className={classes.titleWrapper}>{currentLesson.title}</div>
-          </Grid>
+        <Grid container spacing={2}>
+          {/* Navigation drawer visible only on mobile */}
+          <Hidden mdUp>
+            <Grid item xs={4} className={classes.navigationMobileSection}>
+              <LessonNavigationMobile lesson={currentLesson} course={course} />
+            </Grid>
+          </Hidden>
 
-          <Grid item md={4} xs={12} className={classes.actionsSection}>
+          <Hidden smDown>
+            <Grid item md={8} xs={4} className={classes.titleSection}>
+              <div className={classes.titleWrapper}>{currentLesson.title}</div>
+            </Grid>
+          </Hidden>
+
+          <Grid item md={4} xs={8} className={classes.actionsSection}>
             <ContentNavigation
               isIntro={isIntro}
               sections={sections}
@@ -148,6 +164,7 @@ ContentTopNavigation.propTypes = {
   prevLesson: PropTypes.shape(),
   currentIndex: PropTypes.number,
   isEnabled: PropTypes.bool,
+  course: coursePropTypes,
 };
 
 export default ContentTopNavigation;

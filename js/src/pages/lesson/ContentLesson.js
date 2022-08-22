@@ -10,6 +10,7 @@ import Paragraphs from '@anu/components/Paragraphs';
 import { lessonPropTypes } from '@anu/utilities/transform.lesson';
 import ContentTopNavigation from '../../components/TopContentNavigation';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import { coursePropTypes } from '@anu/utilities/transform.course';
 import {
   highlightText,
   pageHasSearchKeywords,
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ContentLesson = ({ lesson, nextLesson, prevLesson }) => {
+const ContentLesson = ({ lesson, nextLesson, prevLesson, course }) => {
   const [enableNext, setEnableNext] = useState(lesson.sections.map(() => 0));
   const [isChecklistLoading, setChecklistLoading] = useState(true);
   const [checklistLabel, setChecklistLabel] = useState(
@@ -77,6 +78,7 @@ const ContentLesson = ({ lesson, nextLesson, prevLesson }) => {
                   prevLesson={prevLesson}
                   currentIndex={index}
                   isEnabled={enableNext[index] === quizCount}
+                  course={course}
                 />
                 <LessonGrid>
                   <Box
@@ -129,6 +131,7 @@ ContentLesson.propTypes = {
   lesson: lessonPropTypes.isRequired,
   nextLesson: lessonPropTypes,
   prevLesson: lessonPropTypes,
+  course: coursePropTypes,
 };
 
 ContentLesson.defaultProps = {
