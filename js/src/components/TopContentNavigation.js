@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
@@ -8,6 +8,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 const useStyles = makeStyles((theme) => ({
   container: {
     background: theme.palette.grey[200],
+    boxSizing: 'border-box',
     padding: theme.spacing(1.5, 0.25, 1.5, 4),
     marginLeft: theme.spacing(0.5),
     marginBottom: theme.spacing(8),
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 1,
   },
   emptyContainer: {
-    height: '80px',
+    height: '70px',
   },
   actionsSection: {
     display: 'flex',
@@ -55,27 +56,48 @@ const ContentTopNavigation = ({
 }) => {
   const classes = useStyles();
 
-  const [isSticky, setIsSticky] = useState(false);
+  const [isSticky, _setIsSticky] = useState(false);
+
+  // Hooks to track the "isSticky" value. Note that we have to use useRef here as
+  // well as useState, in order to have the step data accessible in our
+  // event listeners which normally don't get updates from change of the state.
+  // See https://file-translate.com/en/blog/react-state-in-event.
+  const isStickyRef = useRef(isSticky);
+
+  const setIsSticky = (value) => {
+    isStickyRef.current = value;
+    _setIsSticky(value);
+  };
 
   useEffect(() => {
     const onScroll = () => {
-      const navbar = document.getElementById('top-content-navigation');
+      // "emptyNavbar" is empty block with predefined height, used to avoid
+      // visual collision during moving between "static" and "sticky" states
+      // for top navigation.
+      const stickyNavbar = document.getElementById('top-content-navigation');
+      const emptyNavbar = document.getElementById('top-empty-navigation');
       const toolbar = document.getElementById('toolbar-bar');
       const toolbarTray = document.getElementById('toolbar-item-administration-tray');
 
+      let stickyNavbarTopPadding = 0;
       if (toolbar) {
         // If the toolbar-tray is horizontal then the toolbar takes 2 lines.
-        const multiplier = toolbarTray.classList.contains('toolbar-tray-horizontal') ? 2 : 1;
-        navbar.style.top = `${toolbar.offsetHeight * multiplier}px`;
+        const multiplier =
+          toolbarTray.classList.contains('toolbar-tray-horizontal') &&
+          toolbarTray.classList.contains('is-active')
+            ? 2
+            : 1;
+        stickyNavbarTopPadding = toolbar.offsetHeight * multiplier;
+        stickyNavbar.style.top = `${stickyNavbarTopPadding}px`;
       }
 
-      if (navbar.getBoundingClientRect().top + navbar.offsetHeight < window.scrollY) {
+      const navbar = isStickyRef.current ? emptyNavbar : stickyNavbar;
+      if (navbar.getBoundingClientRect().top - stickyNavbarTopPadding <= 0) {
         setIsSticky(true);
-        // Subtract paddings (32+6px) from the whole width.
-        navbar.style.width = `${navbar.parentElement.offsetWidth - 38}px`;
+        stickyNavbar.style.width = `${stickyNavbar.parentElement.offsetWidth}px`;
       } else {
         setIsSticky(false);
-        navbar.style.width = `auto`;
+        stickyNavbar.style.width = `auto`;
       }
     };
 
@@ -86,7 +108,7 @@ const ContentTopNavigation = ({
 
   return (
     <>
-      {isSticky && <Box className={classes.emptyContainer}></Box>}
+      {isSticky && <Box className={classes.emptyContainer} id={'top-empty-navigation'}></Box>}
       <Box
         className={`${classes.container} ${isSticky ? classes.stickyContainer : ''}`}
         id={'top-content-navigation'}
