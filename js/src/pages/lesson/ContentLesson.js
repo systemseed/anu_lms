@@ -113,6 +113,7 @@ const ContentLesson = ({ lesson, nextLesson, prevLesson }) => {
                     currentIndex={index}
                     isEnabled={enableNext[index] === quizCount}
                     ignorePaddings={true}
+                    hideButtonsLabelsOnMobile={false}
                   />
                 </Box>
               </Box>

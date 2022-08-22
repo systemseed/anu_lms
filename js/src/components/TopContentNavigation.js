@@ -129,6 +129,7 @@ const ContentTopNavigation = ({
               currentIndex={currentIndex}
               isEnabled={isEnabled}
               ignorePaddings={true}
+              hideButtonsLabelsOnMobile={true}
             />
           </Grid>
         </Grid>

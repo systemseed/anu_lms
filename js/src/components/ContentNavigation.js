@@ -8,6 +8,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import LessonGrid from '@anu/components/LessonGrid';
 import ButtonWrapper from '@anu/components/ButtonWrapper';
 import { Tooltip } from '@material-ui/core';
+import Hidden from "@material-ui/core/Hidden";
 
 // TODO - isIntro
 const ContentNavigation = ({
@@ -19,6 +20,7 @@ const ContentNavigation = ({
   currentIndex,
   isEnabled,
   ignorePaddings,
+  hideButtonsLabelsOnMobile,
 }) => {
   const history = useHistory();
   const completeAnswer = Drupal.t('Complete all answers to proceed', {}, { context: 'ANU LMS' });
@@ -57,6 +59,16 @@ const ContentNavigation = ({
           disabled,
         };
 
+        const renderButtonLabel = (label) => {
+          if (hideButtonsLabelsOnMobile) {
+            return <Hidden smDown>
+              {Drupal.t(label, {}, { context: 'ANU LMS' })}
+            </Hidden>;
+          }
+
+          return Drupal.t(label, {}, { context: 'ANU LMS' });
+        }
+
         return (
           <LessonGrid ignorePaddings={ignorePaddings}>
             <ButtonWrapper>
@@ -70,7 +82,7 @@ const ContentNavigation = ({
                       startIcon={<ChevronLeftIcon />}
                       href={prevLesson.url}
                     >
-                      {Drupal.t('Previous', {}, { context: 'ANU LMS' })}
+                      {renderButtonLabel('Previous')}
                     </Button>
                   </span>
                 </Tooltip>
@@ -84,7 +96,7 @@ const ContentNavigation = ({
                   startIcon={<ChevronLeftIcon />}
                   onClick={() => history.push({ pathname: `/section-${currentIndex}` })}
                 >
-                  {Drupal.t('Previous', {}, { context: 'ANU LMS' })}
+                  {renderButtonLabel('Previous')}
                 </Button>
               )}
 
@@ -96,7 +108,7 @@ const ContentNavigation = ({
                   startIcon={<ChevronLeftIcon />}
                   href={`${prevLesson.url}#back`}
                 >
-                  {Drupal.t('Previous', {}, { context: 'ANU LMS' })}
+                  {renderButtonLabel('Previous')}
                 </Button>
               )}
 
@@ -108,7 +120,7 @@ const ContentNavigation = ({
                       onClick={() => history.push({ pathname: `/section-${currentIndex + 2}` })}
                       data-test="anu-lms-navigation-next"
                     >
-                      {Drupal.t('Next', {}, { context: 'ANU LMS' })}
+                      {renderButtonLabel('Next')}
                     </Button>
                   </span>
                 </Tooltip>
@@ -122,7 +134,7 @@ const ContentNavigation = ({
                       onClick={updateProgressAndRedirect}
                       data-test="anu-lms-navigation-next"
                     >
-                      {Drupal.t('Next', {}, { context: 'ANU LMS' })}
+                      {renderButtonLabel('Next')}
                     </Button>
                   </span>
                 </Tooltip>
@@ -136,7 +148,7 @@ const ContentNavigation = ({
                       onClick={updateProgressAndRedirect}
                       data-test="anu-lms-navigation-finish"
                     >
-                      {Drupal.t('Finish', {}, { context: 'ANU LMS' })}
+                      {renderButtonLabel('Finish')}
                     </Button>
                   </span>
                 </Tooltip>
@@ -148,7 +160,7 @@ const ContentNavigation = ({
                   onClick={updateProgressAndRedirect}
                   data-test="anu-lms-navigation-start"
                 >
-                  {Drupal.t('Start', {}, { context: 'ANU LMS' })}
+                  {renderButtonLabel('Start')}
                 </Button>
               )}
 
@@ -156,7 +168,7 @@ const ContentNavigation = ({
                 <Tooltip title={disabled ? completeAnswer : ''} arrow>
                   <span>
                     <Button {...buttonProps} onClick={updateProgressAndRedirect}>
-                      {Drupal.t('Next', {}, { context: 'ANU LMS' })}
+                      {renderButtonLabel('Next')}
                     </Button>
                   </span>
                 </Tooltip>
@@ -178,6 +190,7 @@ ContentNavigation.propTypes = {
   currentIndex: PropTypes.number,
   isEnabled: PropTypes.bool,
   ignorePaddings: PropTypes.bool,
+  hideButtonsLabelsOnMobile: PropTypes.bool,
 };
 
 export default ContentNavigation;
