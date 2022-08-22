@@ -29,8 +29,8 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
     '&.Mui-expanded': {
-      paddingTop: '5px', // Compensate more thin top border width.
-      borderTop: '1px solid ' + theme.palette.grey[300],
+      paddingTop: '6px', // Compensate more thin top border width.
+      borderTop: 'none',
       borderRight: '1px solid ' + theme.palette.grey[300],
       borderBottom: hasCurrentContent
         ? '4px solid ' + theme.palette.common.black
