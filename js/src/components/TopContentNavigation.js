@@ -94,7 +94,8 @@ const ContentTopNavigation = ({
       const navbar = isStickyRef.current ? emptyNavbar : stickyNavbar;
       if (navbar.getBoundingClientRect().top - stickyNavbarTopPadding <= 0) {
         setIsSticky(true);
-        stickyNavbar.style.width = `${stickyNavbar.parentElement.offsetWidth}px`;
+        // 4px - is left margin of parent element.
+        stickyNavbar.style.width = `${stickyNavbar.parentElement.offsetWidth - 4}px`;
       } else {
         setIsSticky(false);
         stickyNavbar.style.width = `auto`;
