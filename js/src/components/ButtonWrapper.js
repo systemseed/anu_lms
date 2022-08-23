@@ -6,11 +6,8 @@ import PropTypes from 'prop-types';
 const useStyles = makeStyles((theme) => ({
   inner: {
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     gap: theme.spacing(1),
-    [theme.breakpoints.up('sm')]: {
-      justifyContent: 'flex-end',
-    },
   },
 }));
 
