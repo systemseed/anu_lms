@@ -18,18 +18,15 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 0,
     [theme.breakpoints.down('sm')]: {
       marginLeft: -theme.spacing(1),
-      width: `calc(100% + ${theme.spacing(2)}px)!important`,
-    },
-    [theme.breakpoints.up('md')]: {
-      marginTop: theme.spacing(1),
+      marginRight: -theme.spacing(1),
+      marginTop: -theme.spacing(1),
+      paddingRight: 0,
     },
   },
   stickyContainer: {
     position: 'fixed',
     top: 0,
     zIndex: 10,
-    paddingBottom: theme.spacing(1.5),
-    paddingTop: theme.spacing(1.5),
     marginTop: theme.spacing(0),
     [theme.breakpoints.down('sm')]: {
       width: `100%!important`,
@@ -41,6 +38,8 @@ const useStyles = makeStyles((theme) => ({
   actionsSection: {
     display: 'flex',
     justifyContent: 'end',
+    marginBottom: theme.spacing(1.5),
+    marginTop: theme.spacing(1.5),
   },
   titleSection: {
     fontSize: '1.125rem',
@@ -113,10 +112,14 @@ const ContentTopNavigation = ({
             : 1;
         stickyNavbarTopPadding = toolbar.offsetHeight * multiplier;
         stickyNavbar.style.top = `${stickyNavbarTopPadding}px`;
+
+        if (getComputedStyle(toolbar).position !== 'fixed') {
+          stickyNavbar.style.top = '0';
+        }
       }
 
       const navbar = isStickyRef.current ? emptyNavbar : stickyNavbar;
-      if (navbar.getBoundingClientRect().top - stickyNavbarTopPadding <= 0) {
+      if (navbar.getBoundingClientRect().top - stickyNavbarTopPadding <= 0 && window.scrollY > 5) {
         setIsSticky(true);
         // 4px - is left margin of parent element.
         stickyNavbar.style.width = `${stickyNavbar.parentElement.offsetWidth - 4}px`;
@@ -138,7 +141,7 @@ const ContentTopNavigation = ({
         className={`${classes.container} ${isSticky ? classes.stickyContainer : ''}`}
         id={'top-content-navigation'}
       >
-        <Grid container spacing={2}>
+        <Grid container>
           {/* Navigation drawer visible only on mobile */}
           <Hidden mdUp>
             <Grid item xs={1} className={classes.navigationMobileSection}>
