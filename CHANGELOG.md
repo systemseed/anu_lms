@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed styles of an active lesson / quiz item in the course navigation
 - The mobile navigation moved to "Top navigation" section and got new style
 
+## [2.6.5]
+- Added module's title to the search index of the first lesson.
+
 ## [2.6.4]
 - Added automatic switching to the section with search keywords if the first section does not contain any
 - Use "span" html tag instead of "marker" for highlighted paragraph
