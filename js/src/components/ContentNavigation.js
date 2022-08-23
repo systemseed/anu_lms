@@ -8,16 +8,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import LessonGrid from '@anu/components/LessonGrid';
 import ButtonWrapper from '@anu/components/ButtonWrapper';
 import { Tooltip } from '@material-ui/core';
-import Hidden from "@material-ui/core/Hidden";
-import makeStyles from "@material-ui/core/styles/makeStyles";
-
-const useStyles = makeStyles((theme) => ({
-  iconButton: {
-    // minWidth: theme.spacing(6),
-    // paddingLeft: theme.spacing(1.5),
-    // paddingRight: theme.spacing(1.5),
-  },
-}));
+import Hidden from '@material-ui/core/Hidden';
 
 const ContentNavigation = ({
   isIntro,
@@ -36,7 +27,6 @@ const ContentNavigation = ({
   const nextIsLesson = nextLesson && Boolean(nextLesson.sections);
   const noNextLesson = !sections[currentIndex + 1];
   const noPrevLesson = !sections[currentIndex - 1];
-  const classes = useStyles();
 
   const updateProgressAndRedirect = async () => {
     // Marks lesson as completed if linear progress is enabled for its course.
@@ -70,17 +60,11 @@ const ContentNavigation = ({
 
         const renderButtonLabel = (label) => {
           if (hideButtonsLabelsOnMobile) {
-            return <Hidden smDown>
-              {Drupal.t(label, {}, { context: 'ANU LMS' })}
-            </Hidden>;
+            return <Hidden smDown>{Drupal.t(label, {}, { context: 'ANU LMS' })}</Hidden>;
           }
 
           return Drupal.t(label, {}, { context: 'ANU LMS' });
-        }
-
-        const getButtonClass = () => {
-          return hideButtonsLabelsOnMobile ? classes.iconButton : '';
-        }
+        };
 
         return (
           <LessonGrid ignorePaddings={ignorePaddings}>
@@ -94,7 +78,6 @@ const ContentNavigation = ({
                       size="large"
                       startIcon={<ChevronLeftIcon />}
                       href={prevLesson.url}
-                      className={getButtonClass()}
                     >
                       {renderButtonLabel('Previous')}
                     </Button>
@@ -109,7 +92,6 @@ const ContentNavigation = ({
                   size="large"
                   startIcon={<ChevronLeftIcon />}
                   onClick={() => history.push({ pathname: `/section-${currentIndex}` })}
-                  className={getButtonClass()}
                 >
                   {renderButtonLabel('Previous')}
                 </Button>
@@ -122,7 +104,6 @@ const ContentNavigation = ({
                   size="large"
                   startIcon={<ChevronLeftIcon />}
                   href={`${prevLesson.url}#back`}
-                  className={getButtonClass()}
                 >
                   {renderButtonLabel('Previous')}
                 </Button>
@@ -135,7 +116,6 @@ const ContentNavigation = ({
                       {...buttonProps}
                       onClick={() => history.push({ pathname: `/section-${currentIndex + 2}` })}
                       data-test="anu-lms-navigation-next"
-                      className={getButtonClass()}
                     >
                       {renderButtonLabel('Next')}
                     </Button>
@@ -150,7 +130,6 @@ const ContentNavigation = ({
                       {...buttonProps}
                       onClick={updateProgressAndRedirect}
                       data-test="anu-lms-navigation-next"
-                      className={getButtonClass()}
                     >
                       {renderButtonLabel('Next')}
                     </Button>
@@ -165,7 +144,6 @@ const ContentNavigation = ({
                       {...buttonProps}
                       onClick={updateProgressAndRedirect}
                       data-test="anu-lms-navigation-finish"
-                      className={getButtonClass()}
                     >
                       {renderButtonLabel('Finish')}
                     </Button>
@@ -178,7 +156,6 @@ const ContentNavigation = ({
                   {...buttonProps}
                   onClick={updateProgressAndRedirect}
                   data-test="anu-lms-navigation-start"
-                  className={getButtonClass()}
                 >
                   {renderButtonLabel('Start')}
                 </Button>
@@ -187,7 +164,7 @@ const ContentNavigation = ({
               {noNextLesson && nextIsQuiz && (
                 <Tooltip title={disabled ? completeAnswer : ''} arrow>
                   <span>
-                    <Button {...buttonProps} onClick={updateProgressAndRedirect} className={getButtonClass()}>
+                    <Button {...buttonProps} onClick={updateProgressAndRedirect}>
                       {renderButtonLabel('Next')}
                     </Button>
                   </span>

@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed custom hook useLocalStorage() since it's not used anywhere in the code anymore
 - Changed css "position" of the course navigation from absolute to static since it does not have to be absolute anymore.
 - Changed styles of an active lesson / quiz item in the course navigation
+- The mobile navigation moved to "Top navigation" section and got new style
 
 ## [2.6.4]
 - Added automatic switching to the section with search keywords if the first section does not contain any

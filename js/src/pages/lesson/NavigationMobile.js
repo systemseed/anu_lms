@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     cursor: 'pointer',
     height: theme.spacing(8),
-    marginLeft: -theme.spacing(5),
+    marginLeft: -theme.spacing(6),
     position: 'relative',
     '&:after': {
       content: '""',
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
       bottom: -theme.spacing(0.5),
       left: 0,
       width: '100%',
-    }
+    },
   },
   closeIcon: {
     cursor: 'pointer',

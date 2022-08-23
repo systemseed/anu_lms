@@ -106,10 +106,22 @@ const LessonPage = ({ lesson, quiz, course, width }) => {
           </Hidden>
 
           <Box className={isWidthUp('md', width) ? classes.contentWrapper : ''}>
-            {quiz && <ContentQuiz quiz={quiz} nextLesson={nextLesson} prevLesson={prevLesson} course={course} />}
+            {quiz && (
+              <ContentQuiz
+                quiz={quiz}
+                nextLesson={nextLesson}
+                prevLesson={prevLesson}
+                course={course}
+              />
+            )}
 
             {lesson && (
-              <ContentLesson lesson={lesson} nextLesson={nextLesson} prevLesson={prevLesson} course={course} />
+              <ContentLesson
+                lesson={lesson}
+                nextLesson={nextLesson}
+                prevLesson={prevLesson}
+                course={course}
+              />
             )}
           </Box>
         </Box>

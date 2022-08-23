@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     background: theme.palette.grey[200],
     boxSizing: 'border-box',
     padding: theme.spacing(0, 0.25, 0, 4),
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(1),
     marginLeft: theme.spacing(0.5),
     marginBottom: theme.spacing(8),
   },
@@ -44,10 +44,16 @@ const useStyles = makeStyles((theme) => ({
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
+    [theme.breakpoints.down('lg')]: {
+      maxWidth: '700px',
+    },
+    [theme.breakpoints.down('md')]: {
+      maxWidth: '400px',
+    },
   },
   navigationMobileSection: {
     padding: '0!important',
-  }
+  },
 }));
 
 // Sticky top navigation used for lessons and quizzes.
