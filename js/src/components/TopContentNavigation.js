@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(0),
   },
   emptyContainer: {
-    height: '70px',
+    height: '115px',
   },
   actionsSection: {
     display: 'flex',
@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
   titleSection: {
     fontSize: '1.125rem',
+    color: theme.palette.common.black,
     fontFamily: theme.typography.fontFamily,
     fontWeight: theme.typography.fontWeightBold,
     display: 'flex',
