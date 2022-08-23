@@ -7,6 +7,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import Hidden from '@material-ui/core/Hidden';
 import LessonNavigationMobile from '../pages/lesson/NavigationMobile';
 import { coursePropTypes } from '@anu/utilities/transform.course';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -42,10 +43,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1.5),
   },
   titleSection: {
-    fontSize: '1.125rem',
-    color: theme.palette.common.black,
-    fontFamily: theme.typography.fontFamily,
-    fontWeight: theme.typography.fontWeightBold,
     display: 'flex',
     alignItems: 'center',
   },
@@ -64,6 +61,11 @@ const useStyles = makeStyles((theme) => ({
   navigationMobileSection: {
     padding: '0!important',
   },
+  pageNumberSection: {
+    display: 'flex',
+    alignItems: 'center',
+    marginRight: theme.spacing(2),
+  }
 }));
 
 // Sticky top navigation used for lessons and quizzes.
@@ -150,12 +152,15 @@ const ContentTopNavigation = ({
           </Hidden>
 
           <Hidden smDown>
-            <Grid item md={8} xs={4} className={classes.titleSection}>
-              <div className={classes.titleWrapper}>{currentLesson.title}</div>
+            <Grid item md={6} xs={4} className={classes.titleSection}>
+              <Typography className={classes.titleWrapper} variant="subtitle2">{currentLesson.title}</Typography>
             </Grid>
           </Hidden>
 
           <Grid item md={4} xs={11} className={classes.actionsSection}>
+            <Typography variant="subtitle2" className={classes.pageNumberSection}>
+              {Drupal.t('Page !current of !all', {'!current': currentIndex + 1, '!all': sections.length}, { context: 'ANU LMS' })}
+            </Typography>
             <ContentNavigation
               isIntro={isIntro}
               sections={sections}

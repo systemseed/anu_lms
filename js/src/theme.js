@@ -134,7 +134,7 @@ const theme = createTheme({
       color: defaultTheme.palette.common.black,
       fontFamily: defaultTheme.typography.fontFamily,
       fontWeight: defaultTheme.typography.fontWeightBold,
-      fontSize: '1rem',
+      fontSize: '1.125rem',
       lineHeight: 1.25,
       letterSpacing: 'normal',
     },
