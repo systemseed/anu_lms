@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+- Added module's title to the search index of the first lesson.
+
 ## [2.6.4]
 - Added automatic switching to the section with search keywords if the first section does not contain any
 - Use "span" html tag instead of "marker" for highlighted paragraph

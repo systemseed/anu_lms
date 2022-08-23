@@ -129,6 +129,38 @@ class Lesson {
   }
 
   /**
+   * Returns module id of a lesson.
+   *
+   * @param int $lesson_id
+   *   Lesson node ID.
+   *
+   * @return int|null
+   *   Module's ID or NULL if the lesson is orphaned.
+   */
+  public function getLessonModule(int $lesson_id): ?int {
+    // Get lesson's modules.
+    $query = \Drupal::entityQuery('paragraph');
+    $query->condition('type', 'course_modules');
+
+    if ($this->moduleHandler->moduleExists('anu_lms_assessments')) {
+      $query->condition($query->orConditionGroup()
+        ->condition('field_module_lessons', $lesson_id)
+        ->condition('field_module_assessment', $lesson_id)
+      );
+    }
+    else {
+      $query->condition('field_module_lessons', $lesson_id);
+    }
+
+    $module_ids = $query
+      ->sort('created', 'DESC')
+      ->range(0, 1)
+      ->execute();
+
+    return !empty($module_ids) ? reset($module_ids) : NULL;
+  }
+
+  /**
    * Returns Course entity for the lesson.
    *
    * @param int $lesson_id
@@ -147,33 +179,16 @@ class Lesson {
       return $course;
     }
 
-    // Get lesson's modules.
-    $query = \Drupal::entityQuery('paragraph');
-    $query->condition('type', 'course_modules');
-
-    if ($this->moduleHandler->moduleExists('anu_lms_assessments')) {
-      $query->condition($query->orConditionGroup()
-        ->condition('field_module_lessons', $lesson_id)
-        ->condition('field_module_assessment', $lesson_id)
-      );
-    }
-    else {
-      $query->condition('field_module_lessons', $lesson_id);
-    }
-
-    $module_nids = $query
-      ->sort('created', 'DESC')
-      ->range(0, 1)
-      ->execute();
-
-    if (empty($module_nids)) {
+    // First, find a module referencing the lesson.
+    $module_id = $this->getLessonModule($lesson_id);
+    if (empty($module_id)) {
       return NULL;
     }
 
-    // Get module's course.
+    // Find a course referencing the module.
     $course_nids = $this->nodeStorage->getQuery()
       ->condition('type', 'course')
-      ->condition('field_course_module', reset($module_nids))
+      ->condition('field_course_module', $module_id)
       ->accessCheck(FALSE)
       ->range(0, 1)
       ->execute();

@@ -6,13 +6,15 @@
  */
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\node\Entity\Node;
 
 /**
  * Implements hook_form_views_exposed_form_alter().
  */
 function anu_lms_search_form_views_exposed_form_alter(&$form, FormStateInterface $form_state) {
   if ($form['#id'] == 'views-exposed-form-anu-lms-search-search-results-page') {
-    $form['#attached']['library'][] = 'anu_lms_search/search'; 
+    $form['#attached']['library'][] = 'anu_lms_search/search';
     $form['#attributes']['class'][] = 'anu-lms-search__search-form';
     $form['key']['#wrapper_attributes']['class'][] = 'search-form__input';
     $form['key']['#attributes']['placeholder'] = t('Search LMS content');
@@ -34,4 +36,49 @@ function anu_lms_search_theme($existing, $type, $theme, $path) {
       'base hook' => 'views_view_fields',
     ],
   ];
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_update().
+ */
+function anu_lms_search_paragraph_update(\Drupal\Core\Entity\EntityInterface $entity) {
+  if ($entity->bundle() !== 'course_modules') {
+    return;
+  }
+
+  /** @var \Drupal\paragraphs\ParagraphInterface $previous_paragraph */
+  $previous_paragraph = $entity->original;
+  /** @var \Drupal\paragraphs\ParagraphInterface $updated_paragraph */
+  $updated_paragraph = $entity;
+  if (empty($previous_paragraph) || empty($updated_paragraph)) {
+    return;
+  }
+
+  // If the title has changed then we want to reindex the first lesson to
+  // make sure the updated title gets into the index.
+  $previous_title = $previous_paragraph->get('field_module_title')->getString();
+  $new_title = $updated_paragraph->get('field_module_title')->getString();
+  if ($previous_title != $new_title) {
+    $lessons = $updated_paragraph->get('field_module_lessons')->getValue();
+    if (!empty($lessons[0]['target_id'])) {
+      $lesson = Node::load($lessons[0]['target_id']);
+      search_api_entity_update($lesson);
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_bundle_field_info().
+ */
+function anu_lms_search_entity_bundle_field_info(\Drupal\Core\Entity\EntityTypeInterface $entity_type, $bundle) {
+  $fields = [];
+  // Add a field with module's title to the lesson content type for indexation.
+  if ($entity_type->id() === 'node' && $bundle === 'module_lesson') {
+    $fields['module_title'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Module title'))
+      ->setDescription(t('Title of the module for the first lesson or quiz.'))
+      ->setComputed(TRUE)
+      ->setClass('\Drupal\anu_lms_search\ModuleTitleItemList');
+  }
+  return $fields;
 }
