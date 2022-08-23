@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: -theme.spacing(3),
     [theme.breakpoints.down('md')]: {
       marginLeft: -theme.spacing(6),
-    }
+    },
   },
   closeIcon: {
     cursor: 'pointer',

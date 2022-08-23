@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.up('md')]: {
       marginTop: theme.spacing(1),
-    }
+    },
   },
   stickyContainer: {
     position: 'fixed',
