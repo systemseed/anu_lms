@@ -69,13 +69,13 @@ const QuizTextAnswer = ({
 QuizTextAnswer.propTypes = {
   question: PropTypes.string,
   value: PropTypes.string,
-  correctValue: PropTypes.number,
+  correctValue: PropTypes.string,
   checked: PropTypes.bool,
   multiline: PropTypes.bool,
   isSubmitting: PropTypes.bool,
   isSubmitted: PropTypes.bool,
   onChange: PropTypes.func,
-  onSubmit: PropTypes.func,
+  onSubmit: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
 };
 
 export default QuizTextAnswer;

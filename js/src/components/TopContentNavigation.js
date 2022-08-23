@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   stickyContainer: {
     position: 'fixed',
     top: 0,
-    zIndex: 1,
+    zIndex: 10,
     paddingBottom: theme.spacing(1.5),
     paddingTop: theme.spacing(1.5),
     marginTop: theme.spacing(0),
