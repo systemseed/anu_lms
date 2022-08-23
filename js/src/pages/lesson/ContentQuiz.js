@@ -13,22 +13,20 @@ import { coursePropTypes } from '@anu/utilities/transform.course';
 const ContentQuiz = ({ quiz, nextLesson, prevLesson, course }) => {
   const [isSubmitted, submitQuiz] = useState(!!quiz.isSubmitted);
   return (
-    <Box mt={[2, 2, 0]}>
-      {isSubmitted && (
-        <ContentTopNavigation
-          isIntro={false}
-          sections={[]}
-          currentLesson={quiz}
-          nextLesson={nextLesson}
-          prevLesson={prevLesson}
-          currentIndex={0}
-          isEnabled={isSubmitted}
-          course={course}
-        />
-      )}
+    <Box>
+      <ContentTopNavigation
+        isIntro={false}
+        sections={[]}
+        currentLesson={quiz}
+        nextLesson={nextLesson}
+        prevLesson={prevLesson}
+        currentIndex={0}
+        isEnabled={isSubmitted}
+        course={course}
+      />
       <LessonGrid>
         <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Hidden smDown>
+          <Hidden mdUp>
             <Typography variant="h4" component="h1">
               {quiz.title}
             </Typography>

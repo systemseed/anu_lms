@@ -30,10 +30,10 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
   },
   contentArea: {
-    flexWrap: 'nowrap',
-    flexGrow: 1,
-    display: 'flex',
     [theme.breakpoints.up('md')]: {
+      flexWrap: 'nowrap',
+      flexGrow: 1,
+      display: 'flex',
       paddingBottom: theme.spacing(8),
     },
   },
