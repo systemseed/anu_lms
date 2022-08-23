@@ -25,18 +25,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     cursor: 'pointer',
     height: theme.spacing(8),
-    marginLeft: -theme.spacing(6),
-    position: 'relative',
-    '&:after': {
-      content: '""',
-      borderBottom: '4px solid ' + theme.palette.common.black,
-      height: theme.spacing(0.5),
-      display: 'block',
-      position: 'absolute',
-      bottom: -theme.spacing(0.5),
-      left: 0,
-      width: '100%',
-    },
+    marginLeft: -theme.spacing(3),
+    [theme.breakpoints.down('md')]: {
+      marginLeft: -theme.spacing(6),
+    }
   },
   closeIcon: {
     cursor: 'pointer',

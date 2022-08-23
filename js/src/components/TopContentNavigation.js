@@ -13,9 +13,16 @@ const useStyles = makeStyles((theme) => ({
     background: theme.palette.grey[200],
     boxSizing: 'border-box',
     padding: theme.spacing(0, 0.25, 0, 4),
-    marginTop: theme.spacing(1),
     marginLeft: theme.spacing(0.5),
     marginBottom: theme.spacing(8),
+    marginTop: 0,
+    [theme.breakpoints.down('sm')]: {
+      marginLeft: -theme.spacing(1),
+      width: `calc(100% + ${theme.spacing(2)}px)!important`,
+    },
+    [theme.breakpoints.up('md')]: {
+      marginTop: theme.spacing(1),
+    }
   },
   stickyContainer: {
     position: 'fixed',
@@ -24,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(1.5),
     paddingTop: theme.spacing(1.5),
     marginTop: theme.spacing(0),
+    [theme.breakpoints.down('sm')]: {
+      width: `100%!important`,
+    },
   },
   emptyContainer: {
     height: '115px',
@@ -131,7 +141,7 @@ const ContentTopNavigation = ({
         <Grid container spacing={2}>
           {/* Navigation drawer visible only on mobile */}
           <Hidden mdUp>
-            <Grid item xs={4} className={classes.navigationMobileSection}>
+            <Grid item xs={1} className={classes.navigationMobileSection}>
               <LessonNavigationMobile lesson={currentLesson} course={course} />
             </Grid>
           </Hidden>
@@ -142,7 +152,7 @@ const ContentTopNavigation = ({
             </Grid>
           </Hidden>
 
-          <Grid item md={4} xs={8} className={classes.actionsSection}>
+          <Grid item md={4} xs={11} className={classes.actionsSection}>
             <ContentNavigation
               isIntro={isIntro}
               sections={sections}

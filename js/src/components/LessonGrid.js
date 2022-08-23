@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
   },
   innerIgnorePaddings: {
     marginRight: theme.spacing(3.75),
+    [theme.breakpoints.down('md')]: {
+      marginRight: theme.spacing(2),
+    }
   },
 }));
 
