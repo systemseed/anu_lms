@@ -4,6 +4,7 @@ dependencies: {  }
 id: anu_organization
 label: Organization
 description: 'Anu LMS organization entity for permissions separation between different groups of learners and teachers.'
+new_revision: true
 creator_membership: false
 creator_wizard: false
 creator_roles:
