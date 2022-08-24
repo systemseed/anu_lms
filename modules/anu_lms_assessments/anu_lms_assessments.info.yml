@@ -1,28 +1,10 @@
-name: 'Anu LMS Quizzes'
-description: 'Adds quiz functionality to LMS.'
+name: Anu LMS Quizzes
+description: Extends ANU LMS with quiz functionality.
 type: module
-package: 'Anu LMS'
-core_version_requirement: '^8.9 || ^9'
+package: Anu LMS
+core_version_requirement: ^9
 dependencies:
-  - 'anu_lms:anu_lms'
-  - 'drupal:field'
-  - 'drupal:image'
-  - 'drupal:node'
-  - 'drupal:options'
-  - 'drupal:path'
-  - 'drupal:rest'
-  - 'drupal:serialization'
-  - 'drupal:taxonomy'
-  - 'drupal:text'
-  - 'drupal:user'
-  - 'drupal:views'
-  - 'entity_reference_revisions:entity_reference_revisions'
-  - 'features:features'
-  - 'field_group:field_group'
-  - 'inline_entity_form:inline_entity_form'
-  - 'paragraphs:paragraphs'
-  - 'paragraphs_selection:paragraphs_selection'
-  - 'range:range'
-  - 'views_data_export:views_data_export'
-  - 'xls_serialization:xls_serialization'
-core_incompatible: false
+  - anu_lms:anu_lms
+  - range:range
+  - views_data_export:views_data_export
+  - xls_serialization:xls_serialization
