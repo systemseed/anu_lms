@@ -47,8 +47,8 @@ const QuizTextAnswer = ({
         variant="outlined"
         fullWidth
         multiline={multiline}
-        rows={3}
-        rowsMax={10}
+        minRows={3}
+        maxRows={10}
         disabled={isSubmitting || isSubmitted}
         inputProps={{
           maxLength: multiline ? null : 255,

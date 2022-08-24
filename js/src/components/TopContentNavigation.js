@@ -8,7 +8,7 @@ import Hidden from '@material-ui/core/Hidden';
 import LessonNavigationMobile from '../pages/lesson/NavigationMobile';
 import { coursePropTypes } from '@anu/utilities/transform.course';
 import Typography from '@material-ui/core/Typography';
-import LinearProgress from "@material-ui/core/LinearProgress";
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: -theme.spacing(0.25),
     maxWidth: `calc(100% + ${theme.spacing(4)}px)`,
     flexBasis: `calc(100% + ${theme.spacing(4)}px)`,
-  }
+  },
 }));
 
 // Sticky top navigation used for lessons and quizzes.
@@ -85,6 +85,7 @@ const ContentTopNavigation = ({
   currentIndex,
   isEnabled,
   course,
+  stepsDirection,
 }) => {
   const classes = useStyles();
 
@@ -143,6 +144,26 @@ const ContentTopNavigation = ({
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // This section (TopContentNavigation) is included in a lesson and overdrew whenever a user
+  // goes between pages. This is a reason why important emulate previous position initially
+  // and set the current in 100ms.
+  const progressDiff = stepsDirection === 'forward' ? 0 : 2;
+  const [progress, setProgress] = useState(
+    stepsDirection === 'initial'
+      ? ((currentIndex + 1) / sections.length) * 100
+      : ((currentIndex + progressDiff) / sections.length) * 100
+  );
+
+  if (stepsDirection !== 'initial') {
+    setTimeout(() => {
+      setProgress(
+        ((currentIndex + progressDiff + 1 * (stepsDirection === 'forward' ? 1 : -1)) /
+          sections.length) *
+          100
+      );
+    }, 100);
+  }
+
   return (
     <>
       {isSticky && <Box className={classes.emptyContainer} id={'top-empty-navigation'}></Box>}
@@ -160,13 +181,19 @@ const ContentTopNavigation = ({
 
           <Hidden smDown>
             <Grid item md={8} xs={4} className={classes.titleSection}>
-              <Typography className={classes.titleWrapper} variant="subtitle2">{currentLesson.title}</Typography>
+              <Typography className={classes.titleWrapper} variant="subtitle2">
+                {currentLesson.title}
+              </Typography>
             </Grid>
           </Hidden>
 
           <Grid item md={4} xs={11} className={classes.actionsSection}>
             <Typography variant="subtitle2" className={classes.pageNumberSection}>
-              {Drupal.t('Page !current of !all', {'!current': currentIndex + 1, '!all': sections.length}, { context: 'ANU LMS' })}
+              {Drupal.t(
+                'Page !current of !all',
+                { '!current': currentIndex + 1, '!all': Math.max(sections.length, 1) },
+                { context: 'ANU LMS' }
+              )}
             </Typography>
             <ContentNavigation
               isIntro={isIntro}
@@ -181,7 +208,7 @@ const ContentTopNavigation = ({
             />
           </Grid>
           <Grid item xs={12} className={classes.progressSection}>
-            <LinearProgress variant="determinate" value={((currentIndex + 1) / sections.length) * 100} />
+            <LinearProgress variant="determinate" value={progress} />
           </Grid>
         </Grid>
       </Box>
@@ -200,6 +227,7 @@ ContentTopNavigation.propTypes = {
   currentIndex: PropTypes.number,
   isEnabled: PropTypes.bool,
   course: coursePropTypes,
+  stepsDirection: PropTypes.string,
 };
 
 export default ContentTopNavigation;

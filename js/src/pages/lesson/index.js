@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import Box from '@material-ui/core/Box';
@@ -17,6 +17,7 @@ import { quizPropTypes } from '@anu/utilities/transform.quiz';
 import LoadingIndicator from '@anu/components/LoadingIndicator';
 import { getPwaSettings } from '@anu/utilities/settings';
 import DownloadCoursePopup from '@anu/components/DownloadCoursePopup';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -76,6 +77,45 @@ const LessonPage = ({ lesson, quiz, course, width }) => {
     }
   }, [content.isRestricted, fallbackUrl]);
 
+  // The direction of user's way between pages is required to know so that
+  // display correct visual effects for progress bar in top navigation.
+  const history = useHistory();
+  const [prevPage, _setPrevPage] = useState('initial');
+  const [currentPage, _setCurrentPage] = useState(history.location.hash);
+
+  // Hooks to track the "isSticky" value. Note that we have to use useRef here as
+  // well as useState, in order to have the step data accessible in our
+  // event listeners which normally don't get updates from change of the state.
+  // See https://file-translate.com/en/blog/react-state-in-event.
+  const prevPageRef = useRef(prevPage);
+  const currentPageRef = useRef(currentPage);
+
+  const setPrevPage = (value) => {
+    prevPageRef.current = value;
+    _setPrevPage(value);
+  };
+  const setCurrentPage = (value) => {
+    currentPageRef.current = value;
+    _setCurrentPage(value);
+  };
+
+  useEffect(
+    () =>
+      history.listen((currentLocation) => {
+        setPrevPage(currentPageRef.current);
+        setCurrentPage(currentLocation.hash);
+      }),
+    []
+  );
+
+  const getNavDirection = () => {
+    if (prevPageRef.current === 'initial') {
+      return 'initial';
+    }
+
+    return prevPageRef.current <= currentPageRef.current ? 'forward' : 'back';
+  };
+
   if (content.isRestricted) {
     return <LoadingIndicator isLoading={true} />;
   }
@@ -112,6 +152,7 @@ const LessonPage = ({ lesson, quiz, course, width }) => {
                 nextLesson={nextLesson}
                 prevLesson={prevLesson}
                 course={course}
+                stepsDirection={getNavDirection()}
               />
             )}
 
@@ -121,6 +162,7 @@ const LessonPage = ({ lesson, quiz, course, width }) => {
                 nextLesson={nextLesson}
                 prevLesson={prevLesson}
                 course={course}
+                stepsDirection={getNavDirection()}
               />
             )}
           </Box>

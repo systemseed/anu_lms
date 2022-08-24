@@ -16,6 +16,7 @@ import {
   pageHasSearchKeywords,
   getFirstSectionWithHighlightedKeywords,
 } from '@anu/utilities/searchHighlighter';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   lessonGrid: {
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ContentLesson = ({ lesson, nextLesson, prevLesson, course }) => {
+const ContentLesson = ({ lesson, nextLesson, prevLesson, course, stepsDirection }) => {
   const [enableNext, setEnableNext] = useState(lesson.sections.map(() => 0));
   const [isChecklistLoading, setChecklistLoading] = useState(true);
   const [checklistLabel, setChecklistLabel] = useState(
@@ -49,14 +50,14 @@ const ContentLesson = ({ lesson, nextLesson, prevLesson, course }) => {
       ...enableNext,
       [sectionIndex]: enableNext[sectionIndex] + 1,
     });
-  const backUrl = `/section-${lesson.sections.length}`;
+  const backUrl = `/page-${lesson.sections.length}`;
 
   const classes = useStyles();
 
   return (
     <HashRouter hashType="noslash">
       <Switch>
-        <Redirect exact from="/" to={`/section-${defaultSection}`} />
+        <Redirect exact from="/" to={`/page-${defaultSection}`} />
         <Redirect exact from="/back" to={backUrl} />
 
         {lesson.sections.map((paragraphs, index) => {
@@ -69,7 +70,7 @@ const ContentLesson = ({ lesson, nextLesson, prevLesson, course }) => {
           ).length;
 
           return (
-            <Route path={`/section-${index + 1}`} key={index} exact>
+            <Route path={`/page-${index + 1}`} key={index} exact>
               <Box>
                 <ContentTopNavigation
                   sections={lesson.sections}
@@ -79,6 +80,7 @@ const ContentLesson = ({ lesson, nextLesson, prevLesson, course }) => {
                   currentIndex={index}
                   isEnabled={enableNext[index] === quizCount}
                   course={course}
+                  stepsDirection={stepsDirection}
                 />
                 <LessonGrid>
                   <Box
@@ -132,6 +134,7 @@ ContentLesson.propTypes = {
   nextLesson: lessonPropTypes,
   prevLesson: lessonPropTypes,
   course: coursePropTypes,
+  stepsDirection: PropTypes.string,
 };
 
 ContentLesson.defaultProps = {

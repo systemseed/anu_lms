@@ -91,7 +91,7 @@ const ContentNavigation = ({
                   color="primary"
                   size="large"
                   startIcon={<ChevronLeftIcon />}
-                  onClick={() => history.push({ pathname: `/section-${currentIndex}` })}
+                  onClick={() => history.push({ pathname: `/page-${currentIndex}` })}
                 >
                   {renderButtonLabel('Previous')}
                 </Button>
@@ -114,7 +114,7 @@ const ContentNavigation = ({
                   <span>
                     <Button
                       {...buttonProps}
-                      onClick={() => history.push({ pathname: `/section-${currentIndex + 2}` })}
+                      onClick={() => history.push({ pathname: `/page-${currentIndex + 2}` })}
                       data-test="anu-lms-navigation-next"
                     >
                       {renderButtonLabel('Next')}

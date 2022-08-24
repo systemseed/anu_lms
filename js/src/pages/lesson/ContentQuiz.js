@@ -9,8 +9,9 @@ import Hidden from '@material-ui/core/Hidden';
 import { lessonPropTypes } from '@anu/utilities/transform.lesson';
 import ContentTopNavigation from '../../components/TopContentNavigation';
 import { coursePropTypes } from '@anu/utilities/transform.course';
+import PropTypes from 'prop-types';
 
-const ContentQuiz = ({ quiz, nextLesson, prevLesson, course }) => {
+const ContentQuiz = ({ quiz, nextLesson, prevLesson, course, stepsDirection }) => {
   const [isSubmitted, submitQuiz] = useState(!!quiz.isSubmitted);
   return (
     <Box>
@@ -23,6 +24,7 @@ const ContentQuiz = ({ quiz, nextLesson, prevLesson, course }) => {
         currentIndex={0}
         isEnabled={isSubmitted}
         course={course}
+        stepsDirection={stepsDirection}
       />
       <LessonGrid>
         <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -68,6 +70,7 @@ ContentQuiz.propTypes = {
   nextLesson: lessonPropTypes,
   prevLesson: lessonPropTypes,
   course: coursePropTypes,
+  stepsDirection: PropTypes.string,
 };
 
 export default ContentQuiz;
