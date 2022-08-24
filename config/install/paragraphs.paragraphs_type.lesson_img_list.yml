@@ -8,10 +8,10 @@ third_party_settings:
     fields:
       -
         id: paragraph.lesson_section.field_lesson_section_content
-        weight: '-44'
+        weight: -44
 id: lesson_img_list
-label: 'Lesson: Highlight (with image)'
+label: 'Block: Highlighted image bullets'
 icon_uuid: null
 icon_default: null
-description: ''
+description: 'Highlighted block with image bullet items.'
 behavior_plugins: {  }

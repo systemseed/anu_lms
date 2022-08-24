@@ -2,8 +2,8 @@ langcode: en
 status: true
 dependencies: {  }
 id: lesson_section
-label: 'Lesson: Section'
+label: Section
 icon_uuid: null
 icon_default: null
-description: ''
+description: 'Partition of lesson into pages.'
 behavior_plugins: {  }

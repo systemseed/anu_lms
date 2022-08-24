@@ -9,10 +9,8 @@ dependencies:
     - text
 third_party_settings:
   allowed_formats:
-    minimal_html: minimal_html
-    plain_text: '0'
-    basic_html: '0'
-    full_html: '0'
+    allowed_formats:
+      - minimal_html
 id: paragraph.lesson_list.field_lesson_list_items
 field_name: field_lesson_list_items
 entity_type: paragraph

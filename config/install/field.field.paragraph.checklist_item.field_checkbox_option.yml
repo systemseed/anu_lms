@@ -9,10 +9,8 @@ dependencies:
     - text
 third_party_settings:
   allowed_formats:
-    minimal_html: minimal_html
-    plain_text: '0'
-    basic_html: '0'
-    full_html: '0'
+    allowed_formats:
+      - minimal_html
 id: paragraph.checklist_item.field_checkbox_option
 field_name: field_checkbox_option
 entity_type: paragraph

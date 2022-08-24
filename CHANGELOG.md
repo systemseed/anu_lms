@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Cleaned up dependencies and rephrased module descriptions in .info.yml files
 - Removed default search_api configs from the anu_lms_search module
 - Changed cardinality of course categories to 1 (as originally intended)
+- Fixed issue not picking up allowed formats for the formatted text fields
+- Made text field inside of footnotes required (it was a bug that it was not required)
+- Added proper descriptions to each paragraph
+- Changed name of lesson paragraphs from "Lesson: [name]" to "Block: [name]" for better editorial experience
 
 ## [2.6.5]
 - Added module's title to the search index of the first lesson.

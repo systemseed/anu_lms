@@ -8,10 +8,10 @@ third_party_settings:
     fields:
       -
         id: paragraph.lesson_section.field_lesson_section_content
-        weight: '-50'
+        weight: -50
 id: lesson_list
-label: 'Lesson: List (bullets or numbers)'
+label: 'Block: List (bullets or numbers)'
 icon_uuid: null
 icon_default: null
-description: ''
+description: 'Block with list items.'
 behavior_plugins: {  }

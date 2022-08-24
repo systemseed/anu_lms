@@ -8,10 +8,10 @@ third_party_settings:
     fields:
       -
         id: paragraph.lesson_section.field_lesson_section_content
-        weight: '-43'
+        weight: -43
 id: lesson_divider
-label: 'Lesson: Divider (simple or numeric)'
+label: 'Block: Divider (simple or numeric)'
 icon_uuid: null
 icon_default: null
-description: ''
+description: 'Simple paragraph to visually divide content.'
 behavior_plugins: {  }

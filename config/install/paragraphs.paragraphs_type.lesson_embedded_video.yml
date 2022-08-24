@@ -8,10 +8,10 @@ third_party_settings:
     fields:
       -
         id: paragraph.lesson_section.field_lesson_section_content
-        weight: '-42'
+        weight: -42
 id: lesson_embedded_video
-label: 'Lesson: Embedded video'
+label: 'Block: Embedded video'
 icon_uuid: null
 icon_default: null
-description: ''
+description: 'Embeds Youtube or Vimeo video.'
 behavior_plugins: {  }

@@ -8,7 +8,7 @@ id: paragraph.lesson_img_list.field_lesson_img_list_highlight
 field_name: field_lesson_img_list_highlight
 entity_type: paragraph
 bundle: lesson_img_list
-label: 'Is highlight?'
+label: 'Is highlighted?'
 description: ''
 required: false
 translatable: false
