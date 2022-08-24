@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed css "position" of the course navigation from absolute to static since it does not have to be absolute anymore.
 - Changed styles of an active lesson / quiz item in the course navigation
 - The mobile navigation moved to "Top navigation" section and got new style
+- Added "Page number" and "total amount of pages" to "Top navigation"
+- Added "Progress bar" to "Top navigation"
 
 ## [2.6.5]
 - Added module's title to the search index of the first lesson.
