@@ -11,7 +11,7 @@ id: node.module_lesson.field_module_lesson_content
 field_name: field_module_lesson_content
 entity_type: node
 bundle: module_lesson
-label: Sections
+label: Pages
 description: ''
 required: false
 translatable: false
