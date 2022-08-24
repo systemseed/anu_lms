@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed dependency of SHS and Config pages
 - Removed dependencies from composer.json which are not required to run the main anu_lms module (Group, Range, Views data Export, XLS Serialization, Features)
 - Cleaned up dependencies and rephrased module descriptions in .info.yml files
+- Removed default search_api configs from the anu_lms_search module
+- Changed cardinality of course categories to 1 (as originally intended)
 
 ## [2.6.5]
 - Added module's title to the search index of the first lesson.
