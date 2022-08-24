@@ -255,6 +255,11 @@ const theme = createTheme({
         paddingBottom: 2,
       },
     },
+    MuiLinearProgress: {
+      determinate: {
+        backgroundColor: defaultTheme.palette.common.white,
+      },
+    },
   },
 });
 

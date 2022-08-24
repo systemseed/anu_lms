@@ -8,6 +8,7 @@ import Hidden from '@material-ui/core/Hidden';
 import LessonNavigationMobile from '../pages/lesson/NavigationMobile';
 import { coursePropTypes } from '@anu/utilities/transform.course';
 import Typography from '@material-ui/core/Typography';
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -65,6 +66,12 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     marginRight: theme.spacing(2),
+  },
+  progressSection: {
+    marginLeft: -theme.spacing(4),
+    marginRight: -theme.spacing(0.25),
+    maxWidth: `calc(100% + ${theme.spacing(4)}px)`,
+    flexBasis: `calc(100% + ${theme.spacing(4)}px)`,
   }
 }));
 
@@ -152,7 +159,7 @@ const ContentTopNavigation = ({
           </Hidden>
 
           <Hidden smDown>
-            <Grid item md={6} xs={4} className={classes.titleSection}>
+            <Grid item md={8} xs={4} className={classes.titleSection}>
               <Typography className={classes.titleWrapper} variant="subtitle2">{currentLesson.title}</Typography>
             </Grid>
           </Hidden>
@@ -172,6 +179,9 @@ const ContentTopNavigation = ({
               ignorePaddings={true}
               hideButtonsLabelsOnMobile={true}
             />
+          </Grid>
+          <Grid item xs={12} className={classes.progressSection}>
+            <LinearProgress variant="determinate" value={((currentIndex + 1) / sections.length) * 100} />
           </Grid>
         </Grid>
       </Box>
