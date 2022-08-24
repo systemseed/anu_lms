@@ -13,7 +13,7 @@ services:
   # Module's settings service.
   anu_lms.settings:
     class: Drupal\anu_lms\Settings
-    arguments: [ '@entity.repository', '@serializer', '@language_manager', '@path.matcher', '@extension.list.module', '@module_handler' ]
+    arguments: [ '@extension.list.module', '@module_handler', '@config.factory' ]
 
   # Helper service for Courses Page content type.
   anu_lms.courses_page:

@@ -2,46 +2,14 @@
 
 namespace Drupal\anu_lms;
 
-use Drupal\Core\Entity\EntityRepositoryInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Extension\ModuleExtensionList;
 use Drupal\Core\Extension\ModuleHandlerInterface;
-use Drupal\Core\Language\LanguageManagerInterface;
-use Drupal\Core\Path\PathMatcherInterface;
-use Drupal\config_pages\Entity\ConfigPages;
-use Symfony\Component\Serializer\Serializer;
 
 /**
  * Methods related to settings.
  */
 class Settings {
-
-  /**
-   * The entity repository.
-   *
-   * @var \Drupal\Core\Entity\EntityRepositoryInterface
-   */
-  protected EntityRepositoryInterface $entityRepository;
-
-  /**
-   * The serializer.
-   *
-   * @var \Symfony\Component\Serializer\Serializer
-   */
-  protected Serializer $serializer;
-
-  /**
-   * The language manager.
-   *
-   * @var \Drupal\Core\Language\LanguageManagerInterface
-   */
-  protected LanguageManagerInterface $languageManager;
-
-  /**
-   * The path matcher.
-   *
-   * @var \Drupal\Core\Path\PathMatcherInterface
-   */
-  protected PathMatcherInterface $pathMatcher;
 
   /**
    * The module extension list.
@@ -58,61 +26,32 @@ class Settings {
   protected ModuleHandlerInterface $moduleHandler;
 
   /**
-   * Creates an Settings object.
+   * Config factory service.
    *
-   * @param \Drupal\Core\Entity\EntityRepositoryInterface $entity_repository
-   *   The entity repository.
-   * @param \Symfony\Component\Serializer\Serializer $serializer
-   *   The serializer.
-   * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
-   *   The language manager.
-   * @param \Drupal\Core\Path\PathMatcherInterface $path_matcher
-   *   The path matcher.
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected ConfigFactoryInterface $configFactory;
+
+  /**
+   * Creates Settings object.
+   *
    * @param \Drupal\Core\Extension\ModuleExtensionList $extension_list_module
    *   The module extension list.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler service.
    */
-  public function __construct(EntityRepositoryInterface $entity_repository, Serializer $serializer, LanguageManagerInterface $language_manager, PathMatcherInterface $path_matcher, ModuleExtensionList $extension_list_module, ModuleHandlerInterface $module_handler) {
-    $this->entityRepository = $entity_repository;
-    $this->serializer = $serializer;
-    $this->languageManager = $language_manager;
-    $this->pathMatcher = $path_matcher;
+  public function __construct(ModuleExtensionList $extension_list_module, ModuleHandlerInterface $module_handler, ConfigFactoryInterface $config_factory) {
     $this->moduleExtensionList = $extension_list_module;
     $this->moduleHandler = $module_handler;
+    $this->configFactory = $config_factory;
   }
 
   /**
    * Returns normalized settings entity.
    */
-  public function getSettings() {
-    $entity = ConfigPages::config('anu_lms_settings');
-    if (empty($entity)) {
-      return [];
-    }
-
-    // Default configurations.
-    $context = [
-      'max_depth' => 1,
-      'settings' => [
-        'config_pages' => [
-          'exclude_fields' => [
-            'id',
-            'entity_type',
-            'entity_bundle',
-            'uid',
-            'uuid',
-            'label',
-            'type',
-            'context',
-            'changed',
-          ],
-        ],
-      ],
-    ];
-    // Get translated version of the entity.
-    $entity = $this->entityRepository->getTranslationFromContext($entity);
-    return $this->serializer->normalize($entity, 'json_recursive', $context);
+  public function getSettings(): array {
+    // At the moment there are no settings for ANU LMS.
+    return [];
   }
 
   /**
@@ -136,7 +75,7 @@ class Settings {
     }
 
     // Get module configuration.
-    $config = \Drupal::config('pwa.config');
+    $config = $this->configFactory->get('pwa.config');
 
     // Look up module release from package info.
     $pwa_module_info = $this->moduleExtensionList->getExtensionInfo('pwa');
