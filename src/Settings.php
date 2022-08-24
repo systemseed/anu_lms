@@ -26,7 +26,7 @@ class Settings {
   protected ModuleHandlerInterface $moduleHandler;
 
   /**
-   * Config factory service.
+   * The config factory service.
    *
    * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
@@ -39,6 +39,8 @@ class Settings {
    *   The module extension list.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler service.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The config factory service.
    */
   public function __construct(ModuleExtensionList $extension_list_module, ModuleHandlerInterface $module_handler, ConfigFactoryInterface $config_factory) {
     $this->moduleExtensionList = $extension_list_module;
