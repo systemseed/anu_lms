@@ -5,17 +5,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
-- Added the sticky top navigation for lessons and quizzes.
-- Changed styles and labels for navigation buttons.
-- Added lesson title into section above lesson content.
-- Improved styles for disabled buttons.
-- Removed toggleable "Hide modules" / "Show modules" course navigation link. Now the navigation is static.
+- Added the sticky top navigation for lessons and quizzes
+- Changed styles and labels for navigation buttons
+- Added lesson title into section above lesson content
+- Improved styles for disabled buttons
+- Removed toggleable "Hide modules" / "Show modules" course navigation link. Now the navigation is static
 - Removed custom hook useLocalStorage() since it's not used anywhere in the code anymore
-- Changed css "position" of the course navigation from absolute to static since it does not have to be absolute anymore.
+- Changed css "position" of the course navigation from absolute to static since it does not have to be absolute anymore
 - Changed styles of an active lesson / quiz item in the course navigation
 - The mobile navigation moved to "Top navigation" section and got new style
 - Added "Page number" and "total amount of pages" to "Top navigation"
 - Added "Progress bar" to "Top navigation"
+- Renamed "Sections" to "Pages" in Admin UI
+- Removed ability to modify label of the Finish button
 
 ## [2.6.5]
 - Added module's title to the search index of the first lesson.

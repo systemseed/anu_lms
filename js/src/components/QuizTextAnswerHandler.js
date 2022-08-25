@@ -56,7 +56,7 @@ const QuizTextAnswerHandler = (props) => {
       isSubmitted={props.isSubmitted || isSubmitted}
       multiline={props.bundle === 'question_long_answer'}
       onChange={onChange}
-      onSubmit={!props.isQuiz && onSubmit}
+      onSubmit={!props.isQuiz ? onSubmit : null}
     />
   );
 };

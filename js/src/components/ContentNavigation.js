@@ -5,10 +5,10 @@ import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import LessonGrid from '@anu/components/LessonGrid';
-import ButtonWrapper from '@anu/components/ButtonWrapper';
 import { Tooltip } from '@material-ui/core';
 import Hidden from '@material-ui/core/Hidden';
+import LessonGrid from '@anu/components/LessonGrid';
+import ButtonWrapper from '@anu/components/ButtonWrapper';
 
 const ContentNavigation = ({
   isIntro,
@@ -60,10 +60,19 @@ const ContentNavigation = ({
 
         const renderButtonLabel = (label) => {
           if (hideButtonsLabelsOnMobile) {
-            return <Hidden smDown>{Drupal.t(label, {}, { context: 'ANU LMS' })}</Hidden>;
+            return <Hidden smDown>{label}</Hidden>;
           }
 
-          return Drupal.t(label, {}, { context: 'ANU LMS' });
+          return label;
+        };
+
+        const renderButtonWithTooltip = (button) => {
+          // "span" is required to display tooltip for disabled buttons.
+          return (
+            <Tooltip title={disabled ? completeAnswer : ''} arrow>
+              <span>{button}</span>
+            </Tooltip>
+          );
         };
 
         return (
@@ -79,7 +88,7 @@ const ContentNavigation = ({
                       startIcon={<ChevronLeftIcon />}
                       href={prevLesson.url}
                     >
-                      {renderButtonLabel('Previous')}
+                      {renderButtonLabel(Drupal.t('Previous', {}, { context: 'ANU LMS' }))}
                     </Button>
                   </span>
                 </Tooltip>
@@ -93,7 +102,7 @@ const ContentNavigation = ({
                   startIcon={<ChevronLeftIcon />}
                   onClick={() => history.push({ pathname: `/page-${currentIndex}` })}
                 >
-                  {renderButtonLabel('Previous')}
+                  {renderButtonLabel(Drupal.t('Previous', {}, { context: 'ANU LMS' }))}
                 </Button>
               )}
 
@@ -105,7 +114,7 @@ const ContentNavigation = ({
                   startIcon={<ChevronLeftIcon />}
                   href={`${prevLesson.url}#back`}
                 >
-                  {renderButtonLabel('Previous')}
+                  {renderButtonLabel(Drupal.t('Previous', {}, { context: 'ANU LMS' }))}
                 </Button>
               )}
 
@@ -117,39 +126,36 @@ const ContentNavigation = ({
                       onClick={() => history.push({ pathname: `/page-${currentIndex + 2}` })}
                       data-test="anu-lms-navigation-next"
                     >
-                      {renderButtonLabel('Next')}
+                      {renderButtonLabel(Drupal.t('Next', {}, { context: 'ANU LMS' }))}
                     </Button>
                   </span>
                 </Tooltip>
               )}
 
-              {noNextLesson && nextIsLesson && (
-                <Tooltip title={disabled ? completeAnswer : ''} arrow>
-                  <span>
-                    <Button
-                      {...buttonProps}
-                      onClick={updateProgressAndRedirect}
-                      data-test="anu-lms-navigation-next"
-                    >
-                      {renderButtonLabel('Next')}
-                    </Button>
-                  </span>
-                </Tooltip>
-              )}
+              {noNextLesson &&
+                nextIsLesson &&
+                renderButtonWithTooltip(
+                  <Button
+                    {...buttonProps}
+                    onClick={updateProgressAndRedirect}
+                    data-test="anu-lms-navigation-next"
+                  >
+                    {renderButtonLabel(Drupal.t('Next', {}, { context: 'ANU LMS' }))}
+                  </Button>
+                )}
 
-              {noNextLesson && !nextIsLesson && !nextIsQuiz && (
-                <Tooltip title={disabled ? completeAnswer : ''} arrow>
-                  <span>
-                    <Button
-                      {...buttonProps}
-                      onClick={updateProgressAndRedirect}
-                      data-test="anu-lms-navigation-finish"
-                    >
-                      {renderButtonLabel('Finish')}
-                    </Button>
-                  </span>
-                </Tooltip>
-              )}
+              {noNextLesson &&
+                !nextIsLesson &&
+                !nextIsQuiz &&
+                renderButtonWithTooltip(
+                  <Button
+                    {...buttonProps}
+                    onClick={updateProgressAndRedirect}
+                    data-test="anu-lms-navigation-finish"
+                  >
+                    {renderButtonLabel(Drupal.t('Finish', {}, { context: 'ANU LMS' }))}
+                  </Button>
+                )}
 
               {noNextLesson && nextIsLesson && isIntro && (
                 <Button
@@ -157,19 +163,17 @@ const ContentNavigation = ({
                   onClick={updateProgressAndRedirect}
                   data-test="anu-lms-navigation-start"
                 >
-                  {renderButtonLabel('Start')}
+                  {renderButtonLabel(Drupal.t('Start', {}, { context: 'ANU LMS' }))}
                 </Button>
               )}
 
-              {noNextLesson && nextIsQuiz && (
-                <Tooltip title={disabled ? completeAnswer : ''} arrow>
-                  <span>
-                    <Button {...buttonProps} onClick={updateProgressAndRedirect}>
-                      {renderButtonLabel('Next')}
-                    </Button>
-                  </span>
-                </Tooltip>
-              )}
+              {noNextLesson &&
+                nextIsQuiz &&
+                renderButtonWithTooltip(
+                  <Button {...buttonProps} onClick={updateProgressAndRedirect}>
+                    {renderButtonLabel(Drupal.t('Next', {}, { context: 'ANU LMS' }))}
+                  </Button>
+                )}
             </ButtonWrapper>
           </LessonGrid>
         );

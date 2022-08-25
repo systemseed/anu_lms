@@ -175,18 +175,25 @@ class Course {
   /**
    * Returns the url to redirect when a user finishes a course.
    *
-   * @param \Drupal\node\NodeInterface $course
+   * @param \Drupal\node\NodeInterface|null $course
    *   Course node object.
    *
    * @return \Drupal\Core\Url
    *   Url object for redirect.
    */
-  public function getFinishRedirectUrl(NodeInterface $course): Url {
+  public function getFinishRedirectUrl(?NodeInterface $course): Url {
+    $redirect = Url::fromRoute('<front>');
+
+    if (empty($course)) {
+      return $redirect;
+    }
+
     $uri = $course->field_course_finish_button->uri;
     if (!empty($uri)) {
       return Url::fromUri($uri);
     }
-    return Url::fromRoute('<front>');
+
+    return $redirect;
   }
 
   /**

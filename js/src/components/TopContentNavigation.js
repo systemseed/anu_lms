@@ -2,19 +2,18 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
-import ContentNavigation from './ContentNavigation';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Hidden from '@material-ui/core/Hidden';
-import LessonNavigationMobile from '../pages/lesson/NavigationMobile';
-import { coursePropTypes } from '@anu/utilities/transform.course';
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import ContentNavigation from '@anu/components/ContentNavigation';
+import { coursePropTypes } from '@anu/utilities/transform.course';
+import LessonNavigationMobile from '@anu/pages/lesson/NavigationMobile';
 
 const useStyles = makeStyles((theme) => ({
   container: {
     background: theme.palette.grey[200],
     boxSizing: 'border-box',
-    padding: theme.spacing(0, 0.25, 0, 4),
     marginLeft: theme.spacing(0.5),
     marginBottom: theme.spacing(8),
     marginTop: 0,
@@ -24,8 +23,11 @@ const useStyles = makeStyles((theme) => ({
       marginTop: -theme.spacing(1),
       paddingRight: 0,
     },
+    '&>.MuiGrid-root': {
+      padding: theme.spacing(0, 0.25, 0, 4),
+    },
   },
-  stickyContainer: {
+  stickyFixedContainer: {
     position: 'fixed',
     top: 0,
     zIndex: 10,
@@ -34,8 +36,8 @@ const useStyles = makeStyles((theme) => ({
       width: `100%!important`,
     },
   },
-  emptyContainer: {
-    height: '115px',
+  stickyNavBarContainer: {
+    paddingTop: '115px',
   },
   actionsSection: {
     display: 'flex',
@@ -67,12 +69,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     marginRight: theme.spacing(2),
   },
-  progressSection: {
-    marginLeft: -theme.spacing(4),
-    marginRight: -theme.spacing(0.25),
-    maxWidth: `calc(100% + ${theme.spacing(4)}px)`,
-    flexBasis: `calc(100% + ${theme.spacing(4)}px)`,
-  },
 }));
 
 // Sticky top navigation used for lessons and quizzes.
@@ -85,7 +81,8 @@ const ContentTopNavigation = ({
   currentIndex,
   isEnabled,
   course,
-  stepsDirection,
+  setCurrentPage,
+  currentPage,
 }) => {
   const classes = useStyles();
 
@@ -102,74 +99,65 @@ const ContentTopNavigation = ({
     _setIsSticky(value);
   };
 
+  const staticNavigationContainerEl = useRef(null);
+  const stickyNavigationContainerEl = useRef(null);
+
+  const onScroll = () => {
+    const body = document.querySelector('body');
+
+    let stickyNavbarTopPadding = parseInt(body.style.paddingTop);
+    stickyNavigationContainerEl.current.style.top = `${stickyNavbarTopPadding}px`;
+
+    if (
+      staticNavigationContainerEl.current.getBoundingClientRect().top - stickyNavbarTopPadding <=
+        0 &&
+      window.scrollY > 5
+    ) {
+      setIsSticky(true);
+      // 4px - is left margin of parent element.
+      stickyNavigationContainerEl.current.style.width = `${
+        stickyNavigationContainerEl.current.parentElement.offsetWidth - 4
+      }px`;
+    } else {
+      setIsSticky(false);
+      stickyNavigationContainerEl.current.style.width = `auto`;
+    }
+  };
+
   useEffect(() => {
-    const onScroll = () => {
-      // "emptyNavbar" is empty block with predefined height, used to avoid
-      // visual collision during moving between "static" and "sticky" states
-      // for top navigation.
-      const stickyNavbar = document.getElementById('top-content-navigation');
-      const emptyNavbar = document.getElementById('top-empty-navigation');
-      const toolbar = document.getElementById('toolbar-bar');
-      const toolbarTray = document.getElementById('toolbar-item-administration-tray');
-
-      let stickyNavbarTopPadding = 0;
-      if (toolbar) {
-        // If the toolbar-tray is horizontal then the toolbar takes 2 lines.
-        const multiplier =
-          toolbarTray.classList.contains('toolbar-tray-horizontal') &&
-          toolbarTray.classList.contains('is-active')
-            ? 2
-            : 1;
-        stickyNavbarTopPadding = toolbar.offsetHeight * multiplier;
-        stickyNavbar.style.top = `${stickyNavbarTopPadding}px`;
-
-        if (getComputedStyle(toolbar).position !== 'fixed') {
-          stickyNavbar.style.top = '0';
-        }
-      }
-
-      const navbar = isStickyRef.current ? emptyNavbar : stickyNavbar;
-      if (navbar.getBoundingClientRect().top - stickyNavbarTopPadding <= 0 && window.scrollY > 5) {
-        setIsSticky(true);
-        // 4px - is left margin of parent element.
-        stickyNavbar.style.width = `${stickyNavbar.parentElement.offsetWidth - 4}px`;
-      } else {
-        setIsSticky(false);
-        stickyNavbar.style.width = `auto`;
-      }
-    };
-
-    window.removeEventListener('scroll', onScroll);
-    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // This section (TopContentNavigation) is included in a lesson and overdrew whenever a user
-  // goes between pages. This is a reason why important emulate previous position initially
-  // and set the current in 100ms.
-  const progressDiff = stepsDirection === 'forward' ? 0 : 2;
-  const [progress, setProgress] = useState(
-    stepsDirection === 'initial'
-      ? ((currentIndex + 1) / sections.length) * 100
-      : ((currentIndex + progressDiff) / sections.length) * 100
-  );
 
-  if (stepsDirection !== 'initial') {
-    setTimeout(() => {
-      setProgress(
-        ((currentIndex + progressDiff + 1 * (stepsDirection === 'forward' ? 1 : -1)) /
-          sections.length) *
-          100
-      );
-    }, 100);
+  let currentProgress = ((currentPage + 1) / sections.length) * 100;
+
+  // If this page is initial then progress bar shouldn't be animated.
+  if (currentPage === null) {
+    currentProgress = ((currentIndex + 1) / sections.length) * 100;
   }
 
+  const [progress, setProgress] = useState(currentProgress);
+
+  // TopContentNavigation is included in a lesson and overdrew whenever a user
+  // goes between pages. This is a reason why important emulate previous position
+  // initially and set the current in 100ms.
+  setTimeout(() => {
+    setProgress(((currentIndex + 1) / sections.length) * 100);
+  }, 100);
+
+  useEffect(() => {
+    setCurrentPage(currentIndex);
+  }, []);
+
   return (
-    <>
-      {isSticky && <Box className={classes.emptyContainer} id={'top-empty-navigation'}></Box>}
+    <div
+      className={isSticky ? classes.stickyNavBarContainer : ''}
+      ref={staticNavigationContainerEl}
+    >
       <Box
-        className={`${classes.container} ${isSticky ? classes.stickyContainer : ''}`}
-        id={'top-content-navigation'}
+        className={`${classes.container} ${isSticky ? classes.stickyFixedContainer : ''}`}
+        ref={stickyNavigationContainerEl}
       >
         <Grid container>
           {/* Navigation drawer visible only on mobile */}
@@ -207,12 +195,10 @@ const ContentTopNavigation = ({
               hideButtonsLabelsOnMobile={true}
             />
           </Grid>
-          <Grid item xs={12} className={classes.progressSection}>
-            <LinearProgress variant="determinate" value={progress} />
-          </Grid>
         </Grid>
+        <LinearProgress variant="determinate" value={progress} />
       </Box>
-    </>
+    </div>
   );
 };
 
@@ -228,6 +214,13 @@ ContentTopNavigation.propTypes = {
   isEnabled: PropTypes.bool,
   course: coursePropTypes,
   stepsDirection: PropTypes.string,
+  setCurrentPage: PropTypes.func,
+  currentPage: PropTypes.number,
+};
+
+ContentTopNavigation.defaultProps = {
+  currentPage: null,
+  setCurrentPage: () => {},
 };
 
 export default ContentTopNavigation;

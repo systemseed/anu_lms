@@ -1,7 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   innerDefault: {
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LessonGrid = ({ children, ignorePaddings = false }) => {
+const LessonGrid = ({ children, ignorePaddings }) => {
   const classes = useStyles();
   return (
     <Box className={!ignorePaddings ? classes.innerDefault : classes.innerIgnorePaddings}>
@@ -39,6 +39,10 @@ const LessonGrid = ({ children, ignorePaddings = false }) => {
 LessonGrid.propTypes = {
   children: PropTypes.node,
   ignorePaddings: PropTypes.bool,
+};
+
+LessonGrid.defaultProps = {
+  ignorePaddings: false,
 };
 
 export default LessonGrid;

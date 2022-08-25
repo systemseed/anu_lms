@@ -75,7 +75,7 @@ QuizTextAnswer.propTypes = {
   isSubmitting: PropTypes.bool,
   isSubmitted: PropTypes.bool,
   onChange: PropTypes.func,
-  onSubmit: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+  onSubmit: PropTypes.func,
 };
 
 export default QuizTextAnswer;
