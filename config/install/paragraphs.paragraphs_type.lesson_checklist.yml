@@ -8,10 +8,10 @@ third_party_settings:
     fields:
       -
         id: paragraph.lesson_section.field_lesson_section_content
-        weight: '-41'
+        weight: -41
 id: lesson_checklist
-label: 'Lesson: Checklist'
+label: 'Block: Checklist'
 icon_uuid: null
 icon_default: null
-description: 'Multiple checkboxes with description.'
+description: 'List of items with ability to select each item individually. Results are stored per user.'
 behavior_plugins: {  }

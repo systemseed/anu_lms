@@ -1,13 +1,9 @@
-name: 'Anu LMS Search'
-description: 'Extends LMS functionality with fulltext search.'
+name: Anu LMS Search
+description: Adds full text search to ANU LMS.
 type: module
-package: 'Anu LMS'
-core_version_requirement: '^8.9 || ^9'
+package: Anu LMS
+core_version_requirement: ^9
 dependencies:
-  - 'anu_lms:anu_lms'
-  - 'drupal:node'
-  - 'drupal:user'
-  - 'drupal:views'
-  - 'entity_reference_revisions:entity_reference_revisions'
-  - 'search_api:search_api'
-  - 'search_api:search_api_db'
+  - anu_lms:anu_lms
+  - search_api:search_api
+  - search_api:search_api_db

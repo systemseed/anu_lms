@@ -4,30 +4,17 @@ dependencies:
   config:
     - field.field.paragraph.course_category.field_course_category
     - paragraphs.paragraphs_type.course_category
-  module:
-    - shs_chosen
 id: paragraph.course_category.default
 targetEntityType: paragraph
 bundle: course_category
 mode: default
 content:
   field_course_category:
+    type: options_select
     weight: 0
-    settings:
-      force_deepest: true
-      chosen_settings:
-        placeholder_text_multiple: 'Choose some options'
-        placeholder_text_single: 'Choose an option'
-        no_results_text: 'No results match'
-        disable_search: false
-        search_contains: false
-      create_new_items: false
-      create_new_levels: false
-      chosen_override: false
-      display_node_count: false
-    third_party_settings: {  }
-    type: options_shs_chosen
     region: content
+    settings: {  }
+    third_party_settings: {  }
 hidden:
   created: true
   status: true

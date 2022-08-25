@@ -14,9 +14,10 @@ content:
   field_lesson_section_content:
     type: paragraphs
     weight: 0
+    region: content
     settings:
-      title: item
-      title_plural: items
+      title: block
+      title_plural: blocks
       edit_mode: closed
       closed_mode: summary
       autocollapse: none
@@ -27,9 +28,8 @@ content:
       features:
         add_above: '0'
         collapse_edit_all: '0'
-        duplicate: duplicate
+        duplicate: '0'
     third_party_settings: {  }
-    region: content
 hidden:
   created: true
   status: true

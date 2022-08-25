@@ -5,5 +5,5 @@ id: course_category
 label: 'Course category'
 icon_uuid: null
 icon_default: null
-description: 'Courses from selected category will be presented on the page.'
+description: 'Paragraph with categories of courses presented on the courses page.'
 behavior_plugins: {  }

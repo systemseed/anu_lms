@@ -1,16 +1,10 @@
 name: Anu LMS Permissions
-description: Extends LMS functionality with organizations / teachers / students permissions.
+description: Adds permissions separation for organizations, teachers and students.
 type: module
-package: 'Anu LMS'
-core_version_requirement: '^8.9 || ^9'
+package: Anu LMS
+core_version_requirement: ^9
 dependencies:
-  - anu_lms
-  - field
+  - anu_lms:anu_lms
   - group:gnode
   - group:group
-  - groupmedia
-  - media
-  - node
-  - path
-  - user
-core_incompatible: false
+  - groupmedia:groupmedia

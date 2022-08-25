@@ -8,10 +8,10 @@ third_party_settings:
     fields:
       -
         id: paragraph.lesson_section.field_lesson_section_content
-        weight: '-52'
+        weight: -52
 id: lesson_heading
-label: 'Lesson: Heading'
+label: 'Block: Heading'
 icon_uuid: null
 icon_default: null
-description: ''
+description: 'Content headings of different size (h2-h4).'
 behavior_plugins: {  }

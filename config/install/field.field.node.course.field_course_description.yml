@@ -9,10 +9,8 @@ dependencies:
     - text
 third_party_settings:
   allowed_formats:
-    minimal_html: minimal_html
-    plain_text: '0'
-    basic_html: '0'
-    full_html: '0'
+    allowed_formats:
+      - minimal_html
 id: node.course.field_course_description
 field_name: field_course_description
 entity_type: node

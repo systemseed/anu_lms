@@ -8,10 +8,10 @@ third_party_settings:
     fields:
       -
         id: paragraph.lesson_section.field_lesson_section_content
-        weight: '-40'
+        weight: -40
 id: lesson_resource
-label: 'Lesson: Resource'
+label: 'Block: Resource'
 icon_uuid: null
 icon_default: null
-description: 'Allows the course admin to add a file (usually a document, presentation or PDF) to view and download as part of the lesson.'
+description: 'Block with a file (usually a document, presentation or PDF) to view and download as part of the lesson.'
 behavior_plugins: {  }
