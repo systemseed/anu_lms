@@ -8,10 +8,10 @@ third_party_settings:
     fields:
       -
         id: paragraph.lesson_section.field_lesson_section_content
-        weight: '-46'
+        weight: -46
 id: lesson_highlight
-label: 'Lesson: Highlight (full width)'
+label: 'Block: Highlight (full width)'
 icon_uuid: null
 icon_default: null
-description: ''
+description: 'Full width highlighted block with text.'
 behavior_plugins: {  }

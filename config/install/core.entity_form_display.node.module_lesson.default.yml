@@ -15,10 +15,11 @@ content:
   field_module_lesson_content:
     type: paragraphs
     weight: 2
+    region: content
     settings:
       title: page
       title_plural: pages
-      edit_mode: closed
+      edit_mode: open
       closed_mode: summary
       autocollapse: none
       closed_mode_threshold: 0
@@ -27,10 +28,9 @@ content:
       default_paragraph_type: lesson_section
       features:
         add_above: '0'
-        collapse_edit_all: '0'
+        collapse_edit_all: collapse_edit_all
         duplicate: '0'
     third_party_settings: {  }
-    region: content
   path:
     type: path
     weight: 3
@@ -39,10 +39,10 @@ content:
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    settings:
-      display_label: true
     weight: 4
     region: content
+    settings:
+      display_label: true
     third_party_settings: {  }
   title:
     type: string_textfield
@@ -54,9 +54,9 @@ content:
     third_party_settings: {  }
   translation:
     weight: 10
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
   url_redirects:
     weight: 50
     region: content

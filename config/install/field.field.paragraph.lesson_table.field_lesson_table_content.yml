@@ -9,9 +9,8 @@ dependencies:
     - text
 third_party_settings:
   allowed_formats:
-    table: table
-    minimal_html: '0'
-    plain_text: '0'
+    allowed_formats:
+      - table
 id: paragraph.lesson_table.field_lesson_table_content
 field_name: field_lesson_table_content
 entity_type: paragraph

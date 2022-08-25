@@ -5,5 +5,5 @@ id: checklist_item
 label: 'Checklist item'
 icon_uuid: null
 icon_default: null
-description: ''
+description: 'Individual item of checklist block.'
 behavior_plugins: {  }

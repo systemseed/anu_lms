@@ -5,5 +5,5 @@ id: course_modules
 label: 'Course module'
 icon_uuid: null
 icon_default: null
-description: 'Single unit containing lessons and final quiz.'
+description: 'Single unit containing lessons and optionally a final quiz.'
 behavior_plugins: {  }

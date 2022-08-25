@@ -10,8 +10,8 @@ third_party_settings:
         id: paragraph.lesson_section.field_lesson_section_content
         weight: 31
 id: lesson_audio
-label: 'Lesson: Audio'
+label: 'Block: Audio'
 icon_uuid: null
 icon_default: null
-description: ''
+description: 'Block with audio file.'
 behavior_plugins: {  }

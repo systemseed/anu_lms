@@ -45,7 +45,6 @@ required:
   - core.entity_view_display.paragraph.question_single_choice.default
   - core.entity_view_display.paragraph.single_multi_choice_item.default
   - core.entity_view_display.paragraph.single_multi_choice_item.preview
-  - features.bundle.anu_lms
   - field.field.assessment_question.long_answer.field_correct_answer_long
   - field.field.assessment_question.multiple_choice.field_options
   - field.field.assessment_question.scale.field_scale

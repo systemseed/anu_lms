@@ -26,6 +26,5 @@ content:
 hidden:
   field_hide_correct_answers: true
   field_no_multiple_submissions: true
-  langcode: true
   links: true
   search_api_excerpt: true

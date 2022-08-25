@@ -5,5 +5,5 @@ id: lesson_img_list_item
 label: 'Image bullet list item'
 icon_uuid: null
 icon_default: null
-description: ''
+description: 'Individual item of Block: Highlight (with image).'
 behavior_plugins: {  }

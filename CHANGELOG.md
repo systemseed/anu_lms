@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## Unreleased changes
 - Added the sticky top navigation for lessons and quizzes
 - Changed styles and labels for navigation buttons
 - Added lesson title into section above lesson content
@@ -18,6 +18,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added "Progress bar" to "Top navigation"
 - Renamed "Sections" to "Pages" in Admin UI
 - Removed ability to modify label of the Finish button
+
+## [2.7.0]
+- Dropped support of Drupal 8
+- Removed dependency of SHS and Config pages
+- Removed dependencies from composer.json which are not required to run the main anu_lms module (Group, Range, Views data Export, XLS Serialization, Features)
+- Cleaned up dependencies and rephrased module descriptions in .info.yml files
+- Removed default search_api configs from the anu_lms_search module
+- Changed cardinality of course categories to 1 (as originally intended)
+- Fixed issue not picking up allowed formats for the formatted text fields
+- Made text field inside of footnotes required (it was a bug that it was not required)
+- Added proper descriptions to each paragraph
+- Changed name of lesson paragraphs from "Lesson: [name]" to "Block: [name]" for better editorial experience
 
 ## [2.6.5]
 - Added module's title to the search index of the first lesson.

@@ -1,29 +1,23 @@
 name: Anu LMS
-description: Provides E-Learning capabilities.
+description: Deceptively simple learning management system (LMS) for individual teachers, educational organisations and businesses.
 type: module
 package: Anu LMS
-core_version_requirement: '^9.3'
+core_version_requirement: ^9.3
 dependencies:
   - allowed_formats:allowed_formats
-  - config_pages:config_pages
+  # TODO: Switch to CKEditor 5. No point in using old version.
   - drupal:ckeditor
-  - drupal:file
   - drupal:image
   - drupal:link
-  - drupal:media
   - drupal:media_library
-  - drupal:node
   - drupal:options
   - drupal:path
   - drupal:rest
   - drupal:taxonomy
-  - drupal:text
-  - drupal:user
   - eck:eck
   - field_group:field_group
   - inline_entity_form:inline_entity_form
   - paragraphs:paragraphs
   - paragraphs_selection:paragraphs_selection
   - rest_entity_recursive:rest_paragraphs_recursive
-  - shs:shs_chosen
   - weight:weight

@@ -8,10 +8,10 @@ third_party_settings:
     fields:
       -
         id: paragraph.lesson_section.field_lesson_section_content
-        weight: '-49'
+        weight: -49
 id: lesson_image
-label: 'Lesson: Image with caption'
+label: 'Block: Image with caption'
 icon_uuid: null
 icon_default: null
-description: ''
+description: 'Block with image.'
 behavior_plugins: {  }
