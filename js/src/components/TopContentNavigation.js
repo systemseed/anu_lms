@@ -129,7 +129,6 @@ const ContentTopNavigation = ({
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-
   let currentProgress = ((currentPage + 1) / sections.length) * 100;
 
   // If this page is initial then progress bar shouldn't be animated.
