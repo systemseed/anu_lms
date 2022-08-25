@@ -161,7 +161,7 @@ class CoursesPage {
   public function getCoursesPageUrlsByCourse(array $courses): array {
     $courses_page_urls_by_course = [];
 
-    // Courses
+    // Gets only not-null values.
     $courses = array_filter($courses, function ($course) {
       return !!$course;
     });
