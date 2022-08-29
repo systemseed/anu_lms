@@ -17,8 +17,8 @@ content:
     weight: 2
     region: content
     settings:
-      title: section
-      title_plural: sections
+      title: page
+      title_plural: pages
       edit_mode: open
       closed_mode: summary
       autocollapse: none

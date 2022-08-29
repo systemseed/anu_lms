@@ -7,6 +7,8 @@
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\NodeInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\paragraphs\Entity\Paragraph;
 
 /**
  * Implements hook_form_FORM_ID_alter().
@@ -177,4 +179,27 @@ function anu_lms_anu_lms_sw_scripts_alter(&$data) {
   catch (\Exception $exception) {
     watchdog_exception('anu_lms', $exception);
   }
+}
+
+/**
+ * Implements hook_entity_insert().
+ *
+ * Adds an empty page to a lesson if there are no pages.
+ */
+function anu_lms_entity_insert(EntityInterface $entity) {
+  if ($entity->getEntityTypeId() !== 'node' || $entity->bundle() !== 'module_lesson') {
+    return;
+  }
+
+  $lesson_content = $entity->get('field_module_lesson_content');
+
+  if (!empty($lesson_content->getValue())) {
+    return;
+  }
+
+  $lesson_content->appendItem(Paragraph::create([
+    'type' => 'lesson_section',
+  ]));
+
+  $entity->save();
 }

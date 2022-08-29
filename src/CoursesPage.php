@@ -76,13 +76,13 @@ class CoursesPage {
   /**
    * Returns list of Courses page entities by given Course.
    *
-   * @param \Drupal\node\NodeInterface $course
+   * @param \Drupal\node\NodeInterface|null $course
    *   Course entity.
    *
    * @return array|\Drupal\node\NodeInterface[]
    *   An array of Courses page entities.
    */
-  public function getCoursesPagesByCourse(NodeInterface $course): array {
+  public function getCoursesPagesByCourse(?NodeInterface $course): array {
     if (empty($course)) {
       return [];
     }
@@ -160,6 +160,12 @@ class CoursesPage {
    */
   public function getCoursesPageUrlsByCourse(array $courses): array {
     $courses_page_urls_by_course = [];
+
+    // Gets only not-null values.
+    $courses = array_filter($courses, function ($course) {
+      return !!$course;
+    });
+
     foreach ($courses as $course) {
       $courses_pages = $this->getCoursesPagesByCourse($course);
       $courses_page_urls = [];

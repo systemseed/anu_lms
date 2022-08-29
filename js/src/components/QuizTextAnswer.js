@@ -47,8 +47,8 @@ const QuizTextAnswer = ({
         variant="outlined"
         fullWidth
         multiline={multiline}
-        rows={3}
-        rowsMax={10}
+        minRows={3}
+        maxRows={10}
         disabled={isSubmitting || isSubmitted}
         inputProps={{
           maxLength: multiline ? null : 255,
@@ -69,7 +69,7 @@ const QuizTextAnswer = ({
 QuizTextAnswer.propTypes = {
   question: PropTypes.string,
   value: PropTypes.string,
-  correctValue: PropTypes.number,
+  correctValue: PropTypes.string,
   checked: PropTypes.bool,
   multiline: PropTypes.bool,
   isSubmitting: PropTypes.bool,

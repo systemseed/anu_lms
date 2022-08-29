@@ -26,7 +26,7 @@ const defaultTheme = createTheme({
     // overwritten is the primary. All other colors used in ANU are likely
     // to stay as is regardless of the project.
     primary: {
-      main: '#004bbd',
+      main: '#000000',
       contrastText: '#ffffff',
     },
     grey: {
@@ -134,7 +134,7 @@ const theme = createTheme({
       color: defaultTheme.palette.common.black,
       fontFamily: defaultTheme.typography.fontFamily,
       fontWeight: defaultTheme.typography.fontWeightBold,
-      fontSize: '1rem',
+      fontSize: '1.125rem',
       lineHeight: 1.25,
       letterSpacing: 'normal',
     },
@@ -177,7 +177,7 @@ const theme = createTheme({
       fontSize: '1rem',
       lineHeight: 1.25,
       letterSpacing: '1px',
-      textTransform: 'uppercase',
+      textTransform: 'capitalize',
     },
     label1: {
       fontFamily: defaultTheme.typography.fontFamily,
@@ -216,8 +216,15 @@ const theme = createTheme({
         paddingBottom: defaultTheme.spacing(1.5),
       },
       sizeLarge: {
-        paddingTop: '12px',
-        paddingBottom: '12px',
+        padding: defaultTheme.spacing(1.5),
+        fontSize: '1rem',
+        minWidth: defaultTheme.spacing(6),
+      },
+      startIcon: {
+        marginRight: '0',
+      },
+      endIcon: {
+        marginLeft: '0',
       },
       contained: {
         order: '1',
@@ -246,6 +253,11 @@ const theme = createTheme({
       root: {
         paddingTop: 2,
         paddingBottom: 2,
+      },
+    },
+    MuiLinearProgress: {
+      determinate: {
+        backgroundColor: defaultTheme.palette.common.white,
       },
     },
   },
