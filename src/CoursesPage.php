@@ -79,7 +79,7 @@ class CoursesPage {
    * @param \Drupal\node\NodeInterface|null $course
    *   Course entity.
    *
-   * @return \Drupal\node\NodeInterface|array
+   * @return array|\Drupal\node\NodeInterface[]
    *   An array of Courses page entities.
    */
   public function getCoursesPagesByCourse(?NodeInterface $course): array {

@@ -212,7 +212,6 @@ ContentTopNavigation.propTypes = {
   currentIndex: PropTypes.number,
   isEnabled: PropTypes.bool,
   course: coursePropTypes,
-  stepsDirection: PropTypes.string,
   setCurrentPage: PropTypes.func,
   currentPage: PropTypes.number,
 };

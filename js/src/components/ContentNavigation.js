@@ -45,6 +45,23 @@ const ContentNavigation = ({
     window.scrollTo(0, 0);
   }, []);
 
+  const renderButtonLabel = (label) => {
+    if (hideButtonsLabelsOnMobile) {
+      return <Hidden smDown>{label}</Hidden>;
+    }
+
+    return label;
+  };
+
+  const renderButtonWithTooltip = (button) => {
+    // "span" is required to display tooltip for disabled buttons.
+    return (
+      <Tooltip title={disabled ? completeAnswer : ''} arrow>
+        <span>{button}</span>
+      </Tooltip>
+    );
+  };
+
   return (
     <Detector
       polling={false}
@@ -58,40 +75,19 @@ const ContentNavigation = ({
           disabled,
         };
 
-        const renderButtonLabel = (label) => {
-          if (hideButtonsLabelsOnMobile) {
-            return <Hidden smDown>{label}</Hidden>;
-          }
-
-          return label;
-        };
-
-        const renderButtonWithTooltip = (button) => {
-          // "span" is required to display tooltip for disabled buttons.
-          return (
-            <Tooltip title={disabled ? completeAnswer : ''} arrow>
-              <span>{button}</span>
-            </Tooltip>
-          );
-        };
-
         return (
           <LessonGrid ignorePaddings={ignorePaddings}>
             <ButtonWrapper>
               {prevLesson && noPrevLesson && !isFirstSection && (
-                <Tooltip title={completeAnswer} arrow>
-                  <span>
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      size="large"
-                      startIcon={<ChevronLeftIcon />}
-                      href={prevLesson.url}
-                    >
-                      {renderButtonLabel(Drupal.t('Previous', {}, { context: 'ANU LMS' }))}
-                    </Button>
-                  </span>
-                </Tooltip>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  size="large"
+                  startIcon={<ChevronLeftIcon />}
+                  href={prevLesson.url}
+                >
+                  {renderButtonLabel(Drupal.t('Previous', {}, { context: 'ANU LMS' }))}
+                </Button>
               )}
 
               {!noPrevLesson && (
@@ -118,19 +114,16 @@ const ContentNavigation = ({
                 </Button>
               )}
 
-              {sections[currentIndex + 1] && (
-                <Tooltip title={disabled ? completeAnswer : ''} arrow>
-                  <span>
-                    <Button
-                      {...buttonProps}
-                      onClick={() => history.push({ pathname: `/page-${currentIndex + 2}` })}
-                      data-test="anu-lms-navigation-next"
-                    >
-                      {renderButtonLabel(Drupal.t('Next', {}, { context: 'ANU LMS' }))}
-                    </Button>
-                  </span>
-                </Tooltip>
-              )}
+              {sections[currentIndex + 1] &&
+                renderButtonWithTooltip(
+                  <Button
+                    {...buttonProps}
+                    onClick={() => history.push({ pathname: `/page-${currentIndex + 2}` })}
+                    data-test="anu-lms-navigation-next"
+                  >
+                    {renderButtonLabel(Drupal.t('Next', {}, { context: 'ANU LMS' }))}
+                  </Button>
+                )}
 
               {noNextLesson &&
                 nextIsLesson &&

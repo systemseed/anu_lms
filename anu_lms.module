@@ -187,7 +187,7 @@ function anu_lms_anu_lms_sw_scripts_alter(&$data) {
  * Adds an empty page to a lesson if there are no pages.
  */
 function anu_lms_entity_insert(EntityInterface $entity) {
-  if ($entity->bundle() !== 'module_lesson') {
+  if ($entity->getEntityTypeId() !== 'node' || $entity->bundle() !== 'module_lesson') {
     return;
   }
 
@@ -197,14 +197,9 @@ function anu_lms_entity_insert(EntityInterface $entity) {
     return;
   }
 
-  $paragraph = Paragraph::create([
+  $lesson_content->appendItem(Paragraph::create([
     'type' => 'lesson_section',
-  ]);
-  $paragraph->save();
+  ]));
 
-  $lesson_content->appendItem([
-    'target_id' => $paragraph->id(),
-    'target_revision_id' => $paragraph->getRevisionId(),
-  ]);
   $entity->save();
 }
