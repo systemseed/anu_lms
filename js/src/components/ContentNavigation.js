@@ -45,23 +45,6 @@ const ContentNavigation = ({
     window.scrollTo(0, 0);
   }, []);
 
-  const renderButtonLabel = (label) => {
-    if (hideButtonsLabelsOnMobile) {
-      return <Hidden smDown>{label}</Hidden>;
-    }
-
-    return label;
-  };
-
-  const renderButtonWithTooltip = (button) => {
-    // "span" is required to display tooltip for disabled buttons.
-    return (
-      <Tooltip title={disabled ? completeAnswer : ''} arrow>
-        <span>{button}</span>
-      </Tooltip>
-    );
-  };
-
   return (
     <Detector
       polling={false}
@@ -73,6 +56,23 @@ const ContentNavigation = ({
           size: 'large',
           endIcon: <ChevronRightIcon />,
           disabled,
+        };
+
+        const renderButtonLabel = (label) => {
+          if (hideButtonsLabelsOnMobile) {
+            return <Hidden smDown>{label}</Hidden>;
+          }
+
+          return label;
+        };
+
+        const renderButtonWithTooltip = (button) => {
+          // "span" is required to display tooltip for disabled buttons.
+          return (
+            <Tooltip title={disabled ? completeAnswer : ''} arrow>
+              <span>{button}</span>
+            </Tooltip>
+          );
         };
 
         return (
